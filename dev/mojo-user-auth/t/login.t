@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 6;
 use Test::Mojo;
 use Test::WWW::Mechanize::Mojo;
 
@@ -33,3 +33,20 @@ $mech->follow_link_ok({text => "Register a new account"},
 # TEST
 $mech->has_tag("h1", "Register an account", "Has an appropriate <h1> tag.");
 
+my $email = 'sophie@myhome.tld';
+my $password = "Sophie-Iz-De-Ossum";
+
+# TEST
+ok(1, "stub") || $mech->submit_form_ok(
+    {
+        form_id => "register",
+        fields =>
+        {
+            email => $email,
+            password => $password,
+            password2 => $password,
+            fullname => "Sophie Esmeralda Johnson",
+        },
+    },
+    "Was able to register.",
+);

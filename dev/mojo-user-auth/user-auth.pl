@@ -1,10 +1,20 @@
 #!/usr/bin/env perl
 
 use Mojolicious::Lite;
+use CGI qw();
 
 get '/' => 'index';
 
 get '/register/' => 'register';
+
+get '/register-submit/' => sub {
+    my $self = shift;
+
+    $self->render_text("You registered the E-mail - " . 
+        CGI::escapeHTML($self->param("email")),
+        layout => 'funky',
+    );
+};
 
 get '/:groovy' => sub {
     my $self = shift;
@@ -34,6 +44,37 @@ __DATA__
 % layout 'funky';
 <h1>Register an account</h1>
 
+<form id="register" action="/register-submit/" method="post">
+<table>
+
+<tr>
+<td>Email:</td>
+<td><input name="email" /></td>
+</tr>
+
+<tr>
+<td>Password:</td>
+<td><input name="password" type="password" /></td>
+</tr>
+
+<tr>
+<td>Password (confirmation):</td>
+<td><input name="password2" type="password" /></td>
+</tr>
+
+<tr>
+<td>Full name (optional):</td>
+<td><input name="fullname" /></td>
+</tr>
+
+<tr>
+<td colspan="2">
+<input type="submit" value="Submit" />
+</td>
+</tr>
+
+</table>
+</form>
 
 @@ layouts/funky.html.ep
 <!doctype html><html>
