@@ -4,6 +4,8 @@ use Mojolicious::Lite;
 
 get '/' => 'index';
 
+get '/register/' => 'register';
+
 get '/:groovy' => sub {
     my $self = shift;
     $self->render_text($self->param('groovy'), layout => 'funky');
@@ -27,6 +29,11 @@ __DATA__
 <li><a href="login/">Login to an existing account</a></li>
 <li><a href="register/">Register a new account</a></li>
 </ul>
+
+@@ register.html.ep
+% layout 'funky';
+<h1>Register an account</h1>
+
 
 @@ layouts/funky.html.ep
 <!doctype html><html>

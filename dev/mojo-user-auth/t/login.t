@@ -1,4 +1,9 @@
-use Test::More tests => 3;
+#!perl
+
+use strict;
+use warnings;
+
+use Test::More tests => 5;
 use Test::Mojo;
 use Test::WWW::Mechanize::Mojo;
 
@@ -20,4 +25,11 @@ $t->content_like(qr{
     <li><a\ href="[^"]*\bregister/">Register\ a\ new\ account</a></li>
     }x);
 
+# TEST
+$mech->follow_link_ok({text => "Register a new account"}, 
+    "Was able to follow the link to register."
+);
+
+# TEST
+$mech->has_tag("h1", "Register an account", "Has an appropriate <h1> tag.");
 
