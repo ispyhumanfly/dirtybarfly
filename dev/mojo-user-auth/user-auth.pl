@@ -7,14 +7,17 @@ get '/' => 'index';
 
 get '/register/' => 'register';
 
-get '/register-submit/' => sub {
+sub register_submit
+{
     my $self = shift;
 
     $self->render_text("You registered the E-mail - " . 
         CGI::escapeHTML($self->param("email")),
         layout => 'funky',
     );
-};
+}
+
+post '/register-submit/' => \&register_submit;
 
 get '/:groovy' => sub {
     my $self = shift;

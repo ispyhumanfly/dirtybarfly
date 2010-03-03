@@ -37,7 +37,7 @@ my $email = 'sophie@myhome.tld';
 my $password = "Sophie-Iz-De-Ossum";
 
 # TEST
-ok(1, "stub") || $mech->submit_form_ok(
+ok(1) or $mech->submit_form_ok(
     {
         form_id => "register",
         fields =>
