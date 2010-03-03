@@ -5,7 +5,7 @@ use warnings;
 
 use Test::More tests => 6;
 use Test::Mojo;
-use Test::WWW::Mechanize::Mojo;
+use Test::WWW::Mechanize::Mojo '0.0.3';
 
 use FindBin;
 require "$FindBin::Bin/../user-auth.pl";
@@ -37,7 +37,7 @@ my $email = 'sophie@myhome.tld';
 my $password = "Sophie-Iz-De-Ossum";
 
 # TEST
-ok(1) or $mech->submit_form_ok(
+$mech->submit_form_ok(
     {
         form_id => "register",
         fields =>
