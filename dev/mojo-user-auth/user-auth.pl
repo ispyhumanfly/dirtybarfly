@@ -3,9 +3,48 @@
 use Mojolicious::Lite;
 use CGI qw();
 
-get '/' => 'index';
 
-get '/register/' => 'register';
+sub register_form
+{
+    my $args = shift;
+
+    my $email = CGI::escapeHTML($args->{'email'} || "");
+    my $fullname = CGI::escapeHTML($args->{'fullname'} || "");
+
+    return <<"EOF";
+<form id="register" action="/register-submit/" method="post">
+<table>
+
+<tr>
+<td>Email:</td>
+<td><input name="email" value="$email" /></td>
+</tr>
+
+<tr>
+<td>Password:</td>
+<td><input name="password" type="password" /></td>
+</tr>
+
+<tr>
+<td>Password (confirmation):</td>
+<td><input name="password2" type="password" /></td>
+</tr>
+
+<tr>
+<td>Full name (optional):</td>
+<td><input name="fullname" value="$fullname" /></td>
+</tr>
+
+<tr>
+<td colspan="2">
+<input type="submit" value="Submit" />
+</td>
+</tr>
+
+</table>
+</form>
+EOF
+}
 
 sub register_submit
 {
@@ -14,7 +53,14 @@ sub register_submit
     if ($self->param("password") ne $self->param("password2"))
     {
         $self->render_text(
-            "<h1>" .  "Registration failed - passwords don't match." . "</h1>",
+            (
+                  "<h1>"
+                . "Registration failed - passwords don't match."
+                . "</h1>\n"
+                . register_form(
+                    +{ map { $_ => $self->param($_) } qw(email fullname) }
+                  )
+            ),
             layout => 'funky',
         );
         return;
@@ -25,6 +71,18 @@ sub register_submit
         layout => 'funky',
     );
 }
+
+get '/' => 'index';
+
+get '/register/' => sub {
+    my $self = shift;
+
+    $self->render(
+        template => "register",
+        layout => 'funky',
+        register_form => register_form({}),
+    );
+};
 
 post '/register-submit/' => \&register_submit;
 
@@ -55,38 +113,7 @@ __DATA__
 @@ register.html.ep
 % layout 'funky';
 <h1>Register an account</h1>
-
-<form id="register" action="/register-submit/" method="post">
-<table>
-
-<tr>
-<td>Email:</td>
-<td><input name="email" /></td>
-</tr>
-
-<tr>
-<td>Password:</td>
-<td><input name="password" type="password" /></td>
-</tr>
-
-<tr>
-<td>Password (confirmation):</td>
-<td><input name="password2" type="password" /></td>
-</tr>
-
-<tr>
-<td>Full name (optional):</td>
-<td><input name="fullname" /></td>
-</tr>
-
-<tr>
-<td colspan="2">
-<input type="submit" value="Submit" />
-</td>
-</tr>
-
-</table>
-</form>
+<%== $register_form %>
 
 @@ layouts/funky.html.ep
 <!doctype html><html>
