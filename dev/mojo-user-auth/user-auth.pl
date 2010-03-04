@@ -58,41 +58,42 @@ sub register_submit
     my $self = shift;
 
     my $password = $self->param("password");
-    if ($password ne $self->param("password2"))
-    {
+
+    my $render_reg_failed = sub {
+
+        my $header = shift;
+        my $explanation = shift || "";
+
         $self->render_text(
-            (
-                  "<h1>"
-                . "Registration failed - passwords don't match."
-                . "</h1>\n"
-                . register_form(
+            sprintf("<h1>%s</h1>%s%s",
+                $header, $explanation, 
+                register_form(
                     +{ map { $_ => $self->param($_) } qw(email fullname) }
-                  )
+                )
             ),
             layout => 'funky',
         );
+
         return;
+    };
+
+    if ($password ne $self->param("password2"))
+    {
+        return $render_reg_failed->(
+            "Registration failed - passwords don't match."
+        );
     }
 
     if (too_short($password))
     {
-        $self->render_text(
-            (
-                  "<h1>"
-                . "Registration failed - password is too short."
-                . "</h1>\n"
-                . <<"EOF"
+        return $render_reg_failed->(
+             "Registration failed - password is too short.",
+             <<"EOF",
 <p>
 The password must contain at least 6 alphanumeric (A-Z, a-z, 0-9) characters.
 </p>
 EOF
-                . register_form(
-                    +{ map { $_ => $self->param($_) } qw(email fullname) }
-                  )
-            ),
-            layout => 'funky',
         );
-        return;
     }
 
     $self->render_text("You registered the E-mail - " . 
