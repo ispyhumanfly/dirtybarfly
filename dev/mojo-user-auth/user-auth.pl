@@ -11,6 +11,15 @@ sub register_submit
 {
     my $self = shift;
 
+    if ($self->param("password") ne $self->param("password2"))
+    {
+        $self->render_text(
+            "<h1>" .  "Registration failed - passwords don't match." . "</h1>",
+            layout => 'funky',
+        );
+        return;
+    }
+
     $self->render_text("You registered the E-mail - " . 
         CGI::escapeHTML($self->param("email")),
         layout => 'funky',

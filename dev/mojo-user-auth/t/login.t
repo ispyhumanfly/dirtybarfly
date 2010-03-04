@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More tests => 7;
 use Test::Mojo;
 use Test::WWW::Mechanize::Mojo '0.0.3';
 
@@ -44,9 +44,12 @@ $mech->submit_form_ok(
         {
             email => $email,
             password => $password,
-            password2 => $password,
+            password2 => "Something else",
             fullname => "Sophie Esmeralda Johnson",
         },
     },
-    "Was able to register.",
+    "Submit form with different passwords.",
 );
+
+# TEST
+$mech->has_tag("h1", "Registration failed - passwords don't match.");
