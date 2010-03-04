@@ -153,7 +153,7 @@ EOF
     if ($found)
     {
         return $render_reg_failed->(
-            "Registration failed - the email was already registered.",
+            "Registration failed - the email was already registered",
             "The email " . CGI::escapeHTML($email) . " already exists in our database.",
         );
     }
