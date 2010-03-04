@@ -46,17 +46,46 @@ sub register_form
 EOF
 }
 
+sub too_short
+{
+    my $p = shift;
+
+    return (($p =~ s/[\w\d]//g) < 6);
+}
+
 sub register_submit
 {
     my $self = shift;
 
-    if ($self->param("password") ne $self->param("password2"))
+    my $password = $self->param("password");
+    if ($password ne $self->param("password2"))
     {
         $self->render_text(
             (
                   "<h1>"
                 . "Registration failed - passwords don't match."
                 . "</h1>\n"
+                . register_form(
+                    +{ map { $_ => $self->param($_) } qw(email fullname) }
+                  )
+            ),
+            layout => 'funky',
+        );
+        return;
+    }
+
+    if (too_short($password))
+    {
+        $self->render_text(
+            (
+                  "<h1>"
+                . "Registration failed - password is too short."
+                . "</h1>\n"
+                . <<"EOF"
+<p>
+The password must contain at least 6 alphanumeric (A-Z, a-z, 0-9) characters.
+</p>
+EOF
                 . register_form(
                     +{ map { $_ => $self->param($_) } qw(email fullname) }
                   )
