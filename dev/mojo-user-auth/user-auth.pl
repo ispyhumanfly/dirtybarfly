@@ -1,8 +1,46 @@
 #!/usr/bin/env perl
 
+use strict;
+use warnings;
+
+package InsurgentSoftware::UserAuth::User;
+
+use Moose;
+
+has fullname => (
+    isa => "Str",
+    is => "rw",
+);
+
+has email => (
+    isa => "Str",
+    is => "rw",
+);
+
+has password => (
+    isa => "Str",
+    is => "rw",
+);
+
+package main;
+
 use Mojolicious::Lite;
 use CGI qw();
 
+use KiokuDB;
+
+my $dir = KiokuDB->connect(
+    "dbi:SQLite:dbname=./insurgent-auth.sqlite",
+    create => 1,
+    columns =>
+    [
+        email =>
+        {
+            data_type => "varchar",
+            is_nullable => 0,
+        },
+    ],
+);
 
 sub register_form
 {
@@ -96,8 +134,44 @@ EOF
         );
     }
 
-    $self->render_text("You registered the E-mail - " . 
-        CGI::escapeHTML($self->param("email")),
+    my $scope = $dir->new_scope;
+
+    my $email = $self->param("email");
+    my $stream = $dir->search({email => $email});
+
+    my $found = 0;
+    FIND_EMAIL:
+    while ( my $block = $stream->next )
+    {
+        foreach my $object ( @$block )
+        {
+            $found = 1;
+            last FIND_EMAIL;
+        }
+    }
+    
+    if ($found)
+    {
+        return $render_reg_failed->(
+            "Registration failed - the email was already registered.",
+            "The email " . CGI::escapeHTML($email) . " already exists in our database.",
+        );
+    }
+
+    # Register a new user.
+    my $new_user = InsurgentSoftware::UserAuth::User->new(
+        {
+            fullname => $self->param("fullname"),
+            # TODO : don't store the password as plaintext.
+            password => $password,
+            email => $email,
+        }
+    );
+
+    $dir->store($new_user);
+
+    $self->render_text("You registered the E-mail - " .
+        CGI::escapeHTML($email),
         layout => 'funky',
     );
 }

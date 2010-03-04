@@ -3,6 +3,12 @@
 use strict;
 use warnings;
 
+BEGIN
+{
+    # Reset the database.
+    unlink("insurgent-auth.sqlite");
+}
+
 use Test::More tests => 11;
 use Test::Mojo;
 use Test::WWW::Mechanize::Mojo '0.0.3';
