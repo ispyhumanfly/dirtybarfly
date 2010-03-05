@@ -158,6 +158,13 @@ sub _pass_is_too_short
     return _too_short($self->_password);
 }
 
+sub _passwords_dont_match
+{
+    my $self = shift;
+
+    return $self->_password() ne $self->param("password2");
+}
+
 sub register_submit
 {
     my $self = shift;
@@ -165,7 +172,7 @@ sub register_submit
     my $dir = $self->_dir;
     my $scope = $self->_new_scope;
 
-    if ($self->_password() ne $self->param("password2"))
+    if ($self->_passwords_dont_match())
     {
         return $self->render_failed_reg(
             "Registration failed - passwords don't match."
