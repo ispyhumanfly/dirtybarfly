@@ -83,6 +83,26 @@ sub render_failed_reg
     return;
 }
 
+sub render_failed_login
+{
+    my $self = shift;
+
+    my $header = shift;
+    my $explanation = shift || "";
+
+    $self->render_text(
+        sprintf("<h1>%s</h1>%s%s",
+            $header, $explanation, 
+            $self->login_form(
+                +{ map { $_ => $self->param($_) } qw(email) }
+            )
+        ),
+        layout => 'funky',
+    );
+
+    return;
+}
+
 sub register_form
 {
     my $self = shift;
@@ -113,6 +133,38 @@ sub register_form
 <tr>
 <td>Full name (optional):</td>
 <td><input name="fullname" value="$fullname" /></td>
+</tr>
+
+<tr>
+<td colspan="2">
+<input type="submit" value="Submit" />
+</td>
+</tr>
+
+</table>
+</form>
+EOF
+}
+
+sub login_form
+{
+    my $self = shift;
+    my $args = shift;
+
+    my $email = CGI::escapeHTML($args->{'email'} || "");
+
+    return <<"EOF";
+<form id="login" action="/login-submit/" method="post">
+<table>
+
+<tr>
+<td>Email:</td>
+<td><input name="email" value="$email" /></td>
+</tr>
+
+<tr>
+<td>Password:</td>
+<td><input name="password" type="password" /></td>
 </tr>
 
 <tr>
@@ -241,6 +293,27 @@ sub register
     );
 }
 
+sub login
+{
+    my $self = shift;
+
+    return $self->render(
+        template => "login",
+        layout => 'funky',
+        login_form => $self->login_form({}),
+    );
+}
+
+sub login_submit
+{
+    my $self = shift;
+
+    # TODO : Implement the real login.
+    return $self->render_failed_login(
+        "Wrong Login or Incorrect Password",
+    );
+}
+
 package main;
 
 use Mojolicious::Lite;
@@ -297,7 +370,34 @@ sub register_submit
 
 post '/register-submit/' => \&register_submit;
 
-get '/login/' => "login";
+get '/login/' => sub {
+    my $self = shift;
+    
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->login();
+};
+
+sub login_submit
+{
+    my $self = shift;
+
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->login_submit();
+}
+
+post '/login-submit/' => \&login_submit;
 
 get '/:groovy' => sub {
     my $self = shift;
@@ -331,6 +431,7 @@ __DATA__
 @@ login.html.ep
 % layout 'funky';
 <h1>Login form</h1>
+<%== $login_form %>
 
 @@ layouts/funky.html.ep
 <!doctype html><html>

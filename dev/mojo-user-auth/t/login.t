@@ -9,7 +9,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 19;
+use Test::More tests => 21;
 use Test::Mojo;
 use Test::WWW::Mechanize::Mojo '0.0.3';
 
@@ -156,3 +156,22 @@ $mech->follow_link_ok({text => "Login to an existing account"},
 $mech->has_tag("h1", "Login form", 
     "Login page has an appropriate <h1> tag"
 );
+
+# TEST
+$mech->submit_form_ok(
+    {
+        form_id => "login",
+        fields =>
+        {
+            email => $email,
+            password => "This-is-not-a-Password",
+        },
+    },
+    "Submit form with the wrong password",
+);
+
+# TEST
+$mech->has_tag("h1", "Wrong Login or Incorrect Password", 
+    "Could not login with incorrect password"
+);
+
