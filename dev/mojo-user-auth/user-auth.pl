@@ -22,6 +22,40 @@ has password => (
     is => "rw",
 );
 
+package InsurgentSoftware::UserAuth::App;
+
+use Moose;
+
+has _mojo => (
+    isa => "Mojolicious::Controller",
+    is => "ro",
+    init_arg => "mojo",
+    handles =>
+    {
+        "param" => "param",
+    },
+);
+
+sub render_failed_reg
+{
+    my $self = shift;
+
+    my $header = shift;
+    my $explanation = shift || "";
+
+    $self->_mojo->render_text(
+        sprintf("<h1>%s</h1>%s%s",
+            $header, $explanation, 
+            ::register_form(
+                +{ map { $_ => $self->param($_) } qw(email fullname) }
+            )
+        ),
+        layout => 'funky',
+    );
+
+    return;
+}
+
 package main;
 
 use Mojolicious::Lite;
@@ -97,22 +131,10 @@ sub register_submit
 
     my $password = $self->param("password");
 
+    my $app = InsurgentSoftware::UserAuth::App->new({mojo => $self });
+
     my $render_reg_failed = sub {
-
-        my $header = shift;
-        my $explanation = shift || "";
-
-        $self->render_text(
-            sprintf("<h1>%s</h1>%s%s",
-                $header, $explanation, 
-                register_form(
-                    +{ map { $_ => $self->param($_) } qw(email fullname) }
-                )
-            ),
-            layout => 'funky',
-        );
-
-        return;
+        return $app->render_failed_reg(@_);
     };
 
     if ($password ne $self->param("password2"))
