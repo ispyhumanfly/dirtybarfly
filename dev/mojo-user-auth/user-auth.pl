@@ -137,20 +137,23 @@ EOF
     my $scope = $dir->new_scope;
 
     my $email = $self->param("email");
-    my $stream = $dir->search({email => $email});
 
-    my $found = 0;
-    FIND_EMAIL:
-    while ( my $block = $stream->next )
-    {
-        foreach my $object ( @$block )
+    my $find_if_email_exists = sub {
+        my $stream = $dir->search({email => $email});
+
+        FIND_EMAIL:
+        while ( my $block = $stream->next )
         {
-            $found = 1;
-            last FIND_EMAIL;
+            foreach my $object ( @$block )
+            {
+                return 1;
+            }
         }
-    }
+
+        return;
+    };
     
-    if ($found)
+    if ($find_if_email_exists->())
     {
         return $render_reg_failed->(
             "Registration failed - the email was already registered",
