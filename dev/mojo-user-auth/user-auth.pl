@@ -49,6 +49,13 @@ has _dir => (
     }
 );
 
+sub _password
+{
+    my $self = shift;
+
+    return $self->param("password");
+}
+
 sub _email
 {
     my $self = shift;
@@ -74,13 +81,6 @@ sub render_failed_reg
     );
 
     return;
-}
-
-sub too_short
-{
-    my $p = shift;
-
-    return (($p =~ s/[\w\d]//g) < 6);
 }
 
 sub register_form
@@ -144,6 +144,20 @@ sub _find_if_email_exists
     return;
 }
 
+sub _too_short
+{
+    my $p = shift;
+
+    return (($p =~ s/[\w\d]//g) < 6);
+}
+
+sub _pass_is_too_short
+{
+    my $self = shift;
+
+    return _too_short($self->_password);
+}
+
 sub register_submit
 {
     my $self = shift;
@@ -151,16 +165,14 @@ sub register_submit
     my $dir = $self->_dir;
     my $scope = $self->_new_scope;
 
-    my $password = $self->param("password");
-
-    if ($password ne $self->param("password2"))
+    if ($self->_password() ne $self->param("password2"))
     {
         return $self->render_failed_reg(
             "Registration failed - passwords don't match."
         );
     }
 
-    if (too_short($password))
+    if ($self->_pass_is_too_short())
     {
         return $self->render_failed_reg(
              "Registration failed - password is too short.",
@@ -187,7 +199,7 @@ EOF
         {
             fullname => $self->param("fullname"),
             # TODO : don't store the password as plaintext.
-            password => $password,
+            password => $self->_password,
             email => $email,
         }
     );
