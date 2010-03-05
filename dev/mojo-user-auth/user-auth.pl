@@ -42,6 +42,11 @@ has _dir => (
     isa => "KiokuDB",
     is => "ro",
     init_arg => "dir",
+    handles =>
+    {
+        _new_scope => "new_scope",
+        _search => "search",
+    }
 );
 
 sub render_failed_reg
@@ -114,11 +119,30 @@ sub register_form
 EOF
 }
 
+sub _find_if_email_exists 
+{
+    my $self = shift;
+
+    my $stream = $self->_search({email => $self->param("email")});
+
+    FIND_EMAIL:
+    while ( my $block = $stream->next )
+    {
+        foreach my $object ( @$block )
+        {
+            return 1;
+        }
+    }
+
+    return;
+}
+
 sub register_submit
 {
     my $self = shift;
 
     my $dir = $self->_dir;
+    my $scope = $self->_new_scope;
 
     my $password = $self->param("password");
 
@@ -145,26 +169,10 @@ EOF
         );
     }
 
-    my $scope = $dir->new_scope;
 
     my $email = $self->param("email");
 
-    my $find_if_email_exists = sub {
-        my $stream = $dir->search({email => $email});
-
-        FIND_EMAIL:
-        while ( my $block = $stream->next )
-        {
-            foreach my $object ( @$block )
-            {
-                return 1;
-            }
-        }
-
-        return;
-    };
-    
-    if ($find_if_email_exists->())
+    if ($self->_find_if_email_exists())
     {
         return $render_reg_failed->(
             "Registration failed - the email was already registered",
