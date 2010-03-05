@@ -297,6 +297,8 @@ sub register_submit
 
 post '/register-submit/' => \&register_submit;
 
+get '/login/' => "login";
+
 get '/:groovy' => sub {
     my $self = shift;
     $self->render_text($self->param('groovy'), layout => 'funky');
@@ -325,6 +327,10 @@ __DATA__
 % layout 'funky';
 <h1>Register an account</h1>
 <%== $register_form %>
+
+@@ login.html.ep
+% layout 'funky';
+<h1>Login form</h1>
 
 @@ layouts/funky.html.ep
 <!doctype html><html>

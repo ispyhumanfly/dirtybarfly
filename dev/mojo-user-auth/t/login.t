@@ -9,7 +9,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 16;
+use Test::More tests => 19;
 use Test::Mojo;
 use Test::WWW::Mechanize::Mojo '0.0.3';
 
@@ -142,3 +142,17 @@ $mech->submit_form_ok(
 
 # TEST
 $mech->has_tag("h1", "Registration failed - the email was already registered");
+
+
+# TEST
+$mech->get_ok("/", "Got the front page.");
+
+# TEST
+$mech->follow_link_ok({text => "Login to an existing account"},
+    "Was able to follow the login link."
+);
+
+# TEST
+$mech->has_tag("h1", "Login form", 
+    "Login page has an appropriate <h1> tag"
+);
