@@ -153,6 +153,9 @@ use CGI qw();
 
 use KiokuDB;
 
+# Silence
+app->log->level('error');
+
 my $dir = KiokuDB->connect(
     "dbi:SQLite:dbname=./insurgent-auth.sqlite",
     create => 1,
