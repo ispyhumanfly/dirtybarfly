@@ -263,8 +263,8 @@ sub register_submit
     );
 
     return $app->register_submit();
-
 }
+
 post '/register-submit/' => \&register_submit;
 
 get '/:groovy' => sub {
