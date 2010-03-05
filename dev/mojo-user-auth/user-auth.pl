@@ -33,7 +33,14 @@ has _mojo => (
     handles =>
     {
         "param" => "param",
+        render_text => "render_text",
     },
+);
+
+has _dir => (
+    isa => "KiokuDB",
+    is => "ro",
+    init_arg => "dir",
 );
 
 sub render_failed_reg
@@ -43,7 +50,7 @@ sub render_failed_reg
     my $header = shift;
     my $explanation = shift || "";
 
-    $self->_mojo->render_text(
+    $self->render_text(
         sprintf("<h1>%s</h1>%s%s",
             $header, $explanation, 
             ::register_form(
@@ -54,68 +61,6 @@ sub render_failed_reg
     );
 
     return;
-}
-
-package main;
-
-use Mojolicious::Lite;
-use CGI qw();
-
-use KiokuDB;
-
-my $dir = KiokuDB->connect(
-    "dbi:SQLite:dbname=./insurgent-auth.sqlite",
-    create => 1,
-    columns =>
-    [
-        email =>
-        {
-            data_type => "varchar",
-            is_nullable => 0,
-        },
-    ],
-);
-
-sub register_form
-{
-    my $args = shift;
-
-    my $email = CGI::escapeHTML($args->{'email'} || "");
-    my $fullname = CGI::escapeHTML($args->{'fullname'} || "");
-
-    return <<"EOF";
-<form id="register" action="/register-submit/" method="post">
-<table>
-
-<tr>
-<td>Email:</td>
-<td><input name="email" value="$email" /></td>
-</tr>
-
-<tr>
-<td>Password:</td>
-<td><input name="password" type="password" /></td>
-</tr>
-
-<tr>
-<td>Password (confirmation):</td>
-<td><input name="password2" type="password" /></td>
-</tr>
-
-<tr>
-<td>Full name (optional):</td>
-<td><input name="fullname" value="$fullname" /></td>
-</tr>
-
-<tr>
-<td colspan="2">
-<input type="submit" value="Submit" />
-</td>
-</tr>
-
-</table>
-</form>
-EOF
 }
 
 sub too_short
@@ -129,12 +74,12 @@ sub register_submit
 {
     my $self = shift;
 
+    my $dir = $self->_dir;
+
     my $password = $self->param("password");
 
-    my $app = InsurgentSoftware::UserAuth::App->new({mojo => $self });
-
     my $render_reg_failed = sub {
-        return $app->render_failed_reg(@_);
+        return $self->render_failed_reg(@_);
     };
 
     if ($password ne $self->param("password2"))
@@ -201,6 +146,68 @@ EOF
     );
 }
 
+package main;
+
+use Mojolicious::Lite;
+use CGI qw();
+
+use KiokuDB;
+
+my $dir = KiokuDB->connect(
+    "dbi:SQLite:dbname=./insurgent-auth.sqlite",
+    create => 1,
+    columns =>
+    [
+        email =>
+        {
+            data_type => "varchar",
+            is_nullable => 0,
+        },
+    ],
+);
+
+sub register_form
+{
+    my $args = shift;
+
+    my $email = CGI::escapeHTML($args->{'email'} || "");
+    my $fullname = CGI::escapeHTML($args->{'fullname'} || "");
+
+    return <<"EOF";
+<form id="register" action="/register-submit/" method="post">
+<table>
+
+<tr>
+<td>Email:</td>
+<td><input name="email" value="$email" /></td>
+</tr>
+
+<tr>
+<td>Password:</td>
+<td><input name="password" type="password" /></td>
+</tr>
+
+<tr>
+<td>Password (confirmation):</td>
+<td><input name="password2" type="password" /></td>
+</tr>
+
+<tr>
+<td>Full name (optional):</td>
+<td><input name="fullname" value="$fullname" /></td>
+</tr>
+
+<tr>
+<td colspan="2">
+<input type="submit" value="Submit" />
+</td>
+</tr>
+
+</table>
+</form>
+EOF
+}
+
 get '/' => 'index';
 
 get '/register/' => sub {
@@ -213,6 +220,20 @@ get '/register/' => sub {
     );
 };
 
+sub register_submit
+{
+    my $self = shift;
+
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->register_submit();
+
+}
 post '/register-submit/' => \&register_submit;
 
 get '/:groovy' => sub {
