@@ -34,6 +34,7 @@ has _mojo => (
     {
         "param" => "param",
         render_text => "render_text",
+        render => "render",
     },
 );
 
@@ -53,7 +54,7 @@ sub render_failed_reg
     $self->render_text(
         sprintf("<h1>%s</h1>%s%s",
             $header, $explanation, 
-            ::register_form(
+            $self->register_form(
                 +{ map { $_ => $self->param($_) } qw(email fullname) }
             )
         ),
@@ -68,6 +69,49 @@ sub too_short
     my $p = shift;
 
     return (($p =~ s/[\w\d]//g) < 6);
+}
+
+sub register_form
+{
+    my $self = shift;
+    my $args = shift;
+
+    my $email = CGI::escapeHTML($args->{'email'} || "");
+    my $fullname = CGI::escapeHTML($args->{'fullname'} || "");
+
+    return <<"EOF";
+<form id="register" action="/register-submit/" method="post">
+<table>
+
+<tr>
+<td>Email:</td>
+<td><input name="email" value="$email" /></td>
+</tr>
+
+<tr>
+<td>Password:</td>
+<td><input name="password" type="password" /></td>
+</tr>
+
+<tr>
+<td>Password (confirmation):</td>
+<td><input name="password2" type="password" /></td>
+</tr>
+
+<tr>
+<td>Full name (optional):</td>
+<td><input name="fullname" value="$fullname" /></td>
+</tr>
+
+<tr>
+<td colspan="2">
+<input type="submit" value="Submit" />
+</td>
+</tr>
+
+</table>
+</form>
+EOF
 }
 
 sub register_submit
@@ -146,6 +190,17 @@ EOF
     );
 }
 
+sub register
+{
+    my $self = shift;
+
+    return $self->render(
+        template => "register",
+        layout => 'funky',
+        register_form => $self->register_form({}),
+    );
+}
+
 package main;
 
 use Mojolicious::Lite;
@@ -169,58 +224,21 @@ my $dir = KiokuDB->connect(
     ],
 );
 
-sub register_form
-{
-    my $args = shift;
-
-    my $email = CGI::escapeHTML($args->{'email'} || "");
-    my $fullname = CGI::escapeHTML($args->{'fullname'} || "");
-
-    return <<"EOF";
-<form id="register" action="/register-submit/" method="post">
-<table>
-
-<tr>
-<td>Email:</td>
-<td><input name="email" value="$email" /></td>
-</tr>
-
-<tr>
-<td>Password:</td>
-<td><input name="password" type="password" /></td>
-</tr>
-
-<tr>
-<td>Password (confirmation):</td>
-<td><input name="password2" type="password" /></td>
-</tr>
-
-<tr>
-<td>Full name (optional):</td>
-<td><input name="fullname" value="$fullname" /></td>
-</tr>
-
-<tr>
-<td colspan="2">
-<input type="submit" value="Submit" />
-</td>
-</tr>
-
-</table>
-</form>
-EOF
-}
 
 get '/' => 'index';
 
 get '/register/' => sub {
     my $self = shift;
-
-    $self->render(
-        template => "register",
-        layout => 'funky',
-        register_form => register_form({}),
+    
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
     );
+
+    return $app->register();
+
 };
 
 sub register_submit
