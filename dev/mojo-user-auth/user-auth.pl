@@ -153,20 +153,16 @@ sub register_submit
 
     my $password = $self->param("password");
 
-    my $render_reg_failed = sub {
-        return $self->render_failed_reg(@_);
-    };
-
     if ($password ne $self->param("password2"))
     {
-        return $render_reg_failed->(
+        return $self->render_failed_reg(
             "Registration failed - passwords don't match."
         );
     }
 
     if (too_short($password))
     {
-        return $render_reg_failed->(
+        return $self->render_failed_reg(
              "Registration failed - password is too short.",
              <<"EOF",
 <p>
@@ -180,7 +176,7 @@ EOF
 
     if ($self->_find_if_email_exists())
     {
-        return $render_reg_failed->(
+        return $self->render_failed_reg(
             "Registration failed - the email was already registered",
             "The email " . CGI::escapeHTML($email) . " already exists in our database.",
         );
