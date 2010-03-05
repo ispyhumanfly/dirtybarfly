@@ -49,6 +49,13 @@ has _dir => (
     }
 );
 
+sub _email
+{
+    my $self = shift;
+
+    return $self->param("email");
+}
+
 sub render_failed_reg
 {
     my $self = shift;
@@ -123,7 +130,7 @@ sub _find_if_email_exists
 {
     my $self = shift;
 
-    my $stream = $self->_search({email => $self->param("email")});
+    my $stream = $self->_search({email => $self->_email});
 
     FIND_EMAIL:
     while ( my $block = $stream->next )
@@ -169,8 +176,7 @@ EOF
         );
     }
 
-
-    my $email = $self->param("email");
+    my $email = $self->_email;
 
     if ($self->_find_if_email_exists())
     {
