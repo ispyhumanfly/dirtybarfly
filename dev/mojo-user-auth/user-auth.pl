@@ -22,6 +22,14 @@ has password => (
     is => "rw",
 );
 
+sub verify_password
+{
+    my $self = shift;
+    my $pass = shift;
+
+    return ($self->password() eq $pass);
+}
+
 package InsurgentSoftware::UserAuth::App;
 
 use Moose;
@@ -178,7 +186,7 @@ sub login_form
 EOF
 }
 
-sub _find_if_email_exists 
+sub _find_user_by_email
 {
     my $self = shift;
 
@@ -189,7 +197,7 @@ sub _find_if_email_exists
     {
         foreach my $object ( @$block )
         {
-            return 1;
+            return $object;
         }
     }
 
@@ -245,7 +253,7 @@ EOF
 
     my $email = $self->_email;
 
-    if ($self->_find_if_email_exists())
+    if ($self->_find_user_by_email)
     {
         return $self->render_failed_reg(
             "Registration failed - the email was already registered",
@@ -308,10 +316,35 @@ sub login_submit
 {
     my $self = shift;
 
+    my $user = $self->_find_user_by_email;
+
+    if (! ($user && $user->verify_password($self->_password)))
+    {
+        return $self->render_failed_login(
+            "Wrong Login or Incorrect Password",
+        );
+    }
+
     # TODO : Implement the real login.
-    return $self->render_failed_login(
-        "Wrong Login or Incorrect Password",
+    $self->_login_user($user);
+
+    return;
+}
+
+sub _login_user
+{
+    my $self = shift;
+    my $user = shift;
+
+    $self->render_text(
+          "<h1>Login successful</h1>\n"
+        . "<p>You logged in using the E-mail "
+        . CGI::escapeHTML($self->_email) 
+        . "</p>\n",
+        layout => 'funky',
     );
+
+    return;
 }
 
 package main;
