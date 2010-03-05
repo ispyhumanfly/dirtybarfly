@@ -195,21 +195,32 @@ EOF
     }
 
     # Register a new user.
+    $self->_register_new_user();
+
+    return;
+}
+
+sub _register_new_user
+{
+    my $self = shift;
+
     my $new_user = InsurgentSoftware::UserAuth::User->new(
         {
             fullname => $self->param("fullname"),
             # TODO : don't store the password as plaintext.
             password => $self->_password,
-            email => $email,
+            email => $self->_email,
         }
     );
 
-    $dir->store($new_user);
+    $self->_dir->store($new_user);
 
     $self->render_text("You registered the E-mail - " .
-        CGI::escapeHTML($email),
+        CGI::escapeHTML($self->_email),
         layout => 'funky',
     );
+
+    return;
 }
 
 sub register
