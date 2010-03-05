@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>SocialMAP</title>
+
+	<!-- google CDN -->
+	<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.4.1/dojo/dojo.xd.js" type="text/javascript" djConfig="parseOnLoad: true"></script>
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.4.1/dijit/themes/nihilo/nihilo.css">
+
+	<!-- aol CDN -->
+	<!-- <script src="http://o.aolcdn.com/dojo/1.4.1/dojo/dojo.xd.js" type="text/javascript"></script> -->
+
+	<script type="text/javascript">
+		//<![CDATA[
+		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dijit.layout.BorderContainer");
+		dojo.require("dijit.layout.ContentPane");
+		//]]>
+	</script>
+	
+	<style type="text/css">
+		html, body {
+			height:100%;
+			width: 100%;
+			margin: 0px;
+			padding: 0px;
+		}
+		span, a, div {
+			outline: none;
+		}
+		
+		#page_container {
+			height: 100%;
+			width: 100%;
+		}
+		#main_tabs {
+			height: 90%;
+			width: 100%;
+		}
+		#head_right {
+			position: fixed;
+			right: 10px;
+			top: 10px;
+		}
+		
+		.big {
+			font-size: 1.4em;
+		}
+	</style>
+
+
+</head>
+<body class='nihilo'>
+	
+	<div dojoType='dijit.layout.BorderContainer' id='page_container'>
+		<div dojoType='dijit.layout.ContentPane' region='top' id='main_head'>
+			<span class="big">SocialMAP</span>
+			<div id='head_right'>
+				Sign Out | My Profile | Help | About
+			</div>
+		</div>
+		<div dojoType='dijit.layout.TabContainer' region='bottom' tabStrip='true' id='main_tabs'>
+			<div dojoType="dijit.layout.ContentPane" title="Home" selected="true">
+				Homepage
+			</div>
+			<div dojoType="dijit.layout.ContentPane" title="Map">
+				Map
+			</div>
+			<div dojoType="dijit.layout.ContentPane" title="Details">
+				Details
+			</div>
+			<div dojoType="dijit.layout.ContentPane" title="Events">
+				Events
+			</div>
+			<div dojoType='dijit.layout.ContentPane' title="News">
+				News
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
