@@ -1,4 +1,17 @@
 #status
 {
     border-bottom: thin solid green;
+    margin-bottom: 10px;
+    text-align: right;
+}
+#status li
+{
+    display: inline;
+    list-style-type: none;
+    padding-right: 20px;
+}
+#status ul
+{
+    padding-bottom: 0;
+    margin-bottom: 10px;
 }
