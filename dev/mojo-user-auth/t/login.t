@@ -9,12 +9,49 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 23;
+use Test::More tests => 26;
 use Test::Mojo;
 use Test::WWW::Mechanize::Mojo '0.0.3';
+use HTML::TreeBuilder::LibXML;
 
 use FindBin;
 require "$FindBin::Bin/../user-auth.pl";
+
+sub _tree_contains_tag
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $mech = shift;
+    my $tag_spec = shift;
+    my $blurb = shift;
+
+    my $tree = HTML::TreeBuilder::LibXML->new;
+    $tree->parse($mech->content());
+    $tree->eof();
+
+    my $ret = $tree->look_down(@$tag_spec);
+
+    ok($ret, $blurb);
+
+    return $ret;
+}
+
+
+sub _tree_matches_xpath
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $mech = shift;
+    my $xpath = shift;
+    my $blurb = shift;
+
+    my $tree = HTML::TreeBuilder::LibXML->new;
+    $tree->parse($mech->content());
+    $tree->eof();
+
+    my @nodes = $tree->findnodes($xpath);
+    ok(scalar(@nodes), $blurb);
+}
 
 my $t = Test::Mojo->new;
 my $mech = Test::WWW::Mechanize::Mojo->new(tester => $t);
@@ -24,6 +61,25 @@ $mech->get_ok("/", "Got the page ok.");
 
 # TEST
 is ($mech->status(), 200, "Status is 200 for Root");
+
+sub not_logged_in
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    my $mech = shift;
+    my $blurb = shift;
+
+    return _tree_matches_xpath(
+    $mech,
+    q{//div[@id='status']//b[contains(text(), 'Not logged in')]},
+    $blurb,
+    );
+}
+
+# TEST
+not_logged_in(
+    $mech,
+    "Status says not logged in.",
+);
 
 # TEST
 $t->content_like(qr{
@@ -97,6 +153,12 @@ $mech->submit_form_ok(
 );
 
 # TEST
+not_logged_in(
+    $mech,
+    "Status says not logged #2 .",
+);
+
+# TEST
 $mech->has_tag("h1", "Registration failed - password is too short.");
 
 # TEST
@@ -112,6 +174,12 @@ $mech->submit_form_ok(
         },
     },
     "Submit the form - should succeed now.",
+);
+
+# TEST
+not_logged_in(
+    $mech,
+    "Status says not logged #2 .",
 );
 
 # TODO : test that the user was registered properly.

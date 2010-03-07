@@ -469,5 +469,14 @@ __DATA__
 @@ layouts/funky.html.ep
 <!doctype html><html>
     <head><title>Insurgent Software's User Management Application</title></head>
-    <body><%== content %></body>
+    <body>
+    <div id="status">
+    <ul>
+    <li><b>Not logged in.</b></li>
+    <li><a href="/login/">Login</a></li>
+    <li><a href="/register/">Register</a></li>
+    </ul>
+    </div>
+    <%== content %>
+    </body>
 </html>
