@@ -9,7 +9,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 26;
+use Test::More tests => 29;
 use Test::Mojo;
 use Test::WWW::Mechanize::Mojo '0.0.3';
 use HTML::TreeBuilder::LibXML;
@@ -65,13 +65,29 @@ is ($mech->status(), 200, "Status is 200 for Root");
 sub not_logged_in
 {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
+
     my $mech = shift;
     my $blurb = shift;
 
     return _tree_matches_xpath(
-    $mech,
-    q{//div[@id='status']//b[contains(text(), 'Not logged in')]},
-    $blurb,
+        $mech,
+        q{//div[@id='status']//b[contains(text(), 'Not logged in')]},
+        $blurb,
+    );
+}
+
+sub logged_in_as
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $mech = shift;
+    my $email = shift;
+    my $blurb = shift;
+
+    return _tree_matches_xpath(
+        $mech,
+        qq{//div[\@id='status']//b[contains(text(), 'Logged in as ${email}')]},
+        $blurb,
     );
 }
 
@@ -258,3 +274,13 @@ $mech->submit_form_ok(
 
 # TEST
 $mech->has_tag("h1", "Login successful", "Login was successful (<h1>)");
+
+# TEST
+logged_in_as($mech, $email, "Now status shows logged in.");
+
+# TEST
+$mech->get_ok("/", "Got the front page.");
+
+# TEST
+logged_in_as($mech, $email, "Status shows logged in in the front page.");
+

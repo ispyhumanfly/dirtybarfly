@@ -43,6 +43,7 @@ has _mojo => (
         "param" => "param",
         render_text => "render_text",
         render => "render",
+        session => "session",
     },
 );
 
@@ -336,6 +337,8 @@ sub _login_user
     my $self = shift;
     my $user = shift;
 
+    $self->session->{'login'} = $user->email;
+
     $self->render_text(
           "<h1>Login successful</h1>\n"
         . "<p>You logged in using the E-mail "
@@ -350,6 +353,8 @@ sub _login_user
 package main;
 
 use Mojolicious::Lite;
+use MojoX::Session::Cookie;
+
 use CGI qw();
 
 use KiokuDB;
@@ -472,9 +477,14 @@ __DATA__
     <body>
     <div id="status">
     <ul>
+% if ($self->session->{'login'}) {
+    <li><b>Logged in as <%= $self->session->{'login'} %></b></li>
+    <li><a href="/logout/">Logout</a></li>
+% } else {
     <li><b>Not logged in.</b></li>
     <li><a href="/login/">Login</a></li>
     <li><a href="/register/">Register</a></li>
+% }
     </ul>
     </div>
     <%== content %>
