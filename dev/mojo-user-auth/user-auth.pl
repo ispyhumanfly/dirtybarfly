@@ -437,9 +437,33 @@ sub login_submit
 
 post '/login-submit/' => \&login_submit;
 
+# TODO : Get rid of the groovy / mojolicious boilerplate leftovers.
 get '/:groovy' => sub {
     my $self = shift;
     $self->render_text($self->param('groovy'), layout => 'funky');
+};
+
+sub _slurp
+{
+    my $filename = shift;
+
+    open my $in, "<", $filename
+        or die "Cannot open '$filename' for slurping - $!";
+
+    local $/;
+    my $contents = <$in>;
+
+    close($in);
+
+    return $contents;
+}
+
+get '/style.css' => sub {
+    my $self = shift;
+
+    $self->render_static("style.css");
+
+    return;
 };
 
 shagadelic;
@@ -473,7 +497,10 @@ __DATA__
 
 @@ layouts/funky.html.ep
 <!doctype html><html>
-    <head><title>Insurgent Software's User Management Application</title></head>
+    <head>
+    <title>Insurgent Software's User Management Application</title>
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, projection" title="Normal" />
+    </head>
     <body>
     <div id="status">
     <ul>
