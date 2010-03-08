@@ -458,13 +458,22 @@ sub _slurp
     return $contents;
 }
 
-get '/style.css' => sub {
+sub logout
+{
     my $self = shift;
 
-    $self->render_static("style.css");
+    delete($self->session->{'login'});
 
+    $self->render_text(
+        "<h1>You are now logged-out</h1>\n",
+        layout => 'funky',
+    );
+
+    
     return;
-};
+}
+
+get '/logout/' => (\&logout) => "logout";
 
 shagadelic;
 

@@ -9,7 +9,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 29;
+use Test::More tests => 32;
 use Test::Mojo;
 use Test::WWW::Mechanize::Mojo '0.0.3';
 use HTML::TreeBuilder::LibXML;
@@ -284,3 +284,22 @@ $mech->get_ok("/", "Got the front page.");
 # TEST
 logged_in_as($mech, $email, "Status shows logged in in the front page.");
 
+SKIP:
+{
+    skip ("Not working yet.", 3);
+# TEST
+$mech->follow_link_ok({text => "Logout",},
+    "Was able to follow the logout link."
+);
+
+# TEST
+$mech->has_tag("h1", "You are now logged-out",
+    "Logged-out h1",
+);
+
+# TEST
+not_logged_in(
+    $mech,
+    "Status says not logged in after logout.",
+);
+}
