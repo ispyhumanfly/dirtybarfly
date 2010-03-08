@@ -284,9 +284,6 @@ $mech->get_ok("/", "Got the front page.");
 # TEST
 logged_in_as($mech, $email, "Status shows logged in in the front page.");
 
-SKIP:
-{
-    skip ("Not working yet.", 3);
 # TEST
 $mech->follow_link_ok({text => "Logout",},
     "Was able to follow the logout link."
@@ -302,4 +299,3 @@ not_logged_in(
     $mech,
     "Status says not logged in after logout.",
 );
-}
