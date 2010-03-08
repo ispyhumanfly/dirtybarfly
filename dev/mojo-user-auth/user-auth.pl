@@ -44,7 +44,7 @@ get '/register/' => sub {
 
     return $app->register();
 
-};
+} => "register";
 
 sub register_submit
 {
@@ -123,7 +123,7 @@ __DATA__
 
 <ul>
 <li><a href="<%= url_for('login') %>">Login to an existing account</a></li>
-<li><a href="register/">Register a new account</a></li>
+<li><a href="<%= url_for('register') %>">Register a new account</a></li>
 </ul>
 
 @@ register.html.ep
@@ -151,7 +151,7 @@ __DATA__
 % } else {
     <li><b>Not logged in.</b></li>
     <li><a href="<%= url_for('login') %>/">Login</a></li>
-    <li><a href="/register/">Register</a></li>
+    <li><a href="<%= url_for('register') %>">Register</a></li>
 % }
     </ul>
     </div>
