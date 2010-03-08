@@ -368,20 +368,9 @@ $mech->follow_link_ok({text => "Register a new account"},
     "Was able to follow the link to register (2nd time)."
 );
 
-my $pass2 = "FooBarasdmk--34t+536'Y";
 # TEST
-$mech->submit_form_ok(
-    {
-        form_id => "register",
-        fields =>
-        {
-            email => $email,
-            password => $pass2,,
-            password2 => $pass2,
-            fullname => "Sophie Goringa Lactor",
-        },
-    },
-    "Submit form with existing E-mail.",
+$mech->register_with_diff_pass(
+    "FooBarasdmk--34t+536'Y", "Submit form with existing E-mail.",
 );
 
 # TEST
