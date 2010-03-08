@@ -147,7 +147,7 @@ __DATA__
     <ul>
 % if ($self->session->{'login'}) {
     <li><b>Logged in as <%= $self->session->{'login'} %></b></li>
-    <li><a href="/logout/">Logout</a></li>
+    <li><a href="<%= url_for('logout') %>">Logout</a></li>
 % } else {
     <li><b>Not logged in.</b></li>
     <li><a href="/login/">Login</a></li>
