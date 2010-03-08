@@ -445,21 +445,6 @@ get '/:groovy' => sub {
     $self->render_text($self->param('groovy'), layout => 'funky');
 };
 
-sub _slurp
-{
-    my $filename = shift;
-
-    open my $in, "<", $filename
-        or die "Cannot open '$filename' for slurping - $!";
-
-    local $/;
-    my $contents = <$in>;
-
-    close($in);
-
-    return $contents;
-}
-
 sub logout
 {
     my $self = shift;
