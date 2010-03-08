@@ -206,7 +206,6 @@ sub register_submit
 {
     my $self = shift;
 
-    my $dir = $self->_dir;
     my $scope = $self->_new_scope;
 
     if ($self->_passwords_dont_match())
@@ -247,6 +246,8 @@ EOF
 sub _register_new_user
 {
     my $self = shift;
+
+    my $scope = $self->_new_scope;
 
     my $new_user = InsurgentSoftware::UserAuth::User->new(
         {
@@ -292,6 +293,8 @@ sub login
 sub login_submit
 {
     my $self = shift;
+
+    my $scope = $self->_new_scope;
 
     my $user = $self->_find_user_by_email;
 
