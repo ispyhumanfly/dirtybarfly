@@ -163,9 +163,9 @@ sub select_user
     return;
 }
 
-sub register_with_wrong_pass
+sub _register_with_passwords
 {
-    my ($self, $wrong_pass, $blurb) = @_;
+    my ($self, $p1, $p2, $blurb) = @_;
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
@@ -175,12 +175,37 @@ sub register_with_wrong_pass
             fields =>
             {
                 email => $self->_email(),
-                password => $self->_password(),
-                password2 => $wrong_pass,
+                password => $p1,
+                password2 => $p2,
                 fullname => $self->_fullname(),
             },
         },
         $blurb,
+    );
+}
+
+sub register_with_wrong_pass
+{
+    my ($self, $wrong_pass, $blurb) = @_;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    return $self->_register_with_passwords(
+        $self->_password(),
+        $wrong_pass,
+        $blurb
+    );
+
+}
+
+sub register_with_diff_pass
+{
+    my ($self, $diff_pass, $blurb) = @_;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    return $self->_register_with_passwords(
+        $diff_pass, $diff_pass, $blurb
     );
 }
 
@@ -305,22 +330,7 @@ $mech->h1_is(
     "passwords don't match",
 );
 
-my $short_pass = "heh";
-
-# TEST
-$mech->submit_form_ok(
-    {
-        form_id => "register",
-        fields =>
-        {
-            email => $email,
-            password => $short_pass,
-            password2 => $short_pass,
-            fullname => "Sophie Esmeralda Johnson",
-        },
-    },
-    "Submit the new form on the rejection screen with different passwords.",
-);
+$mech->register_with_diff_pass("heh", "sophie - too short password");
 
 # TEST
 $mech->not_logged_in("Status says not logged #2 .");
