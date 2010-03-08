@@ -93,9 +93,10 @@ sub register_form
 
     my $email = CGI::escapeHTML($args->{'email'} || "");
     my $fullname = CGI::escapeHTML($args->{'fullname'} || "");
+    my $action = CGI::escapeHTML($self->_mojo->url_for("register_submit"));
 
     return <<"EOF";
-<form id="register" action="/register-submit/" method="post">
+<form id="register" action="$action" method="post">
 <table>
 
 <tr>
@@ -135,9 +136,10 @@ sub login_form
     my $args = shift;
 
     my $email = CGI::escapeHTML($args->{'email'} || "");
+    my $action = CGI::escapeHTML($self->_mojo->url_for("login_submit"));
 
     return <<"EOF";
-<form id="login" action="/login-submit/" method="post">
+<form id="login" action="$action" method="post">
 <table>
 
 <tr>

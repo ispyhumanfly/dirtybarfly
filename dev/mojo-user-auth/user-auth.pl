@@ -60,7 +60,7 @@ sub register_submit
     return $app->register_submit();
 }
 
-post '/register-submit/' => \&register_submit;
+post '/register-submit/' => \&register_submit => "register_submit";
 
 get '/login/' => sub {
     my $self = shift;
@@ -89,7 +89,7 @@ sub login_submit
     return $app->login_submit();
 }
 
-post '/login-submit/' => \&login_submit;
+post '/login-submit/' => \&login_submit => "login_submit";
 
 sub logout
 {
