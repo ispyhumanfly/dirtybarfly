@@ -439,12 +439,6 @@ post '/login-submit/' => \&login_submit;
 
 get '/logout' => (\&logout) => "logout";
 
-# TODO : Get rid of the groovy / mojolicious boilerplate leftovers.
-get '/:groovy' => sub {
-    my $self = shift;
-    $self->render_text($self->param('groovy'), layout => 'funky');
-};
-
 sub logout
 {
     my $self = shift;
@@ -456,7 +450,6 @@ sub logout
         layout => 'funky',
     );
 
-    
     return;
 }
 
