@@ -209,6 +209,17 @@ sub register_with_diff_pass
     );
 }
 
+sub register_properly
+{
+    my ($self, $blurb) = @_;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    return $self->_register_with_passwords(
+        (($self->_password()) x 2), $blurb
+    );
+}
+
 package MyTest::Mech::User;
 
 use Moose;
@@ -342,22 +353,10 @@ $mech->h1_is(
     );
 
 # TEST
-$mech->submit_form_ok(
-    {
-        form_id => "register",
-        fields =>
-        {
-            email => $email,
-            password => $password,
-            password2 => $password,
-            fullname => "Sophie Esmeralda Johnson",
-        },
-    },
-    "Submit the form - should succeed now.",
-);
+$mech->register_properly("sophie - Submit the form - should succeed now.");
 
 # TEST
-$mech->not_logged_in("Status says not logged #2 .");
+$mech->not_logged_in("Status says not logged-in #2 .");
 
 # TODO : test that the user was registered properly.
 
