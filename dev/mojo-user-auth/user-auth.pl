@@ -73,7 +73,7 @@ get '/login/' => sub {
     );
 
     return $app->login();
-};
+} => "login";
 
 sub login_submit
 {
@@ -122,7 +122,7 @@ __DATA__
 <h1>Insurgent Software's User Management Application</h1>
 
 <ul>
-<li><a href="login/">Login to an existing account</a></li>
+<li><a href="<%= url_for('login') %>">Login to an existing account</a></li>
 <li><a href="register/">Register a new account</a></li>
 </ul>
 
@@ -150,7 +150,7 @@ __DATA__
     <li><a href="<%= url_for('logout') %>">Logout</a></li>
 % } else {
     <li><b>Not logged in.</b></li>
-    <li><a href="/login/">Login</a></li>
+    <li><a href="<%= url_for('login') %>/">Login</a></li>
     <li><a href="/register/">Register</a></li>
 % }
     </ul>

@@ -99,8 +99,8 @@ not_logged_in(
 
 # TEST
 $t->content_like(qr{
-    <li><a\ href="[^"]*\blogin/">Login\ to\ an\ existing\ account</a></li>\s+
-    <li><a\ href="[^"]*\bregister/">Register\ a\ new\ account</a></li>
+    <li><a\ href="[^"]*\blogin/?">Login\ to\ an\ existing\ account</a></li>\s+
+    <li><a\ href="[^"]*\bregister/?">Register\ a\ new\ account</a></li>
     }x);
 
 # TEST
