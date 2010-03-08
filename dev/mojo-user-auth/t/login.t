@@ -100,6 +100,9 @@ has '_active_user' =>
     handles =>
     {
         '_active_uid' => "id",
+        '_email' => "email",
+        '_password' => "password",
+        '_fullname' => "fullname",
     },
 );
 
@@ -144,6 +147,41 @@ sub h1_is
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     
     return $self->has_tag("h1", $tag_text, @blurb);
+}
+
+sub select_user
+{
+    my ($self, $uid) = @_;
+
+    if (!exists($self->_users->{$uid}))
+    {
+        die "Could not find user '$uid'!";
+    }
+
+    $self->_active_user($self->_users->{$uid});
+
+    return;
+}
+
+sub register_with_wrong_pass
+{
+    my ($self, $wrong_pass, $blurb) = @_;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    return $self->submit_form_ok(
+        {
+            form_id => "register",
+            fields =>
+            {
+                email => $self->_email(),
+                password => $self->_password(),
+                password2 => $wrong_pass,
+                fullname => $self->_fullname(),
+            },
+        },
+        $blurb,
+    );
 }
 
 package MyTest::Mech::User;
@@ -241,19 +279,12 @@ $mech->h1_is("Register an account", "Has an appropriate <h1> tag.");
 my $email = 'sophie@myhome.tld';
 my $password = "Sophie-Iz-De-Ossum";
 
+$mech->select_user("sophie");
+
 # TEST
-$mech->submit_form_ok(
-    {
-        form_id => "register",
-        fields =>
-        {
-            email => $email,
-            password => $password,
-            password2 => "Something else",
-            fullname => "Sophie Esmeralda Johnson",
-        },
-    },
-    "Submit form with different passwords.",
+$mech->register_with_wrong_pass(
+    "Something else",
+    "sophie - Submit form with different passwords."
 );
 
 # TEST
@@ -263,18 +294,9 @@ $mech->h1_is(
 );
 
 # TEST
-$mech->submit_form_ok(
-    {
-        form_id => "register",
-        fields =>
-        {
-            email => $email,
-            password => $password,
-            password2 => "Something else",
-            fullname => "Sophie Esmeralda Johnson",
-        },
-    },
-    "Submit the new form on the rejection screen with different passwords.",
+$mech->register_with_wrong_pass(
+    "Something else",
+    "sophie - Submit the new form on the rejection screen with different passwords.",
 );
 
 # TEST
