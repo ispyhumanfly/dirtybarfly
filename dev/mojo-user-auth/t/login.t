@@ -2,6 +2,9 @@
 
 package MyTest::Mech::LibXML;
 
+use strict;
+use warnings;
+
 use Test::WWW::Mechanize::Mojo '0.0.3';
 use base 'Test::WWW::Mechanize::Mojo';
 
@@ -46,6 +49,9 @@ sub tree_matches_xpath
 
 package MyTest::Mech;
 
+use strict;
+use warnings;
+
 our @ISA = (qw(MyTest::Mech::LibXML));
 
 sub not_logged_in
@@ -73,6 +79,22 @@ sub logged_in_as
         qq{//div[\@id='status']//b[contains(text(), 'Logged in as ${email}')]},
         $blurb,
     );
+}
+
+sub h1_is
+{
+    my $self = shift;
+    my $tag_text = shift;
+    my @blurb = @_;
+
+    if (@blurb > 1)
+    {
+        die "Too many arguments to h1_is!";
+    }
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    
+    return $self->has_tag("h1", $tag_text, @blurb);
 }
 
 package main;
@@ -116,7 +138,7 @@ $mech->follow_link_ok({text => "Register a new account"},
 );
 
 # TEST
-$mech->has_tag("h1", "Register an account", "Has an appropriate <h1> tag.");
+$mech->h1_is("Register an account", "Has an appropriate <h1> tag.");
 
 my $email = 'sophie@myhome.tld';
 my $password = "Sophie-Iz-De-Ossum";
@@ -137,8 +159,10 @@ $mech->submit_form_ok(
 );
 
 # TEST
-$mech->has_tag("h1", "Registration failed - passwords don't match.");
-
+$mech->h1_is(
+    "Registration failed - passwords don't match.",
+    "passwords don't match."
+);
 
 # TEST
 $mech->submit_form_ok(
@@ -156,7 +180,10 @@ $mech->submit_form_ok(
 );
 
 # TEST
-$mech->has_tag("h1", "Registration failed - passwords don't match.");
+$mech->h1_is(
+    "Registration failed - passwords don't match.",
+    "passwords don't match",
+);
 
 my $short_pass = "heh";
 
@@ -179,7 +206,10 @@ $mech->submit_form_ok(
 $mech->not_logged_in("Status says not logged #2 .");
 
 # TEST
-$mech->has_tag("h1", "Registration failed - password is too short.");
+$mech->h1_is(
+    "Registration failed - password is too short.",
+    "reg failed - password is too short."
+    );
 
 # TEST
 $mech->submit_form_ok(
@@ -226,7 +256,10 @@ $mech->submit_form_ok(
 );
 
 # TEST
-$mech->has_tag("h1", "Registration failed - the email was already registered");
+$mech->h1_is(
+    "Registration failed - the email was already registered",
+    "Registration failed - E-mail already registered."
+);
 
 
 # TEST
@@ -238,9 +271,7 @@ $mech->follow_link_ok({text => "Login to an existing account"},
 );
 
 # TEST
-$mech->has_tag("h1", "Login form", 
-    "Login page has an appropriate <h1> tag"
-);
+$mech->h1_is("Login form", "Login page has an appropriate <h1> tag");
 
 # TEST
 $mech->submit_form_ok(
@@ -256,7 +287,8 @@ $mech->submit_form_ok(
 );
 
 # TEST
-$mech->has_tag("h1", "Wrong Login or Incorrect Password", 
+$mech->h1_is(
+    "Wrong Login or Incorrect Password", 
     "Could not login with incorrect password"
 );
 
@@ -274,7 +306,7 @@ $mech->submit_form_ok(
 );
 
 # TEST
-$mech->has_tag("h1", "Login successful", "Login was successful (<h1>)");
+$mech->h1_is("Login successful", "Login was successful (<h1>)");
 
 # TEST
 $mech->logged_in_as($email, "Now status shows logged in.");
@@ -291,9 +323,7 @@ $mech->follow_link_ok({text => "Logout",},
 );
 
 # TEST
-$mech->has_tag("h1", "You are now logged-out",
-    "Logged-out h1",
-);
+$mech->h1_is("You are now logged-out", "Logged-out h1");
 
 # TEST
 $mech->not_logged_in("Status says not logged in after logout.");
