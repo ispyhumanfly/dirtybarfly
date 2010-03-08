@@ -437,8 +437,6 @@ sub login_submit
 
 post '/login-submit/' => \&login_submit;
 
-get '/logout' => (\&logout) => "logout";
-
 sub logout
 {
     my $self = shift;
@@ -453,6 +451,7 @@ sub logout
     return;
 }
 
+get '/logout' => (\&logout) => "logout";
 
 shagadelic;
 
