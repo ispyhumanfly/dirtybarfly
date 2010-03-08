@@ -1,23 +1,15 @@
 #!perl
 
-use strict;
-use warnings;
+package MyTest::Mech::LibXML;
 
-BEGIN
-{
-    # Reset the database.
-    unlink("insurgent-auth.sqlite");
-}
-
-use Test::More tests => 32;
-use Test::Mojo;
 use Test::WWW::Mechanize::Mojo '0.0.3';
+use base 'Test::WWW::Mechanize::Mojo';
+
 use HTML::TreeBuilder::LibXML;
 
-use FindBin;
-require "$FindBin::Bin/../user-auth.pl";
+use Test::More;
 
-sub _tree_contains_tag
+sub contains_tag
 {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
@@ -36,8 +28,7 @@ sub _tree_contains_tag
     return $ret;
 }
 
-
-sub _tree_matches_xpath
+sub tree_matches_xpath
 {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
@@ -50,17 +41,12 @@ sub _tree_matches_xpath
     $tree->eof();
 
     my @nodes = $tree->findnodes($xpath);
-    ok(scalar(@nodes), $blurb);
+    return ok(scalar(@nodes), $blurb);
 }
 
-my $t = Test::Mojo->new;
-my $mech = Test::WWW::Mechanize::Mojo->new(tester => $t);
+package MyTest::Mech;
 
-# TEST
-$mech->get_ok("/", "Got the page ok.");
-
-# TEST
-is ($mech->status(), 200, "Status is 200 for Root");
+our @ISA = (qw(MyTest::Mech::LibXML));
 
 sub not_logged_in
 {
@@ -69,8 +55,7 @@ sub not_logged_in
     my $mech = shift;
     my $blurb = shift;
 
-    return _tree_matches_xpath(
-        $mech,
+    return $mech->tree_matches_xpath(
         q{//div[@id='status']//b[contains(text(), 'Not logged in')]},
         $blurb,
     );
@@ -84,18 +69,40 @@ sub logged_in_as
     my $email = shift;
     my $blurb = shift;
 
-    return _tree_matches_xpath(
-        $mech,
+    return $mech->tree_matches_xpath(
         qq{//div[\@id='status']//b[contains(text(), 'Logged in as ${email}')]},
         $blurb,
     );
 }
 
+package main;
+
+use strict;
+use warnings;
+
+BEGIN
+{
+    # Reset the database.
+    unlink("insurgent-auth.sqlite");
+}
+
+use Test::More tests => 32;
+use Test::Mojo;
+
+use FindBin;
+require "$FindBin::Bin/../user-auth.pl";
+
+my $t = Test::Mojo->new;
+my $mech = MyTest::Mech->new(tester => $t);
+
 # TEST
-not_logged_in(
-    $mech,
-    "Status says not logged in.",
-);
+$mech->get_ok("/", "Got the page ok.");
+
+# TEST
+is ($mech->status(), 200, "Status is 200 for Root");
+
+# TEST
+$mech->not_logged_in("Status says not logged in.");
 
 # TEST
 $t->content_like(qr{
@@ -169,10 +176,7 @@ $mech->submit_form_ok(
 );
 
 # TEST
-not_logged_in(
-    $mech,
-    "Status says not logged #2 .",
-);
+$mech->not_logged_in("Status says not logged #2 .");
 
 # TEST
 $mech->has_tag("h1", "Registration failed - password is too short.");
@@ -193,10 +197,7 @@ $mech->submit_form_ok(
 );
 
 # TEST
-not_logged_in(
-    $mech,
-    "Status says not logged #2 .",
-);
+$mech->not_logged_in("Status says not logged #2 .");
 
 # TODO : test that the user was registered properly.
 
@@ -276,13 +277,13 @@ $mech->submit_form_ok(
 $mech->has_tag("h1", "Login successful", "Login was successful (<h1>)");
 
 # TEST
-logged_in_as($mech, $email, "Now status shows logged in.");
+$mech->logged_in_as($email, "Now status shows logged in.");
 
 # TEST
 $mech->get_ok("/", "Got the front page.");
 
 # TEST
-logged_in_as($mech, $email, "Status shows logged in in the front page.");
+$mech->logged_in_as($email, "Status shows logged in in the front page.");
 
 # TEST
 $mech->follow_link_ok({text => "Logout",},
@@ -295,7 +296,4 @@ $mech->has_tag("h1", "You are now logged-out",
 );
 
 # TEST
-not_logged_in(
-    $mech,
-    "Status says not logged in after logout.",
-);
+$mech->not_logged_in("Status says not logged in after logout.");
