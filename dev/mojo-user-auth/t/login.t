@@ -52,7 +52,56 @@ package MyTest::Mech;
 use strict;
 use warnings;
 
-our @ISA = (qw(MyTest::Mech::LibXML));
+use Moose;
+
+extends (qw(MyTest::Mech::LibXML Moose::Object));
+
+sub new
+{
+    my $class = shift;
+
+    my $obj = $class->SUPER::new(@_);
+
+    return $class->meta->new_object(
+        __INSTANCE__ => $obj,
+        @_,
+    );
+}
+
+has '_users_list' =>
+(
+    is => "ro",
+    isa => "ArrayRef[MyTest::Mech::User]",
+    init_arg => "users",
+);
+
+has '_users' =>
+(
+    is => "rw",
+    isa => "HashRef[MyTest::Mech::User]",
+    lazy => 1,
+    builder => "_calc_users",
+);
+
+sub _calc_users
+{
+    my $self = shift;
+
+    return 
+    {
+        map { $_->id() => $_ } @{$self->_users_list()},
+    };
+}
+
+has '_active_user' =>
+(
+    isa => "MyTest::Mech::User",
+    is => "rw",
+    handles =>
+    {
+        '_active_uid' => "id",
+    },
+);
 
 sub not_logged_in
 {
@@ -97,6 +146,16 @@ sub h1_is
     return $self->has_tag("h1", $tag_text, @blurb);
 }
 
+package MyTest::Mech::User;
+
+use Moose;
+
+has id => (isa => "Str", is => "ro");
+has fullname => (isa => "Str", is => "ro");
+has email => (isa => "Str", is => "ro");
+has password => (isa => "Str", is => "ro");
+has wrong_pass => (isa => "Str", is => "rw");
+
 package main;
 
 use strict;
@@ -108,7 +167,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 34;
+use Test::More tests => 35;
 use Test::Mojo;
 
 use FindBin;
@@ -116,6 +175,16 @@ require "$FindBin::Bin/../user-auth.pl";
 
 my $t = Test::Mojo->new;
 my $mech = MyTest::Mech->new(tester => $t);
+
+my %users =
+(
+    'sophie' =>
+    {
+        email => q{sophie@myhome.tld},
+        pass => q{Sophie-Iz-De-Ossum},
+    }
+);
+
 
 # TEST
 $mech->get_ok("/", "Got the page ok.");
@@ -333,3 +402,9 @@ $mech->get_ok("/", "Got the front page.");
 
 # TEST
 $mech->not_logged_in("Not logged in after visiting the front page.");
+
+# TEST
+$mech->follow_link_ok({text => "Login"},
+    "Go to the login screen."
+);
+
