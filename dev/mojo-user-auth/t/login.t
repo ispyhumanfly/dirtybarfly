@@ -173,18 +173,47 @@ use Test::Mojo;
 use FindBin;
 require "$FindBin::Bin/../user-auth.pl";
 
-my $t = Test::Mojo->new;
-my $mech = MyTest::Mech->new(tester => $t);
-
-my %users =
+my @users =
 (
-    'sophie' =>
-    {
-        email => q{sophie@myhome.tld},
-        pass => q{Sophie-Iz-De-Ossum},
-    }
+    MyTest::Mech::User->new(
+        {
+            id => "sophie",
+            email => q{sophie@myhome.tld},
+            password => q{Sophie-Iz-De-Ossum},
+            fullname => "Sophie Esmeralda Johnson",
+        },
+    ),
+    MyTest::Mech::User->new(
+        {
+            id => "jack",
+            email => q{jack@freedom.tld},
+            password => q{I-love-5600-Sophie},
+            fullname => "Jack David Johnson",
+        },
+    ),
+    MyTest::Mech::User->new(
+        {
+            id => "peter",
+            email => q{peter@hoffman.tld},
+            password => q{n7bnc9acm9cnacvmf},
+            fullname => "Peter Hoffman",
+        },
+    ),
+    MyTest::Mech::User->new(
+        {
+            id => "john",
+            email => q{john@galt.tld},
+            password => q{Who-is-John-Galt? Not me},
+            fullname => "John Galt",
+        },
+    ),
 );
 
+my $t = Test::Mojo->new;
+my $mech = MyTest::Mech->new(
+    tester => $t,
+    users => \@users,
+);
 
 # TEST
 $mech->get_ok("/", "Got the page ok.");
