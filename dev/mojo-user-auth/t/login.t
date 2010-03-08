@@ -108,7 +108,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 32;
+use Test::More tests => 34;
 use Test::Mojo;
 
 use FindBin;
@@ -327,3 +327,9 @@ $mech->h1_is("You are now logged-out", "Logged-out h1");
 
 # TEST
 $mech->not_logged_in("Status says not logged in after logout.");
+
+# TEST
+$mech->get_ok("/", "Got the front page.");
+
+# TEST
+$mech->not_logged_in("Not logged in after visiting the front page.");
