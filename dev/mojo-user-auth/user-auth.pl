@@ -128,7 +128,14 @@ shagadelic;
 
 =head1 TODO
 
-* Add a status (Not logged-in / Logged in as something) ruler to the top.
+* Make sure that there are limits to the properties of a user (maximal length
+of E-mail, password, etc.).
+
+* Add a bio field to the users' account.
+
+* Make sure the front page adapts itself to the users.
+
+* Each page should have a more meaningful (and brief) <title> element.
 
 =cut
 
