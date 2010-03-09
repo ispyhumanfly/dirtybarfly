@@ -268,6 +268,33 @@ sub login_properly
     return $self->login_with_pass($self->_password(), $blurb);
 }
 
+# TEST:$c=0;
+sub logout_with_checks
+{
+    my ($mech, $blurb_base) = @_;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $num_fails = 0;
+    # TEST:$c++;
+    $mech->follow_link_ok({text => "Logout",},
+        "$blurb_base - Was able to follow the logout link."
+    ) or $num_fails++;
+
+    # TEST:$c++;
+    $mech->h1_is("You are now logged-out", "$blurb_base - Logged-out h1")
+        or $num_fails++;
+
+    # TEST:$c++;
+    $mech->not_logged_in(
+        "$blurb_base - Status says not logged in after logout."
+    ) or $num_fails++;
+
+    return ($num_fails == 0);
+}
+
+# TEST:$logout_count=$c;
+
 package MyTest::Mech::User;
 
 use Moose;
@@ -289,7 +316,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 43;
+use Test::More tests => 46;
 use Test::Mojo;
 
 use FindBin;
@@ -465,16 +492,8 @@ $mech->go_to_front();
 # TEST
 $mech->user_logged_in("Status shows logged in in the front page.");
 
-# TEST
-$mech->follow_link_ok({text => "Logout",},
-    "Was able to follow the logout link."
-);
-
-# TEST
-$mech->h1_is("You are now logged-out", "Logged-out h1");
-
-# TEST
-$mech->not_logged_in("Status says not logged in after logout.");
+# TEST*$logout_count
+$mech->logout_with_checks("sophie");
 
 # TEST
 $mech->go_to_front();
@@ -521,3 +540,7 @@ $mech->go_to_front();
 
 # TEST
 $mech->user_logged_in("jack is logged in in the front page.");
+
+# TEST*$logout_count
+$mech->logout_with_checks("jack #1");
+
