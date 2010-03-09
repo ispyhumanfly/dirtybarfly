@@ -101,6 +101,7 @@ has '_active_user' =>
     {
         '_active_uid' => "id",
         '_email' => "email",
+        'email' => "email",
         '_password' => "password",
         '_fullname' => "fullname",
     },
@@ -331,7 +332,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 52;
+use Test::More tests => 53;
 use Test::Mojo;
 
 use FindBin;
@@ -587,4 +588,10 @@ $mech->tree_matches_xpath(
 # TEST
 $mech->follow_link_ok({text => "Account"}, 
     "sophie #2 - follow link to account."
+);
+
+# TEST
+$mech->h1_is(
+    "Account page for " . $mech->email(),
+    "sophie #2 - Account page",
 );

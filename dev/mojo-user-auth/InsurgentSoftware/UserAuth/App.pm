@@ -167,16 +167,27 @@ sub _find_user_by_email
 {
     my $self = shift;
 
-    my $stream;
-    
-    if (my $email = $self->_email())
-    {
-        $stream = $self->_search({email => $email});
-    }
-    else
+    return $self->_generic_find_user($self->_email());
+}
+
+sub _find_user_by_login
+{
+    my $self = shift;
+
+    return $self->_generic_find_user($self->_login);
+}
+
+sub _generic_find_user
+{
+    my $self = shift;
+    my $user_id = shift;
+
+    if (! $user_id)
     {
         return;
     }
+
+    my $stream = $self->_search({email => $user_id});
 
     FIND_EMAIL:
     while ( my $block = $stream->next )
@@ -320,6 +331,13 @@ sub login_submit
     return;
 }
 
+sub _login
+{
+    my $self = shift;
+
+    return $self->session->{'login'};
+}
+
 sub _login_user
 {
     my $self = shift;
@@ -344,12 +362,12 @@ sub account_page
 
     my $scope = $self->_new_scope;
 
-    if (my $user = $self->_find_user_by_email)
+    if (my $user = $self->_find_user_by_login)
     {
         return $self->render(
             template => "account",
             layout => 'funky',
-            email => $self->_email(),
+            email => $self->_login(),
         );
     }
     else
