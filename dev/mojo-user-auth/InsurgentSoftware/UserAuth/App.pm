@@ -163,7 +163,7 @@ sub login_form
 EOF
 }
 
-sub _find_user_by_email
+sub _find_user_by_param
 {
     my $self = shift;
 
@@ -249,7 +249,7 @@ EOF
 
     my $email = $self->_email;
 
-    if ($self->_find_user_by_email)
+    if ($self->_find_user_by_param)
     {
         return $self->render_failed_reg(
             "Registration failed - the email was already registered",
@@ -316,7 +316,7 @@ sub login_submit
 
     my $scope = $self->_new_scope;
 
-    my $user = $self->_find_user_by_email;
+    my $user = $self->_find_user_by_param;
 
     if (! ($user && $user->verify_password($self->_password)))
     {
