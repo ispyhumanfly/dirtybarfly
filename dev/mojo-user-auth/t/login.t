@@ -240,6 +240,34 @@ sub register_properly
     );
 }
 
+sub login_with_pass
+{
+    my ($self, $pass, $blurb) = @_;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    return $self->submit_form_ok(
+        {
+            form_id => "login",
+            fields =>
+            {
+                email => $self->_email,
+                password => $pass,
+            },
+        },
+        $blurb,
+    );
+}
+
+sub login_properly
+{
+    my ($self, $blurb) = @_;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    return $self->login_with_pass($self->_password(), $blurb);
+}
+
 package MyTest::Mech::User;
 
 use Moose;
@@ -261,7 +289,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 35;
+use Test::More tests => 43;
 use Test::Mojo;
 
 use FindBin;
@@ -412,16 +440,8 @@ $mech->follow_link_ok({text => "Login to an existing account"},
 $mech->h1_is("Login form", "Login page has an appropriate <h1> tag");
 
 # TEST
-$mech->submit_form_ok(
-    {
-        form_id => "login",
-        fields =>
-        {
-            email => $email,
-            password => "This-is-not-a-Password",
-        },
-    },
-    "Submit form with the wrong password",
+$mech->login_with_pass(
+    "This-is-not-a-Password", "Submit form with the wrong password"
 );
 
 # TEST
@@ -431,17 +451,7 @@ $mech->h1_is(
 );
 
 # TEST
-$mech->submit_form_ok(
-    {
-        form_id => "login",
-        fields =>
-        {
-            email => $email,
-            password => $password,
-        },
-    },
-    "Submit login form with the right password",
-);
+$mech->login_properly("Submit login form with the right password");
 
 # TEST
 $mech->h1_is("Login successful", "Login was successful (<h1>)");
@@ -472,8 +482,42 @@ $mech->go_to_front();
 # TEST
 $mech->not_logged_in("Not logged in after visiting the front page.");
 
+# TODO : abstract into the go-to-register screen function. 
+
 # TEST
-$mech->follow_link_ok({text => "Login"},
-    "Go to the login screen."
+$mech->follow_link_ok({text => "Register a new account"}, 
+    "Was able to follow the link to register."
 );
 
+# TEST
+$mech->select_user("jack");
+
+# TEST
+$mech->register_properly("jack - registered");
+
+# TEST
+$mech->follow_link_ok({text => "Login"},
+    "Was able to follow the login link."
+);
+
+# TEST
+$mech->login_with_pass('Foobarmv8n3@#%VaSDV@VA', "jack - wrong pass");
+
+
+# TEST
+$mech->h1_is(
+    "Wrong Login or Incorrect Password", 
+    "jack - could not login with incorrect password"
+);
+
+# TEST
+$mech->login_properly("jack - login properly.");
+
+# TEST
+$mech->user_logged_in("jack is logged in.");
+
+# TEST
+$mech->go_to_front();
+
+# TEST
+$mech->user_logged_in("jack is logged in in the front page.");
