@@ -144,6 +144,15 @@ sub logged_in_as
     );
 }
 
+sub user_logged_in
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my ($self, $blurb) = @_;
+
+    return $self->logged_in_as($self->_email(), $blurb);
+}
+
 sub h1_is
 {
     my $self = shift;
@@ -438,13 +447,13 @@ $mech->submit_form_ok(
 $mech->h1_is("Login successful", "Login was successful (<h1>)");
 
 # TEST
-$mech->logged_in_as($email, "Now status shows logged in.");
+$mech->user_logged_in("Now status shows logged in.");
 
 # TEST
 $mech->go_to_front();
 
 # TEST
-$mech->logged_in_as($email, "Status shows logged in in the front page.");
+$mech->user_logged_in("Status shows logged in in the front page.");
 
 # TEST
 $mech->follow_link_ok({text => "Logout",},
