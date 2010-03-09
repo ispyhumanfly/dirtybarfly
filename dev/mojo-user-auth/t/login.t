@@ -106,6 +106,17 @@ has '_active_user' =>
     },
 );
 
+sub go_to_front
+{
+    my ($self, $blurb) = @_;
+
+    $blurb ||= "Got the front page";
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    return $self->get_ok("/", $blurb);
+}
+
 sub not_logged_in
 {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
@@ -290,7 +301,7 @@ my $mech = MyTest::Mech->new(
 );
 
 # TEST
-$mech->get_ok("/", "Got the page ok.");
+$mech->go_to_front();
 
 # TEST
 is ($mech->status(), 200, "Status is 200 for Root");
@@ -361,7 +372,7 @@ $mech->not_logged_in("Status says not logged-in #2 .");
 # TODO : test that the user was registered properly.
 
 # TEST
-$mech->get_ok("/", "Got the front page again.");
+$mech->go_to_front();
 
 # TEST
 $mech->follow_link_ok({text => "Register a new account"}, 
@@ -381,7 +392,7 @@ $mech->h1_is(
 
 
 # TEST
-$mech->get_ok("/", "Got the front page.");
+$mech->go_to_front();
 
 # TEST
 $mech->follow_link_ok({text => "Login to an existing account"},
@@ -430,7 +441,7 @@ $mech->h1_is("Login successful", "Login was successful (<h1>)");
 $mech->logged_in_as($email, "Now status shows logged in.");
 
 # TEST
-$mech->get_ok("/", "Got the front page.");
+$mech->go_to_front();
 
 # TEST
 $mech->logged_in_as($email, "Status shows logged in in the front page.");
@@ -447,7 +458,7 @@ $mech->h1_is("You are now logged-out", "Logged-out h1");
 $mech->not_logged_in("Status says not logged in after logout.");
 
 # TEST
-$mech->get_ok("/", "Got the front page.");
+$mech->go_to_front();
 
 # TEST
 $mech->not_logged_in("Not logged in after visiting the front page.");
