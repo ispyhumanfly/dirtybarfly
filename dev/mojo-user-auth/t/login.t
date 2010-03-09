@@ -331,7 +331,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 49;
+use Test::More tests => 52;
 use Test::Mojo;
 
 use FindBin;
@@ -573,3 +573,18 @@ $mech->h1_is(
     "jack - could not login with Sophie's password"
 );
 
+$mech->select_user("sophie");
+
+# TEST
+$mech->login_properly("sophie #2 - login proprely");
+
+# TEST
+$mech->tree_matches_xpath(
+    q{//div[@id='status']//a[contains(text(), 'Account')]},
+    "sophie #2 - contains a link to the account.",
+);
+
+# TEST
+$mech->follow_link_ok({text => "Account"}, 
+    "sophie #2 - follow link to account."
+);

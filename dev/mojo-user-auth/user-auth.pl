@@ -107,6 +107,23 @@ sub logout
 
 get '/logout' => (\&logout) => "logout";
 
+
+sub account
+{
+    my $self = shift;
+
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->account_page();
+}
+
+get '/account' => (\&account) => "account";
+
 shagadelic;
 
 =head1 TODO
@@ -136,6 +153,10 @@ __DATA__
 <h1>Login form</h1>
 <%== $login_form %>
 
+@@ account.html.ep
+% layout 'funky';
+<h1>Account page for <%= $email %></h1>
+
 @@ layouts/funky.html.ep
 <!doctype html><html>
     <head>
@@ -147,6 +168,7 @@ __DATA__
     <ul>
 % if ($self->session->{'login'}) {
     <li><b>Logged in as <%= $self->session->{'login'} %></b></li>
+    <li><a href="<%= url_for('account') %>">Account</a></li>
     <li><a href="<%= url_for('logout') %>">Logout</a></li>
 % } else {
     <li><b>Not logged in.</b></li>

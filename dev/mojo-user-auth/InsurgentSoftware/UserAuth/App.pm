@@ -167,7 +167,16 @@ sub _find_user_by_email
 {
     my $self = shift;
 
-    my $stream = $self->_search({email => $self->_email});
+    my $stream;
+    
+    if (my $email = $self->_email())
+    {
+        $stream = $self->_search({email => $email});
+    }
+    else
+    {
+        return;
+    }
 
     FIND_EMAIL:
     while ( my $block = $stream->next )
@@ -327,6 +336,29 @@ sub _login_user
     );
 
     return;
+}
+
+sub account_page
+{
+    my $self = shift;
+
+    my $scope = $self->_new_scope;
+
+    if (my $user = $self->_find_user_by_email)
+    {
+        return $self->render(
+            template => "account",
+            layout => 'funky',
+            email => $self->_email(),
+        );
+    }
+    else
+    {
+        return $self->render_text(
+            "You are not logged in.",
+            layout => 'funky',
+        );
+    }
 }
 
 1;
