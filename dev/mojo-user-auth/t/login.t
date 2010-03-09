@@ -106,6 +106,14 @@ has '_active_user' =>
     },
 );
 
+sub get_user_pass
+{
+    my $self = shift;
+    my $uid = shift;
+
+    return $self->_get_user($uid)->password;
+}
+
 sub go_to_front
 {
     my ($self, $blurb) = @_;
@@ -169,7 +177,7 @@ sub h1_is
     return $self->has_tag("h1", $tag_text, @blurb);
 }
 
-sub select_user
+sub _get_user
 {
     my ($self, $uid) = @_;
 
@@ -178,7 +186,14 @@ sub select_user
         die "Could not find user '$uid'!";
     }
 
-    $self->_active_user($self->_users->{$uid});
+    return $self->_users->{$uid};
+}
+
+sub select_user
+{
+    my ($self, $uid) = @_;
+
+    $self->_active_user($self->_get_user($uid));
 
     return;
 }
@@ -316,7 +331,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 46;
+use Test::More tests => 49;
 use Test::Mojo;
 
 use FindBin;
@@ -522,7 +537,6 @@ $mech->follow_link_ok({text => "Login"},
 # TEST
 $mech->login_with_pass('Foobarmv8n3@#%VaSDV@VA', "jack - wrong pass");
 
-
 # TEST
 $mech->h1_is(
     "Wrong Login or Incorrect Password", 
@@ -543,4 +557,19 @@ $mech->user_logged_in("jack is logged in in the front page.");
 
 # TEST*$logout_count
 $mech->logout_with_checks("jack #1");
+
+# TEST
+$mech->follow_link_ok({text => "Login"},
+    "Was able to follow the login link."
+);
+
+# TEST
+$mech->login_with_pass($mech->get_user_pass('sophie'), 
+    "jack - login using Sophie's password");
+
+# TEST
+$mech->h1_is(
+    "Wrong Login or Incorrect Password", 
+    "jack - could not login with Sophie's password"
+);
 
