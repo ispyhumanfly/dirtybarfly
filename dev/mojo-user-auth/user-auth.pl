@@ -124,6 +124,18 @@ sub account
 
 get '/account' => (\&account) => "account";
 
+sub account_change_user_info
+{
+    my $self = shift;
+
+    return $self->render_text(
+        "foo",
+    );
+}
+
+get '/account/change-info' => (\&account_change_user_info)
+=> "change_user_info";
+
 shagadelic;
 
 =head1 TODO
@@ -163,6 +175,10 @@ __DATA__
 @@ account.html.ep
 % layout 'funky';
 <h1>Account page for <%= $email %></h1>
+
+<h2 id="change_info">Change User Information</h2>
+
+<%== $change_user_info_form %>
 
 @@ layouts/funky.html.ep
 <!doctype html><html>

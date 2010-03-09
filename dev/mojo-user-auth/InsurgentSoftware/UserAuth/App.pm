@@ -163,6 +163,40 @@ sub login_form
 EOF
 }
 
+sub change_user_info_form
+{
+    my $self = shift;
+    my $args = shift;
+
+    my $fullname = CGI::escapeHTML($args->{'fullname'} || "");
+    my $bio = CGI::escapeHTML($args->{'bio'} || "");
+    my $action = CGI::escapeHTML($self->_mojo->url_for("change_user_info"));
+
+    return <<"EOF";
+<form id="change_user_info_form" action="$action" method="post">
+<table>
+
+<tr>
+<td>Full name:</td>
+<td><input name="fullname" value="$fullname" /></td>
+</tr>
+
+<tr>
+<td>Bio:</td>
+<td><textarea name="bio">$bio</textarea></td>
+</tr>
+
+<tr>
+<td colspan="2">
+<input type="submit" value="Submit" />
+</td>
+</tr>
+
+</table>
+</form>
+EOF
+}
+
 sub _find_user_by_param
 {
     my $self = shift;
@@ -368,6 +402,7 @@ sub account_page
             template => "account",
             layout => 'funky',
             email => $self->_login(),
+            change_user_info_form => $self->change_user_info_form(),
         );
     }
     else
