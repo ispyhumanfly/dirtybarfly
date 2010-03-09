@@ -86,6 +86,27 @@ sub render_failed_login
     return;
 }
 
+sub _form_wrap
+{
+    my ($self, $args, $rest) = @_;
+
+    my $action = CGI::escapeHTML($self->_mojo->url_for($args->{'to'}));
+    my $id = $args->{'id'};
+
+    return <<"EOF";
+<form id="$id" action="$action" method="post">
+<table>
+$rest
+<tr>
+<td colspan="2">
+<input type="submit" value="Submit" />
+</td>
+</tr>
+</table>
+</form>
+EOF
+}
+
 sub register_form
 {
     my $self = shift;
@@ -93,12 +114,9 @@ sub register_form
 
     my $email = CGI::escapeHTML($args->{'email'} || "");
     my $fullname = CGI::escapeHTML($args->{'fullname'} || "");
-    my $action = CGI::escapeHTML($self->_mojo->url_for("register_submit"));
 
-    return <<"EOF";
-<form id="register" action="$action" method="post">
-<table>
-
+    return $self->_form_wrap({id => "register", to => "register_submit"}, 
+        <<"EOF");
 <tr>
 <td>Email:</td>
 <td><input name="email" value="$email" /></td>
@@ -119,14 +137,6 @@ sub register_form
 <td><input name="fullname" value="$fullname" /></td>
 </tr>
 
-<tr>
-<td colspan="2">
-<input type="submit" value="Submit" />
-</td>
-</tr>
-
-</table>
-</form>
 EOF
 }
 
@@ -138,10 +148,7 @@ sub login_form
     my $email = CGI::escapeHTML($args->{'email'} || "");
     my $action = CGI::escapeHTML($self->_mojo->url_for("login_submit"));
 
-    return <<"EOF";
-<form id="login" action="$action" method="post">
-<table>
-
+    return $self->_form_wrap({id => "login", to => "login_submit"}, <<"EOF");
 <tr>
 <td>Email:</td>
 <td><input name="email" value="$email" /></td>
@@ -151,15 +158,6 @@ sub login_form
 <td>Password:</td>
 <td><input name="password" type="password" /></td>
 </tr>
-
-<tr>
-<td colspan="2">
-<input type="submit" value="Submit" />
-</td>
-</tr>
-
-</table>
-</form>
 EOF
 }
 
@@ -172,10 +170,8 @@ sub change_user_info_form
     my $bio = CGI::escapeHTML($args->{'bio'} || "");
     my $action = CGI::escapeHTML($self->_mojo->url_for("change_user_info"));
 
-    return <<"EOF";
-<form id="change_user_info_form" action="$action" method="post">
-<table>
-
+    return $self->_form_wrap({id => "change_user_info_form", 
+        to => "change_user_info"}, <<"EOF");
 <tr>
 <td>Full name:</td>
 <td><input name="fullname" value="$fullname" /></td>
@@ -185,15 +181,6 @@ sub change_user_info_form
 <td>Bio:</td>
 <td><textarea name="bio">$bio</textarea></td>
 </tr>
-
-<tr>
-<td colspan="2">
-<input type="submit" value="Submit" />
-</td>
-</tr>
-
-</table>
-</form>
 EOF
 }
 
