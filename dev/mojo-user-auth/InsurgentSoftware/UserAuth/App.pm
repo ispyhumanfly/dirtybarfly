@@ -146,7 +146,6 @@ sub login_form
     my $args = shift;
 
     my $email = CGI::escapeHTML($args->{'email'} || "");
-    my $action = CGI::escapeHTML($self->_mojo->url_for("login_submit"));
 
     return $self->_form_wrap({id => "login", to => "login_submit"}, <<"EOF");
 <tr>
@@ -168,7 +167,6 @@ sub change_user_info_form
 
     my $fullname = CGI::escapeHTML($args->{'fullname'} || "");
     my $bio = CGI::escapeHTML($args->{'bio'} || "");
-    my $action = CGI::escapeHTML($self->_mojo->url_for("change_user_info"));
 
     return $self->_form_wrap({id => "change_user_info_form", 
         to => "change_user_info"}, <<"EOF");
