@@ -85,6 +85,18 @@ has fields => (
     isa => "ArrayRef[InsurgentSoftware::UserAuth::FormSpec::Field]",
 );
 
+has _id => (
+    is => "ro",
+    isa => "Str",
+    init_arg => "id",
+);
+
+has _action => (
+    is => "ro",
+    isa => "Str",
+    init_arg => "to",
+);
+
 sub render_fields
 {
     my ($self,$values) = @_;
@@ -96,5 +108,27 @@ sub render_fields
         );
 }
 
+sub render_form
+{
+    my ($self, $mojo, $values) = @_;
+
+    my $action = CGI::escapeHTML($mojo->url_for($self->_action()));
+    my $id = $self->_id();
+
+    my $inner = $self->render_fields($values);
+
+    return <<"EOF";
+<form id="$id" action="$action" method="post">
+<table>
+$inner
+<tr>
+<td colspan="2">
+<input type="submit" value="Submit" />
+</td>
+</tr>
+</table>
+</form>
+EOF
+}
 
 1;

@@ -45,7 +45,9 @@ sub BUILD
 
     $self->_forms->{"register"} = InsurgentSoftware::UserAuth::FormSpec->new(
         {
-            fields => 
+            id => "register",
+            to => "register_submit",
+            fields =>
             [
                 InsurgentSoftware::UserAuth::FormSpec::Field->new(
                     { type => "input", id => "email", label => "Email:",},
@@ -71,6 +73,8 @@ sub BUILD
 
     $self->_forms->{"login"} = InsurgentSoftware::UserAuth::FormSpec->new(
         {
+            id => "login",
+            to => "login_submit",
             fields => 
             [
                 InsurgentSoftware::UserAuth::FormSpec::Field->new(
@@ -87,7 +91,9 @@ sub BUILD
 
     $self->_forms->{"change_user_info"} = 
         InsurgentSoftware::UserAuth::FormSpec->new(
-        {
+        { 
+            id => "change_user_info_form", 
+            to => "change_user_info", 
             fields => 
             [
                 InsurgentSoftware::UserAuth::FormSpec::Field->new(
@@ -162,32 +168,11 @@ sub render_failed_login
     return;
 }
 
-sub _form_wrap
-{
-    my ($self, $args, $rest) = @_;
-
-    my $action = CGI::escapeHTML($self->_mojo->url_for($args->{'to'}));
-    my $id = $args->{'id'};
-
-    return <<"EOF";
-<form id="$id" action="$action" method="post">
-<table>
-$rest
-<tr>
-<td colspan="2">
-<input type="submit" value="Submit" />
-</td>
-</tr>
-</table>
-</form>
-EOF
-}
-
-sub _gen_form_fields
+sub _render_form
 {
     my ($self, $form_id, $values) = @_;
 
-    return $self->_forms->{$form_id}->render_fields($values);
+    return $self->_forms->{$form_id}->render_form($self->_mojo(), $values);
 }
 
 sub register_form
@@ -195,10 +180,7 @@ sub register_form
     my $self = shift;
     my $values = shift;
 
-    return $self->_form_wrap(
-        { id => "register", to => "register_submit", }, 
-        $self->_gen_form_fields("register", $values)
-    );
+    return $self->_render_form("register", $values)
 }
 
 sub login_form
@@ -206,10 +188,7 @@ sub login_form
     my $self = shift;
     my $values = shift;
 
-    return $self->_form_wrap(
-        { id => "login", to => "login_submit", },
-        $self->_gen_form_fields("login", $values)
-    );
+    return $self->_render_form("login", $values);
 }
 
 sub change_user_info_form
@@ -217,10 +196,7 @@ sub change_user_info_form
     my $self = shift;
     my $values = shift;
 
-    return $self->_form_wrap(
-        { id => "change_user_info_form", to => "change_user_info", }, 
-        $self->_gen_form_fields("change_user_info", $values)
-    );
+    return $self->_render_form("change_user_info", $values);
 }
 
 sub _find_user_by_param
