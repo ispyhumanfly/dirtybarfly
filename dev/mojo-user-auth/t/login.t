@@ -332,7 +332,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 60;
+use Test::More tests => 61;
 use Test::Mojo;
 
 use FindBin;
@@ -638,5 +638,11 @@ $mech->follow_link_ok({text => "Return to your account"},
 $mech->tree_matches_xpath(
     q{//form[@id='change_user_info']//input[@name='fullname' and @value='Sophie Clarissa Levi']},
     "sophie #2 - fullname input contains the new name",
+);
+
+# TEST
+$mech->tree_matches_xpath(
+    q{//form[@id='change_user_info']//textarea[@name='bio' and contains(text(), 'My name is Sophie, and I like cats')]},
+    "sophie #2 - bio textarea contains the new bio",
 );
 

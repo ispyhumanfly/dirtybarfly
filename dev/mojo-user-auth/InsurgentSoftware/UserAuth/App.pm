@@ -420,7 +420,10 @@ sub account_page
             layout => 'funky',
             email => $self->_login(),
             change_user_info_form => $self->change_user_info_form(
-                { fullname => $user->fullname(), },
+                { 
+                    fullname => $user->fullname(), 
+                    bio => $user->extra_data->bio(),
+                },
             ),
         );
     }
@@ -442,6 +445,7 @@ sub change_user_info_submit
     if (my $user = $self->_find_user_by_login)
     {
         $user->fullname($self->param('fullname'));
+        $user->extra_data->bio($self->param('bio'));
         $self->_store($user);
 
         return $self->render_text(
