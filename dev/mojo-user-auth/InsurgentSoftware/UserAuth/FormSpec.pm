@@ -85,4 +85,16 @@ has fields => (
     isa => "ArrayRef[InsurgentSoftware::UserAuth::FormSpec::Field]",
 );
 
+sub render_fields
+{
+    my ($self,$values) = @_;
+
+    return
+        join("",
+            map { $_->render({ value => $values->{$_->id()}}) }
+            @{$self->fields()}
+        );
+}
+
+
 1;

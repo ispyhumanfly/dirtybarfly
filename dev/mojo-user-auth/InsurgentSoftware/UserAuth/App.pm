@@ -187,13 +187,7 @@ sub _gen_form_fields
 {
     my ($self, $form_id, $values) = @_;
 
-    my $form_spec = $self->_forms->{$form_id};
-
-    return 
-        join("",
-            map { $_->render({ value => $values->{$_->id()}}) }
-            @{$form_spec->fields()}
-        );
+    return $self->_forms->{$form_id}->render_fields($values);
 }
 
 sub register_form
