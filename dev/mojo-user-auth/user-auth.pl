@@ -24,7 +24,7 @@ my $dir = KiokuDB->connect(
         email =>
         {
             data_type => "varchar",
-            is_nullable => 0,
+            is_nullable => 1,
         },
     ],
 );
