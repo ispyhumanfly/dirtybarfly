@@ -332,7 +332,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 53;
+use Test::More tests => 56;
 use Test::Mojo;
 
 use FindBin;
@@ -402,6 +402,18 @@ $mech->follow_link_ok({text => "Register a new account"},
 
 # TEST
 $mech->h1_is("Register an account", "Has an appropriate <h1> tag.");
+
+# TEST
+$mech->tree_matches_xpath(
+    q{//form[@id='register']//input[@name='email']},
+    "There is an email input.",
+);
+
+# TEST
+$mech->tree_matches_xpath(
+    q{//form[@id='register']//input[@name='password' and @type='password']},
+    "There is a password input.",
+);
 
 my $email = 'sophie@myhome.tld';
 my $password = "Sophie-Iz-De-Ossum";
@@ -595,3 +607,12 @@ $mech->h1_is(
     "Account page for " . $mech->email(),
     "sophie #2 - Account page",
 );
+
+# TEST
+{
+    local $TODO = 1;
+$mech->tree_matches_xpath(
+    q{//form[@id='change_user_info']//input[@name='fullname' and @value='Sophie Esmeralda Johnson']},
+    "sophie #2 - fullname input contains the name",
+);
+}
