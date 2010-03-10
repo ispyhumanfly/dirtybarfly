@@ -128,12 +128,18 @@ sub account_change_user_info_submit
 {
     my $self = shift;
 
-    return $self->render_text(
-        "foo",
+    
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
     );
+
+    return $app->change_user_info_submit();
 }
 
-get '/account/change-info' => (\&account_change_user_info_submit)
+post '/account/change-info' => (\&account_change_user_info_submit)
 => "change_user_info_submit";
 
 shagadelic;

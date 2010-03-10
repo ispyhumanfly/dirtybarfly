@@ -432,4 +432,33 @@ sub account_page
     }
 }
 
+sub change_user_info_submit
+{
+    my $self = shift;
+
+    my $scope = $self->_new_scope;
+
+    if (my $user = $self->_find_user_by_login)
+    {
+        $user->fullname($self->param('fullname'));
+        $self->_dir->store($user);
+
+        return $self->render_text(
+            (
+              "<h1>Updated Your User Data</h1>\n"
+            . "<p>Your user-data was updated.</p>\n"
+            . qq{<p><a href="} . $self->_mojo->url_for("account") . qq{">Return to your account</a></p>\n}
+            ),
+            layout => 'funky',
+        );
+    }
+    else
+    {
+        return $self->render_text(
+            "You are not logged in.",
+            layout => 'funky',
+        );
+    }
+}
+
 1;
