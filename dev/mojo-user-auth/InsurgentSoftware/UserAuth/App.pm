@@ -30,6 +30,7 @@ has _dir => (
     {
         _new_scope => "new_scope",
         _search => "search",
+        _store => "store",
     }
 );
 
@@ -328,7 +329,7 @@ sub _register_new_user
         }
     );
 
-    $self->_dir->store($new_user);
+    $self->_store($new_user);
 
     $self->render_text("You registered the E-mail - " .
         CGI::escapeHTML($self->_email),
@@ -441,7 +442,7 @@ sub change_user_info_submit
     if (my $user = $self->_find_user_by_login)
     {
         $user->fullname($self->param('fullname'));
-        $self->_dir->store($user);
+        $self->_store($user);
 
         return $self->render_text(
             (
