@@ -3,6 +3,7 @@ package InsurgentSoftware::UserAuth::App;
 use Moose;
 
 use InsurgentSoftware::UserAuth::User;
+use InsurgentSoftware::UserAuth::FormSpec;
 
 use KiokuDB;
 
@@ -31,6 +32,81 @@ has _dir => (
         _search => "search",
     }
 );
+
+has _forms => (
+    isa => "HashRef[InsurgentSoftware::UserAuth::FormSpec]",
+    is => "rw",
+    default => sub { return +{} },
+);
+
+sub BUILD
+{
+    my $self = shift;
+
+    $self->_forms->{"register"} = InsurgentSoftware::UserAuth::FormSpec->new(
+        {
+            fields => 
+            [
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "input", id => "email", label => "Email:",},
+                ),
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "password", id => "password", 
+                        label => "Password:",
+                    },
+                ),
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "password", id => "password2", 
+                        label => "Password (confirmation):", 
+                    },
+                ),
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "input", id => "fullname", 
+                        label => "Full name (optional):",
+                    },
+                ),
+            ],
+        },
+    );
+
+    $self->_forms->{"login"} = InsurgentSoftware::UserAuth::FormSpec->new(
+        {
+            fields => 
+            [
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "input", id => "email", label => "Email:",},
+                ),
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "password", id => "password", 
+                        label => "Password:",
+                    },
+                ),
+            ],
+        },
+    );
+
+    $self->_forms->{"change_user_info"} = 
+        InsurgentSoftware::UserAuth::FormSpec->new(
+        {
+            fields => 
+            [
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "input", id => "fullname", 
+                        label => "Full name:",
+                    },
+                ),
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "textarea", id => "bio", 
+                        label => "Bio:",
+                    },
+                ),
+            ],
+        },
+    );
+
+    return;
+}
+
 
 sub _password
 {
@@ -107,37 +183,26 @@ $rest
 EOF
 }
 
+sub _gen_form_fields
+{
+    my ($self, $form_id, $values) = @_;
+
+    my $form_spec = $self->_forms->{$form_id};
+
+    return 
+        join("",
+            map { $_->render({ value => $values->{$_->id()}}) }
+            @{$form_spec->fields()}
+        );
+}
+
 sub register_form
 {
     my $self = shift;
-    my $args = shift;
-
-    my $email = CGI::escapeHTML($args->{'email'} || "");
-    my $fullname = CGI::escapeHTML($args->{'fullname'} || "");
+    my $values = shift;
 
     return $self->_form_wrap({id => "register", to => "register_submit"}, 
-        <<"EOF");
-<tr>
-<td>Email:</td>
-<td><input name="email" value="$email" /></td>
-</tr>
-
-<tr>
-<td>Password:</td>
-<td><input name="password" type="password" /></td>
-</tr>
-
-<tr>
-<td>Password (confirmation):</td>
-<td><input name="password2" type="password" /></td>
-</tr>
-
-<tr>
-<td>Full name (optional):</td>
-<td><input name="fullname" value="$fullname" /></td>
-</tr>
-
-EOF
+        $self->_gen_form_fields("register", $values));
 }
 
 sub login_form
