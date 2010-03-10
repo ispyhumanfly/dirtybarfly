@@ -332,7 +332,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 56;
+use Test::More tests => 57;
 use Test::Mojo;
 
 use FindBin;
@@ -601,6 +601,9 @@ $mech->tree_matches_xpath(
 $mech->follow_link_ok({text => "Account"}, 
     "sophie #2 - follow link to account."
 );
+
+# TEST
+$mech->html_lint_ok ("Account page is valid.");
 
 # TEST
 $mech->h1_is(

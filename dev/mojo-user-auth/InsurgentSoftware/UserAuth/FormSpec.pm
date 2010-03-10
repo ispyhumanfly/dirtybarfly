@@ -52,7 +52,7 @@ sub _render_textarea
     my ($self,$args) = @_;
 
     return q{<textarea name="} . $self->id(). 
-        q{>} . $self->_get_value($args). q{</textarea>}
+        q{">} . $self->_get_value($args). q{</textarea>}
         ;
 }
 
