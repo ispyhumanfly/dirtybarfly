@@ -609,10 +609,7 @@ $mech->h1_is(
 );
 
 # TEST
-{
-    local $TODO = 1;
 $mech->tree_matches_xpath(
     q{//form[@id='change_user_info']//input[@name='fullname' and @value='Sophie Esmeralda Johnson']},
     "sophie #2 - fullname input contains the name",
 );
-}

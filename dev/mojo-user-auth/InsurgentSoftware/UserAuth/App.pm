@@ -418,7 +418,9 @@ sub account_page
             template => "account",
             layout => 'funky',
             email => $self->_login(),
-            change_user_info_form => $self->change_user_info_form(),
+            change_user_info_form => $self->change_user_info_form(
+                { fullname => $user->fullname(), },
+            ),
         );
     }
     else
