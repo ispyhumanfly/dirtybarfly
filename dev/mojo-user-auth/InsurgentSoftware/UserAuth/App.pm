@@ -39,31 +39,49 @@ has _forms => (
     default => sub { return +{} },
 );
 
+sub _add_form
+{
+    my ($self, $args) = @_;
+
+    my $id = $args->{'id'};
+    my $fields = $args->{'fields'};
+
+    $self->_forms->{$id} =
+        InsurgentSoftware::UserAuth::FormSpec->new(
+            {
+                id => $id,
+                to => $id . "_submit",
+                fields => $fields,
+            },
+        );
+
+    return;
+}
+
 sub BUILD
 {
     my $self = shift;
 
-    $self->_forms->{"register"} = InsurgentSoftware::UserAuth::FormSpec->new(
+    $self->_add_form(
         {
             id => "register",
-            to => "register_submit",
             fields =>
             [
                 InsurgentSoftware::UserAuth::FormSpec::Field->new(
                     { type => "input", id => "email", label => "Email:",},
                 ),
                 InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "password", id => "password", 
+                    { type => "password", id => "password",
                         label => "Password:",
                     },
                 ),
                 InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "password", id => "password2", 
-                        label => "Password (confirmation):", 
+                    { type => "password", id => "password2",
+                        label => "Password (confirmation):",
                     },
                 ),
                 InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "input", id => "fullname", 
+                    { type => "input", id => "fullname",
                         label => "Full name (optional):",
                     },
                 ),
@@ -71,17 +89,16 @@ sub BUILD
         },
     );
 
-    $self->_forms->{"login"} = InsurgentSoftware::UserAuth::FormSpec->new(
+    $self->_add_form(
         {
             id => "login",
-            to => "login_submit",
-            fields => 
+            fields =>
             [
                 InsurgentSoftware::UserAuth::FormSpec::Field->new(
                     { type => "input", id => "email", label => "Email:",},
                 ),
                 InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "password", id => "password", 
+                    { type => "password", id => "password",
                         label => "Password:",
                     },
                 ),
@@ -89,20 +106,18 @@ sub BUILD
         },
     );
 
-    $self->_forms->{"change_user_info"} = 
-        InsurgentSoftware::UserAuth::FormSpec->new(
-        { 
-            id => "change_user_info", 
-            to => "change_user_info_submit", 
-            fields => 
+    $self->_add_form(
+        {
+            id => "change_user_info",
+            fields =>
             [
                 InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "input", id => "fullname", 
+                    { type => "input", id => "fullname",
                         label => "Full name:",
                     },
                 ),
                 InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "textarea", id => "bio", 
+                    { type => "textarea", id => "bio",
                         label => "Bio:",
                     },
                 ),
@@ -112,7 +127,6 @@ sub BUILD
 
     return;
 }
-
 
 sub _password
 {
