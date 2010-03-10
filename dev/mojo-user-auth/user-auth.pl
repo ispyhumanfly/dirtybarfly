@@ -124,7 +124,7 @@ sub account
 
 get '/account' => (\&account) => "account";
 
-sub account_change_user_info
+sub account_change_user_info_submit
 {
     my $self = shift;
 
@@ -133,8 +133,8 @@ sub account_change_user_info
     );
 }
 
-get '/account/change-info' => (\&account_change_user_info)
-=> "change_user_info";
+get '/account/change-info' => (\&account_change_user_info_submit)
+=> "change_user_info_submit";
 
 shagadelic;
 

@@ -92,8 +92,8 @@ sub BUILD
     $self->_forms->{"change_user_info"} = 
         InsurgentSoftware::UserAuth::FormSpec->new(
         { 
-            id => "change_user_info_form", 
-            to => "change_user_info", 
+            id => "change_user_info", 
+            to => "change_user_info_submit", 
             fields => 
             [
                 InsurgentSoftware::UserAuth::FormSpec::Field->new(
