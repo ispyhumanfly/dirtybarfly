@@ -201,50 +201,32 @@ sub register_form
     my $self = shift;
     my $values = shift;
 
-    return $self->_form_wrap({id => "register", to => "register_submit"}, 
-        $self->_gen_form_fields("register", $values));
+    return $self->_form_wrap(
+        { id => "register", to => "register_submit", }, 
+        $self->_gen_form_fields("register", $values)
+    );
 }
 
 sub login_form
 {
     my $self = shift;
-    my $args = shift;
+    my $values = shift;
 
-    my $email = CGI::escapeHTML($args->{'email'} || "");
-
-    return $self->_form_wrap({id => "login", to => "login_submit"}, <<"EOF");
-<tr>
-<td>Email:</td>
-<td><input name="email" value="$email" /></td>
-</tr>
-
-<tr>
-<td>Password:</td>
-<td><input name="password" type="password" /></td>
-</tr>
-EOF
+    return $self->_form_wrap(
+        { id => "login", to => "login_submit", },
+        $self->_gen_form_fields("login", $values)
+    );
 }
 
 sub change_user_info_form
 {
     my $self = shift;
-    my $args = shift;
+    my $values = shift;
 
-    my $fullname = CGI::escapeHTML($args->{'fullname'} || "");
-    my $bio = CGI::escapeHTML($args->{'bio'} || "");
-
-    return $self->_form_wrap({id => "change_user_info_form", 
-        to => "change_user_info"}, <<"EOF");
-<tr>
-<td>Full name:</td>
-<td><input name="fullname" value="$fullname" /></td>
-</tr>
-
-<tr>
-<td>Bio:</td>
-<td><textarea name="bio">$bio</textarea></td>
-</tr>
-EOF
+    return $self->_form_wrap(
+        { id => "change_user_info_form", to => "change_user_info", }, 
+        $self->_gen_form_fields("change_user_info", $values)
+    );
 }
 
 sub _find_user_by_param
