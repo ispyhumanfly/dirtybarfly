@@ -199,9 +199,9 @@ sub select_user
     return;
 }
 
-sub _register_with_passwords
+sub register_generic
 {
-    my ($self, $p1, $p2, $blurb) = @_;
+    my ($self, $fields, $blurb) = @_;
 
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
@@ -210,11 +210,28 @@ sub _register_with_passwords
             form_id => "register",
             fields =>
             {
-                email => $self->_email(),
-                password => $p1,
-                password2 => $p2,
-                fullname => $self->_fullname(),
+                email => $fields->{email},
+                password => $fields->{password},
+                password2 => $fields->{password2},
+                fullname => $fields->{fullname},
             },
+        },
+        $blurb,
+    );
+}
+
+sub _register_with_passwords
+{
+    my ($self, $p1, $p2, $blurb) = @_;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    return $self->register_generic(
+        {
+            email => $self->_email(),
+            password => $p1,
+            password2 => $p2,
+            fullname => $self->_fullname(),
         },
         $blurb,
     );
@@ -337,7 +354,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 65;
+use Test::More tests => 72;
 use Test::Mojo;
 
 use FindBin;
@@ -657,5 +674,30 @@ $mech->tree_matches_xpath(
 $mech->tree_matches_xpath(
     q{//form[@id='change_user_info']//textarea[@name='bio' and contains(text(), 'My name is Sophie, and I like cats')]},
     "sophie #2 - bio textarea contains the new bio",
+);
+
+# TEST*$logout_count
+$mech->logout_with_checks("sophie #2");
+
+# TEST
+$mech->follow_link_ok({text => "Register"},
+    "Followed the link to the registration."
+);
+
+# TEST
+$mech->register_generic(
+    {
+        email => 'shlomif@' . ("iglu." x 1000) . ".org.il",
+        password => "FooBarBazZadoom",
+        password2 => "FooBarBazZadoom",
+        fullname => "Shlomi Fish",
+    },
+    "Register with too long email.",
+);
+
+# TEST
+$mech->h1_is(
+    "Registration failed - E-mail is too long",
+    "Registration failed - E-mail is too long."
 );
 

@@ -309,6 +309,21 @@ sub register_submit
         );
     }
 
+    my $email = $self->_email;
+
+    if (length($email) > 255)
+    {
+        return $self->render_failed_reg(
+            "Registration failed - E-mail is too long",
+            <<"EOF",
+<p>
+The E-mail is too long. It must not be over 255 characters.
+</p>
+EOF
+            );
+
+    }
+
     if ($self->_pass_is_too_short())
     {
         return $self->render_failed_reg(
@@ -321,7 +336,6 @@ EOF
         );
     }
 
-    my $email = $self->_email;
 
     if ($self->_find_user_by_param)
     {
