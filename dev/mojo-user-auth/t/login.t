@@ -354,7 +354,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 72;
+use Test::More tests => 74;
 use Test::Mojo;
 
 use FindBin;
@@ -699,5 +699,22 @@ $mech->register_generic(
 $mech->h1_is(
     "Registration failed - E-mail is too long",
     "Registration failed - E-mail is too long."
+);
+
+# TEST
+$mech->register_generic(
+    {
+        email => 'shlomif@iglu.org.il',
+        password => ("FooBarBazZadoom" x 500),
+        password2 => ("FooBarBazZadoom" x 500),
+        fullname => "Shlomi Fish",
+    },
+    "Register with too long email.",
+);
+
+# TEST
+$mech->h1_is(
+    "Registration failed - password is too long",
+    "Registration failed - Password is too long."
 );
 

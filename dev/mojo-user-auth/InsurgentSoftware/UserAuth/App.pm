@@ -289,6 +289,13 @@ sub _pass_is_too_short
     return _too_short($self->_password);
 }
 
+sub _pass_is_too_long
+{
+    my $self = shift;
+
+    return length($self->_password) > 255;
+}
+
 sub _passwords_dont_match
 {
     my $self = shift;
@@ -331,6 +338,19 @@ EOF
              <<"EOF",
 <p>
 The password must contain at least 6 alphanumeric (A-Z, a-z, 0-9) characters.
+</p>
+EOF
+        );
+    }
+
+    
+    if ($self->_pass_is_too_long())
+    {
+        return $self->render_failed_reg(
+             "Registration failed - password is too long",
+             <<"EOF",
+<p>
+The password cannot exceed 255 characters.
 </p>
 EOF
         );
