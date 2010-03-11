@@ -149,8 +149,6 @@ shagadelic;
 * Make sure that there are limits to the properties of a user (maximal length
 of E-mail, password, etc.).
 
-* Make sure the front page adapts itself to the users.
-
 * Each page should have a more meaningful (and brief) <title> element.
 
 =cut
@@ -162,8 +160,12 @@ __DATA__
 <h1>Insurgent Software's User Management Application</h1>
 
 <ul>
+% if ($self->session->{'login'}) {
+<li><a href="<%= url_for('account') %>">Go to Your Account</a></li>
+% } else {
 <li><a href="<%= url_for('login') %>">Login to an existing account</a></li>
 <li><a href="<%= url_for('register') %>">Register a new account</a></li>
+% }
 </ul>
 
 @@ register.html.ep

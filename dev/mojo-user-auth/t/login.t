@@ -332,7 +332,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 61;
+use Test::More tests => 62;
 use Test::Mojo;
 
 use FindBin;
@@ -516,6 +516,11 @@ $mech->user_logged_in("Now status shows logged in.");
 
 # TEST
 $mech->go_to_front();
+
+# TEST
+$mech->content_unlike(qr{Login|Register}i,
+    "No links to login or register when logged-in."
+);
 
 # TEST
 $mech->user_logged_in("Status shows logged in in the front page.");
