@@ -318,17 +318,32 @@ sub register_submit
 
     my $email = $self->_email;
 
-    if (length($email) > 255)
+    foreach my $field_spec
+    (
+        {
+            id => "email", 
+            h => "Registration failed - E-mail is too long",
+            body => "The E-mail is too long. It must not be over 255 characters.",
+        },
+        { 
+            id => "password",
+            h => "Registration failed - password is too long",
+            body => "The password cannot exceed 255 characters.",
+        },
+        { 
+            id => "fullname",
+            h => "Registration failed - the full name is too long",
+            body => "The full name cannot exceed 255 characters.",
+        },
+    )
     {
-        return $self->render_failed_reg(
-            "Registration failed - E-mail is too long",
-            <<"EOF",
-<p>
-The E-mail is too long. It must not be over 255 characters.
-</p>
-EOF
+        if (length ($self->param($field_spec->{id})) > 255)
+        {
+            return $self->render_failed_reg(
+                $field_spec->{h},
+                "<p>\n".$field_spec->{body}."\n</p>\n",
             );
-
+        }
     }
 
     if ($self->_pass_is_too_short())
@@ -341,32 +356,7 @@ The password must contain at least 6 alphanumeric (A-Z, a-z, 0-9) characters.
 </p>
 EOF
         );
-    }
-
-    
-    if ($self->_pass_is_too_long())
-    {
-        return $self->render_failed_reg(
-             "Registration failed - password is too long",
-             <<"EOF",
-<p>
-The password cannot exceed 255 characters.
-</p>
-EOF
-        );
-    }
-
-    if (length($self->param("fullname")) > 255)
-    {
-        return $self->render_failed_reg(
-             "Registration failed - the full name is too long",
-             <<"EOF",
-<p>
-The full name cannot exceed 255 characters.
-</p>
-EOF
-        );
-        
+       
     }
 
     if ($self->_find_user_by_param)
