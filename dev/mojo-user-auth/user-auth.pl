@@ -30,7 +30,15 @@ my $dir = KiokuDB->connect(
 );
 
 
-get '/' => 'index';
+get '/' => sub {
+    my $self = shift;
+
+    return $self->render(
+        template => "index",
+        layout => 'funky',
+        title => "Main",
+    );
+} => "index";
 
 get '/register/' => sub {
     my $self = shift;
@@ -100,6 +108,7 @@ sub logout
     $self->render_text(
         "<h1>You are now logged-out</h1>\n",
         layout => 'funky',
+        title => "Wrong",
     );
 
     return;
@@ -189,7 +198,7 @@ __DATA__
 @@ layouts/funky.html.ep
 <!doctype html><html>
     <head>
-    <title>Insurgent Software's User Management Application</title>
+    <title><%= $title %> - Insurgent-Auth</title>
     <link rel="stylesheet" href="/style.css" type="text/css" media="screen, projection" title="Normal" />
     </head>
     <body>

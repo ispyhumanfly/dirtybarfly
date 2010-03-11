@@ -332,7 +332,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 62;
+use Test::More tests => 63;
 use Test::Mojo;
 
 use FindBin;
@@ -388,6 +388,9 @@ is ($mech->status(), 200, "Status is 200 for Root");
 
 # TEST
 $mech->not_logged_in("Status says not logged in.");
+
+# TEST
+$mech->title_is("Main - Insurgent-Auth", "Title for main page is OK.");
 
 # TEST
 $t->content_like(qr{

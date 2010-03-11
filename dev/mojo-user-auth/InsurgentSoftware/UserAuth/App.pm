@@ -158,6 +158,7 @@ sub render_failed_reg
             )
         ),
         layout => 'funky',
+        title => "Wrong",
     );
 
     return;
@@ -178,6 +179,7 @@ sub render_failed_login
             )
         ),
         layout => 'funky',
+        title => "Wrong",
     );
 
     return;
@@ -334,6 +336,7 @@ sub _register_new_user
     $self->render_text("You registered the E-mail - " .
         CGI::escapeHTML($self->_email),
         layout => 'funky',
+        title => "Wrong",
     );
 
     return;
@@ -347,6 +350,7 @@ sub register
         template => "register",
         layout => 'funky',
         register_form => $self->register_form({}),
+        title => "Wrong",
     );
 }
 
@@ -358,6 +362,7 @@ sub login
         template => "login",
         layout => 'funky',
         login_form => $self->login_form({}),
+        title => "Wrong",
     );
 }
 
@@ -402,6 +407,7 @@ sub _login_user
         . CGI::escapeHTML($self->_email) 
         . "</p>\n",
         layout => 'funky',
+        title => "Wrong",
     );
 
     return;
@@ -417,6 +423,7 @@ sub account_page
     {
         return $self->render(
             template => "account",
+            title => "Wrong",
             layout => 'funky',
             email => $self->_login(),
             change_user_info_form => $self->change_user_info_form(
@@ -432,6 +439,7 @@ sub account_page
         return $self->render_text(
             "You are not logged in.",
             layout => 'funky',
+            title => "Wrong",
         );
     }
 }
@@ -455,6 +463,7 @@ sub change_user_info_submit
             . qq{<p><a href="} . $self->_mojo->url_for("account") . qq{">Return to your account</a></p>\n}
             ),
             layout => 'funky',
+            title => "Wrong",
         );
     }
     else
@@ -462,6 +471,7 @@ sub change_user_info_submit
         return $self->render_text(
             "You are not logged in.",
             layout => 'funky',
+            title => "Wrong",
         );
     }
 }
