@@ -177,7 +177,7 @@ sub render_failed_reg
             )
         ),
         {
-            title => "Wrong",
+            title => $header,
         },
     );
 
@@ -199,7 +199,7 @@ sub render_failed_login
             )
         ),
         {
-            title => "Wrong",
+            title => $header,
         },
     );
 
@@ -357,7 +357,7 @@ sub _register_new_user
     $self->render_text("You registered the E-mail - " .
         CGI::escapeHTML($self->_email),
         {
-            title => "Wrong",
+            title => "Registered" . $self->_email(),
         },
     );
 
@@ -372,7 +372,7 @@ sub register
         {
             template => "register",
             register_form => $self->register_form({}),
-            title => "Wrong",
+            title => "Registration",
         },
     );
 }
@@ -385,7 +385,7 @@ sub login
         {
             template => "login",
             login_form => $self->login_form({}),
-            title => "Wrong",
+            title => "Login",
         }
     );
 }
@@ -431,7 +431,7 @@ sub _login_user
         . CGI::escapeHTML($self->_email) 
         . "</p>\n",
         {
-            title => "Wrong",
+            title => "Login successful",
         },
     );
 
@@ -449,7 +449,7 @@ sub account_page
         return $self->render(
             {
                 template => "account",
-                title => "Wrong",
+                title => "Account Page",
                 email => $self->_login(),
                 change_user_info_form => $self->change_user_info_form(
                     { 
@@ -465,7 +465,7 @@ sub account_page
         return $self->render_text(
             "You are not logged in.",
             {
-                title => "Wrong",
+                title => "Inaccessible page",
             },
         );
     }
@@ -490,7 +490,7 @@ sub change_user_info_submit
             . qq{<p><a href="} . $self->_mojo->url_for("account") . qq{">Return to your account</a></p>\n}
             ),
             {
-                title => "Wrong",
+                title => "Data updated",
             },
         );
     }
@@ -499,7 +499,7 @@ sub change_user_info_submit
         return $self->render_text(
             "You are not logged in.",
             {
-                title => "Wrong",
+                title => "Inaccessible page",
             },
         );
     }
