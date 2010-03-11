@@ -306,6 +306,11 @@ sub logout_with_checks
         "$blurb_base - Status says not logged in after logout."
     ) or $num_fails++;
 
+    # TEST:$c++
+    $mech->title_is("You are now logged-out - Insurgent-Auth",
+        "You are now logged out title."
+    ) or $num_fails++;
+
     return ($num_fails == 0);
 }
 
@@ -332,7 +337,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 63;
+use Test::More tests => 65;
 use Test::Mojo;
 
 use FindBin;

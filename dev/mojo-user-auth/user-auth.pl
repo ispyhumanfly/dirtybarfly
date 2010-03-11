@@ -108,7 +108,7 @@ sub logout
     $self->render_text(
         "<h1>You are now logged-out</h1>\n",
         layout => 'insurgent',
-        title => "Wrong",
+        title => "You are now logged-out",
     );
 
     return;
