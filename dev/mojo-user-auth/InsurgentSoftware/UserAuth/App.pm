@@ -16,8 +16,6 @@ has _mojo => (
     handles =>
     {
         "param" => "param",
-        render_text => "render_text",
-        render => "render",
         session => "session",
     },
 );
@@ -39,6 +37,27 @@ has _forms => (
     is => "rw",
     default => sub { return +{} },
 );
+
+sub render_text
+{
+    my ($self, $text, $args) = @_;
+
+    return $self->_mojo->render_text(
+        $text,
+        { layout => 'insurgent', %{$args}, },
+    );
+}
+
+
+sub render
+{
+    my ($self, $args) = @_;
+
+    return $self->_mojo->render(
+        { layout => 'insurgent', %{$args}, },
+    );
+}
+
 
 sub _add_form
 {
@@ -157,8 +176,9 @@ sub render_failed_reg
                 +{ map { $_ => $self->param($_) } qw(email fullname) }
             )
         ),
-        layout => 'funky',
-        title => "Wrong",
+        {
+            title => "Wrong",
+        },
     );
 
     return;
@@ -178,8 +198,9 @@ sub render_failed_login
                 +{ map { $_ => $self->param($_) } qw(email) }
             )
         ),
-        layout => 'funky',
-        title => "Wrong",
+        {
+            title => "Wrong",
+        },
     );
 
     return;
@@ -335,8 +356,9 @@ sub _register_new_user
 
     $self->render_text("You registered the E-mail - " .
         CGI::escapeHTML($self->_email),
-        layout => 'funky',
-        title => "Wrong",
+        {
+            title => "Wrong",
+        },
     );
 
     return;
@@ -347,10 +369,11 @@ sub register
     my $self = shift;
 
     return $self->render(
-        template => "register",
-        layout => 'funky',
-        register_form => $self->register_form({}),
-        title => "Wrong",
+        {
+            template => "register",
+            register_form => $self->register_form({}),
+            title => "Wrong",
+        },
     );
 }
 
@@ -359,10 +382,11 @@ sub login
     my $self = shift;
 
     return $self->render(
-        template => "login",
-        layout => 'funky',
-        login_form => $self->login_form({}),
-        title => "Wrong",
+        {
+            template => "login",
+            login_form => $self->login_form({}),
+            title => "Wrong",
+        }
     );
 }
 
@@ -406,8 +430,9 @@ sub _login_user
         . "<p>You logged in using the E-mail "
         . CGI::escapeHTML($self->_email) 
         . "</p>\n",
-        layout => 'funky',
-        title => "Wrong",
+        {
+            title => "Wrong",
+        },
     );
 
     return;
@@ -422,24 +447,26 @@ sub account_page
     if (my $user = $self->_find_user_by_login)
     {
         return $self->render(
-            template => "account",
-            title => "Wrong",
-            layout => 'funky',
-            email => $self->_login(),
-            change_user_info_form => $self->change_user_info_form(
-                { 
-                    fullname => $user->fullname(), 
-                    bio => $user->extra_data->bio(),
-                },
-            ),
+            {
+                template => "account",
+                title => "Wrong",
+                email => $self->_login(),
+                change_user_info_form => $self->change_user_info_form(
+                    { 
+                        fullname => $user->fullname(), 
+                        bio => $user->extra_data->bio(),
+                    },
+                ),
+            }
         );
     }
     else
     {
         return $self->render_text(
             "You are not logged in.",
-            layout => 'funky',
-            title => "Wrong",
+            {
+                title => "Wrong",
+            },
         );
     }
 }
@@ -462,16 +489,18 @@ sub change_user_info_submit
             . "<p>Your user-data was updated.</p>\n"
             . qq{<p><a href="} . $self->_mojo->url_for("account") . qq{">Return to your account</a></p>\n}
             ),
-            layout => 'funky',
-            title => "Wrong",
+            {
+                title => "Wrong",
+            },
         );
     }
     else
     {
         return $self->render_text(
             "You are not logged in.",
-            layout => 'funky',
-            title => "Wrong",
+            {
+                title => "Wrong",
+            },
         );
     }
 }

@@ -35,7 +35,7 @@ get '/' => sub {
 
     return $self->render(
         template => "index",
-        layout => 'funky',
+        layout => 'insurgent',
         title => "Main",
     );
 } => "index";
@@ -107,7 +107,7 @@ sub logout
 
     $self->render_text(
         "<h1>You are now logged-out</h1>\n",
-        layout => 'funky',
+        layout => 'insurgent',
         title => "Wrong",
     );
 
@@ -165,7 +165,7 @@ of E-mail, password, etc.).
 __DATA__
 
 @@ index.html.ep
-% layout 'funky';
+% layout 'insurgent';
 <h1>Insurgent Software's User Management Application</h1>
 
 <ul>
@@ -178,24 +178,24 @@ __DATA__
 </ul>
 
 @@ register.html.ep
-% layout 'funky';
+% layout 'insurgent';
 <h1>Register an account</h1>
 <%== $register_form %>
 
 @@ login.html.ep
-% layout 'funky';
+% layout 'insurgent';
 <h1>Login form</h1>
 <%== $login_form %>
 
 @@ account.html.ep
-% layout 'funky';
+% layout 'insurgent';
 <h1>Account page for <%= $email %></h1>
 
 <h2 id="change_info">Change User Information</h2>
 
 <%== $change_user_info_form %>
 
-@@ layouts/funky.html.ep
+@@ layouts/insurgent.html.ep
 <!doctype html><html>
     <head>
     <title><%= $title %> - Insurgent-Auth</title>
