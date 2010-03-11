@@ -356,6 +356,18 @@ EOF
         );
     }
 
+    if (length($self->param("fullname")) > 255)
+    {
+        return $self->render_failed_reg(
+             "Registration failed - the full name is too long",
+             <<"EOF",
+<p>
+The full name cannot exceed 255 characters.
+</p>
+EOF
+        );
+        
+    }
 
     if ($self->_find_user_by_param)
     {
