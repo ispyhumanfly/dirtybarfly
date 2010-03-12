@@ -158,8 +158,6 @@ shagadelic;
 * Make sure that there are limits to the properties of a user (maximal length
 of E-mail, password, etc.).
 
-* Each page should have a more meaningful (and brief) <title> element.
-
 =cut
 
 __DATA__
