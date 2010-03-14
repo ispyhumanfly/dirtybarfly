@@ -354,7 +354,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 76;
+use Test::More tests => 82;
 use Test::Mojo;
 
 use FindBin;
@@ -733,5 +733,42 @@ $mech->register_generic(
 $mech->h1_is(
     "Registration failed - the full name is too long",
     "Registration failed - Full name is too long."
+);
+
+$mech->select_user("sophie");
+
+# TEST
+$mech->go_to_front();
+
+# TEST
+$mech->follow_link_ok({text => "Login"},
+    "sophie #3 - was able to follow the login link."
+);
+
+# TEST
+$mech->login_properly("sophie #3 - login proprely");
+
+
+# TEST
+$mech->follow_link_ok({text => "Account"}, 
+    "sophie #3 - follow link to account."
+);
+
+# TEST
+$mech->submit_form_ok(
+    {
+        form_id => "change_user_info",
+        fields =>
+        {
+            fullname => ("Sophie Clarissa Levi" x 250),
+            bio => "My name is Sophie, and I like cats. Meow, meow!",
+        }
+    }
+);
+
+# TEST
+$mech->h1_is(
+    "Error - the full name is too long",
+    "Error - the full name is too long",
 );
 

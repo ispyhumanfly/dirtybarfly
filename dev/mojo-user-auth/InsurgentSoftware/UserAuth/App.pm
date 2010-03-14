@@ -162,6 +162,26 @@ sub _email
     return $self->param("email");
 }
 
+sub _check_field_specs
+{
+    my ($self, $specs, $error_method) = @_;
+
+    foreach my $field_spec (@$specs)
+    {
+        if (length ($self->param($field_spec->{id})) > 255)
+        {
+            $self->$error_method(
+                $field_spec->{h},
+                "<p>\n".$field_spec->{body}."\n</p>\n",
+            );
+
+            return 1;
+        }
+    }
+
+    return;
+}
+
 sub render_failed_reg
 {
     my $self = shift;
@@ -303,6 +323,25 @@ sub _passwords_dont_match
     return $self->_password() ne $self->param("password2");
 }
 
+my @register_specs = 
+(
+    {
+        id => "email", 
+        h => "Registration failed - E-mail is too long",
+        body => "The E-mail is too long. It must not be over 255 characters.",
+    },
+    { 
+        id => "password",
+        h => "Registration failed - password is too long",
+        body => "The password cannot exceed 255 characters.",
+    },
+    { 
+        id => "fullname",
+        h => "Registration failed - the full name is too long",
+        body => "The full name cannot exceed 255 characters.",
+    },
+);
+
 sub register_submit
 {
     my $self = shift;
@@ -318,32 +357,9 @@ sub register_submit
 
     my $email = $self->_email;
 
-    foreach my $field_spec
-    (
-        {
-            id => "email", 
-            h => "Registration failed - E-mail is too long",
-            body => "The E-mail is too long. It must not be over 255 characters.",
-        },
-        { 
-            id => "password",
-            h => "Registration failed - password is too long",
-            body => "The password cannot exceed 255 characters.",
-        },
-        { 
-            id => "fullname",
-            h => "Registration failed - the full name is too long",
-            body => "The full name cannot exceed 255 characters.",
-        },
-    )
+    if ($self->_check_field_specs(\@register_specs, "render_failed_reg"))
     {
-        if (length ($self->param($field_spec->{id})) > 255)
-        {
-            return $self->render_failed_reg(
-                $field_spec->{h},
-                "<p>\n".$field_spec->{body}."\n</p>\n",
-            );
-        }
+        return;
     }
 
     if ($self->_pass_is_too_short())
@@ -507,6 +523,38 @@ sub account_page
     }
 }
 
+
+sub render_failed_change_user_info
+{
+    my $self = shift;
+
+    my $header = shift;
+    my $explanation = shift || "";
+
+    $self->render_text(
+        sprintf("<h1>%s</h1>%s%s",
+            $header, $explanation, 
+            $self->change_user_info_form(
+                +{ map { $_ => $self->param($_) } qw(fullname bio) }
+            )
+        ),
+        {
+            title => $header,
+        },
+    );
+
+    return;
+}
+
+my @account_specs = 
+(
+    {
+        id => "fullname", 
+        h => "Error - the full name is too long",
+        body => "The full name is too long. It must not be over 255 characters.",
+    },
+);
+
 sub change_user_info_submit
 {
     my $self = shift;
@@ -515,6 +563,13 @@ sub change_user_info_submit
 
     if (my $user = $self->_find_user_by_login)
     {
+        if ($self->_check_field_specs(
+                \@account_specs, "render_failed_change_user_info"
+        ))
+        {
+            return;
+        }
+
         $user->fullname($self->param('fullname'));
         $user->extra_data->bio($self->param('bio'));
         $self->_store($user);
