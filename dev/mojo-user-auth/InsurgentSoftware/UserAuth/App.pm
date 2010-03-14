@@ -546,7 +546,7 @@ sub render_failed_change_user_info
     return;
 }
 
-my @account_specs = 
+my @change_user_info_specs = 
 (
     {
         id => "fullname", 
@@ -564,7 +564,7 @@ sub change_user_info_submit
     if (my $user = $self->_find_user_by_login)
     {
         if ($self->_check_field_specs(
-                \@account_specs, "render_failed_change_user_info"
+                \@change_user_info_specs, "render_failed_change_user_info"
         ))
         {
             return;
