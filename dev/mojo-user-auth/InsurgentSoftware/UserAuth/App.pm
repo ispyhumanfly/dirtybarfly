@@ -168,7 +168,8 @@ sub _check_field_specs
 
     foreach my $field_spec (@$specs)
     {
-        if (length ($self->param($field_spec->{id})) > 255)
+        my $max_len = ($field_spec->{len} || 255);
+        if (length ($self->param($field_spec->{id})) > $max_len)
         {
             $self->$error_method(
                 $field_spec->{h},
@@ -552,6 +553,12 @@ my @change_user_info_specs =
         id => "fullname", 
         h => "Error - the full name is too long",
         body => "The full name is too long. It must not be over 255 characters.",
+    },
+    {
+        id => "bio", 
+        h => "Error - the bio is too long",
+        body => "The bio is too long. It must not be over 6000 characters.",
+        len => 6_000,
     },
 );
 

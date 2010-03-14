@@ -354,7 +354,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 82;
+use Test::More tests => 84;
 use Test::Mojo;
 
 use FindBin;
@@ -770,5 +770,23 @@ $mech->submit_form_ok(
 $mech->h1_is(
     "Error - the full name is too long",
     "Error - the full name is too long",
+);
+
+# TEST
+$mech->submit_form_ok(
+    {
+        form_id => "change_user_info",
+        fields =>
+        {
+            fullname => "Sophie Melinda Proofer",
+            bio => ("My name is Sophie, and I like cats. Meow, meow!" x 2000),
+        }
+    }
+);
+
+# TEST
+$mech->h1_is(
+    "Error - the bio is too long",
+    "Error - the bio is too long",
 );
 
