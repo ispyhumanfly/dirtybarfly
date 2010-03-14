@@ -191,7 +191,7 @@ sub render_failed_reg
     my $explanation = shift || "";
 
     $self->render_text(
-        sprintf("<h1>%s</h1>%s%s",
+        sprintf("<h1>%s</h1>\n<p class=\"error\">%s</p>%s",
             $header, $explanation, 
             $self->register_form(
                 +{ map { $_ => $self->param($_) } qw(email fullname) }
@@ -367,11 +367,7 @@ sub register_submit
     {
         return $self->render_failed_reg(
              "Registration failed - password is too short.",
-             <<"EOF",
-<p>
-The password must contain at least 6 alphanumeric (A-Z, a-z, 0-9) characters.
-</p>
-EOF
+             "The password must contain at least 6 alphanumeric (A-Z, a-z, 0-9) characters.",
         );
        
     }
@@ -533,7 +529,7 @@ sub render_failed_change_user_info
     my $explanation = shift || "";
 
     $self->render_text(
-        sprintf("<h1>%s</h1>%s%s",
+        sprintf("<h1>%s</h1><p class=\"error\">%s</p>%s",
             $header, $explanation, 
             $self->change_user_info_form(
                 +{ map { $_ => $self->param($_) } qw(fullname bio) }
