@@ -175,6 +175,8 @@ shagadelic;
 * Make sure that there are limits to the properties of a user (maximal length
 of E-mail, password, etc.).
 
+* Add a confirmation reminder feature to re-send the confirmation E-mail.
+
 =cut
 
 __DATA__
