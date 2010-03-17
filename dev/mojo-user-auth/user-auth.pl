@@ -151,6 +151,23 @@ sub account_change_user_info_submit
 post '/account/change-info' => (\&account_change_user_info_submit)
 => "change_user_info_submit";
 
+sub confirm_register
+{
+    my $self = shift;
+
+    
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->confirm_register();
+}
+
+get '/confirm-register' => (\&confirm_register) => "confirm_register";
+
 shagadelic;
 
 =head1 TODO

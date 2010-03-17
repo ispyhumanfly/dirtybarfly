@@ -7,6 +7,11 @@ use InsurgentSoftware::UserAuth::FormSpec;
 
 use KiokuDB;
 
+use Email::Sender::Simple;
+use Email::Simple;
+use Email::Simple::Creator;
+use URI::Escape;
+
 use CGI ();
 
 has _mojo => (
@@ -386,11 +391,25 @@ sub register_submit
     return;
 }
 
+sub _get_confirm_code
+{
+    my $self = shift;
+
+    open my $in, "<", "/dev/urandom";
+    binmode($in);
+    my $bytes = "";
+    read($in, $bytes, 12);
+    close($in);
+    return unpack("H*", $bytes);
+}
+
 sub _register_new_user
 {
     my $self = shift;
 
     my $scope = $self->_new_scope;
+
+    my $confirm_code = $self->_get_confirm_code();
 
     my $new_user = InsurgentSoftware::UserAuth::User->new(
         {
@@ -398,15 +417,37 @@ sub _register_new_user
             # TODO : don't store the password as plaintext.
             password => $self->_password,
             email => $self->_email,
+            confirm_code => $confirm_code,
         }
     );
 
     $self->_store($new_user);
 
-    $self->render_text("You registered the E-mail - " .
-        CGI::escapeHTML($self->_email),
+    my $email = Email::Simple->create(
+        header => [
+            To => $self->_email(),
+            From => 'Insurgent-Auth <auth@insurgentsoftware.com>',
+            Subject => "Authentication for " . $self->_email(),
+        ],
+        body =>
+        (
+            "You need to confirm your registration for Insurgent-Auth.\n\n"
+            . "Go to the following URL:\n\n"
+            . $self->_mojo->url_for("confirm_register")->to_abs()
+                . "?email=" . uri_escape($self->_email())
+                . "&code=" . uri_escape($confirm_code)
+            . "\n\n"
+        ),
+    );
+
+    Email::Sender::Simple->send($email);
+
+    $self->render_text(
+        ("You registered " . $self->_email()
+        . " - please check your email for confirmation."),
         {
-            title => "Registered" . $self->_email(),
+            title => "Confirmation needed for E-mail - " 
+            . CGI::escapeHTML($self->_email),
         },
     );
 

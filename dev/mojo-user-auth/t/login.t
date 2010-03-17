@@ -5,6 +5,8 @@ package MyTest::Mech::LibXML;
 use strict;
 use warnings;
 
+use InsurgentSoftware::MockEmailSender;
+
 use Test::WWW::Mechanize::Mojo '0.0.3';
 use base 'Test::WWW::Mechanize::Mojo';
 
@@ -354,7 +356,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 84;
+use Test::More tests => 85;
 use Test::Mojo;
 
 use FindBin;
@@ -487,6 +489,14 @@ $mech->register_properly("sophie - Submit the form - should succeed now.");
 $mech->not_logged_in("Status says not logged-in #2 .");
 
 # TODO : test that the user was registered properly.
+{
+    my $email = Email::Sender::Simple::shift_email();
+
+    # TEST
+    ok($email, "Email was sent.");
+
+
+}
 
 # TEST
 $mech->go_to_front();

@@ -26,6 +26,17 @@ has extra_data => (
     },
 );
 
+has confirmed => (
+    isa => "Bool",
+    is => "rw",
+    default => 0,
+);
+
+has confirm_code => (
+    isa => "Str",
+    is => "rw",
+);
+
 sub verify_password
 {
     my $self = shift;
