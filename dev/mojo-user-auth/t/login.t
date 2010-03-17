@@ -7,7 +7,7 @@ use warnings;
 
 use InsurgentSoftware::MockEmailSender;
 
-use Test::WWW::Mechanize::Mojo '0.0.3';
+use Test::WWW::Mechanize::Mojo '0.0.4';
 use base 'Test::WWW::Mechanize::Mojo';
 
 use HTML::TreeBuilder::LibXML;
@@ -57,6 +57,8 @@ use warnings;
 use Moose;
 
 extends (qw(MyTest::Mech::LibXML Moose::Object));
+
+use Test::More;
 
 sub new
 {
@@ -335,6 +337,99 @@ sub logout_with_checks
 
 # TEST:$logout_count=$c;
 
+# TEST:$c=0;
+sub register_with_confirmation
+{
+    my $mech = shift;
+    my $blurb_base = shift;
+
+    # local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    # TEST:$c++;
+    $mech->register_properly("$blurb_base - Submit the form - should succeed now.");
+
+    # TEST:$c++;
+    $mech->not_logged_in("$blurb_base - Status says not logged-in #2 .");
+
+    # TEST:$c++;
+    $mech->go_to_front();
+    
+    # TEST:$c++;
+    $mech->follow_link_ok({text => "Register a new account"}, 
+        "Was able to follow the link to register (2nd time)."
+    );
+
+    # TEST:$c++;
+    $mech->register_with_diff_pass(
+        "FooBarasdmk--34t+536'Y", "$blurb_base - Submit form with existing E-mail.",
+    );
+
+    # TEST:$c++;
+    $mech->h1_is(
+        "Registration failed - the email was already registered",
+        "$blurb_base - Registration failed - E-mail already registered."
+    );
+    
+
+    my $url;
+
+    # TODO : test that the user was registered properly.
+    {
+        my $email_msg = Email::Sender::Simple::shift_email();
+
+        # TEST:$c++;
+        ok($email_msg, "Email was sent.");
+
+        ($url) =
+        ($email_msg->body() =~ 
+            m{Go to the following URL:\r?\n\r?\n(https?:[^\n\r]*)\r?\n}ms
+        );
+
+        my $email1 = $mech->email();
+        $email1 =~ s{\@}{%40};
+
+        # TEST:$c++;
+        like ($url, qr{email=\Q$email1\E}, "Got URL");
+    }
+
+    # TEST:$c++;
+    $mech->go_to_front();
+
+    # TEST:$c++;
+    $mech->follow_link_ok({text => "Login to an existing account"},
+        "Was able to follow the login link."
+    );
+
+    # TEST:$c++;
+    $mech->h1_is("Login form", "Login page has an appropriate <h1> tag");
+
+    # TEST:$c++;
+    $mech->login_properly("Sophie login without confirmation.");
+
+    # TEST:$c++;
+    $mech->h1_is("You need to confirm first.", "Confirm first.");
+
+    # TEST:$c++;
+    $mech->get_ok($url, "$blurb_base - get confirmation.");
+
+    # TEST:$c++;
+    $mech->h1_is("Confirmed " . $mech->email(), 
+        "$blurb_base - confirmed sophie's URL."
+    );
+
+    # TEST:$c++;
+    $mech->go_to_front();
+
+    # TEST:$c++;
+    $mech->follow_link_ok({text => "Login to an existing account"},
+        "Was able to follow the login link."
+    );
+
+    return 1;
+}
+
+# TEST:$register_with_confirmation=$c;
+
 package MyTest::Mech::User;
 
 use Moose;
@@ -356,7 +451,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 85;
+use Test::More tests => 106;
 use Test::Mojo;
 
 use FindBin;
@@ -468,6 +563,7 @@ $mech->h1_is(
     "passwords don't match",
 );
 
+# TEST
 $mech->register_with_diff_pass("heh", "sophie - too short password");
 
 # TEST
@@ -479,63 +575,8 @@ $mech->h1_is(
     "reg failed - password is too short."
     );
 
-# TEST
-$mech->register_properly("sophie - Submit the form - should succeed now.");
-
-# TEST
-$mech->not_logged_in("Status says not logged-in #2 .");
-
-# TODO : test that the user was registered properly.
-{
-    my $email = Email::Sender::Simple::shift_email();
-
-    # TEST
-    ok($email, "Email was sent.");
-
-
-}
-
-# TEST
-$mech->go_to_front();
-
-# TEST
-$mech->follow_link_ok({text => "Register a new account"}, 
-    "Was able to follow the link to register (2nd time)."
-);
-
-# TEST
-$mech->register_with_diff_pass(
-    "FooBarasdmk--34t+536'Y", "Submit form with existing E-mail.",
-);
-
-# TEST
-$mech->h1_is(
-    "Registration failed - the email was already registered",
-    "Registration failed - E-mail already registered."
-);
-
-
-# TEST
-$mech->go_to_front();
-
-# TEST
-$mech->follow_link_ok({text => "Login to an existing account"},
-    "Was able to follow the login link."
-);
-
-# TEST
-$mech->h1_is("Login form", "Login page has an appropriate <h1> tag");
-
-# TEST
-$mech->login_with_pass(
-    "This-is-not-a-Password", "Submit form with the wrong password"
-);
-
-# TEST
-$mech->h1_is(
-    "Wrong Login or Incorrect Password", 
-    "Could not login with incorrect password"
-);
+# TEST*$register_with_confirmation
+$mech->register_with_confirmation("sophie");
 
 # TEST
 $mech->login_properly("Submit login form with the right password");
@@ -573,11 +614,10 @@ $mech->follow_link_ok({text => "Register a new account"},
     "Was able to follow the link to register."
 );
 
-# TEST
 $mech->select_user("jack");
 
-# TEST
-$mech->register_properly("jack - registered");
+# TEST*$register_with_confirmation
+$mech->register_with_confirmation("jack - registered");
 
 # TEST
 $mech->follow_link_ok({text => "Login"},

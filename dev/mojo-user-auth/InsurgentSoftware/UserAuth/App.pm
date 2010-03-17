@@ -495,6 +495,14 @@ sub login_submit
         );
     }
 
+    if (!$user->confirmed())
+    {
+        return $self->render_failed_login(
+            "You need to confirm first.",
+            "Your email was not confirmed yet. See your E-mail's inbox for details.",
+        );
+    }
+
     # TODO : Implement the real login.
     $self->_login_user($user);
 
@@ -636,6 +644,53 @@ sub change_user_info_submit
             {
                 title => "Inaccessible page",
             },
+        );
+    }
+}
+
+
+sub confirm_register
+{
+    my $self = shift;
+
+    my $scope = $self->_new_scope;
+
+    my $user = $self->_find_user_by_param;
+
+    if (! $user)
+    {
+        return $self->render_failed_login(
+            "Wrong Login.",
+        );
+    }
+
+    if ($user->confirmed())
+    {
+        return $self->render_text("Email already confirmed.",
+            {
+                title => "Already confirmed.",
+            }
+        );
+    }
+
+    if ($user->confirm_code() eq $self->param("code"))
+    {
+        $user->confirm_code("");
+        $user->confirmed(1);
+
+        $self->_store($user);
+
+        return $self->render_text(
+            "<h1>Confirmed " . CGI::escapeHTML($self->_email()) . "</h1>",
+            {
+                title => "Confirmed your email. You can now login.",
+            },
+        );  
+    }
+    else
+    {
+        return $self->render_text(
+            "Incorrect confirmation.",
         );
     }
 }
