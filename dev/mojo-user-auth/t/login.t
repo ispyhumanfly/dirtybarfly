@@ -442,9 +442,6 @@ $mech->tree_matches_xpath(
     "There is a password input.",
 );
 
-my $email = 'sophie@myhome.tld';
-my $password = "Sophie-Iz-De-Ossum";
-
 $mech->select_user("sophie");
 
 # TEST
