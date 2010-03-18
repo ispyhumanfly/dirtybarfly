@@ -1,4 +1,4 @@
-package InsurgentSoftware::UserAuth::App;
+package InsurgentSoftware::UserAuth::App::Base1;
 
 use Moose;
 
@@ -352,8 +352,6 @@ sub register_submit
 {
     my $self = shift;
 
-    my $scope = $self->_new_scope;
-
     if ($self->_passwords_dont_match())
     {
         return $self->render_failed_reg(
@@ -436,8 +434,6 @@ sub _register_new_user
 {
     my $self = shift;
 
-    my $scope = $self->_new_scope;
-
     my $new_user = InsurgentSoftware::UserAuth::User->new(
         {
             fullname => $self->param("fullname"),
@@ -494,8 +490,6 @@ sub login_submit
 {
     my $self = shift;
 
-    my $scope = $self->_new_scope;
-
     my $user = $self->_find_user_by_param;
 
     if (! ($user && $user->verify_password($self->_password)))
@@ -549,8 +543,6 @@ sub _login_user
 sub account_page
 {
     my $self = shift;
-
-    my $scope = $self->_new_scope;
 
     if (my $user = $self->_find_user_by_login)
     {
@@ -621,8 +613,6 @@ sub change_user_info_submit
 {
     my $self = shift;
 
-    my $scope = $self->_new_scope;
-
     if (my $user = $self->_find_user_by_login)
     {
         if ($self->_check_field_specs(
@@ -663,8 +653,6 @@ sub confirm_register
 {
     my $self = shift;
 
-    my $scope = $self->_new_scope;
-
     my $user = $self->_find_user_by_param;
 
     if (! $user)
@@ -704,5 +692,32 @@ sub confirm_register
         );
     }
 }
+
+package InsurgentSoftware::UserAuth::App;
+
+use Moose;
+
+extends("InsurgentSoftware::UserAuth::App::Base1");
+
+around 'register_submit', '_register_new_user', 'login_submit', 
+       'account_page', 'change_user_info_submit', 'confirm_register'
+=> sub {
+    my $orig = shift;
+    my $self = shift;
+
+    my $scope = $self->_new_scope;
+
+    my @ret;
+    if (wantarray())
+    {
+        @ret = $self->$orig(@_);
+    }
+    else
+    {
+        $ret[0] = $self->$orig(@_);
+    }
+    
+    return @ret;
+};
 
 1;
