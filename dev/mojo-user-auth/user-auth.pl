@@ -3,240 +3,12 @@
 use strict;
 use warnings;
 
-package InsurgentSoftware::UserAuth::User;
-
-use Moose;
-
-has fullname => (
-    isa => "Str",
-    is => "rw",
-);
-
-has email => (
-    isa => "Str",
-    is => "rw",
-);
-
-has password => (
-    isa => "Str",
-    is => "rw",
-);
-
-package InsurgentSoftware::UserAuth::App;
-
-use Moose;
-
-has _mojo => (
-    isa => "Mojolicious::Controller",
-    is => "ro",
-    init_arg => "mojo",
-    handles =>
-    {
-        "param" => "param",
-        render_text => "render_text",
-        render => "render",
-    },
-);
-
-has _dir => (
-    isa => "KiokuDB",
-    is => "ro",
-    init_arg => "dir",
-    handles =>
-    {
-        _new_scope => "new_scope",
-        _search => "search",
-    }
-);
-
-sub _password
-{
-    my $self = shift;
-
-    return $self->param("password");
-}
-
-sub _email
-{
-    my $self = shift;
-
-    return $self->param("email");
-}
-
-sub render_failed_reg
-{
-    my $self = shift;
-
-    my $header = shift;
-    my $explanation = shift || "";
-
-    $self->render_text(
-        sprintf("<h1>%s</h1>%s%s",
-            $header, $explanation, 
-            $self->register_form(
-                +{ map { $_ => $self->param($_) } qw(email fullname) }
-            )
-        ),
-        layout => 'funky',
-    );
-
-    return;
-}
-
-sub register_form
-{
-    my $self = shift;
-    my $args = shift;
-
-    my $email = CGI::escapeHTML($args->{'email'} || "");
-    my $fullname = CGI::escapeHTML($args->{'fullname'} || "");
-
-    return <<"EOF";
-<form id="register" action="/register-submit/" method="post">
-<table>
-
-<tr>
-<td>Email:</td>
-<td><input name="email" value="$email" /></td>
-</tr>
-
-<tr>
-<td>Password:</td>
-<td><input name="password" type="password" /></td>
-</tr>
-
-<tr>
-<td>Password (confirmation):</td>
-<td><input name="password2" type="password" /></td>
-</tr>
-
-<tr>
-<td>Full name (optional):</td>
-<td><input name="fullname" value="$fullname" /></td>
-</tr>
-
-<tr>
-<td colspan="2">
-<input type="submit" value="Submit" />
-</td>
-</tr>
-
-</table>
-</form>
-EOF
-}
-
-sub _find_if_email_exists 
-{
-    my $self = shift;
-
-    my $stream = $self->_search({email => $self->_email});
-
-    FIND_EMAIL:
-    while ( my $block = $stream->next )
-    {
-        foreach my $object ( @$block )
-        {
-            return 1;
-        }
-    }
-
-    return;
-}
-
-sub _too_short
-{
-    my $p = shift;
-
-    return (($p =~ s/[\w\d]//g) < 6);
-}
-
-sub _pass_is_too_short
-{
-    my $self = shift;
-
-    return _too_short($self->_password);
-}
-
-sub register_submit
-{
-    my $self = shift;
-
-    my $dir = $self->_dir;
-    my $scope = $self->_new_scope;
-
-    if ($self->_password() ne $self->param("password2"))
-    {
-        return $self->render_failed_reg(
-            "Registration failed - passwords don't match."
-        );
-    }
-
-    if ($self->_pass_is_too_short())
-    {
-        return $self->render_failed_reg(
-             "Registration failed - password is too short.",
-             <<"EOF",
-<p>
-The password must contain at least 6 alphanumeric (A-Z, a-z, 0-9) characters.
-</p>
-EOF
-        );
-    }
-
-    my $email = $self->_email;
-
-    if ($self->_find_if_email_exists())
-    {
-        return $self->render_failed_reg(
-            "Registration failed - the email was already registered",
-            "The email " . CGI::escapeHTML($email) . " already exists in our database.",
-        );
-    }
-
-    # Register a new user.
-    $self->_register_new_user();
-
-    return;
-}
-
-sub _register_new_user
-{
-    my $self = shift;
-
-    my $new_user = InsurgentSoftware::UserAuth::User->new(
-        {
-            fullname => $self->param("fullname"),
-            # TODO : don't store the password as plaintext.
-            password => $self->_password,
-            email => $self->_email,
-        }
-    );
-
-    $self->_dir->store($new_user);
-
-    $self->render_text("You registered the E-mail - " .
-        CGI::escapeHTML($self->_email),
-        layout => 'funky',
-    );
-
-    return;
-}
-
-sub register
-{
-    my $self = shift;
-
-    return $self->render(
-        template => "register",
-        layout => 'funky',
-        register_form => $self->register_form({}),
-    );
-}
-
-package main;
+use InsurgentSoftware::UserAuth::User;
+use InsurgentSoftware::UserAuth::App;
 
 use Mojolicious::Lite;
+use MojoX::Session::Cookie;
+
 use CGI qw();
 
 use KiokuDB;
@@ -252,13 +24,21 @@ my $dir = KiokuDB->connect(
         email =>
         {
             data_type => "varchar",
-            is_nullable => 0,
+            is_nullable => 1,
         },
     ],
 );
 
 
-get '/' => 'index';
+get '/' => sub {
+    my $self = shift;
+
+    return $self->render(
+        template => "index",
+        layout => 'insurgent',
+        title => "Main",
+    );
+} => "index";
 
 get '/register/' => sub {
     my $self = shift;
@@ -272,7 +52,7 @@ get '/register/' => sub {
 
     return $app->register();
 
-};
+} => "register";
 
 sub register_submit
 {
@@ -288,39 +68,173 @@ sub register_submit
     return $app->register_submit();
 }
 
-post '/register-submit/' => \&register_submit;
+post '/register-submit/' => \&register_submit => "register_submit";
 
-get '/:groovy' => sub {
+get '/login/' => sub {
     my $self = shift;
-    $self->render_text($self->param('groovy'), layout => 'funky');
-};
+    
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->login();
+} => "login";
+
+sub login_submit
+{
+    my $self = shift;
+
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->login_submit();
+}
+
+post '/login-submit/' => \&login_submit => "login_submit";
+
+sub logout
+{
+    my $self = shift;
+
+    delete($self->session->{'login'});
+
+    $self->render_text(
+        "<h1>You are now logged-out</h1>\n",
+        layout => 'insurgent',
+        title => "You are now logged-out",
+    );
+
+    return;
+}
+
+get '/logout' => (\&logout) => "logout";
+
+
+sub account
+{
+    my $self = shift;
+
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->account_page();
+}
+
+get '/account' => (\&account) => "account";
+
+sub account_change_user_info_submit
+{
+    my $self = shift;
+
+    
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->change_user_info_submit();
+}
+
+post '/account/change-info' => (\&account_change_user_info_submit)
+=> "change_user_info_submit";
+
+sub confirm_register
+{
+    my $self = shift;
+
+    
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->confirm_register();
+}
+
+get '/confirm-register' => (\&confirm_register) => "confirm_register";
 
 shagadelic;
 
 =head1 TODO
 
-* Add a status (Not logged-in / Logged in as something) ruler to the top.
+* Make sure that there are limits to the properties of a user (maximal length
+of E-mail, password, etc.).
+
+* Add a confirmation reminder feature to re-send the confirmation E-mail.
+
+* Add a way to cancel a registration using the E-mail (in case it's an unwanted
+registration.)
 
 =cut
 
 __DATA__
 
 @@ index.html.ep
-% layout 'funky';
+% layout 'insurgent';
 <h1>Insurgent Software's User Management Application</h1>
 
 <ul>
-<li><a href="login/">Login to an existing account</a></li>
-<li><a href="register/">Register a new account</a></li>
+% if ($self->session->{'login'}) {
+<li><a href="<%= url_for('account') %>">Go to Your Account</a></li>
+% } else {
+<li><a href="<%= url_for('login') %>">Login to an existing account</a></li>
+<li><a href="<%= url_for('register') %>">Register a new account</a></li>
+% }
 </ul>
 
 @@ register.html.ep
-% layout 'funky';
+% layout 'insurgent';
 <h1>Register an account</h1>
 <%== $register_form %>
 
-@@ layouts/funky.html.ep
+@@ login.html.ep
+% layout 'insurgent';
+<h1>Login form</h1>
+<%== $login_form %>
+
+@@ account.html.ep
+% layout 'insurgent';
+<h1>Account page for <%= $email %></h1>
+
+<h2 id="change_info">Change User Information</h2>
+
+<%== $change_user_info_form %>
+
+@@ layouts/insurgent.html.ep
 <!doctype html><html>
-    <head><title>Insurgent Software's User Management Application</title></head>
-    <body><%== content %></body>
+    <head>
+    <title><%= $title %> - Insurgent-Auth</title>
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, projection" title="Normal" />
+    </head>
+    <body>
+    <div id="status">
+    <ul>
+% if ($self->session->{'login'}) {
+    <li><b>Logged in as <%= $self->session->{'login'} %></b></li>
+    <li><a href="<%= url_for('account') %>">Account</a></li>
+    <li><a href="<%= url_for('logout') %>">Logout</a></li>
+% } else {
+    <li><b>Not logged in.</b></li>
+    <li><a href="<%= url_for('login') %>/">Login</a></li>
+    <li><a href="<%= url_for('register') %>">Register</a></li>
+% }
+    </ul>
+    </div>
+    <%== content %>
+    </body>
 </html>
