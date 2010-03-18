@@ -177,6 +177,9 @@ of E-mail, password, etc.).
 
 * Add a confirmation reminder feature to re-send the confirmation E-mail.
 
+* Add a way to cancel a registration using the E-mail (in case it's an unwanted
+registration.)
+
 =cut
 
 __DATA__
