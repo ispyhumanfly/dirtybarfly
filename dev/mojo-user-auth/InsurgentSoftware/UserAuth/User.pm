@@ -3,6 +3,8 @@ package InsurgentSoftware::UserAuth::User;
 use Moose;
 use InsurgentSoftware::UserAuth::UserExtraData;
 
+use DateTime;
+
 has fullname => (
     isa => "Str",
     is => "rw",
@@ -34,6 +36,11 @@ has confirmed => (
 
 has confirm_code => (
     isa => "Str",
+    is => "rw",
+);
+
+has last_confirmation_sent_at => (
+    isa => "Maybe[DateTime]",
     is => "rw",
 );
 

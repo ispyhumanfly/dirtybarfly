@@ -403,13 +403,40 @@ sub _get_confirm_code
     return unpack("H*", $bytes);
 }
 
+sub _send_confirmation_email
+{
+    my $self = shift;
+    my $user = shift;
+
+    my $email_msg = Email::Simple->create(
+        header => [
+            To => $user->email(),
+            From => 'Insurgent-Auth <auth@insurgentsoftware.com>',
+            Subject => "Authentication for " . $user->email(),
+        ],
+        body =>
+        (
+            "You need to confirm your registration for Insurgent-Auth.\n\n"
+            . "Go to the following URL:\n\n"
+            . $self->_mojo->url_for("confirm_register")->to_abs()
+                . "?email=" . uri_escape($user->email())
+                . "&code=" . uri_escape($user->confirm_code())
+            . "\n\n"
+        ),
+    );
+
+    Email::Sender::Simple->send($email_msg);
+
+    $user->last_confirmation_sent_at(DateTime->now());
+
+    return;
+}
+
 sub _register_new_user
 {
     my $self = shift;
 
     my $scope = $self->_new_scope;
-
-    my $confirm_code = $self->_get_confirm_code();
 
     my $new_user = InsurgentSoftware::UserAuth::User->new(
         {
@@ -417,30 +444,13 @@ sub _register_new_user
             # TODO : don't store the password as plaintext.
             password => $self->_password,
             email => $self->_email,
-            confirm_code => $confirm_code,
+            confirm_code => $self->_get_confirm_code(),
         }
     );
 
+    $self->_send_confirmation_email($new_user);
+
     $self->_store($new_user);
-
-    my $email = Email::Simple->create(
-        header => [
-            To => $self->_email(),
-            From => 'Insurgent-Auth <auth@insurgentsoftware.com>',
-            Subject => "Authentication for " . $self->_email(),
-        ],
-        body =>
-        (
-            "You need to confirm your registration for Insurgent-Auth.\n\n"
-            . "Go to the following URL:\n\n"
-            . $self->_mojo->url_for("confirm_register")->to_abs()
-                . "?email=" . uri_escape($self->_email())
-                . "&code=" . uri_escape($confirm_code)
-            . "\n\n"
-        ),
-    );
-
-    Email::Sender::Simple->send($email);
 
     $self->render_text(
         ("You registered " . $self->_email()
