@@ -46,6 +46,23 @@ has last_confirmation_sent_at => (
     is => "rw",
 );
 
+sub BUILD
+{
+    my ($self, $params) = @_;
+
+    my $csh = Crypt::SaltedHash->new(
+        algorithm => 'SHA-256',
+        salt_len => __PACKAGE__->get_salt_len(),
+    );
+    $csh->add($params->{password});
+
+    my $salted = $csh->generate;
+    
+    $self->salted_password($salted);
+
+    return;
+}
+
 sub verify_password
 {
     my $self = shift;

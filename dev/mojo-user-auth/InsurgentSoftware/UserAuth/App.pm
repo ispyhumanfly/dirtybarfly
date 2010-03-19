@@ -14,8 +14,6 @@ use URI::Escape;
 
 use CGI ();
 
-use Crypt::SaltedHash;
-
 has _mojo => (
     isa => "Mojolicious::Controller",
     is => "ro",
@@ -435,20 +433,12 @@ sub _send_confirmation_email
 sub _register_new_user
 {
     my $self = shift;
-    
-    my $csh = Crypt::SaltedHash->new(
-        algorithm => 'SHA-256',
-        salt_len => InsurgentSoftware::UserAuth::User->get_salt_len(),
-    );
-    $csh->add($self->_password());
-
-    my $salted = $csh->generate;
-
+   
     my $new_user = InsurgentSoftware::UserAuth::User->new(
         {
             fullname => $self->param("fullname"),
             # TODO : don't store the password as plaintext.
-            salted_password => $salted,
+            password => $self->_password(),
             email => $self->_email,
             confirm_code => $self->_get_confirm_code(),
         }
