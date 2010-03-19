@@ -180,9 +180,6 @@ of E-mail, password, etc.).
 * Add a way to cancel a registration using the E-mail (in case it's an unwanted
 registration.)
 
-* Make sure the passwords are not stored as plain-text. See
-L<Crypt::SaltedHash> .
-
 =cut
 
 __DATA__

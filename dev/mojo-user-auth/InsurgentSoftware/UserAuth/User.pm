@@ -3,6 +3,8 @@ package InsurgentSoftware::UserAuth::User;
 use Moose;
 use InsurgentSoftware::UserAuth::UserExtraData;
 
+use Crypt::SaltedHash;
+
 use DateTime;
 
 has fullname => (
@@ -15,7 +17,7 @@ has email => (
     is => "rw",
 );
 
-has password => (
+has salted_password => (
     isa => "Str",
     is => "rw",
 );
@@ -49,7 +51,7 @@ sub verify_password
     my $self = shift;
     my $pass = shift;
 
-    return ($self->password() eq $pass);
+    return Crypt::SaltedHash->validate($self->salted_password(), $pass);
 }
 
 1;
