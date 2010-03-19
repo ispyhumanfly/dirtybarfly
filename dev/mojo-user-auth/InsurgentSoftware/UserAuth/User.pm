@@ -51,7 +51,13 @@ sub verify_password
     my $self = shift;
     my $pass = shift;
 
-    return Crypt::SaltedHash->validate($self->salted_password(), $pass);
+    return Crypt::SaltedHash->validate($self->salted_password(), $pass, 
+        __PACKAGE__->get_salt_len());
+}
+
+sub get_salt_len
+{
+    return 8;
 }
 
 1;

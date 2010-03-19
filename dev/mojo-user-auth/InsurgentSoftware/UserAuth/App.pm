@@ -436,7 +436,10 @@ sub _register_new_user
 {
     my $self = shift;
     
-    my $csh = Crypt::SaltedHash->new(algorithm => 'SHA-256');
+    my $csh = Crypt::SaltedHash->new(
+        algorithm => 'SHA-256',
+        salt_len => InsurgentSoftware::UserAuth::User->get_salt_len(),
+    );
     $csh->add($self->_password());
 
     my $salted = $csh->generate;
