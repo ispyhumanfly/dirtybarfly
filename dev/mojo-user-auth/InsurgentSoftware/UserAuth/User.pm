@@ -41,7 +41,17 @@ has confirm_code => (
     is => "rw",
 );
 
+has password_reset_code => (
+    isa => "Maybe[Str]",
+    is => "rw",
+);
+
 has last_confirmation_sent_at => (
+    isa => "Maybe[DateTime]",
+    is => "rw",
+);
+
+has last_password_reset_sent_at => (
     isa => "Maybe[DateTime]",
     is => "rw",
 );

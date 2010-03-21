@@ -713,6 +713,81 @@ sub confirm_register
     }
 }
 
+sub password_reset
+{
+    my $self = shift;
+
+    return $self->render(
+        {
+            template => "password_reset",
+            password_reset_form => $self->password_reset_form({}),
+            title => "Password Reset",
+        },
+    );
+}
+
+
+sub _send_password_reset_email
+{
+    my $self = shift;
+    my $user = shift;
+
+    if (! defined($user->password_reset_code()))
+    {
+        $user->password_reset_code($self->_get_confirm_code());
+    }
+
+    my $email_msg = Email::Simple->create(
+        header => [
+            To => $user->email(),
+            From => 'Insurgent-Auth <auth@insurgentsoftware.com>',
+            Subject => "Password Reset for " . $user->email(),
+        ],
+        body =>
+        (
+            "You need to confirm your registration for Insurgent-Auth.\n\n"
+            . "Go to the following URL:\n\n"
+            . $self->_mojo->url_for("handle_password_reset")->to_abs()
+                . "?email=" . uri_escape($user->email())
+                . "&code=" . uri_escape($user->password_reset_code())
+            . "\n\n"
+        ),
+    );
+
+    Email::Sender::Simple->send($email_msg);
+
+    $user->last_password_reset_sent_at(DateTime->now());
+
+    return;
+}
+
+sub password_reset_submit
+{
+    my $self = shift;
+
+    my $user = $self->_find_user_by_param;
+
+    if (! $user)
+    {
+        return $self->render_failed_login(
+            "Wrong E-mail",
+        );
+    }
+
+    $self->_send_password_reset_email($user);
+
+    $self->render_text(
+        "Successfully submitted a reset",
+        {
+            title => "Successfully submitted a reset",
+        },
+    );
+
+    $self->_store($user);
+
+    return;
+}
+
 package InsurgentSoftware::UserAuth::App;
 
 use Moose;
@@ -720,7 +795,8 @@ use Moose;
 extends("InsurgentSoftware::UserAuth::App::Base1");
 
 around 'register_submit', '_register_new_user', 'login_submit', 
-       'account_page', 'change_user_info_submit', 'confirm_register'
+       'account_page', 'change_user_info_submit', 'confirm_register',
+       'password_reset_submit',
 => sub {
     my $orig = shift;
     my $self = shift;
@@ -741,17 +817,5 @@ around 'register_submit', '_register_new_user', 'login_submit',
 };
 
 
-sub password_reset
-{
-    my $self = shift;
-
-    return $self->render(
-        {
-            template => "password_reset",
-            password_reset_form => $self->password_reset_form({}),
-            title => "Password Reset",
-        },
-    );
-}
 
 1;

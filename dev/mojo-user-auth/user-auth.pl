@@ -136,7 +136,6 @@ get '/account' => (\&account) => "account";
 sub account_change_user_info_submit
 {
     my $self = shift;
-
     
     my $app = InsurgentSoftware::UserAuth::App->new(
         {
@@ -187,12 +186,28 @@ sub password_reset_submit
 {
     my $self = shift;
 
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->password_reset_submit();
+}
+
+post '/password-reset-submit' => (\&password_reset_submit) => "password_reset_submit";
+
+sub handle_password_reset
+{
+    my $self = shift;
+
     $self->render_text("TODO");
 
     return;
 }
 
-post '/password-reset-submit' => (\&password_reset_submit) => "password_reset_submit";
+get '/handle-password-reset' => (\&handle_password_reset) => "handle_password_reset";
 
 shagadelic;
 

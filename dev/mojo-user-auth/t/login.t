@@ -334,8 +334,41 @@ sub logout_with_checks
 
     return ($num_fails == 0);
 }
-
 # TEST:$logout_count=$c;
+
+# TODO : test that the user was registered properly.
+# TEST:$c=0;
+sub test_email
+{
+    my $mech = shift;
+    my $url_ref = shift;
+    my $blurb_base = shift;
+
+    my $email_msg = Email::Sender::Simple::shift_email();
+
+    my $url;
+    my $ok = 1;
+
+    # TEST:$c++;
+    $ok = ok($email_msg, "$blurb_base - Email was sent.") && $ok;
+
+    ($url) =
+    ($email_msg->body() =~ 
+        m{Go to the following URL:\r?\n\r?\n(https?:[^\n\r]*)\r?\n}ms
+    );
+
+    my $email1 = $mech->email();
+    $email1 =~ s{\@}{%40};
+
+    # TEST:$c++;
+    $ok = like ($url, qr{email=\Q$email1\E}, "Got URL") && $ok;
+
+    ${$url_ref} = $url;
+
+    return $ok;
+}
+# TEST:$test_email=$c;
+
 
 # TEST:$c=0;
 sub register_with_confirmation
@@ -369,28 +402,10 @@ sub register_with_confirmation
         "Registration failed - the email was already registered",
         "$blurb_base - Registration failed - E-mail already registered."
     );
-    
 
     my $url;
-
-    # TODO : test that the user was registered properly.
-    {
-        my $email_msg = Email::Sender::Simple::shift_email();
-
-        # TEST:$c++;
-        ok($email_msg, "Email was sent.");
-
-        ($url) =
-        ($email_msg->body() =~ 
-            m{Go to the following URL:\r?\n\r?\n(https?:[^\n\r]*)\r?\n}ms
-        );
-
-        my $email1 = $mech->email();
-        $email1 =~ s{\@}{%40};
-
-        # TEST:$c++;
-        like ($url, qr{email=\Q$email1\E}, "Got URL");
-    }
+    # TEST:$c=$c+$test_email
+    $mech->test_email(\$url, "$blurb_base - Email");
 
     # TEST:$c++;
     $mech->go_to_front();
@@ -451,7 +466,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 108;
+use Test::More tests => 110;
 use Test::Mojo;
 
 use FindBin;
@@ -853,3 +868,9 @@ $mech->submit_form_ok(
     },
     "Submitted Password Reset Form",
 );
+
+{
+    my $pass_reset_url;
+    # TEST*$test_email
+    $mech->test_email(\$pass_reset_url,  "Sophie - password reset");
+}
