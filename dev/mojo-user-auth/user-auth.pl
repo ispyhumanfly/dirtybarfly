@@ -136,7 +136,6 @@ get '/account' => (\&account) => "account";
 sub account_change_user_info_submit
 {
     my $self = shift;
-
     
     my $app = InsurgentSoftware::UserAuth::App->new(
         {
@@ -154,7 +153,6 @@ post '/account/change-info' => (\&account_change_user_info_submit)
 sub confirm_register
 {
     my $self = shift;
-
     
     my $app = InsurgentSoftware::UserAuth::App->new(
         {
@@ -167,6 +165,71 @@ sub confirm_register
 }
 
 get '/confirm-register' => (\&confirm_register) => "confirm_register";
+
+sub password_reset
+{
+    my $self = shift;
+    
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->password_reset();
+}
+
+get '/password-reset' => (\&password_reset) => "password_reset";
+
+sub password_reset_submit
+{
+    my $self = shift;
+
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->password_reset_submit();
+}
+
+post '/password-reset-submit' => (\&password_reset_submit) => "password_reset_submit";
+
+sub handle_password_reset
+{
+    my $self = shift;
+
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->handle_password_reset(); 
+}
+
+get '/handle-password-reset' => (\&handle_password_reset) => "handle_password_reset";
+
+
+sub handle_password_reset_submit
+{
+    my $self = shift;
+
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->handle_password_reset_submit(); 
+}
+
+post '/handle-password-reset-submit' => (\&handle_password_reset_submit) => "handle_password_reset_submit";
 
 shagadelic;
 
@@ -215,6 +278,29 @@ __DATA__
 
 <%== $change_user_info_form %>
 
+@@ password_reset.html.ep
+% layout 'insurgent';
+<h1>Reset Your Password</h1>
+
+<p>
+The form below allows you to reset your password. Please enter the E-mail
+with which you registered.
+</p>
+
+<%== $password_reset_form %>
+
+@@ handle_password_reset.html.ep
+% layout 'insurgent';
+<h1>Reset Your Password</h1>
+
+<p>
+The form below allows you to reset your password. Please enter your new
+password.
+</p>
+
+<%== $handle_password_reset_form %>
+
+
 @@ layouts/insurgent.html.ep
 <!doctype html><html>
     <head>
@@ -233,6 +319,7 @@ __DATA__
     <li><a href="<%= url_for('login') %>/">Login</a></li>
     <li><a href="<%= url_for('register') %>">Register</a></li>
 % }
+    <li><a href="<%= url_for('password_reset') %>">Password Reset</a></li>
     </ul>
     </div>
     <%== content %>

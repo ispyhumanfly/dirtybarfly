@@ -3,6 +3,8 @@ package InsurgentSoftware::UserAuth::User;
 use Moose;
 use InsurgentSoftware::UserAuth::UserExtraData;
 
+use Crypt::SaltedHash;
+
 use DateTime;
 
 has fullname => (
@@ -15,7 +17,7 @@ has email => (
     is => "rw",
 );
 
-has password => (
+has salted_password => (
     isa => "Str",
     is => "rw",
 );
@@ -39,17 +41,59 @@ has confirm_code => (
     is => "rw",
 );
 
+has password_reset_code => (
+    isa => "Maybe[Str]",
+    is => "rw",
+);
+
 has last_confirmation_sent_at => (
     isa => "Maybe[DateTime]",
     is => "rw",
 );
+
+has last_password_reset_sent_at => (
+    isa => "Maybe[DateTime]",
+    is => "rw",
+);
+
+sub assign_password
+{
+    my ($self, $password) = @_;
+
+    my $csh = Crypt::SaltedHash->new(
+        algorithm => 'SHA-256',
+        salt_len => __PACKAGE__->get_salt_len(),
+    );
+    $csh->add($password);
+
+    my $salted = $csh->generate;
+    
+    $self->salted_password($salted);
+
+    return;
+}
+
+sub BUILD
+{
+    my ($self, $params) = @_;
+
+    $self->assign_password($params->{password});
+
+    return;
+}
 
 sub verify_password
 {
     my $self = shift;
     my $pass = shift;
 
-    return ($self->password() eq $pass);
+    return Crypt::SaltedHash->validate($self->salted_password(), $pass, 
+        __PACKAGE__->get_salt_len());
+}
+
+sub get_salt_len
+{
+    return 8;
 }
 
 1;

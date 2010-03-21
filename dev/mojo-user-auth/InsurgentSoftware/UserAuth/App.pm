@@ -150,6 +150,45 @@ sub BUILD
         },
     );
 
+    $self->_add_form(
+        {
+            id => "password_reset",
+            fields =>
+            [
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "input", id => "email", label => "Email:",},
+                ),
+            ],
+        },
+    );
+
+    $self->_add_form(
+        {
+            id => "handle_password_reset",
+            fields =>
+            [
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "hidden", id => "email", label => "Unseen",},
+                ),
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "hidden", id => "password_reset_code",
+                        label => "Unseen",
+                    },
+                ),
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "password", id => "password",
+                        label => "Password:",
+                    },
+                ),
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "password", id => "password2",
+                        label => "Password (confirmation):",
+                    },
+                ),                
+            ],
+        },
+    );
+
     return;
 }
 
@@ -210,6 +249,25 @@ sub render_failed_reg
     return;
 }
 
+sub render_failed_handle_password_reset
+{
+    my $self = shift;
+
+    my $header = shift;
+    my $explanation = shift || "";
+
+    $self->render_text(
+        sprintf("<h1>%s</h1>\n<p class=\"error\">%s</p>",
+            $header, $explanation, 
+        ),
+        {
+            title => $header,
+        },
+    );
+
+    return;
+}
+
 sub render_failed_login
 {
     my $self = shift;
@@ -245,6 +303,14 @@ sub register_form
     my $values = shift;
 
     return $self->_render_form("register", $values)
+}
+
+sub password_reset_form
+{
+    my $self = shift;
+    my $values = shift;
+
+    return $self->_render_form("password_reset", $values)
 }
 
 sub login_form
@@ -433,12 +499,12 @@ sub _send_confirmation_email
 sub _register_new_user
 {
     my $self = shift;
-
+   
     my $new_user = InsurgentSoftware::UserAuth::User->new(
         {
             fullname => $self->param("fullname"),
             # TODO : don't store the password as plaintext.
-            password => $self->_password,
+            password => $self->_password(),
             email => $self->_email,
             confirm_code => $self->_get_confirm_code(),
         }
@@ -693,6 +759,170 @@ sub confirm_register
     }
 }
 
+sub password_reset
+{
+    my $self = shift;
+
+    return $self->render(
+        {
+            template => "password_reset",
+            password_reset_form => $self->password_reset_form({}),
+            title => "Password Reset",
+        },
+    );
+}
+
+
+sub _send_password_reset_email
+{
+    my $self = shift;
+    my $user = shift;
+
+    if (! defined($user->password_reset_code()))
+    {
+        $user->password_reset_code($self->_get_confirm_code());
+    }
+
+    my $email_msg = Email::Simple->create(
+        header => [
+            To => $user->email(),
+            From => 'Insurgent-Auth <auth@insurgentsoftware.com>',
+            Subject => "Password Reset for " . $user->email(),
+        ],
+        body =>
+        (
+            "You need to confirm your registration for Insurgent-Auth.\n\n"
+            . "Go to the following URL:\n\n"
+            . $self->_mojo->url_for("handle_password_reset")->to_abs()
+                . "?email=" . uri_escape($user->email())
+                . "&code=" . uri_escape($user->password_reset_code())
+            . "\n\n"
+        ),
+    );
+
+    Email::Sender::Simple->send($email_msg);
+
+    $user->last_password_reset_sent_at(DateTime->now());
+
+    return;
+}
+
+sub password_reset_submit
+{
+    my $self = shift;
+
+    my $user = $self->_find_user_by_param;
+
+    if (! $user)
+    {
+        return $self->render_failed_login(
+            "Wrong E-mail",
+        );
+    }
+
+    $self->_send_password_reset_email($user);
+
+    $self->render_text(
+        "Successfully submitted a reset",
+        {
+            title => "Successfully submitted a reset",
+        },
+    );
+
+    $self->_store($user);
+
+    return;
+}
+
+sub handle_password_reset_form
+{
+    my $self = shift;
+    my $values = shift;
+
+    return $self->_render_form("handle_password_reset", $values)
+}
+
+sub handle_password_reset
+{
+    my $self = shift;
+
+    my $user = $self->_find_user_by_param;
+
+    if (! $user)
+    {
+        return $self->render_failed_reg(
+            "Uknown user."
+        );
+    }
+
+    if ($user->password_reset_code ne $self->param("code"))
+    {
+        return $self->render_failed_reg(
+            "Wrong reset code."
+        );
+    }
+
+    return $self->render(
+        {
+            template => "handle_password_reset",
+            handle_password_reset_form => $self->handle_password_reset_form(
+                {
+                    email => $self->_email(),
+                    password_reset_code => $self->param("code"),
+                },
+            ),
+            title => "Process Password Reset",
+        },
+    );
+}
+
+sub handle_password_reset_submit
+{
+    my $self = shift;
+
+    if ($self->_passwords_dont_match())
+    {
+        return $self->render_failed_handle_password_reset(
+            "Passwords don't match - hit back."
+        );
+    }
+
+    if ($self->_pass_is_too_short())
+    {
+        return $self->render_failed_handle_password_reset(
+             "Registration failed - password is too short.",
+             "The password must contain at least 6 alphanumeric (A-Z, a-z, 0-9) characters.",
+        );
+       
+    }
+
+    my $user = $self->_find_user_by_param;
+
+    my $email = $self->_email;
+
+    if (! $user)
+    {
+        return $self->render_failed_handle_password_reset(
+            "Registration failed - the email was already registered",
+            "The email " . CGI::escapeHTML($email) . " already exists in our database.",
+        );
+    }
+
+    if ($user->password_reset_code ne $self->param("password_reset_code"))
+    {
+        $self->render_failed_handle_password_reset(
+            "The confirmation code is wrong.",
+            "The email " . CGI::escapeHTML($email) . " already exists in our database.",
+        );
+    }
+
+    $user->assign_password($self->param("password"));
+
+    $self->_store($user);
+
+    return;
+}
+
 package InsurgentSoftware::UserAuth::App;
 
 use Moose;
@@ -700,7 +930,9 @@ use Moose;
 extends("InsurgentSoftware::UserAuth::App::Base1");
 
 around 'register_submit', '_register_new_user', 'login_submit', 
-       'account_page', 'change_user_info_submit', 'confirm_register'
+       'account_page', 'change_user_info_submit', 'confirm_register',
+       'password_reset_submit', 'handle_password_reset',
+       'handle_password_reset_submit',
 => sub {
     my $orig = shift;
     my $self = shift;
@@ -719,5 +951,7 @@ around 'register_submit', '_register_new_user', 'login_submit',
     
     return @ret;
 };
+
+
 
 1;

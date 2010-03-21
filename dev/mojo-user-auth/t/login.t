@@ -119,6 +119,13 @@ sub get_user_pass
     return $self->_get_user($uid)->password;
 }
 
+sub change_password
+{
+    my ($self, $pass) = @_;
+
+    return $self->_active_user->set_new_password($pass);
+}
+
 sub go_to_front
 {
     my ($self, $blurb) = @_;
@@ -334,8 +341,41 @@ sub logout_with_checks
 
     return ($num_fails == 0);
 }
-
 # TEST:$logout_count=$c;
+
+# TODO : test that the user was registered properly.
+# TEST:$c=0;
+sub test_email
+{
+    my $mech = shift;
+    my $url_ref = shift;
+    my $blurb_base = shift;
+
+    my $email_msg = Email::Sender::Simple::shift_email();
+
+    my $url;
+    my $ok = 1;
+
+    # TEST:$c++;
+    $ok = ok($email_msg, "$blurb_base - Email was sent.") && $ok;
+
+    ($url) =
+    ($email_msg->body() =~ 
+        m{Go to the following URL:\r?\n\r?\n(https?:[^\n\r]*)\r?\n}ms
+    );
+
+    my $email1 = $mech->email();
+    $email1 =~ s{\@}{%40};
+
+    # TEST:$c++;
+    $ok = like ($url, qr{email=\Q$email1\E}, "Got URL") && $ok;
+
+    ${$url_ref} = $url;
+
+    return $ok;
+}
+# TEST:$test_email=$c;
+
 
 # TEST:$c=0;
 sub register_with_confirmation
@@ -369,28 +409,10 @@ sub register_with_confirmation
         "Registration failed - the email was already registered",
         "$blurb_base - Registration failed - E-mail already registered."
     );
-    
 
     my $url;
-
-    # TODO : test that the user was registered properly.
-    {
-        my $email_msg = Email::Sender::Simple::shift_email();
-
-        # TEST:$c++;
-        ok($email_msg, "Email was sent.");
-
-        ($url) =
-        ($email_msg->body() =~ 
-            m{Go to the following URL:\r?\n\r?\n(https?:[^\n\r]*)\r?\n}ms
-        );
-
-        my $email1 = $mech->email();
-        $email1 =~ s{\@}{%40};
-
-        # TEST:$c++;
-        like ($url, qr{email=\Q$email1\E}, "Got URL");
-    }
+    # TEST:$c=$c+$test_email
+    $mech->test_email(\$url, "$blurb_base - Email");
 
     # TEST:$c++;
     $mech->go_to_front();
@@ -437,8 +459,17 @@ use Moose;
 has id => (isa => "Str", is => "ro");
 has fullname => (isa => "Str", is => "ro");
 has email => (isa => "Str", is => "ro");
-has password => (isa => "Str", is => "ro");
+has password => (isa => "Str", is => "rw");
 has wrong_pass => (isa => "Str", is => "rw");
+
+sub set_new_password
+{
+    my ($self, $pass) = @_;
+    
+    $self->password($pass);
+
+    return;
+}
 
 package main;
 
@@ -451,7 +482,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 106;
+use Test::More tests => 118;
 use Test::Mojo;
 
 use FindBin;
@@ -837,3 +868,54 @@ $mech->h1_is(
     "Error - the bio is too long",
 );
 
+# TEST
+$mech->follow_link_ok({text => "Password Reset"}, 
+    "Could follow Password Reset OK."
+);
+
+# TEST
+$mech->submit_form_ok(
+    {
+        form_id => "password_reset",
+        fields =>
+        {
+            email => $mech->email(),
+        },
+    },
+    "Submitted Password Reset Form",
+);
+
+my $new_sophie_pass = "F8nv[-=;KnT9nvlknsvsdv";
+
+{
+    my $pass_reset_url;
+    # TEST*$test_email
+    $mech->test_email(\$pass_reset_url,  "Sophie - password reset");
+
+    # TEST*$logout_count
+    $mech->logout_with_checks("sophie #3");
+
+    # TEST
+    $mech->get_ok($pass_reset_url, "Sophie - resetting password");
+
+    # TEST
+    $mech->submit_form_ok(
+        {
+            form_id => "handle_password_reset",
+            fields =>
+            {
+                password => $new_sophie_pass,
+                password2 => $new_sophie_pass,
+            },
+        },
+        "Sophie - handle reset password",
+    );
+
+    $mech->change_password($new_sophie_pass);
+
+    # TEST
+    $mech->follow_link_ok({text => "Login"}, "Sophie after change pass login.");
+
+    # TEST
+    $mech->login_properly("Sophie after change pass login properly.");
+}
