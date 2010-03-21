@@ -451,7 +451,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 106;
+use Test::More tests => 108;
 use Test::Mojo;
 
 use FindBin;
@@ -837,3 +837,19 @@ $mech->h1_is(
     "Error - the bio is too long",
 );
 
+# TEST
+$mech->follow_link_ok({text => "Password Reset"}, 
+    "Could follow Password Reset OK."
+);
+
+# TEST
+$mech->submit_form_ok(
+    {
+        form_id => "password_reset",
+        fields =>
+        {
+            email => $mech->email(),
+        },
+    },
+    "Submitted Password Reset Form",
+);

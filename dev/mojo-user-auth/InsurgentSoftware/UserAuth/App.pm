@@ -150,6 +150,18 @@ sub BUILD
         },
     );
 
+    $self->_add_form(
+        {
+            id => "password_reset",
+            fields =>
+            [
+                InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                    { type => "input", id => "email", label => "Email:",},
+                ),
+            ],
+        },
+    );
+
     return;
 }
 
@@ -245,6 +257,14 @@ sub register_form
     my $values = shift;
 
     return $self->_render_form("register", $values)
+}
+
+sub password_reset_form
+{
+    my $self = shift;
+    my $values = shift;
+
+    return $self->_render_form("password_reset", $values)
 }
 
 sub login_form
@@ -719,5 +739,19 @@ around 'register_submit', '_register_new_user', 'login_submit',
     
     return @ret;
 };
+
+
+sub password_reset
+{
+    my $self = shift;
+
+    return $self->render(
+        {
+            template => "password_reset",
+            password_reset_form => $self->password_reset_form({}),
+            title => "Password Reset",
+        },
+    );
+}
 
 1;

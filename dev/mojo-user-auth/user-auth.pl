@@ -170,18 +170,29 @@ get '/confirm-register' => (\&confirm_register) => "confirm_register";
 sub password_reset
 {
     my $self = shift;
-
-    $self->render_text(
-        "<h1>TODO : Password reset</h1>\n",
-        layout => 'insurgent',
-        title => "Password Reset",
+    
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
     );
 
-    return;
-
+    return $app->password_reset();
 }
 
 get '/password-reset' => (\&password_reset) => "password_reset";
+
+sub password_reset_submit
+{
+    my $self = shift;
+
+    $self->render_text("TODO");
+
+    return;
+}
+
+post '/password-reset-submit' => (\&password_reset_submit) => "password_reset_submit";
 
 shagadelic;
 
@@ -229,6 +240,17 @@ __DATA__
 <h2 id="change_info">Change User Information</h2>
 
 <%== $change_user_info_form %>
+
+@@ password_reset.html.ep
+% layout 'insurgent';
+<h1>Reset Your Password</h1>
+
+<p>
+The form below allows you to reset your password. Please enter the E-mail
+with which you registered.
+</p>
+
+<%== $password_reset_form %>
 
 @@ layouts/insurgent.html.ep
 <!doctype html><html>
