@@ -56,19 +56,28 @@ has last_password_reset_sent_at => (
     is => "rw",
 );
 
-sub BUILD
+sub assign_password
 {
-    my ($self, $params) = @_;
+    my ($self, $password) = @_;
 
     my $csh = Crypt::SaltedHash->new(
         algorithm => 'SHA-256',
         salt_len => __PACKAGE__->get_salt_len(),
     );
-    $csh->add($params->{password});
+    $csh->add($password);
 
     my $salted = $csh->generate;
     
     $self->salted_password($salted);
+
+    return;
+}
+
+sub BUILD
+{
+    my ($self, $params) = @_;
+
+    $self->assign_password($params->{password});
 
     return;
 }

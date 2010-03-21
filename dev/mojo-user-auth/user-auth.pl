@@ -202,12 +202,34 @@ sub handle_password_reset
 {
     my $self = shift;
 
-    $self->render_text("TODO");
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
 
-    return;
+    return $app->handle_password_reset(); 
 }
 
 get '/handle-password-reset' => (\&handle_password_reset) => "handle_password_reset";
+
+
+sub handle_password_reset_submit
+{
+    my $self = shift;
+
+    my $app = InsurgentSoftware::UserAuth::App->new(
+        {
+            mojo => $self,
+            dir => $dir,
+        }
+    );
+
+    return $app->handle_password_reset_submit(); 
+}
+
+post '/handle-password-reset-submit' => (\&handle_password_reset_submit) => "handle_password_reset_submit";
 
 shagadelic;
 
@@ -266,6 +288,18 @@ with which you registered.
 </p>
 
 <%== $password_reset_form %>
+
+@@ handle_password_reset.html.ep
+% layout 'insurgent';
+<h1>Reset Your Password</h1>
+
+<p>
+The form below allows you to reset your password. Please enter your new
+password.
+</p>
+
+<%== $handle_password_reset_form %>
+
 
 @@ layouts/insurgent.html.ep
 <!doctype html><html>

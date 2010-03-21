@@ -37,12 +37,21 @@ sub _render_password
     return qq{<input name="} . $self->id(). qq{" type="password" />};
 }
 
-
 sub _render_input
 {
     my ($self,$args) = @_;
     
     return q{<input name="} . $self->id(). 
+        q{" value="} . $self->_get_value($args). q{"/>}
+        ;
+}
+
+
+sub render_hidden
+{
+    my ($self,$args) = @_;
+    
+    return q{<input type="hidden" name="} . $self->id(). 
         q{" value="} . $self->_get_value($args). q{"/>}
         ;
 }
@@ -104,6 +113,7 @@ sub render_fields
     return
         join("",
             map { $_->render({ value => $values->{$_->id()}}) }
+            grep { $_->type() ne "hidden" }
             @{$self->fields()}
         );
 }
@@ -117,8 +127,14 @@ sub render_form
 
     my $inner = $self->render_fields($values);
 
+    my $hidden_fields = join("",
+        map { $_->render_hidden($values) } grep { $_->type() eq "hidden" }
+        @{$self->fields()}
+    );
+
     return <<"EOF";
 <form id="$id" action="$action" method="post">
+$hidden_fields
 <table>
 $inner
 <tr>

@@ -119,6 +119,13 @@ sub get_user_pass
     return $self->_get_user($uid)->password;
 }
 
+sub change_password
+{
+    my ($self, $pass) = @_;
+
+    return $self->_active_user->set_new_password($pass);
+}
+
 sub go_to_front
 {
     my ($self, $blurb) = @_;
@@ -452,8 +459,17 @@ use Moose;
 has id => (isa => "Str", is => "ro");
 has fullname => (isa => "Str", is => "ro");
 has email => (isa => "Str", is => "ro");
-has password => (isa => "Str", is => "ro");
+has password => (isa => "Str", is => "rw");
 has wrong_pass => (isa => "Str", is => "rw");
+
+sub set_new_password
+{
+    my ($self, $pass) = @_;
+    
+    $self->password($pass);
+
+    return;
+}
 
 package main;
 
@@ -466,7 +482,7 @@ BEGIN
     unlink("insurgent-auth.sqlite");
 }
 
-use Test::More tests => 110;
+use Test::More tests => 118;
 use Test::Mojo;
 
 use FindBin;
@@ -869,8 +885,37 @@ $mech->submit_form_ok(
     "Submitted Password Reset Form",
 );
 
+my $new_sophie_pass = "F8nv[-=;KnT9nvlknsvsdv";
+
 {
     my $pass_reset_url;
     # TEST*$test_email
     $mech->test_email(\$pass_reset_url,  "Sophie - password reset");
+
+    # TEST*$logout_count
+    $mech->logout_with_checks("sophie #3");
+
+    # TEST
+    $mech->get_ok($pass_reset_url, "Sophie - resetting password");
+
+    # TEST
+    $mech->submit_form_ok(
+        {
+            form_id => "handle_password_reset",
+            fields =>
+            {
+                password => $new_sophie_pass,
+                password2 => $new_sophie_pass,
+            },
+        },
+        "Sophie - handle reset password",
+    );
+
+    $mech->change_password($new_sophie_pass);
+
+    # TEST
+    $mech->follow_link_ok({text => "Login"}, "Sophie after change pass login.");
+
+    # TEST
+    $mech->login_properly("Sophie after change pass login properly.");
 }
