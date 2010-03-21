@@ -154,7 +154,6 @@ post '/account/change-info' => (\&account_change_user_info_submit)
 sub confirm_register
 {
     my $self = shift;
-
     
     my $app = InsurgentSoftware::UserAuth::App->new(
         {
@@ -167,6 +166,22 @@ sub confirm_register
 }
 
 get '/confirm-register' => (\&confirm_register) => "confirm_register";
+
+sub password_reset
+{
+    my $self = shift;
+
+    $self->render_text(
+        "<h1>TODO : Password reset</h1>\n",
+        layout => 'insurgent',
+        title => "Password Reset",
+    );
+
+    return;
+
+}
+
+get '/password-reset' => (\&password_reset) => "password_reset";
 
 shagadelic;
 
@@ -233,6 +248,7 @@ __DATA__
     <li><a href="<%= url_for('login') %>/">Login</a></li>
     <li><a href="<%= url_for('register') %>">Register</a></li>
 % }
+    <li><a href="<%= url_for('password_reset') %>">Password Reset</a></li>
     </ul>
     </div>
     <%== content %>
