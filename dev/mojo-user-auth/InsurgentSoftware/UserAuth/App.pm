@@ -4,6 +4,7 @@ use Moose;
 
 use InsurgentSoftware::UserAuth::User;
 use InsurgentSoftware::UserAuth::FormSpec;
+use InsurgentSoftware::UserAuth::App::Forms;
 
 use KiokuDB;
 
@@ -13,6 +14,8 @@ use Email::Simple::Creator;
 use URI::Escape;
 
 use CGI ();
+
+my $forms = InsurgentSoftware::UserAuth::App::Forms->new();
 
 has _mojo => (
     isa => "Mojolicious::Controller",
@@ -39,9 +42,12 @@ has _dir => (
 );
 
 has _forms => (
-    isa => "HashRef[InsurgentSoftware::UserAuth::FormSpec]",
-    is => "rw",
-    default => sub { return +{} },
+    isa => "InsurgentSoftware::UserAuth::App::Forms",
+    default => sub { return $forms; },
+    handles =>
+    {
+        "_get_form" => "get_form",
+    },
 );
 
 sub render_text
@@ -64,134 +70,107 @@ sub render
     );
 }
 
+$forms->add_form(
+    {
+        id => "register",
+        fields =>
+        [
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "input", id => "email", label => "Email:",},
+            ),
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "password", id => "password",
+                    label => "Password:",
+                },
+            ),
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "password", id => "password2",
+                    label => "Password (confirmation):",
+                },
+            ),
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "input", id => "fullname",
+                    label => "Full name (optional):",
+                },
+            ),
+        ],
+    },
+);
 
-sub _add_form
-{
-    my ($self, $args) = @_;
+$forms->add_form(
+    {
+        id => "login",
+        fields =>
+        [
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "input", id => "email", label => "Email:",},
+            ),
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "password", id => "password",
+                    label => "Password:",
+                },
+            ),
+        ],
+    },
+);
 
-    my $id = $args->{'id'};
-    my $fields = $args->{'fields'};
+$forms->add_form(
+    {
+        id => "change_user_info",
+        fields =>
+        [
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "input", id => "fullname",
+                    label => "Full name:",
+                },
+            ),
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "textarea", id => "bio",
+                    label => "Bio:",
+                },
+            ),
+        ],
+    },
+);
 
-    $self->_forms->{$id} =
-        InsurgentSoftware::UserAuth::FormSpec->new(
-            {
-                id => $id,
-                to => $id . "_submit",
-                fields => $fields,
-            },
-        );
+$forms->add_form(
+    {
+        id => "password_reset",
+        fields =>
+        [
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "input", id => "email", label => "Email:",},
+            ),
+        ],
+    },
+);
 
-    return;
-}
-
-sub BUILD
-{
-    my $self = shift;
-
-    $self->_add_form(
-        {
-            id => "register",
-            fields =>
-            [
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "input", id => "email", label => "Email:",},
-                ),
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "password", id => "password",
-                        label => "Password:",
-                    },
-                ),
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "password", id => "password2",
-                        label => "Password (confirmation):",
-                    },
-                ),
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "input", id => "fullname",
-                        label => "Full name (optional):",
-                    },
-                ),
-            ],
-        },
-    );
-
-    $self->_add_form(
-        {
-            id => "login",
-            fields =>
-            [
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "input", id => "email", label => "Email:",},
-                ),
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "password", id => "password",
-                        label => "Password:",
-                    },
-                ),
-            ],
-        },
-    );
-
-    $self->_add_form(
-        {
-            id => "change_user_info",
-            fields =>
-            [
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "input", id => "fullname",
-                        label => "Full name:",
-                    },
-                ),
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "textarea", id => "bio",
-                        label => "Bio:",
-                    },
-                ),
-            ],
-        },
-    );
-
-    $self->_add_form(
-        {
-            id => "password_reset",
-            fields =>
-            [
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "input", id => "email", label => "Email:",},
-                ),
-            ],
-        },
-    );
-
-    $self->_add_form(
-        {
-            id => "handle_password_reset",
-            fields =>
-            [
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "hidden", id => "email", label => "Unseen",},
-                ),
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "hidden", id => "password_reset_code",
-                        label => "Unseen",
-                    },
-                ),
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "password", id => "password",
-                        label => "Password:",
-                    },
-                ),
-                InsurgentSoftware::UserAuth::FormSpec::Field->new(
-                    { type => "password", id => "password2",
-                        label => "Password (confirmation):",
-                    },
-                ),                
-            ],
-        },
-    );
-
-    return;
-}
+$forms->add_form(
+    {
+        id => "handle_password_reset",
+        fields =>
+        [
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "hidden", id => "email", label => "Unseen",},
+            ),
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "hidden", id => "password_reset_code",
+                    label => "Unseen",
+                },
+            ),
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "password", id => "password",
+                    label => "Password:",
+                },
+            ),
+            InsurgentSoftware::UserAuth::FormSpec::Field->new(
+                { type => "password", id => "password2",
+                    label => "Password (confirmation):",
+                },
+            ),                
+        ],
+    },
+);
 
 sub _password
 {
@@ -295,7 +274,7 @@ sub _render_form
 {
     my ($self, $form_id, $values) = @_;
 
-    return $self->_forms->{$form_id}->render_form($self->_mojo(), $values);
+    return $self->_get_form($form_id)->render_form($self->_mojo(), $values);
 }
 
 sub register_form
