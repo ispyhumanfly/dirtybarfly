@@ -53,11 +53,15 @@ my %actions_params =
         ['/register/', "register",],
         ['/login/' , "login",],
         ['/account' , "account_page",],
+        ['/confirm-register' , "confirm_register",],
+        ['/password-reset' , "password_reset",], 
     ],
     'post' =>
     [
         ['/register-submit/', "register_submit",],
         ['/login-submit/' , "login_submit",],
+        ['/account/change-info' , "change_user_info_submit",],
+        ['/password-reset-submit' , "password_reset_submit",],
     ],
 );
 
@@ -92,71 +96,6 @@ sub logout
 }
 
 get '/logout' => (\&logout) => "logout";
-
-sub account_change_user_info_submit
-{
-    my $self = shift;
-    
-    my $app = InsurgentSoftware::UserAuth::App->new(
-        {
-            mojo => $self,
-            dir => $dir,
-        }
-    );
-
-    return $app->change_user_info_submit();
-}
-
-post '/account/change-info' => (\&account_change_user_info_submit)
-=> "change_user_info_submit";
-
-sub confirm_register
-{
-    my $self = shift;
-    
-    my $app = InsurgentSoftware::UserAuth::App->new(
-        {
-            mojo => $self,
-            dir => $dir,
-        }
-    );
-
-    return $app->confirm_register();
-}
-
-get '/confirm-register' => (\&confirm_register) => "confirm_register";
-
-sub password_reset
-{
-    my $self = shift;
-    
-    my $app = InsurgentSoftware::UserAuth::App->new(
-        {
-            mojo => $self,
-            dir => $dir,
-        }
-    );
-
-    return $app->password_reset();
-}
-
-get '/password-reset' => (\&password_reset) => "password_reset";
-
-sub password_reset_submit
-{
-    my $self = shift;
-
-    my $app = InsurgentSoftware::UserAuth::App->new(
-        {
-            mojo => $self,
-            dir => $dir,
-        }
-    );
-
-    return $app->password_reset_submit();
-}
-
-post '/password-reset-submit' => (\&password_reset_submit) => "password_reset_submit";
 
 sub handle_password_reset
 {
