@@ -40,35 +40,38 @@ get '/' => sub {
     );
 } => "index";
 
-get '/register/' => sub {
-    my $self = shift;
-    
-    my $app = InsurgentSoftware::UserAuth::App->new(
-        {
-            mojo => $self,
-            dir => $dir,
-        }
-    );
+my $app = InsurgentSoftware::UserAuth::App->new(
+    {
+        dir => $dir,
+    }
+);
 
-    return $app->register();
+my %actions_params =
+(
+    'get' =>
+    [
+        ['/register/', "register"],
+    ],
+    'post' =>
+    [
+        ['/register-submit/', "register_submit",],
+    ],
+);
 
-} => "register";
-
-sub register_submit
+while (my ($verb, $actions) = each(%actions_params))
 {
-    my $self = shift;
+    foreach my $action (@$actions)
+    {
+        my ($url, $action_name) = @$action;
 
-    my $app = InsurgentSoftware::UserAuth::App->new(
-        {
-            mojo => $self,
-            dir => $dir,
-        }
-    );
-
-    return $app->register_submit();
+        __PACKAGE__->can($verb)->(
+            $url => sub {
+                my $controller = shift;
+                return $app->with_mojo($controller, $action_name); 
+            } => $action_name
+        );
+    }
 }
-
-post '/register-submit/' => \&register_submit => "register_submit";
 
 get '/login/' => sub {
     my $self = shift;

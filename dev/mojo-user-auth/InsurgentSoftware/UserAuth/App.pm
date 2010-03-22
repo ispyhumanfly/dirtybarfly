@@ -16,8 +16,9 @@ use CGI ();
 
 has _mojo => (
     isa => "Mojolicious::Controller",
-    is => "ro",
+    is => "rw",
     init_arg => "mojo",
+    clearer => "_clear_mojo",
     handles =>
     {
         "param" => "param",
@@ -921,6 +922,19 @@ sub handle_password_reset_submit
     $self->_store($user);
 
     return;
+}
+
+sub with_mojo
+{
+    my ($self, $mojo, $method) = @_;
+
+    $self->_mojo($mojo);
+
+    my $ret = $self->$method();
+
+    $self->_clear_mojo();
+
+    return $ret;
 }
 
 package InsurgentSoftware::UserAuth::App;
