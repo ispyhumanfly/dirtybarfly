@@ -5,18 +5,12 @@ use Moose;
 use InsurgentSoftware::UserAuth::FormSpec;
 
 has _forms => (
+    traits => ['Hash'],
     isa => "HashRef[InsurgentSoftware::UserAuth::FormSpec]",
     is => "rw",
     default => sub { return +{} },
+    handles => { get_form => 'get', },
 );
-
-sub get_form
-{
-    my $self = shift;
-    my $form_id = shift;
-
-    return $self->_forms->{$form_id};
-}
 
 sub add_form
 {
