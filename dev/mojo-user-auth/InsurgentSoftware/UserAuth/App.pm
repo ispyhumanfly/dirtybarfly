@@ -697,7 +697,7 @@ sub change_user_info_submit
             (
               "<h1>Updated Your User Data</h1>\n"
             . "<p>Your user-data was updated.</p>\n"
-            . qq{<p><a href="} . $self->_mojo->url_for("account") . qq{">Return to your account</a></p>\n}
+            . qq{<p><a href="} . $self->_mojo->url_for("account_page") . qq{">Return to your account</a></p>\n}
             ),
             {
                 title => "Data updated",

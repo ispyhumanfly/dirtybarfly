@@ -50,11 +50,14 @@ my %actions_params =
 (
     'get' =>
     [
-        ['/register/', "register"],
+        ['/register/', "register",],
+        ['/login/' , "login",],
+        ['/account' , "account_page",],
     ],
     'post' =>
     [
         ['/register-submit/', "register_submit",],
+        ['/login-submit/' , "login_submit",],
     ],
 );
 
@@ -73,35 +76,6 @@ while (my ($verb, $actions) = each(%actions_params))
     }
 }
 
-get '/login/' => sub {
-    my $self = shift;
-    
-    my $app = InsurgentSoftware::UserAuth::App->new(
-        {
-            mojo => $self,
-            dir => $dir,
-        }
-    );
-
-    return $app->login();
-} => "login";
-
-sub login_submit
-{
-    my $self = shift;
-
-    my $app = InsurgentSoftware::UserAuth::App->new(
-        {
-            mojo => $self,
-            dir => $dir,
-        }
-    );
-
-    return $app->login_submit();
-}
-
-post '/login-submit/' => \&login_submit => "login_submit";
-
 sub logout
 {
     my $self = shift;
@@ -118,23 +92,6 @@ sub logout
 }
 
 get '/logout' => (\&logout) => "logout";
-
-
-sub account
-{
-    my $self = shift;
-
-    my $app = InsurgentSoftware::UserAuth::App->new(
-        {
-            mojo => $self,
-            dir => $dir,
-        }
-    );
-
-    return $app->account_page();
-}
-
-get '/account' => (\&account) => "account";
 
 sub account_change_user_info_submit
 {
@@ -256,7 +213,7 @@ __DATA__
 
 <ul>
 % if ($self->session->{'login'}) {
-<li><a href="<%= url_for('account') %>">Go to Your Account</a></li>
+<li><a href="<%= url_for('account_page') %>">Go to Your Account</a></li>
 % } else {
 <li><a href="<%= url_for('login') %>">Login to an existing account</a></li>
 <li><a href="<%= url_for('register') %>">Register a new account</a></li>
@@ -315,7 +272,7 @@ password.
     <ul>
 % if ($self->session->{'login'}) {
     <li><b>Logged in as <%= $self->session->{'login'} %></b></li>
-    <li><a href="<%= url_for('account') %>">Account</a></li>
+    <li><a href="<%= url_for('account_page') %>">Account</a></li>
     <li><a href="<%= url_for('logout') %>">Logout</a></li>
 % } else {
     <li><b>Not logged in.</b></li>
