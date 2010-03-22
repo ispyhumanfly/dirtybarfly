@@ -55,6 +55,7 @@ my %actions_params =
         ['/account' , "account_page",],
         ['/confirm-register' , "confirm_register",],
         ['/password-reset' , "password_reset",], 
+        ['/handle-password-reset' , "handle_password_reset",],
     ],
     'post' =>
     [
@@ -62,6 +63,7 @@ my %actions_params =
         ['/login-submit/' , "login_submit",],
         ['/account/change-info' , "change_user_info_submit",],
         ['/password-reset-submit' , "password_reset_submit",],
+        ['/handle-password-reset-submit' , "handle_password_reset_submit",],
     ],
 );
 
@@ -96,39 +98,6 @@ sub logout
 }
 
 get '/logout' => (\&logout) => "logout";
-
-sub handle_password_reset
-{
-    my $self = shift;
-
-    my $app = InsurgentSoftware::UserAuth::App->new(
-        {
-            mojo => $self,
-            dir => $dir,
-        }
-    );
-
-    return $app->handle_password_reset(); 
-}
-
-get '/handle-password-reset' => (\&handle_password_reset) => "handle_password_reset";
-
-
-sub handle_password_reset_submit
-{
-    my $self = shift;
-
-    my $app = InsurgentSoftware::UserAuth::App->new(
-        {
-            mojo => $self,
-            dir => $dir,
-        }
-    );
-
-    return $app->handle_password_reset_submit(); 
-}
-
-post '/handle-password-reset-submit' => (\&handle_password_reset_submit) => "handle_password_reset_submit";
 
 shagadelic;
 
