@@ -127,7 +127,7 @@
 		font-size: .8em;
 		}
 		
-		#signin_inside,#profile_inside {
+		#signin_inside,#profile_inside,#help_inside {
 		width:500px;
 		height:500px;
 		}
@@ -146,7 +146,7 @@
 			<small>tagline</small>
 			</div>
 			<div id='head_right'>
-				<div onClick="dijit.byId('signin').show();" style='display:inline'>Sign Out</div> | <div onClick="dijit.byId('profile').show();" style='display:inline'>My Profile</div> | Help | About
+				<div onClick="dijit.byId('signin').show();" style='display:inline'>Sign Out</div> | <div onClick="dijit.byId('profile').show();" style='display:inline'>My Profile</div> | <div onClick="dijit.byId('help').show();" style='display:inline'>Help</div> | About
 			</div>
 		</div>
 		</div>
@@ -295,7 +295,18 @@ SocialMAP related news.
 						(click to expand)
 						</div>
 					</div>
-										<div class='news_item'>
+					<div class='news_item'>
+						<div class='news_header'>news item
+						<div class="news_rating">+40</div>
+						</div>
+						<div class='news_bar'></div>
+						<div class='news_body'>
+						</div>
+						<div class='news_expand'>
+						(click to expand)
+						</div>
+					</div>
+					<div class='news_item'>
 						<div class='news_header'>news item
 						<div class="news_rating">+40</div>
 						</div>
@@ -317,7 +328,7 @@ SocialMAP related news.
 						(click to expand)
 						</div>
 					</div>
-										<div class='news_item'>
+					<div class='news_item'>
 						<div class='news_header'>news item
 						<div class="news_rating">+40</div>
 						</div>
@@ -339,7 +350,7 @@ SocialMAP related news.
 						(click to expand)
 						</div>
 					</div>
-										<div class='news_item'>
+					<div class='news_item'>
 						<div class='news_header'>news item
 						<div class="news_rating">+40</div>
 						</div>
@@ -350,18 +361,7 @@ SocialMAP related news.
 						(click to expand)
 						</div>
 					</div>
-										<div class='news_item'>
-						<div class='news_header'>news item
-						<div class="news_rating">+40</div>
-						</div>
-						<div class='news_bar'></div>
-						<div class='news_body'>
-						</div>
-						<div class='news_expand'>
-						(click to expand)
-						</div>
-					</div>
-										<div class='news_item'>
+					<div class='news_item'>
 						<div class='news_header'>news item
 						<div class="news_rating">+40</div>
 						</div>
@@ -388,6 +388,11 @@ SocialMAP related news.
 		<div id='profile' dojoType='dijit.Dialog' title='My Profile'>
 		<div id='profile_inside'>
 				my profile fields here
+		</div>
+		</div>
+		<div id='help' dojoType='dijit.Dialog' title='SocialMAP Help'>
+		<div id='help_inside'>
+				help information here
 		</div>
 		</div>
 	</div>
