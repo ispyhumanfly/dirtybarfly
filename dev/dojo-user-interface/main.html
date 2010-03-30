@@ -127,7 +127,7 @@
 		font-size: .8em;
 		}
 		
-		#signin_inside,#profile_inside,#help_inside {
+		#signin_inside,#profile_inside,#help_inside,#about_inside {
 		width:500px;
 		height:500px;
 		}
@@ -146,7 +146,7 @@
 			<small>tagline</small>
 			</div>
 			<div id='head_right'>
-				<div onClick="dijit.byId('signin').show();" style='display:inline'>Sign Out</div> | <div onClick="dijit.byId('profile').show();" style='display:inline'>My Profile</div> | <div onClick="dijit.byId('help').show();" style='display:inline'>Help</div> | About
+				<div onClick="dijit.byId('signin').show();" style='display:inline'>Sign Out</div> | <div onClick="dijit.byId('profile').show();" style='display:inline'>My Profile</div> | <div onClick="dijit.byId('help').show();" style='display:inline'>Help</div> | <div onClick="dijit.byId('about').show();" style='display:inline'>About</div>
 			</div>
 		</div>
 		</div>
@@ -393,6 +393,11 @@ SocialMAP related news.
 		<div id='help' dojoType='dijit.Dialog' title='SocialMAP Help'>
 		<div id='help_inside'>
 				help information here
+		</div>
+		</div>
+		<div id='about' dojoType='dijit.Dialog' title='About SocialMAP'>
+		<div id='about_inside'>
+				any about information the admin wishes to include here
 		</div>
 		</div>
 	</div>
