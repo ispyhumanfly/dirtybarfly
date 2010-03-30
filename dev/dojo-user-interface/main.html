@@ -73,11 +73,11 @@
 			margin-bottom: 5px;
 		}
 		#events_list,#details_list {
-		width:95%;
+/* 		width:95%; */
 		}
 		
 		.event,.detail {
-			width: 100%;
+/* 			width: 100%; */
 			border-bottom: 1px solid black;
 			padding: 10px;
 		}
@@ -95,12 +95,35 @@
 		
 		#pagination {
 		padding: 5px;
-		width: 100%;
+/* 		width: 100%; */
 		text-align: right;
 		}
 		
 		#right_map {
 		float: right;
+		}
+		
+		.news_item {
+		border-bottom: 1px solid #333;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		}
+		
+		.news_header {
+		font-size: 1.3em;
+		}
+		
+		.news_bar {
+		font-size: .7em;
+		}
+		
+		.news_expand {
+		font-size: .85em;
+		}
+		
+		.news_rating {
+		float: right;
+		font-size: .8em;
 		}
 	</style>
 
@@ -242,10 +265,112 @@ SocialMAP related news.
 			<iframe width="100%" height="99%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=nyc&amp;sll=34.444759,-119.709103&amp;sspn=0.01674,0.033023&amp;ie=UTF8&amp;hq=&amp;hnear=New+York&amp;ll=40.714476,-74.005966&amp;spn=0.249819,0.439453&amp;z=11&amp;iwloc=A&amp;output=embed"></iframe>
 			</div>
 			</div>
-			<div dojoType='dijit.layout.ContentPane' title="News" class='tab'>
+			<div dojoType='dijit.layout.BorderContainer' title="News" class='tab' liveSplitters="true">
+			<div dojoType='dijit.layout.ContentPane' splitter='true' region='center'>
+			(this will scroll live until they click to expand a story)
 				<div id='news_list'>
-				
+					<div class='news_item'>
+						<div class='news_header'>news item
+						<div class="news_rating">+40</div>
+						</div>
+						<div class='news_bar'>(+) (-) 4 comments</div>
+						<div class='news_body'>
+						expanded news story
+						</div>
+					</div>
+					<div class='news_item'>
+						<div class='news_header'>news item
+						<div class="news_rating">+40</div>
+						</div>
+						<div class='news_bar'></div>
+						<div class='news_body'>
+						</div>
+						<div class='news_expand'>
+						(click to expand)
+						</div>
+					</div>
+										<div class='news_item'>
+						<div class='news_header'>news item
+						<div class="news_rating">+40</div>
+						</div>
+						<div class='news_bar'></div>
+						<div class='news_body'>
+						</div>
+						<div class='news_expand'>
+						(click to expand)
+						</div>
+					</div>
+										<div class='news_item'>
+						<div class='news_header'>news item
+						<div class="news_rating">+40</div>
+						</div>
+						<div class='news_bar'></div>
+						<div class='news_body'>
+						</div>
+						<div class='news_expand'>
+						(click to expand)
+						</div>
+					</div>
+										<div class='news_item'>
+						<div class='news_header'>news item
+						<div class="news_rating">+40</div>
+						</div>
+						<div class='news_bar'></div>
+						<div class='news_body'>
+						</div>
+						<div class='news_expand'>
+						(click to expand)
+						</div>
+					</div>
+										<div class='news_item'>
+						<div class='news_header'>news item
+						<div class="news_rating">+40</div>
+						</div>
+						<div class='news_bar'></div>
+						<div class='news_body'>
+						</div>
+						<div class='news_expand'>
+						(click to expand)
+						</div>
+					</div>
+										<div class='news_item'>
+						<div class='news_header'>news item
+						<div class="news_rating">+40</div>
+						</div>
+						<div class='news_bar'></div>
+						<div class='news_body'>
+						</div>
+						<div class='news_expand'>
+						(click to expand)
+						</div>
+					</div>
+										<div class='news_item'>
+						<div class='news_header'>news item
+						<div class="news_rating">+40</div>
+						</div>
+						<div class='news_bar'></div>
+						<div class='news_body'>
+						</div>
+						<div class='news_expand'>
+						(click to expand)
+						</div>
+					</div>
+										<div class='news_item'>
+						<div class='news_header'>news item
+						<div class="news_rating">+40</div>
+						</div>
+						<div class='news_bar'></div>
+						<div class='news_body'>
+						</div>
+						<div class='news_expand'>
+						(click to expand)
+						</div>
+					</div>
 				</div>
+				</div>
+			<div dojoType="dijit.layout.ContentPane" splitter="true" region='right' style="width:40%;">
+			<iframe width="100%" height="99%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=nyc&amp;sll=34.444759,-119.709103&amp;sspn=0.01674,0.033023&amp;ie=UTF8&amp;hq=&amp;hnear=New+York&amp;ll=40.714476,-74.005966&amp;spn=0.249819,0.439453&amp;z=11&amp;iwloc=A&amp;output=embed"></iframe>
+			</div>
 			</div>
 			&nbsp;
 		</div>
