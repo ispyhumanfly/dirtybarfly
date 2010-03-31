@@ -148,8 +148,8 @@
 			</div>
 		</div>
 		</div>
-		<div dojoType='dijit.layout.BorderContainer' region='center' id='main_container'>
-			<div dojoType='dijit.layout.ContentPane' region='left' style='width:49%;padding:5px;'>
+		<div dojoType='dijit.layout.BorderContainer' region='center' id='main_container' liveSplitters="true">
+			<div dojoType='dijit.layout.ContentPane' region='center' style='padding:5px;' splitter='true'>
 				<div id='location_head'>Location</div>
 				<div id='location_info'>Location info, location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info</div>
 				<div id='events'>
@@ -231,7 +231,7 @@
 				</div>
 								<div id='pagination'>&laquo; page 1 of 2 &raquo;</div>
 			</div>
-			<div dojoType='dijit.layout.ContentPane' region='right' style='width:49%'>
+			<div dojoType='dijit.layout.ContentPane' region='right' splitter='true' style="width:45%;">
 				Photos
  				<div id="gallery" dojoType="dojox.image.Gallery"></div>
  				<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="data.json"></div>
