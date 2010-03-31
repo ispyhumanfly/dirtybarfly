@@ -10,8 +10,236 @@
 
 	<!-- aol CDN -->
 	<!-- <script src="http://o.aolcdn.com/dojo/1.4.1/dojo/dojo.xd.js" type="text/javascript"></script> -->
+	
+	<script type="text/javascript">
+		//<![CDATA[
+		dojo.require("dijit.layout.BorderContainer");
+		dojo.require("dijit.layout.ContentPane");
+		dojo.require("dijit.Dialog");
+		dojo.require("dojox.image.Gallery");
+		dojo.require("dojo.data.ItemFileReadStore");
+		
+		
+		var itemNameMap = {imageThumbAttr: "thumb", imageLargeAttr: "large"};		
+		var request = {query: {}, count: 10};
+		dijit.byId('gallery1').setDataStore(imageItemStore, request, itemNameMap);
+		
+		//]]>
+	</script>
+
+	
+		<style type="text/css">
+		html, body {
+			height:100%;
+			width: 100%;
+			margin: 0px;
+			padding: 0px;
+		}
+		span, a, div {
+			outline: none;
+		}
+		
+		#page_container {
+			height: 100%;
+			width: 100%;
+		}
+		#main_tabs {
+			height: 90%;
+			width: 100%;
+		}
+		#head_right {
+		display: table-cell;
+		width: 240px;
+		}
+		
+		#main_head {
+		display: table;
+		width: 100%;
+		}
+		
+		#head_logo {
+		display: table-cell;
+		width: 100px;
+		}
+		
+		#head_other {
+		display: table-cell;
+		}
+		
+		#main_tabs_container {
+		}
+		
+		.big {
+			font-size: 1.4em;
+		}
+		
+		.tab {
+			padding: 10px !important;
+		}
+		#location_head {
+		font-size:1.4em;
+		padding-bottom: 5px;
+		}
+		
+		#location_info {
+		padding-bottom: 10px;
+		border-bottom: 1px solid #222;
+		margin-bottom: 10px;
+		}
+		
+		.comment {
+		border: 1px dashed #444;
+		padding: 5px;
+		margin: 5px;
+		}
+		
+		.left_author {
+		float: left;
+		}
+		.right_author {
+		float:right;
+		}
+		
+		.left_author,.right_author {
+		border: 1px solid black;
+		margin: auto 4px auto 4px;
+		padding: 3px;
+		}
+				
+		#signin_inside,#profile_inside,#help_inside,#about_inside {
+		width:500px;
+		height:500px;
+		}
+	</style>	
 </head>
 <body class='nihilo'>
+	<div dojoType='dijit.layout.BorderContainer' id='page_container'>
+		<div dojoType='dijit.layout.ContentPane' region='top'>
+		<div id='main_head'>
+			<div id='head_logo'>logo here</div>
+			<div id='head_other'><span class="big">SocialMAP</span>
+			<br />
+			<small>tagline</small>
+			</div>
+			<div id='head_right'>
+				<div onClick="dijit.byId('signin').show();" style='display:inline'>Sign Out</div> | <div onClick="dijit.byId('profile').show();" style='display:inline'>My Profile</div> | <div onClick="dijit.byId('help').show();" style='display:inline'>Help</div> | <div onClick="dijit.byId('about').show();" style='display:inline'>About</div>
+			</div>
+		</div>
+		</div>
+		<div dojoType='dijit.layout.BorderContainer' region='center' id='main_container'>
+			<div dojoType='dijit.layout.ContentPane' region='left' style='width:49%;padding:5px;'>
+				<div id='location_head'>Location</div>
+				<div id='location_info'>Location info, location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info location info</div>
+				<div id='comments'>
+				Comments
+				<div class="comment" id='comment1'>
+				<div class='left_author'>
+				author
+				</div>
+				comment comment comment
+				<div style="clear:both;"></div>
+				</div>
+				</div>
+				<div class="comment" id='comment1'>
+				<div class='right_author'>
+				author
+				</div>
+				comment comment comment
+				<div style="clear:both;"></div>
+				</div>
+				<div class="comment" id='comment1'>
+				<div class='left_author'>
+				author
+				</div>
+				comment comment comment
+				<div style="clear:both;"></div>
+				</div>
+				<div class="comment" id='comment1'>
+				<div class='right_author'>
+				author
+				</div>
+				comment comment comment
+				<div style="clear:both;"></div>
+				</div>
+				<div class="comment" id='comment1'>
+				<div class='left_author'>
+				author
+				</div>
+				comment comment comment
+				<div style="clear:both;"></div>
+				</div>
+				<div class="comment" id='comment1'>
+				<div class='right_author'>
+				author
+				</div>
+				comment comment comment
+				<div style="clear:both;"></div>
+				</div>
+				<div class="comment" id='comment1'>
+				<div class='left_author'>
+				author
+				</div>
+				comment comment comment
+				<div style="clear:both;"></div>
+				</div>
+				<div class="comment" id='comment1'>
+				<div class='right_author'>
+				author
+				</div>
+				comment comment comment
+				<div style="clear:both;"></div>
+				</div>
+				<div class="comment" id='comment1'>
+				<div class='left_author'>
+				author
+				</div>
+				comment comment comment
+				<div style="clear:both;"></div>
+				</div>
+				<div class="comment" id='comment1'>
+				<div class='right_author'>
+				author
+				</div>
+				comment comment comment
+				<div style="clear:both;"></div>
+				</div>
+				<div class="comment" id='comment1'>
+				<div class='left_author'>
+				author
+				</div>
+				comment comment comment
+				<div style="clear:both;"></div>
+				</div>
+			</div>
+			<div dojoType='dijit.layout.ContentPane' region='right' style='width:49%'>
+				Photos
+ 				<div id="gallery" dojoType="dojox.image.Gallery"></div>
+ 				<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="data.json"></div>
+ 				Videos
+ 				
+			</div>
+		</div>
+		<div id='signin' dojoType='dijit.Dialog' title='Sign In'>
+		<div id='signin_inside'>
+				sign in here
+		</div>
+		</div>
+		<div id='profile' dojoType='dijit.Dialog' title='My Profile'>
+		<div id='profile_inside'>
+				my profile fields here
+		</div>
+		</div>
+		<div id='help' dojoType='dijit.Dialog' title='SocialMAP Help'>
+		<div id='help_inside'>
+				help information here
+		</div>
+		</div>
+		<div id='about' dojoType='dijit.Dialog' title='About SocialMAP'>
+		<div id='about_inside'>
+				any about information the admin wishes to include here
+		</div>
+		</div>
+	</div>
 
 </body>
 </html>
