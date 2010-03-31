@@ -17,6 +17,10 @@
 		dojo.require("dijit.layout.BorderContainer");
 		dojo.require("dijit.layout.ContentPane");
 		dojo.require("dijit.Dialog");
+		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.form.Form");
+		dojo.require("dijit.form.Button");
+        dojo.require("dijit.form.ValidationTextBox");
 		//]]>
 	</script>
 	
@@ -41,7 +45,7 @@
 			width: 100%;
 		}
 		#main_tabs {
-			height: 90%;
+			height: 95%;
 			width: 100%;
 		}
 		#head_right {
@@ -130,6 +134,19 @@
 		.news_rating {
 		float: right;
 		font-size: .8em;
+		}
+		
+		#tools {
+		position:fixed;
+		bottom:12px;
+		height:300px;
+		z-index:10;
+		visibility:hidden;
+		background: white;
+		border: 1px solid black;
+		width:97%;
+		left:1%;
+		padding: 5px;
 		}
 		
 		#signin_inside,#profile_inside,#help_inside,#about_inside {
@@ -384,10 +401,29 @@ SocialMAP related news.
 			</div>
 			</div>
 		</div>
+		<div style="height:5%;background-color:#AAA;text-align:center" dojoType='dijit.layout.ContentPane' region='bottom' onclick="dojo.style('tools',{'visibility':'visible'});">arrow</div>
 		</div>
+
+						<div dojoType='dijit.layout.ContentPane' id='tools'>test
+						<div style="float:right;" onclick="dojo.style('tools',{'visibility':'hidden'});">close </div>
+						</div>
+
 		<div id='signin' dojoType='dijit.Dialog' title='Sign In'>
 		<div id='signin_inside'>
-				sign in here
+				<div dojoType='dijit.form.Form'>
+					<label for="username">Username: </label>
+					<input type='text' id='username' name='username' required='true' dojoType='dijit.form.ValidationTextBox'></input>
+					<br />
+										<label for="password">Password: </label>
+					<input type='password' id='password' name='password' required='true' dojoType='dijit.form.ValidationTextBox'></input>
+		<button dojoType="dijit.form.Button" type="submit" name="submitButton" value="Submit">
+                Submit
+            </button>
+            <button dojoType="dijit.form.Button" type="reset">
+                Reset
+            </button>
+
+				</div>
 		</div>
 		</div>
 		<div id='profile' dojoType='dijit.Dialog' title='My Profile'>

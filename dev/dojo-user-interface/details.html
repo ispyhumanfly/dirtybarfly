@@ -18,6 +18,10 @@
 		dojo.require("dijit.Dialog");
 		dojo.require("dojox.image.Gallery");
 		dojo.require("dojo.data.ItemFileReadStore");
+		dojo.require("dijit.form.TextBox");
+		dojo.require("dijit.form.Form");
+		dojo.require("dijit.form.Button");
+        dojo.require("dijit.form.ValidationTextBox");
 		
 		
 		var itemNameMap = {imageThumbAttr: "thumb", imageLargeAttr: "large"};		
@@ -272,7 +276,20 @@
 		</div>
 		<div id='signin' dojoType='dijit.Dialog' title='Sign In'>
 		<div id='signin_inside'>
-				sign in here
+				<div dojoType='dijit.form.Form'>
+					<label for="username">Username: </label>
+					<input type='text' id='username' name='username' required='true' dojoType='dijit.form.ValidationTextBox'></input>
+					<br />
+										<label for="password">Password: </label>
+					<input type='password' id='password' name='password' required='true' dojoType='dijit.form.ValidationTextBox'></input>
+		<button dojoType="dijit.form.Button" type="submit" name="submitButton" value="Submit">
+                Submit
+            </button>
+            <button dojoType="dijit.form.Button" type="reset">
+                Reset
+            </button>
+
+				</div>
 		</div>
 		</div>
 		<div id='profile' dojoType='dijit.Dialog' title='My Profile'>
