@@ -21,6 +21,8 @@
 		dojo.require("dijit.form.Form");
 		dojo.require("dijit.form.Button");
         dojo.require("dijit.form.ValidationTextBox");
+        dojo.require("dijit.form.HorizontalSlider");
+        dojo.require("dijit.form.CheckBox");
 		//]]>
 	</script>
 	
@@ -405,9 +407,16 @@ SocialMAP related news.
 		</div>
 
 						<div dojoType='dijit.layout.ContentPane' id='tools'>
-						panel with map manipulation filters and tools
-						
 						<div style="float:right;" onclick="dojo.style('tools',{'visibility':'hidden'});">close </div>
+						<span style="font-size:1.2em;">Filters</span>
+        				<br /><br />Display More or Less Events: <div id="horizontalSlider" dojoType="dijit.form.HorizontalSlider" value="6" minimum="-10" maximum="10" discreteValues="11" intermediateChanges="true" showButtons="false" style="width:400px;display:inline-block;"></div>
+        				<br />Event Types to Display: 
+        				<input id="parties" name="parties" dojoType="dijit.form.CheckBox" value="1" checked /> Parties
+        				<input id="specials" name="specials" dojoType="dijit.form.CheckBox" value="2" checked /> Drink Specials
+        				<input id="other" name="other" dojoType="dijit.form.CheckBox" value="3" checked /> Other
+        				<br />Display Locations instead of Events: 
+        				<input id="locations" name="locations" dojoType="dijit.form.CheckBox" value="1" />
+        				<br />Only Display Items Containing: <input type='text' id='filter' name='filter' required='false' dojoType='dijit.form.ValidationTextBox'></input>
 						</div>
 
 		<div id='signin' dojoType='dijit.Dialog' title='Sign In'>
