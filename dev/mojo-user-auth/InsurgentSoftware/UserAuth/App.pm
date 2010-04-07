@@ -483,7 +483,6 @@ sub _register_new_user
     my $new_user = InsurgentSoftware::UserAuth::User->new(
         {
             fullname => $self->param("fullname"),
-            # TODO : don't store the password as plaintext.
             password => $self->_password(),
             email => $self->_email,
             confirm_code => $self->_get_confirm_code(),
@@ -495,6 +494,8 @@ sub _register_new_user
     $self->_store($new_user);
 
     $self->render_text(
+        # TODO : a small HTML-injection here - the raw email is given. Please 
+        # be fixink it, kthxbye.
         ("You registered " . $self->_email()
         . " - please check your email for confirmation."),
         {
