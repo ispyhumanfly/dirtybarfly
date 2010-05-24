@@ -23,11 +23,22 @@
         dojo.require("dijit.form.ValidationTextBox");
         dojo.require("dijit.form.HorizontalSlider");
         dojo.require("dijit.form.CheckBox");
+/*         dojo.require("dojo.dom"); */
 		//]]>
 	</script>
 	
 	<script type="text/javascript">
 		//<![CDATA[
+		var currentPage = 0;
+		function doPage() {
+			dojo.query(".detail").removeClass("show");
+			var start = (currentPage*5);
+			var end = ((currentPage+1)*5);
+			dojo.query(".detail").slice(start,end).addClass("show");
+		}
+		dojo.addOnLoad(function() {
+			doPage();
+		});
         //]]>
 	</script>
 	
@@ -92,6 +103,7 @@
 /* 			width: 100%; */
 			border-bottom: 1px solid black;
 			padding: 10px;
+			display: none;
 		}
 		.star_rating {
 		float: right;
@@ -154,6 +166,10 @@
 		#signin_inside,#profile_inside,#help_inside,#about_inside {
 		width:500px;
 		height:500px;
+		}
+		
+		.show {
+			display:block;
 		}
 	</style>
 
