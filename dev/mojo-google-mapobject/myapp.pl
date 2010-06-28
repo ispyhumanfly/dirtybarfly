@@ -40,7 +40,8 @@ get '/' => sub {
 get '/maps_json' => sub {
     my $self = shift;
 
-    $self->render( $map->json(), format => 'json' );
+    $self->res->headers->content_type('text/json');
+    $self->render_data( $map->json());
 } => "maps_json";
 
 app->start;
