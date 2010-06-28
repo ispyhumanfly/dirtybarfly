@@ -4,6 +4,9 @@ use Mojolicious::Lite;
 
 use Geo::Google::MapObject;
 
+# Silence
+app->log->level('error');
+
 my $map = Geo::Google::MapObject->new(
     key => 'ABQFbHAATHwok56Qe3MBtg0s7lgkHBS9HKneet7v0OIFhIwnBhTEGCHLTRRRBa_lUOCy1fDamS5PQt8qULYfYQ',
     zoom => 13,
@@ -28,12 +31,17 @@ my $map = Geo::Google::MapObject->new(
     ]
 );
 
-get '/' => 'index';
-
-get '/:groovy' => sub {
+get '/' => sub {
     my $self = shift;
-    $self->render(text => $self->param('groovy'), layout => 'funky');
-};
+
+    $self->render( 'index', maps => $map );
+} => 'index';
+
+get '/maps_json' => sub {
+    my $self = shift;
+
+    $self->render( $map->json(), format => 'json' );
+} => "maps_json";
 
 app->start;
 __DATA__
@@ -70,13 +78,13 @@ __DATA__
 <link rel="stylesheet" href="./print.css" type="text/css" media="print" />
 <script type="text/javascript" src="<%= $maps->javascript_url() %>"></script>
 <!-- This way we tell the javascript what URL to contact the server with. -->
-<link href="<%= url_for('json') %>" id="get_init_data"/>
+<link href="<%= url_for('maps_json') %>" id="get_init_data"/>
 <!-- This will load the yui API. If you use a different javascript API this would obviously change. -->
       <script type="text/javascript" src="http://yui.yahooapis.com/2.8.0r4/build/yahoo-dom-event/yahoo-dom-event.js"></script>
       <script type="text/javascript" src="http://yui.yahooapis.com/2.8.0r4/build/connection/connection.js"></script>
       <script type="text/javascript" src="http://yui.yahooapis.com/2.8.0r4/build/json/json-min.js"></script>
 <!-- This loads our javascript code. -->
-<script type="text/javascript" src="<%= url_for('maps_js') %>"></script>
+<script type="text/javascript" src="/maps.js"></script>
 </head>
 <body>
 <h1>Insurgent Software's Google Maps Demon</h1>
