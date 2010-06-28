@@ -24,9 +24,12 @@
         dojo.require("dijit.form.ValidationTextBox");
 		
 		
-		var itemNameMap = {imageThumbAttr: "thumb", imageLargeAttr: "large"};		
-		var request = {query: {}, count: 10};
-		dijit.byId('gallery1').setDataStore(imageItemStore, request, itemNameMap);
+		dojo.addOnLoad(function() {
+			var itemNameMap = {imageThumbAttr: "thumb", imageLargeAttr: "large"};		
+			var request = {query: {}, count: 10};
+			var imageItemStore = new dojo.data.ItemFileReadStore({url:"images.json"}); 
+			dijit.byId('gallery').setDataStore(imageItemStore, request, itemNameMap);
+		});
 		
 		//]]>
 	</script>
@@ -234,7 +237,6 @@
 			<div dojoType='dijit.layout.ContentPane' region='right' splitter='true' style="width:45%;">
 				Photos
  				<div id="gallery" dojoType="dojox.image.Gallery"></div>
- 				<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="images.json"></div>
  				Videos
  				
 			</div>
