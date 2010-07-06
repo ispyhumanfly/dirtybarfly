@@ -115,19 +115,6 @@ registration.)
 
 __DATA__
 
-@@ index.html.ep
-% layout 'insurgent';
-<h1>Insurgent Software's User Management Application</h1>
-
-<ul>
-% if ($self->session->{'login'}) {
-<li><a href="<%= url_for('account_page') %>">Go to Your Account</a></li>
-% } else {
-<li><a href="<%= url_for('login') %>">Login to an existing account</a></li>
-<li><a href="<%= url_for('register') %>">Register a new account</a></li>
-% }
-</ul>
-
 @@ register.html.ep
 % layout 'insurgent';
 <h1>Register an account</h1>
