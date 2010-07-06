@@ -8,6 +8,7 @@ use InsurgentSoftware::UserAuth::App;
 
 use Mojolicious::Lite;
 use MojoX::Session::Cookie;
+use MojoX::Renderer::TT;
 
 use CGI qw();
 
@@ -16,7 +17,19 @@ use KiokuDB;
 # Silence
 app->log->level('error');
 app->renderer->root("./templates");
+{
+    my $tt = MojoX::Renderer::TT->build(
+        mojo => app(),
+        template_options =>
+        {
+            INCLUDE_PATH => ".",
+            # PROCESS => 'tpl/wrapper',
+            # FILTERS => [ foo => [ \&filter_factory, 1]
+        }
+    );
 
+    app->renderer->add_handler( tt2 => $tt );
+}
 my $dir = KiokuDB->connect(
     "dbi:SQLite:dbname=./insurgent-auth.sqlite",
     create => 1,
