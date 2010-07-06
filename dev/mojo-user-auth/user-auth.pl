@@ -15,6 +15,7 @@ use KiokuDB;
 
 # Silence
 app->log->level('error');
+app->renderer->root("./templates");
 
 my $dir = KiokuDB->connect(
     "dbi:SQLite:dbname=./insurgent-auth.sqlite",
