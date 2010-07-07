@@ -128,18 +128,6 @@ registration.)
 =cut
 
 __DATA__
-@@ handle_password_reset.html.ep
-% layout 'insurgent';
-<h1>Reset Your Password</h1>
-
-<p>
-The form below allows you to reset your password. Please enter your new
-password.
-</p>
-
-<%== $handle_password_reset_form %>
-
-
 @@ layouts/insurgent.html.ep
 <!doctype html><html>
     <head>
