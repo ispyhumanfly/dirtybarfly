@@ -128,14 +128,6 @@ registration.)
 =cut
 
 __DATA__
-@@ account.html.ep
-% layout 'insurgent';
-<h1>Account page for <%= $email %></h1>
-
-<h2 id="change_info">Change User Information</h2>
-
-<%== $change_user_info_form %>
-
 @@ password_reset.html.ep
 % layout 'insurgent';
 <h1>Reset Your Password</h1>
