@@ -130,14 +130,6 @@ registration.)
 __DATA__
 @@ password_reset.html.ep
 % layout 'insurgent';
-<h1>Reset Your Password</h1>
-
-<p>
-The form below allows you to reset your password. Please enter the E-mail
-with which you registered.
-</p>
-
-<%== $password_reset_form %>
 
 @@ handle_password_reset.html.ep
 % layout 'insurgent';
