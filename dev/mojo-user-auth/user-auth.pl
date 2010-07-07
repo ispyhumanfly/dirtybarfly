@@ -128,11 +128,6 @@ registration.)
 =cut
 
 __DATA__
-@@ login.html.ep
-% layout 'insurgent';
-<h1>Login form</h1>
-<%== $login_form %>
-
 @@ account.html.ep
 % layout 'insurgent';
 <h1>Account page for <%= $email %></h1>
