@@ -128,9 +128,6 @@ registration.)
 =cut
 
 __DATA__
-@@ password_reset.html.ep
-% layout 'insurgent';
-
 @@ handle_password_reset.html.ep
 % layout 'insurgent';
 <h1>Reset Your Password</h1>
