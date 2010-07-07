@@ -54,9 +54,12 @@ sub render_text
 {
     my ($self, $text, $args) = @_;
 
-    return $self->_mojo->render_text(
-        $text,
-        { layout => 'insurgent', %{$args}, },
+    return $self->_mojo->render(
+        {
+            template => "render_text",
+            template_text => $text,
+            %{$args},
+        },
     );
 }
 
@@ -66,7 +69,7 @@ sub render
     my ($self, $args) = @_;
 
     return $self->_mojo->render(
-        { layout => 'insurgent', %{$args}, },
+        $args,
     );
 }
 
@@ -214,16 +217,17 @@ sub render_failed_reg
     my $header = shift;
     my $explanation = shift || "";
 
-    $self->render_text(
-        sprintf("<h1>%s</h1>\n<p class=\"error\">%s</p>%s",
-            $header, $explanation, 
-            $self->register_form(
-                +{ map { $_ => $self->param($_) } qw(email fullname) }
-            )
-        ),
+    $self->render(
         {
+            template => "failed_reg",
+            header => $header,
+            explanation => $explanation,
+            register_form =>
+                $self->register_form(
+                    +{ map { $_ => $self->param($_) } qw(email fullname) }
+                ),
             title => $header,
-        },
+        }
     );
 
     return;
@@ -494,12 +498,12 @@ sub _register_new_user
     $self->_store($new_user);
 
     $self->render_text(
-        # TODO : a small HTML-injection here - the raw email is given. Please 
+        # TODO : a small HTML-injection here - the raw email is given. Please
         # be fixink it, kthxbye.
         ("You registered " . $self->_email()
         . " - please check your email for confirmation."),
         {
-            title => "Confirmation needed for E-mail - " 
+            title => "Confirmation needed for E-mail - "
             . CGI::escapeHTML($self->_email),
         },
     );

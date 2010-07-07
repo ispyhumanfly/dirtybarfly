@@ -1,3 +1,4 @@
+[% WRAPPER "templates/layouts/insurgent.html.tt2" %]
 [%- USE HTML -%]
 <h1>Insurgent Software's User Management Application</h1>
 <ul>
@@ -8,4 +9,4 @@
 <li><a href="[% HTML.escape(c.url_for('register')) %]">Register a new account</a></li>
 [% END %]
 </ul>
-
+[% END %]

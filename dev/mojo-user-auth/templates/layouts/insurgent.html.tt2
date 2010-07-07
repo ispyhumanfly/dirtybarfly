@@ -1,0 +1,24 @@
+[%- USE HTML -%]
+<!doctype html><html>
+    <head>
+    <title>[% HTML.escape(title) %] - Insurgent-Auth</title>
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, projection" title="Normal" />
+    </head>
+    <body>
+    <div id="status">
+    <ul>
+[% IF c.session.login %]
+    <li><b>Logged in as [% HTML.escape(c.session.login) %]</b></li>
+    <li><a href="[% HTML.escape(c.url_for('account_page')) %]">Account</a></li>
+    <li><a href="[% HTML.escape(c.url_for('logout')) %]">Logout</a></li>
+[% ELSE %]
+    <li><b>Not logged in.</b></li>
+    <li><a href="[% HTML.escape(c.url_for('login')) %]/">Login</a></li>
+    <li><a href="[% HTML.escape(c.url_for('register')) %]">Register</a></li>
+[% END %]
+    <li><a href="[% HTML.escape(c.url_for('password_reset')) %]">Password Reset</a></li>
+    </ul>
+    </div>
+    [% content %]
+    </body>
+</html>

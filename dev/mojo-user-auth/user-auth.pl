@@ -49,7 +49,6 @@ get '/' => sub {
 
     return $self->render(
         template => "index",
-        layout => 'insurgent',
         title => "Main",
     );
 } => "index";
@@ -102,10 +101,12 @@ sub logout
 
     delete($self->session->{'login'});
 
-    $self->render_text(
-        "<h1>You are now logged-out</h1>\n",
-        layout => 'insurgent',
-        title => "You are now logged-out",
+    $self->render(
+        {
+            template => "render_text",
+            template_text => "<h1>You are now logged-out</h1>\n",
+            title => "You are now logged-out",
+        }
     );
 
     return;
@@ -126,29 +127,3 @@ of E-mail, password, etc.).
 registration.)
 
 =cut
-
-__DATA__
-@@ layouts/insurgent.html.ep
-<!doctype html><html>
-    <head>
-    <title><%= $title %> - Insurgent-Auth</title>
-    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, projection" title="Normal" />
-    </head>
-    <body>
-    <div id="status">
-    <ul>
-% if ($self->session->{'login'}) {
-    <li><b>Logged in as <%= $self->session->{'login'} %></b></li>
-    <li><a href="<%= url_for('account_page') %>">Account</a></li>
-    <li><a href="<%= url_for('logout') %>">Logout</a></li>
-% } else {
-    <li><b>Not logged in.</b></li>
-    <li><a href="<%= url_for('login') %>/">Login</a></li>
-    <li><a href="<%= url_for('register') %>">Register</a></li>
-% }
-    <li><a href="<%= url_for('password_reset') %>">Password Reset</a></li>
-    </ul>
-    </div>
-    <%== content %>
-    </body>
-</html>
