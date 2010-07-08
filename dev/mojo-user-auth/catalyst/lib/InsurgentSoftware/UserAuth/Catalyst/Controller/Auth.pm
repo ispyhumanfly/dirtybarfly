@@ -37,11 +37,27 @@ The root page (/)
 
 =cut
 
+my $dir = KiokuDB->connect(
+    "dbi:SQLite:dbname=./insurgent-auth.sqlite",
+    create => 1,
+    columns =>
+    [
+        email =>
+        {
+            data_type => "varchar",
+            is_nullable => 1,
+        },
+    ],
+);
+
 sub index :Path('/auth') :Args(0) {
     my ( $self, $c ) = @_;
 
     # Hello World
-    $c->response->body( "Hello There Lately");
+    $c->stash->{template} = 'index.html.tt2';
+    $c->stash->{title} = 'Main';
+
+    return;
 }
 
 =head2 default
