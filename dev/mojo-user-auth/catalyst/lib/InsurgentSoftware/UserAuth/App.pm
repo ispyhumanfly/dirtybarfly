@@ -24,7 +24,6 @@ has _mojo => (
     clearer => "_clear_mojo",
     handles =>
     {
-        "param" => "param",
         session => "session",
     },
 );
@@ -50,11 +49,20 @@ has _forms => (
     },
 );
 
+sub param
+{
+    my ($self, $name) = @_;
+
+    return $self->_mojo->req->params->{$name};
+}
+
 sub render_text
 {
     my ($self, $text, $args) = @_;
 
-    return $self->_mojo->render(
+    $args ||= +{};
+
+    return $self->render(
         {
             template => "render_text",
             template_text => $text,
@@ -471,7 +479,7 @@ sub _send_confirmation_email
         (
             "You need to confirm your registration for Insurgent-Auth.\n\n"
             . "Go to the following URL:\n\n"
-            . $self->_mojo->uri_for("confirm_register")->to_abs()
+            . $self->_mojo->uri_for("confirm-register")
                 . "?email=" . uri_escape($user->email())
                 . "&code=" . uri_escape($user->confirm_code())
             . "\n\n"
@@ -783,7 +791,7 @@ sub _send_password_reset_email
         (
             "You need to confirm your registration for Insurgent-Auth.\n\n"
             . "Go to the following URL:\n\n"
-            . $self->_mojo->uri_for("handle_password_reset")->to_abs()
+            . $self->_mojo->uri_for("handle-password-reset")
                 . "?email=" . uri_escape($user->email())
                 . "&code=" . uri_escape($user->password_reset_code())
             . "\n\n"

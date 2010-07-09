@@ -70,6 +70,18 @@ sub register :Local {
     return $app->with_mojo($c, 'register');
 }
 
+sub register_submit :Path('register-submit') {
+    my ( $self, $c ) = @_;
+
+    return $app->with_mojo($c, 'register_submit');
+}
+
+sub confirm_register :Path('confirm-register') {
+    my ( $self, $c ) = @_;
+
+    return $app->with_mojo($c, 'confirm_register');
+}
+
 =head2 default
 
 Standard 404 error page

@@ -23,7 +23,7 @@ sub add_form
         InsurgentSoftware::UserAuth::FormSpec->new(
             {
                 id => $id,
-                to => $id . "_submit",
+                to => $id . "-submit",
                 fields => $fields,
             },
         );
