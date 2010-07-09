@@ -4,6 +4,14 @@ use Moose;
 
 use CGI ();
 
+=head1 NAME 
+
+InsurgentSoftware::UserAuth::FormSpec - class representing an HTML form.
+
+=head1 METHODS
+
+=cut
+
 has type => (
     isa => "Str", is => "ro",
 );
@@ -89,6 +97,12 @@ package InsurgentSoftware::UserAuth::FormSpec;
 
 use Moose;
 
+=head2 fields()
+
+An array ref of fields.
+
+=cut
+
 has fields => (
     is => "ro",
     isa => "ArrayRef[InsurgentSoftware::UserAuth::FormSpec::Field]",
@@ -106,6 +120,12 @@ has _action => (
     init_arg => "to",
 );
 
+=head2 render_fields(\%values)
+
+Render the fields with the %values.
+
+=cut
+
 sub render_fields
 {
     my ($self,$values) = @_;
@@ -117,6 +137,12 @@ sub render_fields
             @{$self->fields()}
         );
 }
+
+=head2 $self->render_form($c, $values)
+
+Render the form with the values.
+
+=cut
 
 sub render_form
 {

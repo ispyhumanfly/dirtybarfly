@@ -4,6 +4,14 @@ use Moose;
 
 use InsurgentSoftware::UserAuth::FormSpec;
 
+=head1 NAME
+
+InsurgentSoftware::UserAuth::App::Forms - forms' manager.
+
+=head1 METHODS.
+
+=cut
+
 has _forms => (
     traits => ['Hash'],
     isa => "HashRef[InsurgentSoftware::UserAuth::FormSpec]",
@@ -11,6 +19,12 @@ has _forms => (
     default => sub { return +{} },
     handles => { get_form => 'get', },
 );
+
+=head2 $self->add_form({ id => $id, fields => \@fields, action => $action})
+
+Add a form.
+
+=cut
 
 sub add_form
 {

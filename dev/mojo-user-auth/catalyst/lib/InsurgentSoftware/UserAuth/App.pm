@@ -49,6 +49,20 @@ has _forms => (
     },
 );
 
+=head1 NAME
+
+InsurgentSoftware::UserAuth::App - 
+Main object for the Insurgent Software user authentication application.
+
+=head1 DESCRIPTION
+
+This is the main object of the Insurgent Software user authentication
+application.
+
+=head1 METHODS
+
+=cut
+
 sub param
 {
     my ($self, $name) = @_;
@@ -964,6 +978,14 @@ around 'register_submit', '_register_new_user', 'login_submit',
     return @ret;
 };
 
+=head1 AUTHOR
 
+Shlomi Fish, L<http://www.shlomifish.org/> ( L<shlomif@insurgentsoftware.com> ).
+
+=head1 LICENSE
+
+Copyright by Insurgent Software.
+
+=cut
 
 1;
