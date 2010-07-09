@@ -18,7 +18,7 @@ use CGI ();
 my $forms = InsurgentSoftware::UserAuth::App::Forms->new();
 
 has _mojo => (
-    isa => "Mojolicious::Controller",
+    isa => "InsurgentSoftware::UserAuth::Catalyst",
     is => "rw",
     init_arg => "mojo",
     clearer => "_clear_mojo",
@@ -68,9 +68,14 @@ sub render
 {
     my ($self, $args) = @_;
 
-    return $self->_mojo->render(
-        $args,
-    );
+    while (my ($k, $v) = each (%$args))
+    {
+        $self->_mojo->stash->{$k} = $v;
+    }
+
+    $self->_mojo->stash->{'template'} .= ".html.tt2";
+
+    return;
 }
 
 $forms->add_form(
@@ -466,7 +471,7 @@ sub _send_confirmation_email
         (
             "You need to confirm your registration for Insurgent-Auth.\n\n"
             . "Go to the following URL:\n\n"
-            . $self->_mojo->url_for("confirm_register")->to_abs()
+            . $self->_mojo->uri_for("confirm_register")->to_abs()
                 . "?email=" . uri_escape($user->email())
                 . "&code=" . uri_escape($user->confirm_code())
             . "\n\n"
@@ -681,7 +686,7 @@ sub change_user_info_submit
             (
               "<h1>Updated Your User Data</h1>\n"
             . "<p>Your user-data was updated.</p>\n"
-            . qq{<p><a href="} . $self->_mojo->url_for("account_page") . qq{">Return to your account</a></p>\n}
+            . qq{<p><a href="} . $self->_mojo->uri_for("account_page") . qq{">Return to your account</a></p>\n}
             ),
             {
                 title => "Data updated",
@@ -778,7 +783,7 @@ sub _send_password_reset_email
         (
             "You need to confirm your registration for Insurgent-Auth.\n\n"
             . "Go to the following URL:\n\n"
-            . $self->_mojo->url_for("handle_password_reset")->to_abs()
+            . $self->_mojo->uri_for("handle_password_reset")->to_abs()
                 . "?email=" . uri_escape($user->email())
                 . "&code=" . uri_escape($user->password_reset_code())
             . "\n\n"

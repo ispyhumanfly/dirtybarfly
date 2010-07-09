@@ -122,7 +122,7 @@ sub render_form
 {
     my ($self, $mojo, $values) = @_;
 
-    my $action = CGI::escapeHTML($mojo->url_for($self->_action()));
+    my $action = CGI::escapeHTML($mojo->uri_for($self->_action()));
     my $id = $self->_id();
 
     my $inner = $self->render_fields($values);
