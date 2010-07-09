@@ -9,8 +9,6 @@ BEGIN { extends 'Catalyst::Controller'; }
     # use InsurgentSoftware::UserAuth::User;
     # use InsurgentSoftware::UserAuth::App;
 
-use lib '../';
-
 use InsurgentSoftware::UserAuth::User;
 use InsurgentSoftware::UserAuth::App;
 
@@ -50,6 +48,12 @@ my $dir = KiokuDB->connect(
     ],
 );
 
+my $app = InsurgentSoftware::UserAuth::App->new(
+    {
+        dir => $dir,
+    }
+);
+
 sub index :Path('/auth') :Args(0) {
     my ( $self, $c ) = @_;
 
@@ -58,6 +62,12 @@ sub index :Path('/auth') :Args(0) {
     $c->stash->{title} = 'Main';
 
     return;
+}
+
+sub register :Local {
+    my ( $self, $c ) = @_;
+
+    return $app->with_mojo($c, 'register');
 }
 
 =head2 default
