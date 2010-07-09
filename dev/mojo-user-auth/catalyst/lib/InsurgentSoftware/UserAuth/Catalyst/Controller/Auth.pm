@@ -82,6 +82,60 @@ sub confirm_register :Path('confirm-register') {
     return $app->with_mojo($c, 'confirm_register');
 }
 
+sub login :Path('/login') {
+    my ($self, $c ) = @_;
+
+    return $app->with_mojo($c, 'login');
+}
+
+sub account_page :Path('/account') {
+    my ($self, $c) = @_;
+
+    return $app->with_mojo($c, 'account_page');
+}
+
+sub password_reset :Path('/password-reset') {
+    my ($self, $c) = @_;
+
+    return $app->with_mojo($c, 'password_reset');
+}
+
+sub handle_password_reset :Path('/handle-password-reset') {
+    my ($self, $c) = @_;
+
+    return $app->with_mojo($c, 'handle_password_reset');
+}
+
+sub password_reset_submit :Path('/password-reset-submit') {
+    my ($self, $c) = @_;
+
+    return $app->with_mojo($c, 'password_reset_submit');
+}
+
+sub handle_password_reset_submit :Path('/handle-password-reset-submit') {
+    my ($self, $c) = @_;
+
+    return $app->with_mojo($c, 'handle_password_reset_submit');
+}
+
+sub register_submit :Path('/register-submit/') {
+    my ($self, $c) = @_;
+
+    return $app->with_mojo($c, 'register_submit');
+}
+
+sub login_submit :Path('/login-submit/') {
+    my ($self, $c) = @_;
+
+    return $app->with_mojo($c, 'login_submit');
+}
+
+sub change_user_info_submit :Path('/account/change-info') {
+    my ($self, $c) = @_;
+
+    return $app->with_mojo($c, 'change_user_info_submit');
+}
+
 =head2 default
 
 Standard 404 error page

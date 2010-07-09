@@ -18,12 +18,13 @@ sub add_form
 
     my $id = $args->{'id'};
     my $fields = $args->{'fields'};
+    my $action = $args->{'action'};
 
     $self->_forms->{$id} =
         InsurgentSoftware::UserAuth::FormSpec->new(
             {
                 id => $id,
-                to => $id . "-submit",
+                to => ($action || ($id . "-submit")),
                 fields => $fields,
             },
         );

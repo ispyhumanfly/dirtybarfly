@@ -133,6 +133,7 @@ $forms->add_form(
 $forms->add_form(
     {
         id => "change_user_info",
+        action => "/account/change-info",
         fields =>
         [
             InsurgentSoftware::UserAuth::FormSpec::Field->new(
@@ -694,7 +695,7 @@ sub change_user_info_submit
             (
               "<h1>Updated Your User Data</h1>\n"
             . "<p>Your user-data was updated.</p>\n"
-            . qq{<p><a href="} . $self->_mojo->uri_for("account_page") . qq{">Return to your account</a></p>\n}
+            . qq{<p><a href="} . $self->_mojo->uri_for("/account") . qq{">Return to your account</a></p>\n}
             ),
             {
                 title => "Data updated",
