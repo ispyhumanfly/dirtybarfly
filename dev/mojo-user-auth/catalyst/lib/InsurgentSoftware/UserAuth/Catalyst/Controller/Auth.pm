@@ -106,6 +106,19 @@ sub login :Path('/login') {
     return $app->with_mojo($c, 'login');
 }
 
+
+sub logout :Path('/logout') {
+    my ($self, $c ) = @_;
+
+    delete($c->session->{'login'});
+
+    $c->stash->{template} = 'render_text.html.tt2';
+    $c->stash->{template_text} = "<h1>You are now logged-out</h1>\n";
+    $c->stash->{title} = 'You are now logged-out';
+
+    return;
+}
+
 =head2 account_page()
 
 Handler for the account page.
