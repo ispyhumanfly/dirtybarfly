@@ -167,6 +167,7 @@ $forms->add_form(
 $forms->add_form(
     {
         id => "password_reset",
+        action => "password-reset-submit",
         fields =>
         [
             InsurgentSoftware::UserAuth::FormSpec::Field->new(
@@ -179,6 +180,7 @@ $forms->add_form(
 $forms->add_form(
     {
         id => "handle_password_reset",
+        action => "handle-password-reset-submit",
         fields =>
         [
             InsurgentSoftware::UserAuth::FormSpec::Field->new(

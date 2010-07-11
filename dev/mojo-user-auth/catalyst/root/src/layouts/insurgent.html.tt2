@@ -16,7 +16,7 @@
     <li><a href="[% HTML.escape(c.uri_for('login')) %]/">Login</a></li>
     <li><a href="[% HTML.escape(c.uri_for('register')) %]">Register</a></li>
 [% END %]
-    <li><a href="[% HTML.escape(c.uri_for('password_reset')) %]">Password Reset</a></li>
+    <li><a href="[% HTML.escape(c.uri_for('password-reset')) %]">Password Reset</a></li>
     </ul>
     </div>
     [% content %]

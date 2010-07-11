@@ -96,7 +96,7 @@ sub confirm_register :Path('confirm-register') {
 
 =head2 login
 
-login handler.
+Login handler.
 
 =cut
 
@@ -106,6 +106,11 @@ sub login :Path('/login') {
     return $app->with_mojo($c, 'login');
 }
 
+=head2 logout
+
+Logout handler.
+
+=cut
 
 sub logout :Path('/logout') {
     my ($self, $c ) = @_;
