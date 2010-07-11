@@ -20,13 +20,13 @@ InsurgentSoftware::UserAuth::Catalyst::Controller::Root - Root Controller for In
 
 =head1 METHODS
 
-=head2 index
+=head2 welcome_msg
 
-The root page (/)
+The welcome_msg.
 
 =cut
 
-sub index :Path :Args(0) {
+sub welcome_msg :Local {
     my ( $self, $c ) = @_;
 
     # Hello World

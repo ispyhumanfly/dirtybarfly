@@ -54,7 +54,7 @@ my $app = InsurgentSoftware::UserAuth::App->new(
     }
 );
 
-sub index :Path('/auth') :Args(0) {
+sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
     # Hello World
