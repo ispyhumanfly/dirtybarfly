@@ -29,30 +29,50 @@ Root Controller for the authentication.
 
 =head1 METHODS
 
+=head2 begin
+
+Global initialisation for this controller.
+
+=cut
+
+sub begin :Private {
+    my ($self, $c) = @_;
+
+    my $dir = KiokuDB->connect(
+        "dbi:SQLite:dbname=./insurgent-auth.sqlite",
+        create => 1,
+        columns =>
+        [
+            email =>
+            {
+                data_type => "varchar",
+                is_nullable => 1,
+            },
+        ],
+    );
+
+    $c->stash->{dir} = $dir;
+    $c->stash->{app} = 
+        InsurgentSoftware::UserAuth::App->new(
+            {
+                dir => $dir,
+            }
+        );
+
+    return;
+}
+
+sub _with_mojo {
+    my ($self, $c, $action) = @_;
+
+    return $c->stash->{app}->with_mojo($c,$action);
+}
+
 =head2 index
 
 The root page (/)
 
 =cut
-
-my $dir = KiokuDB->connect(
-    "dbi:SQLite:dbname=./insurgent-auth.sqlite",
-    create => 1,
-    columns =>
-    [
-        email =>
-        {
-            data_type => "varchar",
-            is_nullable => 1,
-        },
-    ],
-);
-
-my $app = InsurgentSoftware::UserAuth::App->new(
-    {
-        dir => $dir,
-    }
-);
 
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
@@ -73,13 +93,13 @@ Registration form handler.
 sub register :Local {
     my ( $self, $c ) = @_;
 
-    return $app->with_mojo($c, 'register');
+    return $self->_with_mojo($c, 'register');
 }
 
 sub register_submit :Path('register-submit') {
     my ( $self, $c ) = @_;
 
-    return $app->with_mojo($c, 'register_submit');
+    return $self->_with_mojo($c, 'register_submit');
 }
 
 =head2 confirm_register
@@ -91,7 +111,7 @@ Confirm a registration.
 sub confirm_register :Path('confirm-register') {
     my ( $self, $c ) = @_;
 
-    return $app->with_mojo($c, 'confirm_register');
+    return $self->_with_mojo($c, 'confirm_register');
 }
 
 =head2 login
@@ -103,7 +123,7 @@ Login handler.
 sub login :Path('/login') {
     my ($self, $c ) = @_;
 
-    return $app->with_mojo($c, 'login');
+    return $self->_with_mojo($c, 'login');
 }
 
 =head2 logout
@@ -133,7 +153,7 @@ Handler for the account page.
 sub account_page :Path('/account') {
     my ($self, $c) = @_;
 
-    return $app->with_mojo($c, 'account_page');
+    return $self->_with_mojo($c, 'account_page');
 }
 
 =head2 password_reset
@@ -145,7 +165,7 @@ Reset a password handler.
 sub password_reset :Path('/password-reset') {
     my ($self, $c) = @_;
 
-    return $app->with_mojo($c, 'password_reset');
+    return $self->_with_mojo($c, 'password_reset');
 }
 
 =head2 handle_password_reset
@@ -157,7 +177,7 @@ Handle a password reset.
 sub handle_password_reset :Path('/handle-password-reset') {
     my ($self, $c) = @_;
 
-    return $app->with_mojo($c, 'handle_password_reset');
+    return $self->_with_mojo($c, 'handle_password_reset');
 }
 
 =head2 password_reset_submit
@@ -169,7 +189,7 @@ Password reset submit.
 sub password_reset_submit :Path('/password-reset-submit') {
     my ($self, $c) = @_;
 
-    return $app->with_mojo($c, 'password_reset_submit');
+    return $self->_with_mojo($c, 'password_reset_submit');
 }
 
 =head2 handle_password_reset_submit
@@ -181,7 +201,7 @@ Submit the handle password reset.
 sub handle_password_reset_submit :Path('/handle-password-reset-submit') {
     my ($self, $c) = @_;
 
-    return $app->with_mojo($c, 'handle_password_reset_submit');
+    return $self->_with_mojo($c, 'handle_password_reset_submit');
 }
 
 =head2 register_submit
@@ -193,7 +213,7 @@ Submit the registration form.
 sub register_submit :Path('/register-submit/') {
     my ($self, $c) = @_;
 
-    return $app->with_mojo($c, 'register_submit');
+    return $self->_with_mojo($c, 'register_submit');
 }
 
 =head2 login_submit
@@ -205,7 +225,7 @@ Submit a login handler.
 sub login_submit :Path('/login-submit/') {
     my ($self, $c) = @_;
 
-    return $app->with_mojo($c, 'login_submit');
+    return $self->_with_mojo($c, 'login_submit');
 }
 
 =head2 change_user_info_submit
@@ -217,7 +237,7 @@ Handler for the submission of change_user_info.
 sub change_user_info_submit :Path('/account/change-info') {
     my ($self, $c) = @_;
 
-    return $app->with_mojo($c, 'change_user_info_submit');
+    return $self->_with_mojo($c, 'change_user_info_submit');
 }
 
 =head2 default
