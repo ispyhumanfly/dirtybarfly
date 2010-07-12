@@ -66,8 +66,8 @@ sub ACTION_tags
     return 
         system(qw(
             ctags -f tags --recurse --totals
-    		--exclude=blib/ --exclude=t/lib
-    		--exclude=.svn --exclude='*~'
+    		--exclude=blib/** --exclude=t/lib/**
+    		--exclude=**/.svn/** --exclude=*~
     		--languages=Perl --langmap=Perl:+.t
     ));
 }
