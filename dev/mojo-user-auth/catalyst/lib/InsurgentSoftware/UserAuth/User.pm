@@ -1,11 +1,16 @@
 package InsurgentSoftware::UserAuth::User;
 
 use Moose;
+
+use KiokuX::User::Util qw(crypt_password);
+
 use InsurgentSoftware::UserAuth::UserExtraData;
 
 use Crypt::SaltedHash;
 
 use DateTime;
+
+with qw(KiokuX::User);
 
 =head1 NAME 
 
@@ -20,28 +25,6 @@ The fullname of the user.
 =cut
 
 has fullname => (
-    isa => "Str",
-    is => "rw",
-);
-
-=head2 $user->email()
-
-The email address of the user.
-
-=cut
-
-has email => (
-    isa => "Str",
-    is => "rw",
-);
-
-=head2 $self->salted_password()
-
-The salted password.
-
-=cut
-
-has salted_password => (
     isa => "Str",
     is => "rw",
 );
@@ -126,15 +109,7 @@ sub assign_password
 {
     my ($self, $password) = @_;
 
-    my $csh = Crypt::SaltedHash->new(
-        algorithm => 'SHA-256',
-        salt_len => __PACKAGE__->get_salt_len(),
-    );
-    $csh->add($password);
-
-    my $salted = $csh->generate;
-    
-    $self->salted_password($salted);
+    $self->password(crypt_password($password));
 
     return;
 }
@@ -165,19 +140,25 @@ sub verify_password
     my $self = shift;
     my $pass = shift;
 
-    return Crypt::SaltedHash->validate($self->salted_password(), $pass, 
-        __PACKAGE__->get_salt_len());
+    return $self->check_password($pass);
 }
 
-=head2 $self->get_salt_len()
+=head2 email
 
-Returns the salt length for the password.
+Maps to the id().
 
 =cut
 
-sub get_salt_len
+sub email
 {
-    return 8;
+    my $self = shift;
+
+    if (@_)
+    {
+        $self->id(shift);
+    }
+
+    return $self->id();
 }
 
 1;

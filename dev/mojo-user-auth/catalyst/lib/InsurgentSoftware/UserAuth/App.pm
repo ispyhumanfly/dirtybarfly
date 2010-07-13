@@ -367,7 +367,7 @@ sub _generic_find_user
         return;
     }
 
-    my $stream = $self->_search({email => $user_id});
+    my $stream = $self->_search({id => $user_id});
 
     FIND_EMAIL:
     while ( my $block = $stream->next )
@@ -510,15 +510,17 @@ sub _send_confirmation_email
     return;
 }
 
+use KiokuX::User::Util qw(crypt_password);
+
 sub _register_new_user
 {
     my $self = shift;
-   
+
     my $new_user = InsurgentSoftware::UserAuth::User->new(
         {
             fullname => $self->param("fullname"),
-            password => $self->_password(),
-            email => $self->_email,
+            password => crypt_password($self->_password()),
+            id => $self->_email,
             confirm_code => $self->_get_confirm_code(),
         }
     );

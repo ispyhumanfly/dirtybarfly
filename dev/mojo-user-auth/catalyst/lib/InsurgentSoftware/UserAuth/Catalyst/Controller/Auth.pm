@@ -41,14 +41,6 @@ sub begin :Private {
     my $dir = KiokuDB->connect(
         "dbi:SQLite:dbname=./insurgent-auth.sqlite",
         create => 1,
-        columns =>
-        [
-            email =>
-            {
-                data_type => "varchar",
-                is_nullable => 1,
-            },
-        ],
     );
 
     $c->stash->{dir} = $dir;
