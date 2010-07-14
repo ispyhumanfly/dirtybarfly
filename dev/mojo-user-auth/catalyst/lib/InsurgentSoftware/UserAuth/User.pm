@@ -29,6 +29,17 @@ has fullname => (
     is => "rw",
 );
 
+=head2 $user->email()
+
+The email address of the user.
+
+=cut
+
+has email => (
+    isa => "Str",
+    is => "rw",
+);
+
 =head2 $self->extra_data()
 
 The associated InsurgentSoftware::UserAuth::UserExtraData .
@@ -141,24 +152,6 @@ sub verify_password
     my $pass = shift;
 
     return $self->check_password($pass);
-}
-
-=head2 email
-
-Maps to the id().
-
-=cut
-
-sub email
-{
-    my $self = shift;
-
-    if (@_)
-    {
-        $self->id(shift);
-    }
-
-    return $self->id();
 }
 
 1;

@@ -367,7 +367,7 @@ sub _generic_find_user
         return;
     }
 
-    my $stream = $self->_search({id => $user_id});
+    my $stream = $self->_search({email => $user_id});
 
     FIND_EMAIL:
     while ( my $block = $stream->next )
@@ -520,7 +520,7 @@ sub _register_new_user
         {
             fullname => $self->param("fullname"),
             password => crypt_password($self->_password()),
-            id => $self->_email,
+            email => $self->_email,
             confirm_code => $self->_get_confirm_code(),
         }
     );
