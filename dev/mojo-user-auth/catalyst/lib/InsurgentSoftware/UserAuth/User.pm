@@ -125,21 +125,6 @@ sub assign_password
     return;
 }
 
-=head2 BUILD()
-
-Catalyst stuff.
-
-=cut
-
-sub BUILD
-{
-    my ($self, $params) = @_;
-
-    $self->assign_password($params->{password});
-
-    return;
-}
-
 =head2 $self->verify_password($password)
 
 Verify that the password is $password .
