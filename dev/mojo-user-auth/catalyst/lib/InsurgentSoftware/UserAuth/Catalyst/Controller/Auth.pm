@@ -88,12 +88,6 @@ sub register :Local {
     return $self->_with_mojo($c, 'register');
 }
 
-sub register_submit :Path('register-submit') {
-    my ( $self, $c ) = @_;
-
-    return $self->_with_mojo($c, 'register_submit');
-}
-
 =head2 confirm_register
 
 Confirm a registration.
