@@ -33,6 +33,7 @@ my $build = Test::Run::Builder->new(
         'Catalyst::Runtime' => '5.80022',
         'Catalyst::View::TT' => 0,
         'CGI' => 0,
+        'Data::UUID' => 0,
         'Digest' => 0,
         'Email::Sender::Simple' => 0,
         'Email::Simple' => 0,

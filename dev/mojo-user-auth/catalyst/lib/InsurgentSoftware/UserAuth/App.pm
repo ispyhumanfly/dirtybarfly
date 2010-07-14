@@ -12,8 +12,11 @@ use Email::Sender::Simple;
 use Email::Simple;
 use Email::Simple::Creator;
 use URI::Escape;
+use Data::UUID;
 
 use CGI ();
+
+my $uuid_gen = Data::UUID->new();
 
 my $forms = InsurgentSoftware::UserAuth::App::Forms->new();
 
@@ -518,6 +521,7 @@ sub _register_new_user
 
     my $new_user = InsurgentSoftware::UserAuth::User->new(
         {
+            id => $uuid_gen->to_string($uuid_gen->create()),
             fullname => $self->param("fullname"),
             password => crypt_password($self->_password()),
             email => $self->_email,
