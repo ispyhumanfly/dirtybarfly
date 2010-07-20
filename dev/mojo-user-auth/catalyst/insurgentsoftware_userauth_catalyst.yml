@@ -1,3 +1,11 @@
 # rename this file to insurgentsoftware::userauth::catalyst.yml and put a ':' after 'name' if
 # you want to use YAML like in old versions of Catalyst
 name: 'InsurgentSoftware::UserAuth::Catalyst'
+Model::KiokuDB:
+    dsn: dbi:SQLite:dbname=./insurgent-auth.sqlite
+    extra_args:
+        create: 1
+        columns:
+            - 'email'
+            - data_type: varchar
+              is_nullable: 1
