@@ -9,3 +9,13 @@ Model::KiokuDB:
             - 'email'
             - data_type: varchar
               is_nullable: 1
+Plugin::Authentication:
+    default_realm: 'default'
+    realms:
+        default:
+            credential:
+                class: 'Password'
+                password_type: 'self_check'
+            store:
+                class: 'Model::KiokuDB'
+                model_name: 'KiokuDB'

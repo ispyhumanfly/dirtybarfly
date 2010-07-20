@@ -577,17 +577,18 @@ sub login_submit
 {
     my $self = shift;
 
-    my $user = $self->_find_user_by_param;
-
-    if (! ($user && $user->verify_password($self->_password)))
+    if (! $self->_mojo->authenticate({username => $self->_find_user_by_param()->id(), password => $self->_password()}))
     {
         return $self->render_failed_login(
             "Wrong Login or Incorrect Password",
         );
     }
 
+    my $user = $self->_mojo->user()->get_object();
+
     if (!$user->confirmed())
     {
+        $self->_mojo->logout();
         return $self->render_failed_login(
             "You need to confirm first.",
             "Your email was not confirmed yet. See your E-mail's inbox for details.",
@@ -604,15 +605,13 @@ sub _login
 {
     my $self = shift;
 
-    return $self->session->{'login'};
+    return $self->_mojo->user->get_object->email();
 }
 
 sub _login_user
 {
     my $self = shift;
     my $user = shift;
-
-    $self->session->{'login'} = $user->email;
 
     $self->render_text(
           "<h1>Login successful</h1>\n"

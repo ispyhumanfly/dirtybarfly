@@ -15,6 +15,7 @@ use Catalyst::Runtime 5.80;
 use Catalyst qw/
     -Debug
     ConfigLoader
+    Authentication
     Static::Simple
     Session
     Session::Store::FastMmap
@@ -44,6 +45,7 @@ __PACKAGE__->config(
 # Start the application
 __PACKAGE__->setup();
 
+before setup_auth_realm => sub { my ($app, $realmname, $config) = @_; warn("Setting up realm $realmname with " . Dumper($config)); }; # And stuff that after ->setup in MyApp
 
 =head1 NAME
 

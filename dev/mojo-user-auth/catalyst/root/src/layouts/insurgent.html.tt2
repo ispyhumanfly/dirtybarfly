@@ -7,8 +7,8 @@
     <body>
     <div id="status">
     <ul>
-[% IF c.session.login %]
-    <li><b>Logged in as [% HTML.escape(c.session.login) %]</b></li>
+[% IF c.user_exists() %]
+    <li><b>Logged in as [% HTML.escape(c.user.get_object.email) %]</b></li>
     <li><a href="[% HTML.escape(c.uri_for('account')) %]">Account</a></li>
     <li><a href="[% HTML.escape(c.uri_for('logout')) %]">Logout</a></li>
 [% ELSE %]
