@@ -1,86 +1,34 @@
 #!perl
 
-package MyTest::Mech::LibXML;
 
 use strict;
 use warnings;
 
 use InsurgentSoftware::MockEmailSender;
 
-use Test::WWW::Mechanize::Catalyst;
-use base 'Test::WWW::Mechanize::Catalyst';
-
-use HTML::TreeBuilder::LibXML;
-
-use Test::More;
-
-use MRO::Compat;
-
-sub libxml_tree
-{
-    my $self = shift;
-
-    if (@_)
-    {
-        $self->{libxml_tree} = shift;
-    }
-
-    return $self->{libxml_tree};
-}
-
-sub _update_page
-{
-    my $self = shift;
-
-    my $ret = $self->maybe::next::method(@_);
-
-    my $tree = HTML::TreeBuilder::LibXML->new;
-    $tree->parse($self->content());
-    $tree->eof();
-
-    $self->libxml_tree($tree);
-
-    return $ret;
-}
-
-sub contains_tag
-{
-    local $Test::Builder::Level = $Test::Builder::Level + 1;
-
-    my $mech = shift;
-    my $tag_spec = shift;
-    my $blurb = shift;
-
-    my $ret = $mech->libxml_tree->look_down(@$tag_spec);
-
-    ok($ret, $blurb);
-
-    return $ret;
-}
-
-sub tree_matches_xpath
-{
-    local $Test::Builder::Level = $Test::Builder::Level + 1;
-
-    my $mech = shift;
-    my $xpath = shift;
-    my $blurb = shift;
-
-    my @nodes = $mech->libxml_tree->findnodes($xpath);
-
-    return ok(scalar(@nodes), $blurb);
-}
-
 package MyTest::Mech;
 
 use strict;
 use warnings;
 
+use Test::WWW::Mechanize::LibXML;
+use Test::WWW::Mechanize::Catalyst;
+
 use Moose;
 
-extends (qw(MyTest::Mech::LibXML Moose::Object));
+extends (qw(Test::WWW::Mechanize::Catalyst Test::WWW::Mechanize::LibXML Moose::Object));
 
 use Test::More;
+
+sub _update_page
+{
+    my $self = shift;
+
+    my $ret = $self->Test::WWW::Mechanize::Catalyst::_update_page(@_);
+    $self->Test::WWW::Mechanize::LibXML::_update_page(@_);
+
+    return $ret;
+}
 
 sub new
 {
