@@ -20,8 +20,6 @@ my $build = Test::Run::Builder->new(
     requires => 
     {
         'Catalyst::Action::RenderView' => 0,
-        'Catalyst::Authentication::Store::DBIx::Class' => 0,
-        'Catalyst::Controller::HTML::FormFu' => 0,
         'Catalyst::Model::KiokuDB' => 0,
         'Catalyst::Plugin::Authentication' => '0.03',
         'Catalyst::Plugin::Authorization::Roles' => 0,
