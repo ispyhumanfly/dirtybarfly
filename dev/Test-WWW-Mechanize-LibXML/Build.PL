@@ -7,8 +7,14 @@ my $builder = Module::Build->new(
     license             => 'mit',
     dist_author         => q{Shlomi Fish <shlomif@insurgentsoftware.com>},
     dist_version_from   => 'lib/Test/WWW/Mechanize/LibXML.pm',
-    build_requires => {
+    build_requires =>
+    {
         'Test::More' => 0,
+    },
+    requires =>
+    {
+        'Test::WWW::Mechanize' => 0,
+        'HTML::TreeBuilder::LibXML' => 0,
     },
     add_to_cleanup      => [ 'Test-WWW-Mechanize-LibXML-*' ],
     create_makefile_pl => 'traditional',

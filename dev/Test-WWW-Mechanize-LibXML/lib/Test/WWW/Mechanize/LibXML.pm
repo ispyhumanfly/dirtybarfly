@@ -5,47 +5,118 @@ use strict;
 
 =head1 NAME
 
-Test::WWW::Mechanize::LibXML - The great new Test::WWW::Mechanize::LibXML!
+Test::WWW::Mechanize::LibXML - use HTML::TreeBuilder::LibXML for testing
+web-sites.
 
 =head1 VERSION
 
-Version 0.01
-
-=cut
-
-our $VERSION = '0.01';
-
+Version 0.0.1
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
     use Test::WWW::Mechanize::LibXML;
 
-    my $foo = Test::WWW::Mechanize::LibXML->new();
-    ...
+    my $mech = Test::WWW::Mechanize::LibXML->new();
 
-=head1 EXPORT
+    # TEST
+    $mech->get_ok('http://www.shlomifish.org/');
 
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
+    # TEST
+    $mech->tree_matches_xpath('//p', "There are paragraphs in the page.");
 
-=head1 FUNCTIONS
+=head1 DESCRIPTION
 
-=head2 function1
+This module inherits from L<Test::WWW::Mechanize>, and allows one to utilize
+L<HTML::TreeBuilder::LibXML> to perform XPath and L<HTML::TreeBuilder>
+queries on the tree.
 
 =cut
 
-sub function1 {
+our $VERSION = '0.0.1';
+
+use base 'Test::WWW::Mechanize';
+
+use HTML::TreeBuilder::LibXML;
+
+use MRO::Compat;
+
+use Test::More;
+
+=head1 METHODS
+
+=head2 $mech->libxml_tree()
+
+Returns the L<HTML::TreeBuilder::LibXML> tree of the current page.
+
+=cut
+
+sub libxml_tree
+{
+    my $self = shift;
+
+    if (@_)
+    {
+        $self->{libxml_tree} = shift;
+    }
+
+    return $self->{libxml_tree};
 }
 
-=head2 function2
+sub _update_page
+{
+    my $self = shift;
+
+    my $ret = $self->maybe::next::method(@_);
+
+    my $tree = HTML::TreeBuilder::LibXML->new;
+    $tree->parse($self->content());
+    $tree->eof();
+
+    $self->libxml_tree($tree);
+
+    return $ret;
+}
+
+=head2 my $tag = $mech->contains_tag($tag_spec, $blurb)
+
+See if the tree contains a tag using C< look_down(@$tag_spec) > and 
+returns it.
 
 =cut
 
-sub function2 {
+sub contains_tag
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $mech = shift;
+    my $tag_spec = shift;
+    my $blurb = shift;
+
+    my $ret = $mech->libxml_tree->look_down(@$tag_spec);
+
+    ok($ret, $blurb);
+
+    return $ret;
+}
+
+=head2 $mech->tree_matches_xpath($xpath, $blurb)
+
+Determines whether the tree matches the XPath expression $xpath and returns
+it.
+
+=cut
+
+sub tree_matches_xpath
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $mech = shift;
+    my $xpath = shift;
+    my $blurb = shift;
+
+    my @nodes = $mech->libxml_tree->findnodes($xpath);
+
+    return ok(scalar(@nodes), $blurb);
 }
 
 =head1 AUTHOR
@@ -58,15 +129,11 @@ Please report any bugs or feature requests to C<bug-test-www-mechanize-libxml at
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-WWW-Mechanize-LibXML>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
-
-
-
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
     perldoc Test::WWW::Mechanize::LibXML
-
 
 You can also look for information at:
 
@@ -90,13 +157,19 @@ L<http://search.cpan.org/dist/Test-WWW-Mechanize-LibXML/>
 
 =back
 
-
 =head1 ACKNOWLEDGEMENTS
 
+Thanks to Insurgent Software for sponsoring this work.
+
+=head1 TODO
+
+At the moment, there's a very minimal number of methods here. More should
+be added as needed.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2010 Shlomi Fish.
+Copyright 2010 Shlomi Fish. (C<shlomif@insurgentsoftware.com>, 
+L<http://www.shlomifish.org/> )
 
 This program is distributed under the MIT (X11) License:
 L<http://www.opensource.org/licenses/mit-license.php>
@@ -121,7 +194,6 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
-
 
 =cut
 
