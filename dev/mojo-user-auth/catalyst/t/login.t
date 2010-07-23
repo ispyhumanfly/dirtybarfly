@@ -14,6 +14,35 @@ use HTML::TreeBuilder::LibXML;
 
 use Test::More;
 
+use MRO::Compat;
+
+sub libxml_tree
+{
+    my $self = shift;
+
+    if (@_)
+    {
+        $self->{libxml_tree} = shift;
+    }
+
+    return $self->{libxml_tree};
+}
+
+sub _update_page
+{
+    my $self = shift;
+
+    my $ret = $self->maybe::next::method(@_);
+
+    my $tree = HTML::TreeBuilder::LibXML->new;
+    $tree->parse($self->content());
+    $tree->eof();
+
+    $self->libxml_tree($tree);
+
+    return $ret;
+}
+
 sub contains_tag
 {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
@@ -22,11 +51,7 @@ sub contains_tag
     my $tag_spec = shift;
     my $blurb = shift;
 
-    my $tree = HTML::TreeBuilder::LibXML->new;
-    $tree->parse($mech->content());
-    $tree->eof();
-
-    my $ret = $tree->look_down(@$tag_spec);
+    my $ret = $mech->libxml_tree->look_down(@$tag_spec);
 
     ok($ret, $blurb);
 
@@ -41,11 +66,8 @@ sub tree_matches_xpath
     my $xpath = shift;
     my $blurb = shift;
 
-    my $tree = HTML::TreeBuilder::LibXML->new;
-    $tree->parse($mech->content());
-    $tree->eof();
+    my @nodes = $mech->libxml_tree->findnodes($xpath);
 
-    my @nodes = $tree->findnodes($xpath);
     return ok(scalar(@nodes), $blurb);
 }
 
