@@ -1,6 +1,6 @@
 Revision history for Test-WWW-Mechanize-LibXML
 
-0.0.2
+0.0.2   Sun Jul 25 09:07:11 IDT 2010
         - Add missing requires (including MRO::Compat). Thanks to the
         CPAN testers reports.
 
