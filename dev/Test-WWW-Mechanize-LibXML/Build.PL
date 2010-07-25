@@ -13,8 +13,12 @@ my $builder = Module::Build->new(
     },
     requires =>
     {
-        'Test::WWW::Mechanize' => 0,
         'HTML::TreeBuilder::LibXML' => 0,
+        'MRO::Compat' => 0,
+        'Test::WWW::Mechanize' => 0,
+        'strict' => 0,
+        'warnings' => 0,
+        'Test::More' => 0,
     },
     add_to_cleanup      => [ 'Test-WWW-Mechanize-LibXML-*' ],
     create_makefile_pl => 'traditional',
