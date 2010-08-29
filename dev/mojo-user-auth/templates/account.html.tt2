@@ -1,0 +1,8 @@
+[% WRAPPER "templates/layouts/insurgent.html.tt2" %]
+[%- USE HTML -%]
+<h1>Account page for [% HTML.escape(email) %]</h1>
+
+<h2 id="change_info">Change User Information</h2>
+
+[% change_user_info_form %]
+[% END %]

@@ -12,19 +12,21 @@ use Email::Sender::Simple;
 use Email::Simple;
 use Email::Simple::Creator;
 use URI::Escape;
+use Data::UUID;
 
 use CGI ();
+
+my $uuid_gen = Data::UUID->new();
 
 my $forms = InsurgentSoftware::UserAuth::App::Forms->new();
 
 has _mojo => (
-    isa => "Mojolicious::Controller",
+    isa => "InsurgentSoftware::UserAuth::Catalyst",
     is => "rw",
     init_arg => "mojo",
     clearer => "_clear_mojo",
     handles =>
     {
-        "param" => "param",
         session => "session",
     },
 );
@@ -50,11 +52,34 @@ has _forms => (
     },
 );
 
+=head1 NAME
+
+InsurgentSoftware::UserAuth::App - 
+Main object for the Insurgent Software user authentication application.
+
+=head1 DESCRIPTION
+
+This is the main object of the Insurgent Software user authentication
+application.
+
+=head1 METHODS
+
+=cut
+
+sub param
+{
+    my ($self, $name) = @_;
+
+    return $self->_mojo->req->params->{$name};
+}
+
 sub render_text
 {
     my ($self, $text, $args) = @_;
 
-    return $self->_mojo->render(
+    $args ||= +{};
+
+    return $self->render(
         {
             template => "render_text",
             template_text => $text,
@@ -68,9 +93,14 @@ sub render
 {
     my ($self, $args) = @_;
 
-    return $self->_mojo->render(
-        $args,
-    );
+    while (my ($k, $v) = each (%$args))
+    {
+        $self->_mojo->stash->{$k} = $v;
+    }
+
+    $self->_mojo->stash->{'template'} .= ".html.tt2";
+
+    return;
 }
 
 $forms->add_form(
@@ -120,6 +150,7 @@ $forms->add_form(
 $forms->add_form(
     {
         id => "change_user_info",
+        action => "/account/change-info",
         fields =>
         [
             InsurgentSoftware::UserAuth::FormSpec::Field->new(
@@ -139,6 +170,7 @@ $forms->add_form(
 $forms->add_form(
     {
         id => "password_reset",
+        action => "password-reset-submit",
         fields =>
         [
             InsurgentSoftware::UserAuth::FormSpec::Field->new(
@@ -151,6 +183,7 @@ $forms->add_form(
 $forms->add_form(
     {
         id => "handle_password_reset",
+        action => "handle-password-reset-submit",
         fields =>
         [
             InsurgentSoftware::UserAuth::FormSpec::Field->new(
@@ -466,7 +499,7 @@ sub _send_confirmation_email
         (
             "You need to confirm your registration for Insurgent-Auth.\n\n"
             . "Go to the following URL:\n\n"
-            . $self->_mojo->url_for("confirm_register")->to_abs()
+            . $self->_mojo->uri_for("confirm-register")
                 . "?email=" . uri_escape($user->email())
                 . "&code=" . uri_escape($user->confirm_code())
             . "\n\n"
@@ -480,14 +513,17 @@ sub _send_confirmation_email
     return;
 }
 
+use KiokuX::User::Util qw(crypt_password);
+
 sub _register_new_user
 {
     my $self = shift;
-   
+
     my $new_user = InsurgentSoftware::UserAuth::User->new(
         {
+            id => $uuid_gen->to_string($uuid_gen->create()),
             fullname => $self->param("fullname"),
-            password => $self->_password(),
+            password => crypt_password($self->_password()),
             email => $self->_email,
             confirm_code => $self->_get_confirm_code(),
         }
@@ -541,17 +577,18 @@ sub login_submit
 {
     my $self = shift;
 
-    my $user = $self->_find_user_by_param;
-
-    if (! ($user && $user->verify_password($self->_password)))
+    if (! $self->_mojo->authenticate({username => $self->_find_user_by_param()->id(), password => $self->_password()}))
     {
         return $self->render_failed_login(
             "Wrong Login or Incorrect Password",
         );
     }
 
+    my $user = $self->_mojo->user()->get_object();
+
     if (!$user->confirmed())
     {
+        $self->_mojo->logout();
         return $self->render_failed_login(
             "You need to confirm first.",
             "Your email was not confirmed yet. See your E-mail's inbox for details.",
@@ -568,15 +605,13 @@ sub _login
 {
     my $self = shift;
 
-    return $self->session->{'login'};
+    return $self->_mojo->user->get_object->email();
 }
 
 sub _login_user
 {
     my $self = shift;
     my $user = shift;
-
-    $self->session->{'login'} = $user->email;
 
     $self->render_text(
           "<h1>Login successful</h1>\n"
@@ -681,7 +716,7 @@ sub change_user_info_submit
             (
               "<h1>Updated Your User Data</h1>\n"
             . "<p>Your user-data was updated.</p>\n"
-            . qq{<p><a href="} . $self->_mojo->url_for("account_page") . qq{">Return to your account</a></p>\n}
+            . qq{<p><a href="} . $self->_mojo->uri_for("/account") . qq{">Return to your account</a></p>\n}
             ),
             {
                 title => "Data updated",
@@ -778,7 +813,7 @@ sub _send_password_reset_email
         (
             "You need to confirm your registration for Insurgent-Auth.\n\n"
             . "Go to the following URL:\n\n"
-            . $self->_mojo->url_for("handle_password_reset")->to_abs()
+            . $self->_mojo->uri_for("handle-password-reset")
                 . "?email=" . uri_escape($user->email())
                 . "&code=" . uri_escape($user->password_reset_code())
             . "\n\n"
@@ -950,6 +985,14 @@ around 'register_submit', '_register_new_user', 'login_submit',
     return @ret;
 };
 
+=head1 AUTHOR
 
+Shlomi Fish, L<http://www.shlomifish.org/> ( L<shlomif@insurgentsoftware.com> ).
+
+=head1 LICENSE
+
+Copyright by Insurgent Software.
+
+=cut
 
 1;

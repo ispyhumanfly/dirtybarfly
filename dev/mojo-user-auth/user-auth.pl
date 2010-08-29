@@ -8,6 +8,7 @@ use InsurgentSoftware::UserAuth::App;
 
 use Mojolicious::Lite;
 use MojoX::Session::Cookie;
+use MojoX::Renderer::TT;
 
 use CGI qw();
 
@@ -15,7 +16,20 @@ use KiokuDB;
 
 # Silence
 app->log->level('error');
+app->renderer->root("./templates");
+{
+    my $tt = MojoX::Renderer::TT->build(
+        mojo => app(),
+        template_options =>
+        {
+            INCLUDE_PATH => ".",
+            # PROCESS => 'tpl/wrapper',
+            # FILTERS => [ foo => [ \&filter_factory, 1]
+        }
+    );
 
+    app->renderer->add_handler( tt2 => $tt );
+}
 my $dir = KiokuDB->connect(
     "dbi:SQLite:dbname=./insurgent-auth.sqlite",
     create => 1,
@@ -35,7 +49,6 @@ get '/' => sub {
 
     return $self->render(
         template => "index",
-        layout => 'insurgent',
         title => "Main",
     );
 } => "index";
@@ -88,10 +101,12 @@ sub logout
 
     delete($self->session->{'login'});
 
-    $self->render_text(
-        "<h1>You are now logged-out</h1>\n",
-        layout => 'insurgent',
-        title => "You are now logged-out",
+    $self->render(
+        {
+            template => "render_text",
+            template_text => "<h1>You are now logged-out</h1>\n",
+            title => "You are now logged-out",
+        }
     );
 
     return;
@@ -112,84 +127,3 @@ of E-mail, password, etc.).
 registration.)
 
 =cut
-
-__DATA__
-
-@@ index.html.ep
-% layout 'insurgent';
-<h1>Insurgent Software's User Management Application</h1>
-
-<ul>
-% if ($self->session->{'login'}) {
-<li><a href="<%= url_for('account_page') %>">Go to Your Account</a></li>
-% } else {
-<li><a href="<%= url_for('login') %>">Login to an existing account</a></li>
-<li><a href="<%= url_for('register') %>">Register a new account</a></li>
-% }
-</ul>
-
-@@ register.html.ep
-% layout 'insurgent';
-<h1>Register an account</h1>
-<%== $register_form %>
-
-@@ login.html.ep
-% layout 'insurgent';
-<h1>Login form</h1>
-<%== $login_form %>
-
-@@ account.html.ep
-% layout 'insurgent';
-<h1>Account page for <%= $email %></h1>
-
-<h2 id="change_info">Change User Information</h2>
-
-<%== $change_user_info_form %>
-
-@@ password_reset.html.ep
-% layout 'insurgent';
-<h1>Reset Your Password</h1>
-
-<p>
-The form below allows you to reset your password. Please enter the E-mail
-with which you registered.
-</p>
-
-<%== $password_reset_form %>
-
-@@ handle_password_reset.html.ep
-% layout 'insurgent';
-<h1>Reset Your Password</h1>
-
-<p>
-The form below allows you to reset your password. Please enter your new
-password.
-</p>
-
-<%== $handle_password_reset_form %>
-
-
-@@ layouts/insurgent.html.ep
-<!doctype html><html>
-    <head>
-    <title><%= $title %> - Insurgent-Auth</title>
-    <link rel="stylesheet" href="/style.css" type="text/css" media="screen, projection" title="Normal" />
-    </head>
-    <body>
-    <div id="status">
-    <ul>
-% if ($self->session->{'login'}) {
-    <li><b>Logged in as <%= $self->session->{'login'} %></b></li>
-    <li><a href="<%= url_for('account_page') %>">Account</a></li>
-    <li><a href="<%= url_for('logout') %>">Logout</a></li>
-% } else {
-    <li><b>Not logged in.</b></li>
-    <li><a href="<%= url_for('login') %>/">Login</a></li>
-    <li><a href="<%= url_for('register') %>">Register</a></li>
-% }
-    <li><a href="<%= url_for('password_reset') %>">Password Reset</a></li>
-    </ul>
-    </div>
-    <%== content %>
-    </body>
-</html>
