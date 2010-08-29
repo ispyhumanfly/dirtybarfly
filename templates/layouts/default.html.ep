@@ -8,28 +8,63 @@
 	    html {
 		height:100%;
 	    }   
-		    
+	    
 	    body {
 		height: 98%;
 	    }
 
 	</style>
-
-	<!-- DojoToolkit 1.3 JavaScript Framework -->
 	
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dijit/themes/nihilo/nihilo.css">
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojo/dojo.xd.js" djConfig="parseOnLoad:true" isDebug="true"></script>
+	<!-- Google Maps JavaScript API v3 -->
+	
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+        <script type="text/javascript">//<![CDATA[
+	
+	    function initialize() {
+		
+		var myLatlng = new google.maps.LatLng(42.42, 83.02);
+	
+		var myOptions = {
+		    
+		    zoom: 10,
+		    center: myLatlng,
+		    mapTypeId: google.maps.MapTypeId.HYBRID
+		};
+    
+		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+		
+	    }
+    	    
+	    function loadScript() {
+		
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.src = "http://maps.google.com/maps/api/js?sensor=false&region=en-US&callback=initialize";
+		document.body.appendChild(script);
+	    }
+  
+	    window.onload = loadScript;
+	
+        //]]></script>
+
+	<!-- DojoToolkit 1.5 JavaScript Framework -->
+	
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js" djConfig="parseOnLoad:true" isDebug="true"></script>
         
         <script type="text/javascript">//<![CDATA[
             
             dojo.require("dijit.layout.BorderContainer");
             dojo.require("dijit.layout.ContentPane");
+	    dojo.require("dijit.form.TextBox");
+	    dojo.require("dijit.form.Button");
             
         //]]></script>
 	
     </head>
     
-    <body class='nihilo'>
+    <body class='claro'>
 
 	<!-- Border Container -->
 	
@@ -40,6 +75,14 @@
 	    <div dojoType="dijit.layout.ContentPane" region="top">
 		
 		SocialMAP Prototype v1.0
+		
+		<div style="float: right;">
+		    
+		    <div dojoType="dijit.form.TextBox" width="50" id="searchText"></div>
+
+		    <div dojoType="dijit.form.Button" id="searchButton"> Search!</div>
+		
+		</div>
 		
 	    </div>
 	   
@@ -71,15 +114,13 @@
 		    
 		    FB.init({appId: '151734874839220', status: true, cookie: true, xfbml: true});
 		    
-		    FB.XFBML.parse();
-		    
 		    FB.getLoginStatus(function(response) {
   
 			if (response.session) {
 			    
 			    <% unless ( $self->session('name') ) { %>
 			
-			    window.location = '/signin?name=' + response.uid + '';
+			    window.location = '/login?name=' + response.uid + '';
 			    
 			    <% } %>
 			}
@@ -87,7 +128,7 @@
     
 			    <% if ( $self->session('name') ) { %>
 			    
-			    window.location = '/signout';
+			    window.location = '/logout';
 			    
 			    <% } %>
 			}

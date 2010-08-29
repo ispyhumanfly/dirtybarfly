@@ -9,56 +9,53 @@ get '/' => sub {
 
 } => 'index';
 
-get '/signin' => sub {
+# p a g e s . . .
+
+get '/local' => sub {
+
+    my $self = shift;
+    $self->render( 'local', layout => 'default' );
+
+} => 'local';
+
+get '/image' => sub {
+
+    my $self = shift;
+    $self->render( 'image', layout => 'default' );
+
+} => 'image';
+
+
+# a c t i o n s . . .
+
+get '/login' => sub {
 
     my $self = shift;
 
-    my $name = $self->param('name') || '';
+    if ( $self->param('name') ) {
+        
+        my $name = $self->param('name');
 
-    $self->session( name => $name );
-    $self->redirect_to('home');
+        $self->session( name => $name );
+        $self->redirect_to('home');
+    }
+    else {
 
-    return $self->render unless $name;
+        return $self->render        
+    }
 
-} => 'signin';
+} => 'login';
 
-get '/signout' => sub {
+get '/logout' => sub {
 
     my $self = shift;
 
     $self->session( expires => 1 );
-    $self->redirect_to('home');
+    $self->redirect_to('index');
 
-} => 'signout';
+} => 'logout';
 
-get '/home' => sub {
-
-    my $self = shift;
-    $self->render( 'home', layout => 'default' );
-
-} => 'home';
-
-get '/location' => sub {
-
-    my $self = shift;
-    $self->render( 'location', layout => 'default' );
-
-} => 'location';
-
-get '/profile' => sub {
-
-    my $self = shift;
-    $self->render( 'profile', layout => 'default' );
-
-} => 'profile';
-
-get '/message' => sub {
-
-    my $self = shift;
-    $self->render( 'message', layout => 'default' );
-
-} => 'message';
-
+app->secret('Insurgent Software Rocks!');
 app->start;
 
 __DATA__

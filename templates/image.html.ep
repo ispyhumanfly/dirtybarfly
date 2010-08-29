@@ -1,0 +1,11 @@
+<script type="text/javascript">//<![CDATA[
+
+    dojo.require("dojox.data.GoogleSearchStore");
+    
+//]]></script>
+
+<div dojoType='dijit.layout.ContentPane' region='center'>
+    
+    <div dojoType="dojox.data.GoogleImageSearchStore" jsId="imageStore"></div>
+
+</div>
