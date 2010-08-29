@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Komodo Project File - DO NOT EDIT -->
+<project id="deb2af45-5ef4-4ace-8db5-ecc9d3c63064" kpf_version="4" name="SocialMAP.kpf">
+<preference-set idref="deb2af45-5ef4-4ace-8db5-ecc9d3c63064">
+  <boolean id="import_live">1</boolean>
+</preference-set>
+</project>

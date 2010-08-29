@@ -1,0 +1,9 @@
+<script type="text/javascript">
+
+</script>
+
+<div dojoType='dijit.layout.ContentPane' region='center'>
+
+Contents of Profile Dashboard
+
+</div>

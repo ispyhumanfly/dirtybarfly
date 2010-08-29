@@ -1,0 +1,30 @@
+<script type="text/javascript">//<![CDATA[
+
+    dojo.require("dijit.Dialog");
+    dojo.require("dijit.layout.TabContainer");
+
+    dojo.addOnLoad(function() {
+	
+	dijit.byId("dialogWelcome").show();
+    });
+
+//]]></script>
+
+<div dojoType='dijit.layout.ContentPane' region='center'>
+
+    <div dojoType="dijit.Dialog" id="dialogWelcome" title="Welcome to SocialMAP!">
+    
+        <div dojoType="dijit.layout.TabContainer">
+            
+            <div dojoType="dijit.layout.ContentPane" title="Connect">
+    
+                <!-- Facebook Login -->
+                
+                <fb:login-button show-faces="true" width="300" max-rows="5"></fb:login-button>
+                
+            </div>
+    
+        </div>
+        
+    </div>
+</div>

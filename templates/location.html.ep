@@ -1,0 +1,9 @@
+<script type="text/javascript">
+
+</script>
+
+<div dojoType='dijit.layout.ContentPane' region='center'>
+
+    <fb:live-stream event_app_id="255955255198" xid="location1"></fb:live-stream>
+
+</div>

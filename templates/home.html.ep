@@ -1,0 +1,78 @@
+<script type="text/javascript">//<![CDATA[
+
+    dojo.require("dijit.layout.TabContainer");
+    dojo.require("dijit.form.HorizontalSlider");
+
+//]]></script>
+
+<div dojoType='dijit.layout.ContentPane' region='center'>
+    
+    <div dojoType="dijit.layout.TabContainer" style="width: 800px; height: 600px;">
+    
+        <div dojoType="dijit.layout.BorderContainer" title="Home" class='tab' liveSplitters="true">
+            
+            <div dojoType="dijit.layout.ContentPane" splitter="true" region='center'>
+            
+                <!-- Facebook Comments -->
+    
+                <fb:comments xid="home" numposts="15" width="600"></fb:comments>
+                
+            </div>
+            
+            <div dojoType="dijit.layout.ContentPane" splitter="true" region='right' style="width:50%;">
+		    
+                    
+	    </div>		    
+                    
+        </div>
+
+        <div dojoType="dijit.layout.BorderContainer" title="Details" class='tab' liveSplitters="true">
+            
+            <div dojoType="dijit.layout.ContentPane" splitter="true" region='center'>
+
+            </div>
+            
+            <div dojoType="dijit.layout.ContentPane" splitter="true" region='right' style="width:50%;">
+		    
+                    <iframe width="100%" height="99%" frameborder="0" scrolling="no" marginheight="1" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=nyc&amp;&amp;sspn=0.01674,0.033023&amp;ie=UTF8&amp;hq=&amp;hnear=New+York&amp;ll=40.714476,-74.005966&amp;spn=0.249819,0.439453&amp;z=11&amp;iwloc=A&amp;output=embed">                        
+                    </iframe>
+	    </div>
+                    
+        </div>
+        
+        <div dojoType="dijit.layout.BorderContainer" title="Events" class='tab' liveSplitters="true">
+            
+            <div dojoType="dijit.layout.ContentPane" splitter="true" region='center'>
+    
+            </div>
+            
+            <div dojoType="dijit.layout.ContentPane" splitter="true" region='right' style="width:50%;">
+		    
+                    <iframe width="100%" height="99%" frameborder="0" scrolling="no" marginheight="1" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=nyc&amp;&amp;sspn=0.01674,0.033023&amp;ie=UTF8&amp;hq=&amp;hnear=New+York&amp;ll=40.714476,-74.005966&amp;spn=0.249819,0.439453&amp;z=11&amp;iwloc=A&amp;output=embed">                        
+                    </iframe>
+	    </div>
+                    
+        </div>
+
+        <div dojoType="dijit.layout.BorderContainer" title="Friends" class='tab' liveSplitters="true">
+            
+            <div dojoType="dijit.layout.ContentPane" splitter="true" region='center'>
+                
+                <!-- Facebook Facepile -->
+                
+                <fb:facepile max-rows="10" width="600"></fb:facepile>
+    
+            </div>
+            
+            <div dojoType="dijit.layout.ContentPane" splitter="true" region='right' style="width:50%;">
+		    
+                    <iframe width="100%" height="99%" frameborder="0" scrolling="no" marginheight="1" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=nyc&amp;&amp;sspn=0.01674,0.033023&amp;ie=UTF8&amp;hq=&amp;hnear=New+York&amp;ll=40.714476,-74.005966&amp;spn=0.249819,0.439453&amp;z=11&amp;iwloc=A&amp;output=embed">                        
+                    </iframe>
+	    </div>
+                    
+        </div>
+
+    </div>
+
+    
+</div>

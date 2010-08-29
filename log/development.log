@@ -1,0 +1,284 @@
+Sat Aug 21 18:22:53 2010 info Mojo::Server::Daemon:341 [2479]: Server listening (http://*:3000)
+Sat Aug 21 18:22:59 2010 debug Mojolicious:28 [2479]: Your secret passphrase needs to be changed!!!
+Sat Aug 21 18:22:59 2010 debug Mojolicious:134 [2479]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:22:59 2010 debug MojoX::Dispatcher::Routes:146 [2479]: Dispatching callback.
+Sat Aug 21 18:22:59 2010 debug Mojolicious::Plugin::EpRenderer:50 [2479]: Caching template "/home/dstephenson/Projects/socialmap/templates/home.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:22:59 2010 debug Mojolicious::Plugin::EpRenderer:50 [2479]: Caching template "/home/dstephenson/Projects/socialmap/templates/layouts/default.html.ep" with stash "cb, content, mojo.started, params, rendered, route".
+Sat Aug 21 18:22:59 2010 debug Mojolicious::Plugin::EpRenderer:50 [2479]: Caching template "/home/dstephenson/Projects/socialmap/templates/layouts/default.css.ep.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:22:59 2010 error Mojolicious::Plugin::EplRenderer:56 [2479]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:22:59 2010 debug Mojolicious::Plugin::EpRenderer:50 [2479]: Caching template "/home/dstephenson/Projects/socialmap/templates/not_found.html.ep" with stash "cb, content, extends, format, layout, mojo.started, not_found, params, rendered, route, status".
+Sat Aug 21 18:22:59 2010 error Mojolicious::Plugin::EplRenderer:56 [2479]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:22:59 2010 debug MojoX::Dispatcher::Static:202 [2479]: Serving 404 error.
+Sat Aug 21 18:22:59 2010 debug Mojolicious::Plugin::EpRenderer:50 [2479]: Caching template "/home/dstephenson/Projects/socialmap/templates/welcome.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:22:59 2010 debug Mojolicious::Plugin::RequestTimer:34 [2479]: Request took 0.019113 seconds (52.320/s).
+Sat Aug 21 18:22:59 2010 debug Mojolicious:134 [2479]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:22:59 2010 debug Mojolicious::Plugin::EpRenderer:50 [2479]: Caching template "/home/dstephenson/Projects/socialmap/templates/not_found.html.ep" with stash "content, extends, format, layout, mojo.started, not_found, rendered, status".
+Sat Aug 21 18:22:59 2010 error Mojolicious::Plugin::EplRenderer:56 [2479]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:22:59 2010 debug MojoX::Dispatcher::Static:202 [2479]: Serving 404 error.
+Sat Aug 21 18:22:59 2010 debug Mojolicious::Plugin::RequestTimer:34 [2479]: Request took 0.001491 seconds (670.691/s).
+Sat Aug 21 18:23:06 2010 debug Mojolicious:134 [2479]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:06 2010 debug MojoX::Dispatcher::Routes:146 [2479]: Dispatching callback.
+Sat Aug 21 18:23:06 2010 error Mojolicious::Plugin::EplRenderer:56 [2479]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:23:06 2010 error Mojolicious::Plugin::EplRenderer:56 [2479]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:06 2010 debug MojoX::Dispatcher::Static:202 [2479]: Serving 404 error.
+Sat Aug 21 18:23:06 2010 debug Mojolicious::Plugin::RequestTimer:34 [2479]: Request took 0.003167 seconds (315.756/s).
+Sat Aug 21 18:23:06 2010 debug Mojolicious:134 [2479]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:06 2010 error Mojolicious::Plugin::EplRenderer:56 [2479]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:06 2010 debug MojoX::Dispatcher::Static:202 [2479]: Serving 404 error.
+Sat Aug 21 18:23:06 2010 debug Mojolicious::Plugin::RequestTimer:34 [2479]: Request took 0.002197 seconds (455.166/s).
+Sat Aug 21 18:23:07 2010 debug Mojolicious:134 [2479]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:07 2010 debug MojoX::Dispatcher::Routes:146 [2479]: Dispatching callback.
+Sat Aug 21 18:23:07 2010 error Mojolicious::Plugin::EplRenderer:56 [2479]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:23:07 2010 error Mojolicious::Plugin::EplRenderer:56 [2479]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:07 2010 debug MojoX::Dispatcher::Static:202 [2479]: Serving 404 error.
+Sat Aug 21 18:23:07 2010 debug Mojolicious::Plugin::RequestTimer:34 [2479]: Request took 0.003149 seconds (317.561/s).
+Sat Aug 21 18:23:07 2010 debug Mojolicious:134 [2479]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:07 2010 error Mojolicious::Plugin::EplRenderer:56 [2479]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:07 2010 debug MojoX::Dispatcher::Static:202 [2479]: Serving 404 error.
+Sat Aug 21 18:23:07 2010 debug Mojolicious::Plugin::RequestTimer:34 [2479]: Request took 0.001295 seconds (772.201/s).
+Sat Aug 21 18:23:16 2010 info Mojo::Server::Daemon:341 [2485]: Server listening (http://*:3000)
+Sat Aug 21 18:23:19 2010 debug Mojolicious:28 [2485]: Your secret passphrase needs to be changed!!!
+Sat Aug 21 18:23:19 2010 debug Mojolicious:134 [2485]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:19 2010 debug MojoX::Dispatcher::Routes:146 [2485]: Dispatching callback.
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::EpRenderer:50 [2485]: Caching template "/home/dstephenson/Projects/socialmap/templates/home.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::EpRenderer:50 [2485]: Caching template "/home/dstephenson/Projects/socialmap/templates/layouts/default.html.ep" with stash "cb, content, mojo.started, params, rendered, route".
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::EpRenderer:50 [2485]: Caching template "/home/dstephenson/Projects/socialmap/templates/layouts/default.css.ep.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:23:19 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::EpRenderer:50 [2485]: Caching template "/home/dstephenson/Projects/socialmap/templates/not_found.html.ep" with stash "cb, content, extends, format, layout, mojo.started, not_found, params, rendered, route, status".
+Sat Aug 21 18:23:19 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:19 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::EpRenderer:50 [2485]: Caching template "/home/dstephenson/Projects/socialmap/templates/welcome.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.011622 seconds (86.044/s).
+Sat Aug 21 18:23:19 2010 debug Mojolicious:134 [2485]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::EpRenderer:50 [2485]: Caching template "/home/dstephenson/Projects/socialmap/templates/not_found.html.ep" with stash "content, extends, format, layout, mojo.started, not_found, rendered, status".
+Sat Aug 21 18:23:19 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:19 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.001484 seconds (673.854/s).
+Sat Aug 21 18:23:19 2010 debug Mojolicious:134 [2485]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:19 2010 debug MojoX::Dispatcher::Routes:146 [2485]: Dispatching callback.
+Sat Aug 21 18:23:19 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:23:19 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:19 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.003157 seconds (316.756/s).
+Sat Aug 21 18:23:19 2010 debug Mojolicious:134 [2485]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:19 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:19 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.001156 seconds (865.052/s).
+Sat Aug 21 18:23:19 2010 debug Mojolicious:134 [2485]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:19 2010 debug MojoX::Dispatcher::Routes:146 [2485]: Dispatching callback.
+Sat Aug 21 18:23:19 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:23:19 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:19 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.003757 seconds (266.170/s).
+Sat Aug 21 18:23:19 2010 debug Mojolicious:134 [2485]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:19 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:19 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.001286 seconds (777.605/s).
+Sat Aug 21 18:23:19 2010 debug Mojolicious:134 [2485]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:19 2010 debug MojoX::Dispatcher::Routes:146 [2485]: Dispatching callback.
+Sat Aug 21 18:23:19 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:23:19 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:19 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.002117 seconds (472.367/s).
+Sat Aug 21 18:23:19 2010 debug Mojolicious:134 [2485]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:19 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:19 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:19 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.001473 seconds (678.887/s).
+Sat Aug 21 18:23:20 2010 debug Mojolicious:134 [2485]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:20 2010 debug MojoX::Dispatcher::Routes:146 [2485]: Dispatching callback.
+Sat Aug 21 18:23:20 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:23:20 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:20 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:20 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.003774 seconds (264.971/s).
+Sat Aug 21 18:23:20 2010 debug Mojolicious:134 [2485]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:20 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:20 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:20 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.001433 seconds (697.837/s).
+Sat Aug 21 18:23:20 2010 debug Mojolicious:134 [2485]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:20 2010 debug MojoX::Dispatcher::Routes:146 [2485]: Dispatching callback.
+Sat Aug 21 18:23:20 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:23:20 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:20 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:20 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.001969 seconds (507.872/s).
+Sat Aug 21 18:23:20 2010 debug Mojolicious:134 [2485]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:20 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:20 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:20 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.001184 seconds (844.595/s).
+Sat Aug 21 18:23:20 2010 debug Mojolicious:134 [2485]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:20 2010 debug MojoX::Dispatcher::Routes:146 [2485]: Dispatching callback.
+Sat Aug 21 18:23:20 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:23:20 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:20 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:20 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.003117 seconds (320.821/s).
+Sat Aug 21 18:23:20 2010 debug Mojolicious:134 [2485]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:20 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:20 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:20 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.001218 seconds (821.018/s).
+Sat Aug 21 18:23:24 2010 debug Mojolicious:134 [2485]: *** Request for "/home" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:24 2010 debug MojoX::Dispatcher::Routes:146 [2485]: Dispatching callback.
+Sat Aug 21 18:23:24 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:23:24 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:24 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:24 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.003564 seconds (280.584/s).
+Sat Aug 21 18:23:24 2010 debug Mojolicious:134 [2485]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:23:24 2010 error Mojolicious::Plugin::EplRenderer:56 [2485]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:23:24 2010 debug MojoX::Dispatcher::Static:202 [2485]: Serving 404 error.
+Sat Aug 21 18:23:24 2010 debug Mojolicious::Plugin::RequestTimer:34 [2485]: Request took 0.001274 seconds (784.929/s).
+Sat Aug 21 18:24:43 2010 info Mojo::Server::Daemon:341 [2508]: Server listening (http://*:3000)
+Sat Aug 21 18:24:48 2010 debug Mojolicious:28 [2509]: Your secret passphrase needs to be changed!!!
+Sat Aug 21 18:24:48 2010 debug Mojolicious:134 [2509]: *** Request for "/home" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:48 2010 debug MojoX::Dispatcher::Routes:146 [2509]: Dispatching callback.
+Sat Aug 21 18:24:48 2010 debug Mojolicious::Plugin::EpRenderer:50 [2509]: Caching template "/home/dstephenson/Projects/socialmap/templates/home.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:24:48 2010 debug Mojolicious::Plugin::EpRenderer:50 [2509]: Caching template "/home/dstephenson/Projects/socialmap/templates/layouts/default.html.ep" with stash "cb, content, mojo.started, params, rendered, route".
+Sat Aug 21 18:24:48 2010 debug Mojolicious::Plugin::EpRenderer:50 [2509]: Caching template "/home/dstephenson/Projects/socialmap/templates/layouts/default.css.ep.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:24:48 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:24:48 2010 debug Mojolicious::Plugin::EpRenderer:50 [2509]: Caching template "/home/dstephenson/Projects/socialmap/templates/not_found.html.ep" with stash "cb, content, extends, format, layout, mojo.started, not_found, params, rendered, route, status".
+Sat Aug 21 18:24:48 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:48 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:48 2010 debug Mojolicious::Plugin::EpRenderer:50 [2509]: Caching template "/home/dstephenson/Projects/socialmap/templates/welcome.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:24:48 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.043773 seconds (22.845/s).
+Sat Aug 21 18:24:48 2010 debug Mojolicious:134 [2509]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:48 2010 debug Mojolicious::Plugin::EpRenderer:50 [2509]: Caching template "/home/dstephenson/Projects/socialmap/templates/not_found.html.ep" with stash "content, extends, format, layout, mojo.started, not_found, rendered, status".
+Sat Aug 21 18:24:48 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:48 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:48 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.001428 seconds (700.280/s).
+Sat Aug 21 18:24:49 2010 debug Mojolicious:134 [2509]: *** Request for "/home" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:49 2010 debug MojoX::Dispatcher::Routes:146 [2509]: Dispatching callback.
+Sat Aug 21 18:24:49 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:24:49 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:49 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:49 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.002376 seconds (420.875/s).
+Sat Aug 21 18:24:49 2010 debug Mojolicious:134 [2509]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:49 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:49 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:49 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.001227 seconds (814.996/s).
+Sat Aug 21 18:24:49 2010 debug Mojolicious:134 [2509]: *** Request for "/home" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:49 2010 debug MojoX::Dispatcher::Routes:146 [2509]: Dispatching callback.
+Sat Aug 21 18:24:49 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:24:49 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:49 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:49 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.002384 seconds (419.463/s).
+Sat Aug 21 18:24:49 2010 debug Mojolicious:134 [2509]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:49 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:49 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:49 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.001456 seconds (686.813/s).
+Sat Aug 21 18:24:49 2010 debug Mojolicious:134 [2509]: *** Request for "/home" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:49 2010 debug MojoX::Dispatcher::Routes:146 [2509]: Dispatching callback.
+Sat Aug 21 18:24:49 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:24:49 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:49 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:49 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.002389 seconds (418.585/s).
+Sat Aug 21 18:24:49 2010 debug Mojolicious:134 [2509]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:49 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:49 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:49 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.001294 seconds (772.798/s).
+Sat Aug 21 18:24:49 2010 debug Mojolicious:134 [2509]: *** Request for "/home" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:49 2010 debug MojoX::Dispatcher::Routes:146 [2509]: Dispatching callback.
+Sat Aug 21 18:24:49 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:24:49 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:49 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:49 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.002450 seconds (408.163/s).
+Sat Aug 21 18:24:49 2010 debug Mojolicious:134 [2509]: *** Request for "/home" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:49 2010 debug MojoX::Dispatcher::Routes:146 [2509]: Dispatching callback.
+Sat Aug 21 18:24:50 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:24:50 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:50 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:50 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.002462 seconds (406.174/s).
+Sat Aug 21 18:24:50 2010 debug Mojolicious:134 [2509]: *** Request for "/home" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:50 2010 debug MojoX::Dispatcher::Routes:146 [2509]: Dispatching callback.
+Sat Aug 21 18:24:50 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:24:50 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:50 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:50 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.002427 seconds (412.031/s).
+Sat Aug 21 18:24:50 2010 debug Mojolicious:134 [2509]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:50 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:50 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:50 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.001227 seconds (814.996/s).
+Sat Aug 21 18:24:50 2010 debug Mojolicious:134 [2509]: *** Request for "/home" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:50 2010 debug MojoX::Dispatcher::Routes:146 [2509]: Dispatching callback.
+Sat Aug 21 18:24:50 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:24:50 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:50 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:50 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.002361 seconds (423.549/s).
+Sat Aug 21 18:24:50 2010 debug Mojolicious:134 [2509]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:24:50 2010 error Mojolicious::Plugin::EplRenderer:56 [2509]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:24:50 2010 debug MojoX::Dispatcher::Static:202 [2509]: Serving 404 error.
+Sat Aug 21 18:24:50 2010 debug Mojolicious::Plugin::RequestTimer:34 [2509]: Request took 0.001241 seconds (805.802/s).
+Sat Aug 21 18:25:00 2010 debug Mojolicious:28 [2513]: Your secret passphrase needs to be changed!!!
+Sat Aug 21 18:25:00 2010 debug Mojolicious:134 [2513]: *** Request for "/home" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:25:00 2010 debug MojoX::Dispatcher::Routes:146 [2513]: Dispatching callback.
+Sat Aug 21 18:25:00 2010 debug Mojolicious::Plugin::EpRenderer:50 [2513]: Caching template "/home/dstephenson/Projects/socialmap/templates/home.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:25:00 2010 debug Mojolicious::Plugin::EpRenderer:50 [2513]: Caching template "/home/dstephenson/Projects/socialmap/templates/layouts/default.html.ep" with stash "cb, content, mojo.started, params, rendered, route".
+Sat Aug 21 18:25:00 2010 debug Mojolicious::Plugin::EpRenderer:50 [2513]: Caching template "/home/dstephenson/Projects/socialmap/templates/layouts/default.css.ep.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:25:00 2010 error Mojolicious::Plugin::EplRenderer:56 [2513]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:25:00 2010 debug Mojolicious::Plugin::EpRenderer:50 [2513]: Caching template "/home/dstephenson/Projects/socialmap/templates/not_found.html.ep" with stash "cb, content, extends, format, layout, mojo.started, not_found, params, rendered, route, status".
+Sat Aug 21 18:25:00 2010 error Mojolicious::Plugin::EplRenderer:56 [2513]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:25:00 2010 debug MojoX::Dispatcher::Static:202 [2513]: Serving 404 error.
+Sat Aug 21 18:25:00 2010 debug Mojolicious::Plugin::EpRenderer:50 [2513]: Caching template "/home/dstephenson/Projects/socialmap/templates/welcome.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:25:00 2010 debug Mojolicious::Plugin::RequestTimer:34 [2513]: Request took 0.044002 seconds (22.726/s).
+Sat Aug 21 18:25:00 2010 debug Mojolicious:134 [2513]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:25:00 2010 debug Mojolicious::Plugin::EpRenderer:50 [2513]: Caching template "/home/dstephenson/Projects/socialmap/templates/not_found.html.ep" with stash "content, extends, format, layout, mojo.started, not_found, rendered, status".
+Sat Aug 21 18:25:00 2010 error Mojolicious::Plugin::EplRenderer:56 [2513]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:25:00 2010 debug MojoX::Dispatcher::Static:202 [2513]: Serving 404 error.
+Sat Aug 21 18:25:00 2010 debug Mojolicious::Plugin::RequestTimer:34 [2513]: Request took 0.001431 seconds (698.812/s).
+Sat Aug 21 18:25:41 2010 info Mojo::Server::Daemon:341 [2533]: Server listening (localhost)
+Sat Aug 21 18:25:52 2010 info Mojo::Server::Daemon:341 [2534]: Server listening (localhost)
+Sat Aug 21 18:26:08 2010 info Mojo::Server::Daemon:341 [2535]: Server listening (localhost:8080)
+Sat Aug 21 18:32:21 2010 info Mojo::Server::Daemon:341 [2610]: Server listening (http://*:3000)
+Sat Aug 21 18:32:34 2010 debug Mojolicious:28 [2610]: Your secret passphrase needs to be changed!!!
+Sat Aug 21 18:32:34 2010 debug Mojolicious:134 [2610]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:32:34 2010 debug MojoX::Dispatcher::Routes:146 [2610]: Dispatching callback.
+Sat Aug 21 18:32:34 2010 debug Mojolicious::Plugin::EpRenderer:50 [2610]: Caching template "/home/dstephenson/Projects/socialmap/templates/home.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:32:34 2010 debug Mojolicious::Plugin::EpRenderer:50 [2610]: Caching template "/home/dstephenson/Projects/socialmap/templates/layouts/default.html.ep" with stash "cb, content, mojo.started, params, rendered, route".
+Sat Aug 21 18:32:34 2010 debug Mojolicious::Plugin::EpRenderer:50 [2610]: Caching template "/home/dstephenson/Projects/socialmap/templates/layouts/default.css.ep.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:32:34 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:32:34 2010 debug Mojolicious::Plugin::EpRenderer:50 [2610]: Caching template "/home/dstephenson/Projects/socialmap/templates/not_found.html.ep" with stash "cb, content, extends, format, layout, mojo.started, not_found, params, rendered, route, status".
+Sat Aug 21 18:32:34 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:32:34 2010 debug MojoX::Dispatcher::Static:202 [2610]: Serving 404 error.
+Sat Aug 21 18:32:34 2010 debug Mojolicious::Plugin::EpRenderer:50 [2610]: Caching template "/home/dstephenson/Projects/socialmap/templates/welcome.html.ep" with stash "cb, content, extends, layout, mojo.started, params, rendered, route".
+Sat Aug 21 18:32:34 2010 debug Mojolicious::Plugin::RequestTimer:34 [2610]: Request took 0.046733 seconds (21.398/s).
+Sat Aug 21 18:32:34 2010 debug Mojolicious:134 [2610]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:32:34 2010 debug Mojolicious::Plugin::EpRenderer:50 [2610]: Caching template "/home/dstephenson/Projects/socialmap/templates/not_found.html.ep" with stash "content, extends, format, layout, mojo.started, not_found, rendered, status".
+Sat Aug 21 18:32:34 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:32:34 2010 debug MojoX::Dispatcher::Static:202 [2610]: Serving 404 error.
+Sat Aug 21 18:32:34 2010 debug Mojolicious::Plugin::RequestTimer:34 [2610]: Request took 0.001524 seconds (656.168/s).
+Sat Aug 21 18:32:36 2010 debug Mojolicious:134 [2610]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:32:36 2010 debug MojoX::Dispatcher::Routes:146 [2610]: Dispatching callback.
+Sat Aug 21 18:32:36 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:32:36 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:32:36 2010 debug MojoX::Dispatcher::Static:202 [2610]: Serving 404 error.
+Sat Aug 21 18:32:36 2010 debug Mojolicious::Plugin::RequestTimer:34 [2610]: Request took 0.003441 seconds (290.613/s).
+Sat Aug 21 18:32:36 2010 debug Mojolicious:134 [2610]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:32:36 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:32:36 2010 debug MojoX::Dispatcher::Static:202 [2610]: Serving 404 error.
+Sat Aug 21 18:32:36 2010 debug Mojolicious::Plugin::RequestTimer:34 [2610]: Request took 0.001300 seconds (769.231/s).
+Sat Aug 21 18:32:36 2010 debug Mojolicious:134 [2610]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:32:36 2010 debug MojoX::Dispatcher::Routes:146 [2610]: Dispatching callback.
+Sat Aug 21 18:32:36 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:32:36 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:32:36 2010 debug MojoX::Dispatcher::Static:202 [2610]: Serving 404 error.
+Sat Aug 21 18:32:36 2010 debug Mojolicious::Plugin::RequestTimer:34 [2610]: Request took 0.003166 seconds (315.856/s).
+Sat Aug 21 18:32:36 2010 debug Mojolicious:134 [2610]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:32:36 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:32:36 2010 debug MojoX::Dispatcher::Static:202 [2610]: Serving 404 error.
+Sat Aug 21 18:32:36 2010 debug Mojolicious::Plugin::RequestTimer:34 [2610]: Request took 0.001234 seconds (810.373/s).
+Sat Aug 21 18:32:36 2010 debug Mojolicious:134 [2610]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:32:36 2010 debug MojoX::Dispatcher::Routes:146 [2610]: Dispatching callback.
+Sat Aug 21 18:32:36 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:32:36 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:32:36 2010 debug MojoX::Dispatcher::Static:202 [2610]: Serving 404 error.
+Sat Aug 21 18:32:36 2010 debug Mojolicious::Plugin::RequestTimer:34 [2610]: Request took 0.003112 seconds (321.337/s).
+Sat Aug 21 18:32:36 2010 debug Mojolicious:134 [2610]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:32:36 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:32:36 2010 debug MojoX::Dispatcher::Static:202 [2610]: Serving 404 error.
+Sat Aug 21 18:32:36 2010 debug Mojolicious::Plugin::RequestTimer:34 [2610]: Request took 0.001445 seconds (692.042/s).
+Sat Aug 21 18:32:36 2010 debug Mojolicious:134 [2610]: *** Request for "/" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:32:36 2010 debug MojoX::Dispatcher::Routes:146 [2610]: Dispatching callback.
+Sat Aug 21 18:32:36 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "layouts/default.css.ep.html.ep" missing or not readable.
+Sat Aug 21 18:32:36 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:32:36 2010 debug MojoX::Dispatcher::Static:202 [2610]: Serving 404 error.
+Sat Aug 21 18:32:36 2010 debug Mojolicious::Plugin::RequestTimer:34 [2610]: Request took 0.003388 seconds (295.159/s).
+Sat Aug 21 18:32:37 2010 debug Mojolicious:134 [2610]: *** Request for "/favicon.ico" from "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.127 Safari/533.4". ***
+Sat Aug 21 18:32:37 2010 error Mojolicious::Plugin::EplRenderer:56 [2610]: Template "not_found.html.ep" missing or not readable.
+Sat Aug 21 18:32:37 2010 debug MojoX::Dispatcher::Static:202 [2610]: Serving 404 error.
+Sat Aug 21 18:32:37 2010 debug Mojolicious::Plugin::RequestTimer:34 [2610]: Request took 0.001273 seconds (785.546/s).

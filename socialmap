@@ -1,0 +1,68 @@
+#!/usr/bin/env perl
+
+use Mojolicious::Lite;
+
+get '/' => sub {
+
+    my $self = shift;
+    $self->render( 'home', layout => 'default' );
+
+} => 'index';
+
+get '/signin' => sub {
+
+    my $self = shift;
+
+    my $name = $self->param('name') || '';
+
+    $self->session( name => $name );
+    $self->redirect_to('home');
+
+    return $self->render unless $name;
+
+} => 'signin';
+
+get '/signout' => sub {
+
+    my $self = shift;
+
+    $self->session( expires => 1 );
+    $self->redirect_to('home');
+
+} => 'signout';
+
+get '/home' => sub {
+
+    my $self = shift;
+    $self->render( 'home', layout => 'default' );
+
+} => 'home';
+
+get '/location' => sub {
+
+    my $self = shift;
+    $self->render( 'location', layout => 'default' );
+
+} => 'location';
+
+get '/profile' => sub {
+
+    my $self = shift;
+    $self->render( 'profile', layout => 'default' );
+
+} => 'profile';
+
+get '/message' => sub {
+
+    my $self = shift;
+    $self->render( 'message', layout => 'default' );
+
+} => 'message';
+
+app->start;
+
+__DATA__
+
+@@ exception.html.ep
+
+@@ not_found.html.ep
