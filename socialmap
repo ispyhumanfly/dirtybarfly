@@ -5,16 +5,18 @@ use Mojolicious::Lite;
 get '/' => sub {
 
     my $self = shift;
-    $self->render( 'home', layout => 'default' );
+    $self->render( 'index', layout => 'default' );
 
 } => 'index';
 
-# p a g e s . . .
+#### Pages...
 
 get '/local' => sub {
 
     my $self = shift;
     $self->render( 'local', layout => 'default' );
+    
+    return $self->redirect_to('index') unless $self->session('name');
 
 } => 'local';
 
@@ -22,11 +24,13 @@ get '/image' => sub {
 
     my $self = shift;
     $self->render( 'image', layout => 'default' );
+    
+    return $self->redirect_to('index') unless $self->session('name');
 
 } => 'image';
 
 
-# a c t i o n s . . .
+#### Functions...
 
 get '/login' => sub {
 
@@ -37,7 +41,7 @@ get '/login' => sub {
         my $name = $self->param('name');
 
         $self->session( name => $name );
-        $self->redirect_to('home');
+        $self->redirect_to('index');
     }
     else {
 
@@ -54,6 +58,24 @@ get '/logout' => sub {
     $self->redirect_to('index');
 
 } => 'logout';
+
+post '/query' => sub {
+
+    my $self = shift;
+
+    if ( $self->param('value') ) {
+        
+        my $value = $self->param('value');
+
+        $self->session( query => $value );
+        $self->redirect_to('local');
+    }
+    else {
+
+        return $self->render        
+    }
+
+} => 'query';
 
 app->secret('Insurgent Software Rocks!');
 app->start;

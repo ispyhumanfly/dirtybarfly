@@ -1,10 +1,12 @@
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/Grid.css">
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/claroGrid.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/layout/resources/ExpandoPane.css">
 
 <script type="text/javascript">//<![CDATA[
 
     dojo.require("dojox.data.GoogleSearchStore");
     dojo.require("dojox.grid.DataGrid");
+    dojo.require("dojox.layout.ExpandoPane");
         
     var localGridLayout = [[{
         
@@ -50,7 +52,7 @@
 
 //]]></script>
 
-<div dojoType='dijit.layout.ContentPane' region='leading'>
+<div  dojoType="dojox.layout.ExpandoPane" splitter="true" region="leading">
     
     <div dojoType="dojox.data.GoogleLocalSearchStore" jsId="localStore"></div>
         
@@ -59,7 +61,7 @@
          id="localGrid"
          store="localStore"
          structure="localGridLayout"
-         query="{text:'beer'}"
+         query="{ text: '<%= session 'query' %>' }"
          rowsPerPage="50"
          escapeHTMLInData="false"
          autoHeight="true"

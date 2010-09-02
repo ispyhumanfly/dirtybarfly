@@ -14,6 +14,23 @@
 	    }
 
 	</style>
+
+	<!-- Dojo 1.5 JavaScript Framework -->
+	
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js" djConfig="parseOnLoad:true"></script>
+        
+        <script type="text/javascript">//<![CDATA[
+            
+            dojo.require("dijit.layout.BorderContainer");
+            dojo.require("dijit.layout.ContentPane");
+	    dojo.require("dijit.form.Form");
+	    dojo.require("dijit.form.TextBox");
+	    dojo.require("dijit.form.Button");
+            
+        //]]></script>
+	
+	<% if ( $self->session('name') ) { %>
 	
 	<!-- Google Maps JavaScript API v3 -->
 	
@@ -47,20 +64,8 @@
 	    window.onload = loadScript;
 	
         //]]></script>
-
-	<!-- DojoToolkit 1.5 JavaScript Framework -->
 	
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css">
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js" djConfig="parseOnLoad:true" isDebug="true"></script>
-        
-        <script type="text/javascript">//<![CDATA[
-            
-            dojo.require("dijit.layout.BorderContainer");
-            dojo.require("dijit.layout.ContentPane");
-	    dojo.require("dijit.form.TextBox");
-	    dojo.require("dijit.form.Button");
-            
-        //]]></script>
+	<% } %>
 	
     </head>
     
@@ -69,41 +74,75 @@
 	<!-- Border Container -->
 	
 	<div dojoType="dijit.layout.BorderContainer" style="height:100%; width: 100%; border: 1px solid #dedede;">
-	
+	    
 	    <!-- Content Header -->
 	    
 	    <div dojoType="dijit.layout.ContentPane" region="top">
 		
-		SocialMAP Prototype v1.0
+		<div style="float: left;">
+		    
+		    <% if ( $self->session('name') ) { %>
+		    
+		    <%= link_to index => {%>
+		    Home |
+		    <%}%>
+		    
+		    <%= link_to local => {%>
+		    Places |
+		    <%}%>
+		    
+		    <%= link_to image => {%>
+		    Images
+		    <%}%>
+			
+		    <% } else { %>
+		    
+		    SocialMAP Prototype v1.0
+		    
+		    <% } %>
+		    
+		</div>
 		
 		<div style="float: right;">
 		    
-		    <div dojoType="dijit.form.TextBox" width="50" id="searchText"></div>
+		    <% if ( $self->session('name') ) { %>
+		    
+		    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/query" method="POST">
+		    
+			<div dojoType="dijit.form.TextBox" width="50" name="value"></div>
 
-		    <div dojoType="dijit.form.Button" id="searchButton"> Search!</div>
-		
+			<div dojoType="dijit.form.Button">Query</div>
+		    
+		    </div>
+		    
+		    <% } else { %>
+		    
+		    <!-- Facebook Login -->
+    
+		    <fb:login-button></fb:login-button>
+
+		    <% } %>
+		    
 		</div>
 		
 	    </div>
-	   
-	    <% if ( $self->session('name') ) { %>
-		
-		<%= content %>
 	    
-	    <% } else { %>
+	    <!-- Requested SocialMAP Content Page -->
 	    
-		<%= include 'login' %>
-	    
-	    <% } %>	    
-	    
+	    <%= content %>
+    	    
 	    <!-- Content Footer -->
 	    
 	    <div dojoType="dijit.layout.ContentPane" region="bottom">
 		
-		SocialMAP &copy; 2010 Insurgent Software, LLC.
+		<div style="float: left;">
+		    
+		    SocialMAP &copy; 2010 Insurgent Software, LLC.
+		    
+		</div>
 		
-	    </div>        
-
+	    </div>
+    
 	    <!-- Facebook JavaScript SDK -->
 	    
 	    <div id="fb-root"></div>
@@ -132,7 +171,7 @@
 			    
 			    <% } %>
 			}
-		    });
+		    });		    
 		};
 		(function() {
 		    
