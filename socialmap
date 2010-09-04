@@ -79,9 +79,3 @@ post '/query' => sub {
 
 app->secret('Insurgent Software Rocks!');
 app->start;
-
-__DATA__
-
-@@ exception.html.ep
-
-@@ not_found.html.ep
