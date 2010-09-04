@@ -1,0 +1,11 @@
+<% if ( $self->session('name') ) { %>
+
+<script type="text/javascript">//<![CDATA[
+    
+//]]></script>
+
+<div dojoType='dijit.layout.ContentPane' region='center'>
+    
+</div>
+
+<% } %>
