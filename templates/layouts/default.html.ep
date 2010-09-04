@@ -83,21 +83,33 @@
 		    
 		    <% if ( $self->session('name') ) { %>
 		    
-		    <%= link_to index => {%>
-		    Home |
-		    <%}%>
+		    <p>
 		    
-		    <%= link_to local => {%>
-		    Places |
-		    <%}%>
+			<%= link_to index => {%>
+			Home |
+			<%}%>
+			
+			<%= link_to local => {%>
+			Local |
+			<%}%>
+    
+			<%= link_to news => {%>
+			News |
+			<%}%>
+    
+			<%= link_to image => {%>
+			Image |
+			<%}%>
+			
+			<%= link_to video => {%>
+			Video
+			<%}%>
 		    
-		    <%= link_to image => {%>
-		    Images
-		    <%}%>
+		    </p>
 			
 		    <% } else { %>
 		    
-		    SocialMAP Prototype v1.0
+		    <p>SocialMAP Prototype v1.0</p>
 		    
 		    <% } %>
 		    
@@ -115,12 +127,6 @@
 		    
 		    </div>
 		    
-		    <% } else { %>
-		    
-		    <!-- Facebook Login -->
-    
-		    <fb:login-button></fb:login-button>
-
 		    <% } %>
 		    
 		</div>
@@ -137,7 +143,7 @@
 		
 		<div style="float: left;">
 		    
-		    SocialMAP &copy; 2010 Insurgent Software, LLC.
+		    <p>SocialMAP &copy; 2010 Insurgent Software, LLC.</p>
 		    
 		</div>
 		

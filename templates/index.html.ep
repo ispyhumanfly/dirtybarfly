@@ -1,15 +1,29 @@
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/widget/Portlet/Portlet.css">
+    
 <script type="text/javascript">//<![CDATA[
+
+    dojo.require("dojox.widget.Portlet");
+    dojo.require("dojox.widget.FeedPortlet");
 
 //]]></script>
 
-<div dojoType='dijit.layout.ContentPane' region='leading'>
+<div dojoType='dijit.layout.ContentPane' region='leading' style="width: 25%;">
         
-    <div style="text-align: center; margin: 5px;">
+    <div style="text-align: left; margin: 5px;">
         
-        <fb:comments xid="index" numposts="5" simple="true" width="300"></fb:comments>
+        <div dojoType="dojox.widget.FeedPortlet" url="http://github.com/insurgentsoftware/socialmap/commits/master.atom" maxResults="5">
+            
+        </div>
         
-    </div>
-    
+    </div>    
+
+    <div style="text-align: left; margin: 5px;">
+        
+        <div dojoType="dojox.widget.FeedPortlet" url="http://github.com/insurgentsoftware.atom" maxResults="5">
+            
+        </div>
+        
+    </div>    
 </div>
 
 <div dojoType="dijit.layout.ContentPane" region="center">
@@ -22,7 +36,7 @@
         
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         
-        <fb:comments xid="indexPost3" numposts="5" width="500"></fb:comments>
+        <fb:comments xid="indexPost3" numposts="5" width="400"></fb:comments>
         
     </div>
     
@@ -34,7 +48,7 @@
         
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         
-        <fb:comments xid="indexPost2" numposts="5" width="500"></fb:comments>
+        <fb:comments xid="indexPost2" numposts="5" width="400"></fb:comments>
         
     </div>
 
@@ -46,7 +60,7 @@
         
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         
-        <fb:comments xid="indexPost1" numposts="5" width="500"></fb:comments>
+        <fb:comments xid="indexPost1" numposts="5" width="400"></fb:comments>
         
     </div>
         

@@ -20,6 +20,15 @@ get '/local' => sub {
 
 } => 'local';
 
+get '/news' => sub {
+
+    my $self = shift;
+    $self->render( 'news', layout => 'default' );
+    
+    return $self->redirect_to('index') unless $self->session('name');
+
+} => 'news';
+
 get '/image' => sub {
 
     my $self = shift;
@@ -29,6 +38,14 @@ get '/image' => sub {
 
 } => 'image';
 
+get '/video' => sub {
+
+    my $self = shift;
+    $self->render( 'video', layout => 'default' );
+    
+    return $self->redirect_to('index') unless $self->session('name');
+
+} => 'video';
 
 #### Functions...
 
