@@ -6,13 +6,17 @@
 
 SocialMAP
 
-=head1 SYNOPSIS
-
-	./socialmap daemon
-
 =head1 DESCRIPTION
 
 A fresh approach to social networking based on interactions with real locations on a map.
+
+=head1 INSTALLATION
+
+	sudo cpanp install Mojolicious::Lite
+
+=head1 USAGE
+
+	./socialmap daemon
 
 =head1 BUGS
 
