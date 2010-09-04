@@ -9,6 +9,7 @@ get '/' => sub {
 
 } => 'index';
 
+
 #### Pages...
 
 get '/local' => sub {
@@ -47,6 +48,7 @@ get '/video' => sub {
 
 } => 'video';
 
+
 #### Functions...
 
 get '/login' => sub {
@@ -76,6 +78,9 @@ get '/logout' => sub {
 
 } => 'logout';
 
+
+#### Forms...
+
 post '/query' => sub {
 
     my $self = shift;
@@ -86,10 +91,6 @@ post '/query' => sub {
 
         $self->session( query => $value );
         $self->redirect_to('local');
-    }
-    else {
-
-        return $self->render        
     }
 
 } => 'query';
