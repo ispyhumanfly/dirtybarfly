@@ -1,0 +1,30 @@
+=pod
+
+=encoding utf8
+
+=head1 NAME
+
+SocialMAP
+
+=head1 SYNOPSIS
+
+	./socialmap daemon
+
+=head1 DESCRIPTION
+
+A fresh approach to social networking based on interactions with real locations on a map.
+
+=head1 BUGS
+
+	http://github.com/insurgentsoftware/socialmap/issues
+
+=head1 SEE ALSO
+
+	http://github.com/insurgentsoftware/socialmap/wiki
+
+=head1 LICENSE
+
+This is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+
+=cut
+
