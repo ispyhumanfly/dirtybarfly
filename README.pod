@@ -8,7 +8,8 @@ SocialMAP
 
 =head1 DESCRIPTION
 
-A fresh approach to social networking based on interactions with real locations on a map.
+A fresh approach to social networking based on interactions with real locations on a map. SocialMAP uses the Facebook Connect API's
+for seamless integration with a SocialMAP visitors Facebook account.
 
 =head1 INSTALLATION
 
