@@ -12,7 +12,19 @@
 	    body {
 		height: 98%;
 	    }
+	    
+	    a:link {
+		color: #6688EE;
+	    }
 
+	    a:visited {
+		color: #6688EE;
+	    }
+
+	    a:hover {
+		color: #6688EE;
+	    }
+	    
 	</style>
 
 	<!-- Dojo 1.5 JavaScript Framework -->
@@ -50,7 +62,6 @@
 		};
     
 		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-		
 	    }
     	    
 	    function loadScript() {
@@ -73,7 +84,7 @@
 
 	<!-- Border Container -->
 	
-	<div dojoType="dijit.layout.BorderContainer" style="height:100%; width: 100%; border: 1px solid #dedede;">
+	<div dojoType="dijit.layout.BorderContainer" style="height:100%; width: 100%;">
 	    
 	    <!-- Content Header -->
 	    
@@ -83,29 +94,25 @@
 		    
 		    <% if ( $self->session('name') ) { %>
 		    
-		    <p>
+		    <%= link_to index => {%>
+		    Home |
+		    <%}%>
 		    
-			<%= link_to index => {%>
-			Home |
-			<%}%>
-			
-			<%= link_to local => {%>
-			Local |
-			<%}%>
-    
-			<%= link_to news => {%>
-			News |
-			<%}%>
-    
-			<%= link_to image => {%>
-			Image |
-			<%}%>
-			
-			<%= link_to video => {%>
-			Video
-			<%}%>
+		    <%= link_to local => {%>
+		    Local |
+		    <%}%>
+
+		    <%= link_to news => {%>
+		    News |
+		    <%}%>
+
+		    <%= link_to image => {%>
+		    Image |
+		    <%}%>
 		    
-		    </p>
+		    <%= link_to video => {%>
+		    Video
+		    <%}%>
 			
 		    <% } else { %>
 		    
