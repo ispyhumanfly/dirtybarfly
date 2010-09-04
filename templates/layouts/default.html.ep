@@ -20,10 +20,6 @@
 	    a:visited {
 		color: #6688EE;
 	    }
-
-	    a:hover {
-		color: #6688EE;
-	    }
 	    
 	</style>
 
@@ -92,27 +88,31 @@
 		
 		<div style="float: left;">
 		    
-		    <% if ( $self->session('name') ) { %>
-		    
-		    <%= link_to index => {%>
-		    Home |
-		    <%}%>
-		    
-		    <%= link_to local => {%>
-		    Local |
-		    <%}%>
-
-		    <%= link_to news => {%>
-		    News |
-		    <%}%>
-
-		    <%= link_to image => {%>
-		    Image |
-		    <%}%>
-		    
-		    <%= link_to video => {%>
-		    Video
-		    <%}%>
+		    <div style="margin: 2px;">
+			
+			<% if ( $self->session('name') ) { %>
+			
+			<%= link_to index => {%>
+			Home |
+			<%}%>
+			
+			<%= link_to local => {%>
+			Local |
+			<%}%>
+    
+			<%= link_to news => {%>
+			News |
+			<%}%>
+    
+			<%= link_to image => {%>
+			Image |
+			<%}%>
+			
+			<%= link_to video => {%>
+			Video
+			<%}%>
+			
+		    </div>
 			
 		    <% } else { %>
 		    
@@ -126,11 +126,15 @@
 		    
 		    <% if ( $self->session('name') ) { %>
 		    
-		    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/query" method="POST">
-		    
-			<div dojoType="dijit.form.TextBox" width="50" name="value"></div>
-
-			<div dojoType="dijit.form.Button">Query</div>
+		    <div style="margin: 2px;">
+			
+			<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/query" method="POST">
+			
+			    <div dojoType="dijit.form.TextBox" width="50" name="value"></div>
+    
+			    <div dojoType="dijit.form.Button">Query</div>
+			
+			</div>
 		    
 		    </div>
 		    
@@ -150,7 +154,7 @@
 		
 		<div style="float: left;">
 		    
-		    <p>SocialMAP &copy; 2010 Insurgent Software, LLC.</p>
+		    <div style="margin: 2px;">SocialMAP &copy; 2010 Insurgent Software, LLC.</div>
 		    
 		</div>
 		

@@ -18,7 +18,7 @@ Google Maps and Facebook Connect API's.
 
 =head1 USAGE
 
-	./socialmap daemon
+	./socialmap daemon --listen http://localhost:3000
 
 =head1 BUGS
 
