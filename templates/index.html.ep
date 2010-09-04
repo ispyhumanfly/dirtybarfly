@@ -1,0 +1,67 @@
+<script type="text/javascript">//<![CDATA[
+
+//]]></script>
+
+<div dojoType='dijit.layout.ContentPane' region='leading'>
+        
+    <div style="text-align: center; margin: 5px;">
+        
+        <fb:comments xid="index" numposts="5" simple="true" width="300"></fb:comments>
+        
+    </div>
+    
+</div>
+
+<div dojoType="dijit.layout.ContentPane" region="center">
+
+    <!-- Index Post -->
+    
+    <div style="text-align: left; margin: 10px;">
+        
+        <p style="font-style: oblique; font-size: larger; font-weight: bold; border-bottom: inset; margin-bottom: 5px;">Something to talk about.</p>
+        
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        
+        <fb:comments xid="indexPost3" numposts="5" width="500"></fb:comments>
+        
+    </div>
+    
+    <!-- Index Post -->
+    
+    <div style="text-align: left; margin: 10px;">
+        
+        <p style="font-style: oblique; font-size: larger; font-weight: bold; border-bottom: inset; margin-bottom: 5px;">Testing out index posts!</p>
+        
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        
+        <fb:comments xid="indexPost2" numposts="5" width="500"></fb:comments>
+        
+    </div>
+
+    <!-- Index Post -->
+    
+    <div style="text-align: left; margin: 10px;">
+        
+        <p style="font-style: oblique; font-size: larger; font-weight: bold; border-bottom: inset; margin-bottom: 5px;">Welcome to SocialMAP!</p>
+        
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        
+        <fb:comments xid="indexPost1" numposts="5" width="500"></fb:comments>
+        
+    </div>
+        
+</div>
+
+<div dojoType='dijit.layout.ContentPane' region='trailing'>
+    
+    <div style="text-align: center;">
+        
+        <fb:activity width="300" style="margin: 5px;"></fb:activity>
+        
+        <br />
+        
+        <fb:recommendations  width="300" style="margin: 5px;"></fb:recommendations>
+    
+    </div>
+    
+</div>
