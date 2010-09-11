@@ -20,14 +20,14 @@ get '/places' => sub {
 
 } => 'places';
 
-get '/articles' => sub {
+get '/stories' => sub {
 
     my $self = shift;
-    $self->render( 'articles', layout => 'default' );
+    $self->render( 'stories', layout => 'default' );
     
     return $self->redirect_to('index') unless $self->session('name');
 
-} => 'articles';
+} => 'stories';
 
 get '/ads' => sub {
 
@@ -70,19 +70,17 @@ get '/logout' => sub {
 
 #### Forms...
 
-post '/query' => sub {
+post '/search' => sub {
 
     my $self = shift;
 
     if ( $self->param('value') ) {
         
         my $value = $self->param('value');
-
-        $self->session( query => $value );
-        $self->redirect_to('local');
+        $self->session( search => $value );
     }
 
-} => 'query';
+} => 'search';
 
 app->secret('Insurgent Software Rocks!');
 app->start;

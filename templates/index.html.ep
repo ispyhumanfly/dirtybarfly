@@ -1,8 +1,5 @@
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/widget/Portlet/Portlet.css">
-    
 <script type="text/javascript">//<![CDATA[
 
-    dojo.require("dojox.widget.Portlet");
     dojo.require("dojox.widget.FeedPortlet");
 
 //]]></script>

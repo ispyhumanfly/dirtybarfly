@@ -6,9 +6,9 @@
 
 <div dojoType='dijit.layout.ContentPane' region='center'>
     
-    <% for ( 0.. 75) { %>   
+    <% for ( 0.. 50) { %>   
     
-    <p>Some really sweet Ad about a Place, an Ad or nothing at all!</p>
+    <p>Some really sweet story about a Place, an Ad or ANYTHING at all!</p>
         
     <% } %>
     
@@ -16,7 +16,7 @@
 
 <div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 25%;">
     
-    <div dojoType="dojox.widget.Portlet" title="Sponsered Ads" style="text-align: left; margin: 5px;">
+    <div dojoType="dojox.widget.Portlet" title="Sponsored Stories" style="text-align: left; margin: 5px;">
 
         <div dojoType="dojox.widget.PortletSettings">
             A description of what this Portlet does.
@@ -24,21 +24,21 @@
 
         <% for ( 0.. 5) { %>   
         
-        <p>Some sponsored ad!</p>
+        <p>Some sponsored story!</p>
             
         <% } %>
     
     </div>
 
-    <div dojoType="dojox.widget.Portlet" title="Most Popular Ads" style="text-align: left; margin: 5px;">
-        
+    <div dojoType="dojox.widget.Portlet" title="Most Popular Stories" style="text-align: left; margin: 5px;">
+
         <div dojoType="dojox.widget.PortletSettings">
             A description of what this Portlet does.
         </div>
-        
+
         <% for ( 0.. 5) { %>   
         
-        <p>Some popular ad!</p>
+        <p>Some popular story!</p>
             
         <% } %>
     

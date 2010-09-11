@@ -1,81 +1,60 @@
 <% if ( $self->session('name') ) { %>
 
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/Grid.css">
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/soriaGrid.css">
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/layout/resources/ExpandoPane.css">
 
 <script type="text/javascript">//<![CDATA[
 
-    dojo.require("dojox.data.GoogleSearchStore");
-    dojo.require("dojox.grid.DataGrid");
     dojo.require("dojox.layout.ExpandoPane");
-        
-    var localGridLayout = [[{
-        
-        field: "titleNoFormatting",
-        name: "Title",
-        width: 25,
-    
-    }]];
-    
-    dojo.addOnLoad(function() {
-        
-        var localSelect = function(item_select) {
-            
-            var item  = item_select.grid.getItem(item_select.rowIndex);
-            
-            var title = item_select.grid.store.getValue(item, "titleNoFormatting");
-            var lat = item_select.grid.store.getValue(item, "lat");
-            var lng = item_select.grid.store.getValue(item, "lng");
-            
-            var myLatlng = new google.maps.LatLng(lat, lng);
-
-            var myOptions = {
-                
-                zoom: 12,
-                center: myLatlng,
-                mapTypeId: google.maps.MapTypeId.HYBRID
-            };
-    
-            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-            
-            var marker = new google.maps.Marker({
-                
-                position: myLatlng,
-                title: title
-            });
-  
-            // To add the marker to the map, call setMap();
-            marker.setMap(map);  
-        }
-        dojo.connect(dijit.byId("localGrid"), "onRowClick", localSelect);
-        
-    });
 
 //]]></script>
 
-<div  dojoType="dojox.layout.ExpandoPane" splitter="true" region="leading">
+<div  dojoType="dojox.layout.ExpandoPane" region="leading">
+
+    <% for ( 0 .. 7) { %>   
     
-    <div dojoType="dojox.data.GoogleLocalSearchStore" jsId="localStore"></div>
+    <p>Jack's Place</p>
+    <p>1022 Dingo Dr. Troy, MI. 48083</p>
         
-    <div dojoType="dojox.grid.DataGrid"
-            
-         id="localGrid"
-         store="localStore"
-         structure="localGridLayout"
-         query="{ text: '<%= session 'query' %>' }"
-         rowsPerPage="50"
-         escapeHTMLInData="false"
-         autoHeight="true"
-         autoWidth="true">
+    <% } %>
         
-    </div>
 </div>
 
 <div dojoType='dijit.layout.ContentPane' region='center'>
     
     <div id="map_canvas" style="width: 100%; height: 100%"></div>
 
+</div>
+
+<div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 25%;">
+    
+    <div dojoType="dojox.widget.Portlet" title="Sponsered Places" style="text-align: left; margin: 5px;">
+
+        <div dojoType="dojox.widget.PortletSettings">
+            A description of what this Portlet does.
+        </div>
+
+        <% for ( 0 .. 5) { %>   
+        
+        <p>Some sponsored place!</p>
+            
+        <% } %>
+    
+    </div>
+
+    <div dojoType="dojox.widget.Portlet" title="Most Popular Places" style="text-align: left; margin: 5px;">
+
+        <div dojoType="dojox.widget.PortletSettings">
+            A description of what this Portlet does.
+        </div>
+
+        <% for ( 0 .. 5) { %>   
+        
+        <p>Some popular place!</p>
+            
+        <% } %>
+    
+    </div>
+    
 </div>
 
 <% } %>
