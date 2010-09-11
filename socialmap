@@ -2,6 +2,8 @@
 
 use Mojolicious::Lite;
 
+#### Pages...
+
 get '/' => sub {
 
     my $self = shift;
@@ -9,45 +11,32 @@ get '/' => sub {
 
 } => 'index';
 
-
-#### Pages...
-
-get '/local' => sub {
+get '/places' => sub {
 
     my $self = shift;
-    $self->render( 'local', layout => 'default' );
+    $self->render( 'places', layout => 'default' );
     
     return $self->redirect_to('index') unless $self->session('name');
 
-} => 'local';
+} => 'places';
 
-get '/news' => sub {
+get '/articles' => sub {
 
     my $self = shift;
-    $self->render( 'news', layout => 'default' );
+    $self->render( 'articles', layout => 'default' );
     
     return $self->redirect_to('index') unless $self->session('name');
 
-} => 'news';
+} => 'articles';
 
-get '/image' => sub {
+get '/ads' => sub {
 
     my $self = shift;
-    $self->render( 'image', layout => 'default' );
+    $self->render( 'ads', layout => 'default' );
     
     return $self->redirect_to('index') unless $self->session('name');
 
-} => 'image';
-
-get '/video' => sub {
-
-    my $self = shift;
-    $self->render( 'video', layout => 'default' );
-    
-    return $self->redirect_to('index') unless $self->session('name');
-
-} => 'video';
-
+} => 'ads';
 
 #### Functions...
 

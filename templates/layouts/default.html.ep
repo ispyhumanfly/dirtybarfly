@@ -95,20 +95,16 @@
 		    Home |
 		    <%}%>
 		    
-		    <%= link_to local => {%>
-		    Local |
+		    <%= link_to places => {%>
+		    Places |
 		    <%}%>
 
-		    <%= link_to news => {%>
-		    News |
+		    <%= link_to articles => {%>
+		    Articles |
 		    <%}%>
 
-		    <%= link_to image => {%>
-		    Image |
-		    <%}%>
-		    
-		    <%= link_to video => {%>
-		    Video
+		    <%= link_to ads => {%>
+		    Ads
 		    <%}%>
 			
 		    <% } else { %>
