@@ -45,6 +45,9 @@
 	    dojo.require("dijit.form.TextBox");
 	    dojo.require("dijit.form.Button");
 	    dojo.require("dojox.widget.Portlet");
+	    
+	    dojo.require("dijit.Menu");
+	    dojo.require("dijit.ColorPalette");
             
         //]]></script>
 	
@@ -149,13 +152,23 @@
 	    <!-- Content Footer -->
 	    
 	    <div dojoType="dijit.layout.ContentPane" region="bottom">
-		
-		<div style="float: left;">
 		    
-		    SocialMAP &copy; 2010 Insurgent Software, LLC.
+		<!-- Context Menu -->
+		
+		<div dojoType="dijit.Menu" id="windowContextMenu" contextMenuForWindow="true" style="display: none;">
+		    
+		    <% for ( 0 .. 6 ) { %>
+		    
+		    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"onClick="alert('not actually cutting anything, just a test!')">
+			Some Menu Option <%= $_ %>
+		    </div>
+		    
+		    <% } %>
 		    
 		</div>
-		
+    
+		SocialMAP &copy; 2010 Insurgent Software, LLC.
+		    
 	    </div>
     
 	    <!-- Facebook JavaScript SDK -->
