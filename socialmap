@@ -1,6 +1,10 @@
 #!/usr/bin/env perl
 
 use Mojolicious::Lite;
+use Moose;
+use KiokuDB;
+
+my $DATA = KiokuDB->connect( "dbi:SQLite:dbname=socialmap.db", create => 1 );
 
 #### Pages...
 
@@ -82,5 +86,33 @@ post '/search' => sub {
 
 } => 'search';
 
-app->secret('Insurgent Software Rocks!');
+post '/post' => sub {
+
+    my $self = shift;
+    
+    use lib 'lib';
+    
+    my $scope = $DATA->new_scope;
+
+    if ( $self->param('type') eq 'place' ) {
+        
+    use Posts;
+    
+    my $post_id = $DATA->store(
+        
+        Posts->new(
+    
+        type        => $self->param('type'),
+        category    => $self->param('category'),
+        title       => $self->param('title'),
+        body        => $self->param('body'),
+    ));
+    
+    }
+    
+    $self->redirect_to('index');
+
+} => 'post';
+
+app->secret('SocialMAP Rocks!');
 app->start;

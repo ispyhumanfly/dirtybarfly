@@ -3,6 +3,8 @@
 
     <head>
 	
+	<title>SocialMAP</title>
+	
 	<style type="text/css">
 	
 	    html {
@@ -17,6 +19,7 @@
 	    a {
 		font-weight: bold;
 		font-size: 0.9em;
+		text-decoration: none;
 	    }
 	    
 	    a:link {
@@ -32,7 +35,7 @@
 
 	<!-- Dojo 1.5 JavaScript Framework -->
 	
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/nihilo/nihilo.css">
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/soria/soria.css">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/widget/Portlet/Portlet.css">
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js" djConfig="parseOnLoad:true"></script>
@@ -45,9 +48,6 @@
 	    dojo.require("dijit.form.TextBox");
 	    dojo.require("dijit.form.Button");
 	    dojo.require("dojox.widget.Portlet");
-	    
-	    dojo.require("dijit.Menu");
-	    dojo.require("dijit.ColorPalette");
             
         //]]></script>
 	
@@ -89,7 +89,7 @@
 	
     </head>
     
-    <body class='nihilo'>
+    <body class='soria'>
 
 	<!-- Border Container -->
 	
@@ -152,22 +152,14 @@
 	    <!-- Content Footer -->
 	    
 	    <div dojoType="dijit.layout.ContentPane" region="bottom">
-		    
-		<!-- Context Menu -->
+
+		<%= include 'options' %>
 		
-		<div dojoType="dijit.Menu" id="windowContextMenu" contextMenuForWindow="true" style="display: none;">
+		<% unless ( $self->session('name') ) { %>
 		    
-		    <% for ( 0 .. 6 ) { %>
-		    
-		    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"onClick="alert('not actually cutting anything, just a test!')">
-			Some Menu Option <%= $_ %>
-		    </div>
-		    
-		    <% } %>
-		    
-		</div>
-    
 		SocialMAP &copy; 2010 Insurgent Software, LLC.
+		    
+		<% } %>
 		    
 	    </div>
     

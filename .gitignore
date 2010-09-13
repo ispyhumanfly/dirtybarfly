@@ -9,4 +9,6 @@ META.yml
 MANIFEST*
 !MANIFEST.SKIP
 pm_to_blib
-SocialMAP.kpf
+socialmap.db
+socialmap.kpf
+

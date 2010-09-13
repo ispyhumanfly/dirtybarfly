@@ -6,10 +6,24 @@
 
 <div dojoType='dijit.layout.ContentPane' region='center'>
     
-    <% for ( 0.. 75) { %>   
-    
-    <p>Some really sweet Ad about a Place, an Ad or nothing at all!</p>
+    <% for ( 0 .. 15 ) { %>
+ 
+    <div style="border-top: outset;">
         
+        <div style="width: 100%; background-color: #e1ebfb;">
+            
+            <span>2010/09/<%= $_ %></span>
+        
+        </div>
+        
+        <% for ( 0 .. 10 ) { %>
+        
+        <p><a href="#">Some crazy ad title about something.</a></p>
+        
+        <% } %>
+        
+    </div>
+   
     <% } %>
     
 </div>
