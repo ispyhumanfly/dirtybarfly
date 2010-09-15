@@ -8,6 +8,7 @@
     dojo.require("dijit.form.FilteringSelect");
     dojo.require("dijit.form.CheckBox");
     dojo.require("dijit.form.Textarea");
+    dojo.require("dijit.layout.TabContainer");
     
 //]]></script>
 
@@ -29,65 +30,95 @@
 
 <!-- Post Options -->
 
-<div id="dialogPost" dojoType="dijit.Dialog" title="Post" style="width: 800px; height: 600px;">
+<div id="dialogPost" dojoType="dijit.Dialog" title="Post something on SocialMAP!" style="width: 800px; height: 600px;">
     
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post" method="POST">
-	
-	<div style="border-bottom: groove; margin: 5px;">
-	
-	    <label for="type">Type:</label>
+    <div style="width: 780px; height: 500px;">
 	    
-	    <select dojoType="dijit.form.FilteringSelect" id="table" name="table" style="margin: 10px;">
-		
-		<option value="places" selected>Places</option>
-		<option value="stories">Stories</option>
-		<option value="ads">Ads</option>
-		
-	    </select>
-	
-	    <label for="category">Category:</label>
-	    
-	    <select dojoType="dijit.form.FilteringSelect" id="category" name="category" style="margin: 10px;">
-		
-		<option value="general">General</option>
-		<option value="technical" selected>Technical</option>
-		<option value="business">Business</option>
-		
-	    </select>
-	    
-	</div>
-	
-	<div style="border-bottom: groove; margin: 5px;">
-	    
-	    <label for="title">Title:</label>
-	    
-	    <input dojoType="dijit.form.ValidationTextBox" style="margin: 10px;"
-	           required="true"
-	           name="title"
-	           id="title"
-	           width="90"
-	    />
-	
-	</div>
-	
-	<div style="border-bottom: groove; margin: 5px;">
-	        
-	    <label for="body">Body:</label>
-	    
-	    <textarea dojoType="dijit.form.Textarea" style="width:500px; margin: 10px;"
-		      required="true"
-		      id="body"
-		      name="body"
-	    >
-	    </textarea>
-	
-	</div>
-	
-	<br />
-	
-	<button dojoType="dijit.form.Button" type="submit">Submit</button>
-	<button dojoType="dijit.form.Button" type="reset">Reset</button>
+	<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
     
+	    <!-- Post to Places Tab -->
+	    
+	    <div dojoType="dijit.layout.ContentPane" title="Places" selected="true">
+		
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post" method="POST">
+		    
+		    <div style="border-bottom: groove; margin: 5px;">
+		    
+			<label for="type">Type:</label>
+			
+			<select dojoType="dijit.form.FilteringSelect" id="table" name="table" style="margin: 10px;">
+			    
+			    <option value="places" selected>Places</option>
+			    <option value="stories">Stories</option>
+			    <option value="ads">Ads</option>
+			    
+			</select>
+		    
+			<label for="category">Category:</label>
+			
+			<select dojoType="dijit.form.FilteringSelect" id="category" name="category" style="margin: 10px;">
+			    
+			    <option value="general">General</option>
+			    <option value="technical" selected>Technical</option>
+			    <option value="business">Business</option>
+			    
+			</select>
+			
+		    </div>
+		    
+		    <div style="border-bottom: groove; margin: 5px;">
+			
+			<label for="title">Title:</label>
+			
+			<input dojoType="dijit.form.ValidationTextBox" style="margin: 10px;"
+			       required="true"
+			       name="title"
+			       id="title"
+			       width="90"
+			/>
+		    
+		    </div>
+		    
+		    <div style="border-bottom: groove; margin: 5px;">
+			    
+			<label for="body">Body:</label>
+			
+			<textarea dojoType="dijit.form.Textarea" style="width:500px; margin: 10px;"
+				  required="true"
+				  id="body"
+				  name="body"
+			>
+			</textarea>
+		    
+		    </div>
+		    
+		    <br />
+		    
+		    <button dojoType="dijit.form.Button" type="submit">Submit</button>
+		    <button dojoType="dijit.form.Button" type="reset">Reset</button>
+		
+		</div>
+
+	    </div>
+    
+	    <!-- Post to Stories Tab -->
+    
+	    <div dojoType="dijit.layout.ContentPane" title="Stories">
+		
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post" method="POST">
+		    
+		</div>
+
+	    </div>
+    
+	    <!-- Post to Ads Tab -->
+    
+	    <div dojoType="dijit.layout.ContentPane" title="Ads" selected="true">
+		
+	    </div>
+
+	</div>
+	
     </div>
     
 </div>
@@ -103,7 +134,33 @@
 
 <!-- Settings Options -->
 
-<div id="dialogSettings" dojoType="dijit.Dialog" title="Settings" style="width: 800px; height: 600px;">
+<div id="dialogSettings" dojoType="dijit.Dialog" title="Control your SocialMAP experience." style="width: 800px; height: 600px;">
+
+    <div style="width: 780px; height: 500px;">
+	    
+	<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
+    
+	    <!-- Filter Tab -->
+	    
+	    <div dojoType="dijit.layout.ContentPane" title="Filter" selected="true">	
+
+	    </div>
+    
+	    <!-- Profile Tab -->
+    
+	    <div dojoType="dijit.layout.ContentPane" title="Profile">
+	    
+	    </div>
+    
+	    <!-- Usage Tab -->
+    
+	    <div dojoType="dijit.layout.ContentPane" title="Usage">
+		
+	    </div>
+
+	</div>
+	
+    </div>
     
 </div>
 

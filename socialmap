@@ -12,7 +12,7 @@ my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
 get '/' => sub {
 
     my $self = shift;
-    
+
     $self->render( 'index', layout => 'default' );
 
 } => 'index';
@@ -21,8 +21,10 @@ get '/places' => sub {
 
     my $self = shift;
 
-    my @places = $MODEL->resultset('Places')->search();
-    
+    my @places =
+      $MODEL->resultset('Places')
+      ->search( {}, { order_by => 'place_id DESC' } );
+
     $self->{'places'} = \@places;
 
     $self->render( 'places', layout => 'default' );
@@ -33,11 +35,13 @@ get '/places' => sub {
 get '/stories' => sub {
 
     my $self = shift;
-    
-    my @stories = $MODEL->resultset('Stories')->search();
-    
+
+    my @stories =
+      $MODEL->resultset('Stories')
+      ->search( {}, { order_by => 'story_id DESC' } );
+
     $self->{'stories'} = \@stories;
-    
+
     $self->render( 'stories', layout => 'default' );
     return $self->redirect_to('index') unless $self->session('name');
 
@@ -47,8 +51,10 @@ get '/ads' => sub {
 
     my $self = shift;
 
-    my @ads = $MODEL->resultset('Ads')->search();
-    
+    my @ads =
+      $MODEL->resultset('Ads')
+      ->search( {}, { order_by => 'ad_id DESC' } );
+
     $self->{'ads'} = \@ads;
 
     $self->render( 'ads', layout => 'default' );
@@ -116,7 +122,6 @@ post '/post' => sub {
                 body     => $self->param('body'),
                 date     => "$year-$mon-$mday",
                 time     => "$hour:$min:$sec",
-                epoch    => 210,
             }
         );
     }
@@ -131,7 +136,6 @@ post '/post' => sub {
                 body     => $self->param('body'),
                 date     => "$year-$mon-$mday",
                 time     => "$hour:$min:$sec",
-                epoch    => 210,
             }
         );
     }
@@ -146,12 +150,11 @@ post '/post' => sub {
                 body     => $self->param('body'),
                 date     => "$year-$mon-$mday",
                 time     => "$hour:$min:$sec",
-                epoch    => 210,
             }
         );
     }
 
-    $self->redirect_to($self->param('table'));
+    $self->redirect_to( $self->param('table') );
 
 } => 'post';
 

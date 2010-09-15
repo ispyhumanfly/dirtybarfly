@@ -5,8 +5,7 @@ CREATE TABLE places (
     title TEXT NOT NULL,
     body TEXT NOT NULL,
     date TEXT NOT NULL,
-    time TEXT NOT NULL,
-    epoch INTEGER NOT NULL
+    time TEXT NOT NULL
 );
 
 CREATE TABLE stories (
@@ -16,8 +15,7 @@ CREATE TABLE stories (
     title TEXT NOT NULL,
     body TEXT NOT NULL,
     date TEXT NOT NULL,
-    time TEXT NOT NULL,
-    epoch INTEGER NOT NULL
+    time TEXT NOT NULL
 );
 
 CREATE TABLE ads (
@@ -27,6 +25,5 @@ CREATE TABLE ads (
     title TEXT NOT NULL,
     body TEXT NOT NULL,
     date TEXT NOT NULL,
-    time TEXT NOT NULL,
-    epoch INTEGER NOT NULL
+    time TEXT NOT NULL
 );

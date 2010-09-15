@@ -5,6 +5,7 @@
 <script type="text/javascript">//<![CDATA[
 
     dojo.require("dojox.layout.ExpandoPane");
+    dojo.require("dijit.Tooltip");
 
 //]]></script>
 
@@ -12,15 +13,52 @@
 
     <% foreach my $place ( @{ $self->{'places'} } ) { %>
 
-    <div style="border-top: outset;">
+    <div style="border-top: outset; margin: 0 0 30px 0;">
         
-        <div style="width: 100%; background-color: #e1ebfb;">
-            
-            <span><%= $place->title %></span>
+        <div style="width: 100%; background-color: #e1ebfb; text-align: right;">
+        
+            Sent on <%= $place->date %> @ <%= $place->time %> 
+
+        </div>
+        
+        <div id="tooltip_<%= $place->place_id %>">
+        
+            <a href="javascript:dijit.byId('dialog_<%= $place->place_id %>').show()">
+                
+                <%= $place->title %>
+                
+            </a>
+        </div>
+        
+        <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $place->place_id %>" position="below">
+
+            <p><%= $place->body %></p>
         
         </div>
+        
+        <div id="dialog_<%= $place->place_id %>" dojoType="dijit.Dialog" title="<%= $place->title %>" style="width: 800px; height: 600px;">
+        
+            <div style="width: 780px; height: 500px;">
+	    
+                <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
+                    
+                    <div dojoType="dijit.layout.ContentPane" title="Details" selected="true">
+                        
+                        <p><%= $place->body %></p>
+                        
+                    </div>
+                    
+                    <div dojoType="dijit.layout.ContentPane" title="Comments">
+                        
+                        <fb:comments xid="story_<%= $place->place_id %>" numposts="5" width="500"></fb:comments>
+                        
+                    </div>
+
+                </div>
+                
+            </div>
             
-        <p><%= $place->body %></p>
+        </div>
         
     </div>
    
