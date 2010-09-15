@@ -1,16 +1,18 @@
 #!/usr/bin/env perl
 
 use Mojolicious::Lite;
-use Moose;
-use KiokuDB;
 
-my $DATA = KiokuDB->connect( "dbi:SQLite:dbname=socialmap.db", create => 1 );
+use lib 'lib';
+use Model::Schema;
+
+my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
 
 #### Pages...
 
 get '/' => sub {
 
     my $self = shift;
+    
     $self->render( 'index', layout => 'default' );
 
 } => 'index';
@@ -18,8 +20,12 @@ get '/' => sub {
 get '/places' => sub {
 
     my $self = shift;
-    $self->render( 'places', layout => 'default' );
+
+    my @places = $MODEL->resultset('Places')->search();
     
+    $self->{'places'} = \@places;
+
+    $self->render( 'places', layout => 'default' );
     return $self->redirect_to('index') unless $self->session('name');
 
 } => 'places';
@@ -27,8 +33,12 @@ get '/places' => sub {
 get '/stories' => sub {
 
     my $self = shift;
-    $self->render( 'stories', layout => 'default' );
     
+    my @stories = $MODEL->resultset('Stories')->search();
+    
+    $self->{'stories'} = \@stories;
+    
+    $self->render( 'stories', layout => 'default' );
     return $self->redirect_to('index') unless $self->session('name');
 
 } => 'stories';
@@ -36,8 +46,12 @@ get '/stories' => sub {
 get '/ads' => sub {
 
     my $self = shift;
-    $self->render( 'ads', layout => 'default' );
+
+    my @ads = $MODEL->resultset('Ads')->search();
     
+    $self->{'ads'} = \@ads;
+
+    $self->render( 'ads', layout => 'default' );
     return $self->redirect_to('index') unless $self->session('name');
 
 } => 'ads';
@@ -49,7 +63,7 @@ get '/login' => sub {
     my $self = shift;
 
     if ( $self->param('name') ) {
-        
+
         my $name = $self->param('name');
 
         $self->session( name => $name );
@@ -57,7 +71,7 @@ get '/login' => sub {
     }
     else {
 
-        return $self->render        
+        return $self->render;
     }
 
 } => 'login';
@@ -71,7 +85,6 @@ get '/logout' => sub {
 
 } => 'logout';
 
-
 #### Forms...
 
 post '/search' => sub {
@@ -79,7 +92,7 @@ post '/search' => sub {
     my $self = shift;
 
     if ( $self->param('value') ) {
-        
+
         my $value = $self->param('value');
         $self->session( search => $value );
     }
@@ -89,28 +102,56 @@ post '/search' => sub {
 post '/post' => sub {
 
     my $self = shift;
-    
-    use lib 'lib';
-    
-    my $scope = $DATA->new_scope;
 
-    if ( $self->param('type') eq 'place' ) {
-        
-    use Posts;
-    
-    my $post_id = $DATA->store(
-        
-        Posts->new(
-    
-        type        => $self->param('type'),
-        category    => $self->param('category'),
-        title       => $self->param('title'),
-        body        => $self->param('body'),
-    ));
-    
+    my ( $sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst ) =
+      localtime(time);
+
+    if ( $self->param('table') eq 'places' ) {
+
+        my $place = $MODEL->resultset('Places')->create(
+
+            {
+                category => $self->param('category'),
+                title    => $self->param('title'),
+                body     => $self->param('body'),
+                date     => "$year-$mon-$mday",
+                time     => "$hour:$min:$sec",
+                epoch    => 210,
+            }
+        );
     }
-    
-    $self->redirect_to('index');
+
+    if ( $self->param('table') eq 'stories' ) {
+
+        my $story = $MODEL->resultset('Stories')->create(
+
+            {
+                category => $self->param('category'),
+                title    => $self->param('title'),
+                body     => $self->param('body'),
+                date     => "$year-$mon-$mday",
+                time     => "$hour:$min:$sec",
+                epoch    => 210,
+            }
+        );
+    }
+
+    if ( $self->param('table') eq 'ads' ) {
+
+        my $ad = $MODEL->resultset('Ads')->create(
+
+            {
+                category => $self->param('category'),
+                title    => $self->param('title'),
+                body     => $self->param('body'),
+                date     => "$year-$mon-$mday",
+                time     => "$hour:$min:$sec",
+                epoch    => 210,
+            }
+        );
+    }
+
+    $self->redirect_to($self->param('table'));
 
 } => 'post';
 

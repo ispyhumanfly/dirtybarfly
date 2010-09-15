@@ -10,21 +10,17 @@
 
 <div  dojoType="dojox.layout.ExpandoPane" region="leading" style="background-color: #ffffff;">
 
-    <% for ( 0 .. 15 ) { %>
- 
+    <% foreach my $place ( @{ $self->{'places'} } ) { %>
+
     <div style="border-top: outset;">
         
         <div style="width: 100%; background-color: #e1ebfb;">
             
-            <span>Category <%= $_ %></span>
+            <span><%= $place->title %></span>
         
         </div>
-        
-        <% for ( 0 .. 10 ) { %>
-        
-        <p><a href="#">Some Place! I don't really know what to say!</a></p>
-        
-        <% } %>
+            
+        <p><%= $place->body %></p>
         
     </div>
    

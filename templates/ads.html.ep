@@ -6,21 +6,17 @@
 
 <div dojoType='dijit.layout.ContentPane' region='center'>
     
-    <% for ( 0 .. 15 ) { %>
- 
+    <% foreach my $ad ( @{ $self->{'ads'} } ) { %>
+
     <div style="border-top: outset;">
         
         <div style="width: 100%; background-color: #e1ebfb;">
             
-            <span>2010/09/<%= $_ %></span>
+            <span><%= $ad->title %></span>
         
         </div>
-        
-        <% for ( 0 .. 10 ) { %>
-        
-        <p><a href="#">Some crazy ad title about something.</a></p>
-        
-        <% } %>
+            
+        <p><%= $ad->body %></p>
         
     </div>
    

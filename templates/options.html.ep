@@ -8,32 +8,10 @@
     dojo.require("dijit.form.FilteringSelect");
     dojo.require("dijit.form.CheckBox");
     dojo.require("dijit.form.Textarea");
-    dojo.require("dijit.form.RadioButton");
     
 //]]></script>
 
-<script type="dojo/method" event="onReset">//<![CDATA[
-    
-    return confirm('Press OK to reset widget values');
-    
-//]]></script>
-    
-<script type="dojo/method" event="onSubmit">
-    
-    if (this.validate()) {
-        
-	return confirm('Form is valid, press OK to submit');
-    
-    } else {
-	
-        alert('Form contains invalid data.  Please correct first');
-        return false;
-    }
-    return true;
-
-</script>
-    
-<!-- Context Menu -->
+<!-- Context Options -->
 
 <div dojoType="dijit.Menu" id="windowContextMenu" contextMenuForWindow="true" style="display: none;">
 
@@ -49,7 +27,7 @@
 
 </div>
 
-<!-- Post Dialog -->
+<!-- Post Options -->
 
 <div id="dialogPost" dojoType="dijit.Dialog" title="Post" style="width: 800px; height: 600px;">
     
@@ -59,11 +37,11 @@
 	
 	    <label for="type">Type:</label>
 	    
-	    <select dojoType="dijit.form.FilteringSelect" id="type" name="type" style="margin: 10px;">
+	    <select dojoType="dijit.form.FilteringSelect" id="table" name="table" style="margin: 10px;">
 		
-		<option value="place" selected>Place</option>
-		<option value="story">Story</option>
-		<option value="ad">Ad</option>
+		<option value="places" selected>Places</option>
+		<option value="stories">Stories</option>
+		<option value="ads">Ads</option>
 		
 	    </select>
 	
@@ -84,9 +62,7 @@
 	    <label for="title">Title:</label>
 	    
 	    <input dojoType="dijit.form.ValidationTextBox" style="margin: 10px;"
-	           regExp="[\w]+"
 	           required="true"
-	           invalidMessage="Invalid Non-Space Text."
 	           name="title"
 	           id="title"
 	           width="90"
@@ -125,7 +101,7 @@
     </script>
 </button>
 
-<!-- Settings Dialog -->
+<!-- Settings Options -->
 
 <div id="dialogSettings" dojoType="dijit.Dialog" title="Settings" style="width: 800px; height: 600px;">
     

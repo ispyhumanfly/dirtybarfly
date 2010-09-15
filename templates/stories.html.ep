@@ -5,22 +5,18 @@
 //]]></script>
 
 <div dojoType='dijit.layout.ContentPane' region='center'>
-    
-    <% for ( 0 .. 15 ) { %>
- 
+
+    <% foreach my $story ( @{ $self->{'stories'} } ) { %>
+
     <div style="border-top: outset;">
         
         <div style="width: 100%; background-color: #e1ebfb;">
             
-            <span>2010/09/<%= $_ %></span>
+            <span><%= $story->time %> on <%= $story->date %></span>
         
         </div>
-        
-        <% for ( 0 .. 10 ) { %>
-        
-        <p><a href="#">Some crazy story title about something.</a></p>
-        
-        <% } %>
+            
+        <p><%= $story->title %></p>
         
     </div>
    
