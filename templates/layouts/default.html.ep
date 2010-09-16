@@ -47,7 +47,8 @@
 	    dojo.require("dijit.form.Form");
 	    dojo.require("dijit.form.TextBox");
 	    dojo.require("dijit.form.Button");
-	    dojo.require("dojox.widget.Portlet");
+	    dojo.require("dijit.layout.AccordionContainer");
+	    dojo.require("dijit.TitlePane");
             
         //]]></script>
 	

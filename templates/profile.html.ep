@@ -7,16 +7,21 @@
 <div dojoType='dijit.layout.ContentPane' region='center'>
     
     <% foreach my $profile ( @{ $self->{'profile'} } ) { %>
+
+    <div dojoType="dijit.TitlePane" title="The profile of <%= $profile->name %>" style="margin-bottom: 15px;">
+
+        Name: <%= $profile->name %>
     
-    Name: <%= $profile->name %>
+        <br />
     
-    <br />
+        Gender: <%= $profile->gender %>
     
-    Gender: <%= $profile->gender %>
+        <br />
     
-    <br />
+    </div>
     
-    <% } %>
+    <% } %>    
+
     
 </div>
 

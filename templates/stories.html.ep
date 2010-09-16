@@ -11,26 +11,13 @@
 
     <% foreach my $story ( @{ $self->{'stories'} } ) { %>
 
-    <div style="border-top: outset; margin: 0 0 30px 0;">
-        
-        <div style="width: 100%; background-color: #e1ebfb; text-align: right;">
-        
-            Sent on <%= $story->date %> @ <%= $story->time %> 
-
-        </div>
-        
-        <div id="story_<%= $story->story_id %>">
-        
-            <a href="javascript:dijit.byId('dialog_<%= $story->story_id %>').show()">
+    <div dojoType="dijit.TitlePane" title="<%= $story->title %>" id="story_<%= $story->story_id %>" style="margin-bottom: 15px; cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $story->story_id %>').show()">
                 
-                <%= $story->title %>
-                
-            </a>
-        </div>
+        Sent on <%= $story->date %> @ <%= $story->time %> 
         
         <div dojoType="dijit.Tooltip" connectId="story_<%= $story->story_id %>" position="below">
-            
-            Do more with this story.
+
+            Learn and do more with this place.
         
         </div>
         
@@ -69,37 +56,43 @@
     </div>
    
     <% } %>
-    
+
 </div>
 
 <div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 20%;">
     
-    <div dojoType="dojox.widget.Portlet" title="Sponsored Stories" style="text-align: left; margin: 5px;">
-
-        <div dojoType="dojox.widget.PortletSettings">
-            A description of what this Portlet does.
-        </div>
-
-        <% for ( 0.. 5) { %>   
+    <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
         
-        <p>Some sponsored story!</p>
+        <div dojoType="dijit.layout.ContentPane" title="Recent Posts" selected="true">
             
-        <% } %>
-    
-    </div>
-
-    <div dojoType="dojox.widget.Portlet" title="Most Popular Stories" style="text-align: left; margin: 5px;">
-
-        <div dojoType="dojox.widget.PortletSettings">
-            A description of what this Portlet does.
-        </div>
-
-        <% for ( 0.. 5) { %>   
+            <% for ( 0.. 5) { %>   
         
-        <p>Some popular story!</p>
+            <p>Some sponsored story!</p>
             
-        <% } %>
-    
+            <% } %>
+            
+        </div>
+        
+        <div dojoType="dijit.layout.ContentPane" title="Top Rated Posts">
+            
+            <% for ( 0.. 5) { %>   
+        
+            <p>Some sponsored story!</p>
+            
+            <% } %>
+            
+        </div>
+        
+        <div dojoType="dijit.layout.ContentPane" title="Something Else">
+            
+            <% for ( 0.. 5) { %>   
+        
+            <p>Some sponsored story!</p>
+            
+            <% } %>
+            
+        </div>
+        
     </div>
     
 </div>

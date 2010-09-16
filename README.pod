@@ -8,16 +8,20 @@ SocialMAP - A Facebook Connect integrated Geo-Social networking software.
 
 =head1 DESCRIPTION
 
-A fresh approach to social networking based on community-based interactions with real locations on a map.
+A fresh approach to social networking based on local interactions with real locations on a map.
 Additional views into every day search technologies will be made available in time. Under the hood, SocialMAP
 uses the Perl based Mojolicious::Lite framework, the JavaScript based Dojotoolkit and the JavaScript based
 Google Maps and Facebook Connect API's. This carefully selected group of technologies allows for a feature
 rich interface where people can easily interact with one another in ways they never have before using a
 unique view into every day internet searching.
 
-=head1 INSTALLATION
+=head2 INSTALLATION
 
-	sudo cpanp install Mojolicious::Lite
+	sudo cpanp install Mojolicious::Lite DBIx::Class Moose
+
+=head2 SETUP
+
+	sqlite3 socialmap.db < lib/Model/Schema.sql
 
 =head1 USAGE
 
