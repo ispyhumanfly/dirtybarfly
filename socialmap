@@ -12,6 +12,7 @@ my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
 get '/' => sub {
 
     my $self = shift;
+    $self->session( page => 'index' );
 
     $self->render( 'index', layout => 'default' );
 
@@ -20,76 +21,124 @@ get '/' => sub {
 get '/places' => sub {
 
     my $self = shift;
+    $self->session( page => 'places' );
 
     my @places =
-      $MODEL->resultset('Places')
-      ->search( {}, { order_by => 'place_id DESC' } );
+      $MODEL->resultset('Place')->search( {}, { order_by => 'place_id DESC' } );
 
     $self->{'places'} = \@places;
 
     $self->render( 'places', layout => 'default' );
-    return $self->redirect_to('index') unless $self->session('name');
+    return $self->redirect_to('index') unless $self->session('user_id');
 
 } => 'places';
 
 get '/stories' => sub {
 
     my $self = shift;
+    $self->session( page => 'stories' );
 
     my @stories =
-      $MODEL->resultset('Stories')
-      ->search( {}, { order_by => 'story_id DESC' } );
+      $MODEL->resultset('Story')->search( {}, { order_by => 'story_id DESC' } );
 
     $self->{'stories'} = \@stories;
 
     $self->render( 'stories', layout => 'default' );
-    return $self->redirect_to('index') unless $self->session('name');
+    return $self->redirect_to('index') unless $self->session('user_id');
 
 } => 'stories';
 
 get '/ads' => sub {
 
     my $self = shift;
+    $self->session( page => 'ads' );
 
     my @ads =
-      $MODEL->resultset('Ads')
-      ->search( {}, { order_by => 'ad_id DESC' } );
+      $MODEL->resultset('Ad')->search( {}, { order_by => 'ad_id DESC' } );
 
     $self->{'ads'} = \@ads;
 
     $self->render( 'ads', layout => 'default' );
-    return $self->redirect_to('index') unless $self->session('name');
+    return $self->redirect_to('index') unless $self->session('user_id');
 
 } => 'ads';
 
 #### Functions...
 
-get '/login' => sub {
+get '/session' => sub {
 
     my $self = shift;
 
-    if ( $self->param('name') ) {
+    if ( $self->param('facebook_id') ) {
+        
+        my @users = $MODEL->resultset('User')->search();
+        
+        my $no_match;
+        
+        for my $user (@users) {
 
-        my $name = $self->param('name');
+            $no_match++ unless $self->param('facebook_id') eq $user->facebook_id;       
+        }
+        
+        if ( $no_match == scalar @users ) {
+            
+            my $user = $MODEL->resultset('User')->create(
+    
+                {
+                    facebook_id => $self->param('facebook_id'),
+                    name        => $self->param('name'),
+                    gender      => $self->param('gender'),
+                    link        => $self->param('link'),
+                    email       => $self->param('email'),
+                    location    => $self->param('location'),
+                    timezone    => $self->param('timezone'),
+                }
+            );
+        }
 
-        $self->session( name => $name );
-        $self->redirect_to('index');
+        for my $user (@users) {
+
+            if ( $user->facebook_id eq $self->param('facebook_id') ) {
+
+                $self->session(
+
+                    user_id     => $user->user_id,
+                    facebook_id => $user->facebook_id,
+                    name        => $user->name,
+                    gender      => $user->gender,
+                    email       => $user->email,
+                    location    => $user->location,
+                    timezone    => $user->timezone,
+                );
+
+                return $self->redirect_to($self->session('page'));
+            }
+        }
     }
-    else {
+    elsif ( $self->param('expires') ) {
 
-        return $self->render;
+        $self->session( expires => $self->param('expires') );
     }
 
-} => 'login';
+    return $self->redirect_to($self->session('page'));
 
-get '/logout' => sub {
+} => 'session';
+
+get '/profile' => sub {
 
     my $self = shift;
+    $self->session( page => 'profile' );
 
-    $self->session( expires => 1 );
-    $self->redirect_to('index');
+    if ( $self->param('user_id') ) {
+        
+        my @users = $MODEL->resultset('User')->search( { user_id => $self->param('user_id') } );
+        $self->{'profile'} = \@users;
+    }
+    
+    $self->render( 'profile', layout => 'default' );
+    return $self->redirect_to('index') unless $self->session('user_id');
 
-} => 'logout';
+} => 'places';
 
 #### Forms...
 
@@ -112,23 +161,9 @@ post '/post' => sub {
     my ( $sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst ) =
       localtime(time);
 
-    if ( $self->param('table') eq 'places' ) {
+    if ( $self->param('table') eq 'place' ) {
 
-        my $place = $MODEL->resultset('Places')->create(
-
-            {
-                category => $self->param('category'),
-                title    => $self->param('title'),
-                body     => $self->param('body'),
-                date     => "$year-$mon-$mday",
-                time     => "$hour:$min:$sec",
-            }
-        );
-    }
-
-    if ( $self->param('table') eq 'stories' ) {
-
-        my $story = $MODEL->resultset('Stories')->create(
+        my $place = $MODEL->resultset('Place')->create(
 
             {
                 category => $self->param('category'),
@@ -136,13 +171,16 @@ post '/post' => sub {
                 body     => $self->param('body'),
                 date     => "$year-$mon-$mday",
                 time     => "$hour:$min:$sec",
+                user     => $self->session('user_id'),
             }
         );
+        
+        return $self->redirect_to('places');
     }
 
-    if ( $self->param('table') eq 'ads' ) {
+    if ( $self->param('table') eq 'story' ) {
 
-        my $ad = $MODEL->resultset('Ads')->create(
+        my $story = $MODEL->resultset('Story')->create(
 
             {
                 category => $self->param('category'),
@@ -150,11 +188,31 @@ post '/post' => sub {
                 body     => $self->param('body'),
                 date     => "$year-$mon-$mday",
                 time     => "$hour:$min:$sec",
+                user     => $self->session('user_id'),
             }
         );
+        
+        return $self->redirect_to('stories');
     }
 
-    $self->redirect_to( $self->param('table') );
+    if ( $self->param('table') eq 'ad' ) {
+
+        my $ad = $MODEL->resultset('Ad')->create(
+
+            {
+                category => $self->param('category'),
+                title    => $self->param('title'),
+                body     => $self->param('body'),
+                date     => "$year-$mon-$mday",
+                time     => "$hour:$min:$sec",
+                user     => $self->session('user_id'),
+            }
+        );
+        
+        return $self->redirect_to('ads');
+    }
+
+    return $self->redirect_to($self->session('page'));
 
 } => 'post';
 

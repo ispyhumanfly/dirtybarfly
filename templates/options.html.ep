@@ -1,4 +1,4 @@
-<% if ( $self->session('name') ) { %>
+<% if ( $self->session('user_id') ) { %>
 
 <script type="text/javascript">//<![CDATA[
     
@@ -32,98 +32,68 @@
 
 <div id="dialogPost" dojoType="dijit.Dialog" title="Post something on SocialMAP!" style="width: 800px; height: 600px;">
     
-    <div style="width: 780px; height: 500px;">
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post" method="POST">
+	
+	<div style="border-bottom: groove; margin: 5px;">
+	
+	    <label for="type">Type:</label>
 	    
-	<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
-    
-	    <!-- Post to Places Tab -->
+	    <select dojoType="dijit.form.FilteringSelect" id="table" name="table" style="margin: 10px;">
+		
+		<option value="place" selected>Place</option>
+		<option value="story">Story</option>
+		<option value="ad">Ad</option>
+		
+	    </select>
+	
+	    <label for="category">Category:</label>
 	    
-	    <div dojoType="dijit.layout.ContentPane" title="Places" selected="true">
+	    <select dojoType="dijit.form.FilteringSelect" id="category" name="category" style="margin: 10px;">
 		
-		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post" method="POST">
-		    
-		    <div style="border-bottom: groove; margin: 5px;">
-		    
-			<label for="type">Type:</label>
-			
-			<select dojoType="dijit.form.FilteringSelect" id="table" name="table" style="margin: 10px;">
-			    
-			    <option value="places" selected>Places</option>
-			    <option value="stories">Stories</option>
-			    <option value="ads">Ads</option>
-			    
-			</select>
-		    
-			<label for="category">Category:</label>
-			
-			<select dojoType="dijit.form.FilteringSelect" id="category" name="category" style="margin: 10px;">
-			    
-			    <option value="general">General</option>
-			    <option value="technical" selected>Technical</option>
-			    <option value="business">Business</option>
-			    
-			</select>
-			
-		    </div>
-		    
-		    <div style="border-bottom: groove; margin: 5px;">
-			
-			<label for="title">Title:</label>
-			
-			<input dojoType="dijit.form.ValidationTextBox" style="margin: 10px;"
-			       required="true"
-			       name="title"
-			       id="title"
-			       width="90"
-			/>
-		    
-		    </div>
-		    
-		    <div style="border-bottom: groove; margin: 5px;">
-			    
-			<label for="body">Body:</label>
-			
-			<textarea dojoType="dijit.form.Textarea" style="width:500px; margin: 10px;"
-				  required="true"
-				  id="body"
-				  name="body"
-			>
-			</textarea>
-		    
-		    </div>
-		    
-		    <br />
-		    
-		    <button dojoType="dijit.form.Button" type="submit">Submit</button>
-		    <button dojoType="dijit.form.Button" type="reset">Reset</button>
+		<option value="general">General</option>
+		<option value="technical" selected>Technical</option>
+		<option value="business">Business</option>
 		
-		</div>
-
-	    </div>
-    
-	    <!-- Post to Stories Tab -->
-    
-	    <div dojoType="dijit.layout.ContentPane" title="Stories">
-		
-		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post" method="POST">
-		    
-		</div>
-
-	    </div>
-    
-	    <!-- Post to Ads Tab -->
-    
-	    <div dojoType="dijit.layout.ContentPane" title="Ads" selected="true">
-		
-	    </div>
-
+	    </select>
+	    
 	</div>
 	
-    </div>
+	<div style="border-bottom: groove; margin: 5px;">
+	    
+	    <label for="title">Title:</label>
+	    
+	    <input dojoType="dijit.form.ValidationTextBox" style="margin: 10px;"
+		   required="true"
+		   name="title"
+		   id="title"
+		   width="90"
+	    />
+	
+	</div>
+	
+	<div style="border-bottom: groove; margin: 5px;">
+		
+	    <label for="body">Body:</label>
+	    
+	    <textarea dojoType="dijit.form.Textarea" style="width:500px; margin: 10px;"
+		      required="true"
+		      id="body"
+		      name="body"
+	    >
+	    </textarea>
+	
+	</div>
+	
+	<br />
+	
+	<button dojoType="dijit.form.Button" type="submit">Submit</button>
+	<button dojoType="dijit.form.Button" type="reset">Reset</button>
     
+    </div>
+
 </div>
 
-<button dojoType="dijit.form.Button" type="button">Post
+<button dojoType="dijit.form.Button" type="button" id="post_button">Post
 
     <script type="dojo/method" event="onClick" args="evt">
     
@@ -132,24 +102,38 @@
     </script>
 </button>
 
+<div dojoType="dijit.Tooltip" connectId="post_button" position="above">
+
+    Share a new place, story or ad.
+
+</div>
+
 <!-- Settings Options -->
 
-<div id="dialogSettings" dojoType="dijit.Dialog" title="Control your SocialMAP experience." style="width: 800px; height: 600px;">
+<div id="dialogSettings" dojoType="dijit.Dialog" title="Customize your SocialMAP experience." style="width: 800px; height: 600px;">
 
     <div style="width: 780px; height: 500px;">
 	    
 	<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
     
-	    <!-- Filter Tab -->
+	    <!-- Setup Tab -->
 	    
-	    <div dojoType="dijit.layout.ContentPane" title="Filter" selected="true">	
+	    <div dojoType="dijit.layout.ContentPane" title="Setup" selected="true">	
 
 	    </div>
     
 	    <!-- Profile Tab -->
     
 	    <div dojoType="dijit.layout.ContentPane" title="Profile">
-	    
+		
+		Name: <%= $self->session('name') %>
+		
+		<br />
+
+		Gender: <%= $self->session('gender') %>
+		
+		<br />
+
 	    </div>
     
 	    <!-- Usage Tab -->
@@ -164,7 +148,7 @@
     
 </div>
 
-<button dojoType="dijit.form.Button" type="button">Settings
+<button dojoType="dijit.form.Button" type="button" id="settings_button">Settings
     
     <script type="dojo/method" event="onClick" args="evt">
 	
@@ -172,5 +156,11 @@
 	
     </script>
 </button>
+
+<div dojoType="dijit.Tooltip" connectId="settings_button" position="above">
+
+    Customize your user experience.
+
+</div>
 
 <% } %>

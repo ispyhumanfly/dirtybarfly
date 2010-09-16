@@ -51,7 +51,7 @@
             
         //]]></script>
 	
-	<% if ( $self->session('name') ) { %>
+	<% if ( $self->session('user_id') ) { %>
 	
 	<!-- Google Maps JavaScript API v3 -->
 	
@@ -101,7 +101,7 @@
 		
 		<div style="float: left;">
 			
-		    <% if ( $self->session('name') ) { %>
+		    <% if ( $self->session('user_id') ) { %>
 		    
 		    <%= link_to index => {%>
 		    Home |
@@ -129,7 +129,7 @@
 		
 		<div style="float: right;">
 		    
-		    <% if ( $self->session('name') ) { %>
+		    <% if ( $self->session('user_id') ) { %>
 		    	
 		    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/search" method="POST">
 		    
@@ -155,7 +155,7 @@
 
 		<%= include 'options' %>
 		
-		<% unless ( $self->session('name') ) { %>
+		<% unless ( $self->session('user_id') ) { %>
 		    
 		SocialMAP &copy; 2010 Insurgent Software, LLC.
 		    
@@ -177,17 +177,28 @@
   
 			if (response.session) {
 			    
-			    <% unless ( $self->session('name') ) { %>
-			
-			    window.location = '/login?name=' + response.uid + '';
+			    <% unless ( $self->session('facebook_id') ) { %>
+			    
+			    FB.api( '/me', function(facebook) {
+			    
+				window.location = '/session' +
+
+				    '?facebook_id='	+ facebook.id +				    
+				    '&name='		+ facebook.name +
+				    '&gender='		+ facebook.gender +
+				    '&link='		+ facebook.link +
+				    '&email='		+ facebook.email +
+				    '&location=' 	+ facebook.location +
+				    '&timezone='	+ facebook.timezone + '';
+			    });
 			    
 			    <% } %>
-			}
+    			}
 			else {
     
-			    <% if ( $self->session('name') ) { %>
+			    <% if ( $self->session('facebook_id') ) { %>
 			    
-			    window.location = '/logout';
+			    window.location = '/session?expires=1';
 			    
 			    <% } %>
 			}

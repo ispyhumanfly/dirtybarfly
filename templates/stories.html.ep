@@ -1,4 +1,4 @@
-<% if ( $self->session('name') ) { %>
+<% if ( $self->session('user_id') ) { %>
 
 <script type="text/javascript">//<![CDATA[
 
@@ -19,7 +19,7 @@
 
         </div>
         
-        <div id="tooltip_<%= $story->story_id %>">
+        <div id="story_<%= $story->story_id %>">
         
             <a href="javascript:dijit.byId('dialog_<%= $story->story_id %>').show()">
                 
@@ -28,9 +28,9 @@
             </a>
         </div>
         
-        <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $story->story_id %>" position="below">
-
-            <p><%= $story->body %></p>
+        <div dojoType="dijit.Tooltip" connectId="story_<%= $story->story_id %>" position="below">
+            
+            Do more with this story.
         
         </div>
         
@@ -40,15 +40,23 @@
 	    
                 <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
                     
-                    <div dojoType="dijit.layout.ContentPane" title="Details" selected="true">
+                    <div dojoType="dijit.layout.ContentPane" title="Story" selected="true">
                         
+                        Written By <a href="/profile?user_id=<%= $story->user->user_id %>" id="profile_<%= $story->user->user_id %>"><%= $story->user->name %></a>
+                        
+                        <div dojoType="dijit.Tooltip" connectId="profile_<%= $story->user->user_id %>" position="below">
+
+                            Look at my profile!
+        
+                        </div>
+                    
                         <p><%= $story->body %></p>
                         
                     </div>
                     
                     <div dojoType="dijit.layout.ContentPane" title="Comments">
                         
-                        <fb:comments xid="story_<%= $story->story_id %>" numposts="5" width="500"></fb:comments>
+                        <fb:comments xid="story_<%= $story->story_id %>" numposts="10" width="500"></fb:comments>
                         
                     </div>
 
@@ -64,7 +72,7 @@
     
 </div>
 
-<div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 25%;">
+<div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 20%;">
     
     <div dojoType="dojox.widget.Portlet" title="Sponsored Stories" style="text-align: left; margin: 5px;">
 

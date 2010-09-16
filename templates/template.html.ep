@@ -1,4 +1,4 @@
-<% if ( $self->session('name') ) { %>
+<% if ( $self->session('facebook_id') ) { %>
 
 <script type="text/javascript">//<![CDATA[
     
