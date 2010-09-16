@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-SocialMAP - A Facebook Connect integrated social-networking software. 
+SocialMAP - A Facebook Connect enabled social-networking software. 
 
 =head1 SYNOPSIS
 
@@ -12,10 +12,7 @@ SocialMAP - A Facebook Connect integrated social-networking software.
 
 =head1 DESCRIPTION
 
-Under the hood, SocialMAP uses the Perl based Mojolicious::Lite framework, the JavaScript
-based Dojotoolkit and the JavaScript based Google Maps and Facebook Connect API's.
-This carefully selected group of technologies allows for a feature rich interface where
-users can easily interact with one another in ways they never have before.
+A pretty cool way to interact with people.
 
 =head2 Installation
 
