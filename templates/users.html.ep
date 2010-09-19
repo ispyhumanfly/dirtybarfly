@@ -1,0 +1,19 @@
+<% if ( $self->session('user_id') ) { %>
+
+<script type="text/javascript">//<![CDATA[
+    
+//]]></script>
+
+<div dojoType='dijit.layout.ContentPane' region='center'>
+
+    <% foreach my $user ( @{ $self->{'users'} } ) { %>
+    
+    <div dojoType="dijit.TitlePane" title="<%= $user->name %>" style="margin-bottom: 15px;">
+        
+    </div>
+    
+    <% } %>
+
+</div>
+
+<% } %>

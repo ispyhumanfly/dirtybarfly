@@ -3,39 +3,14 @@
 
     <head>
 	
-	<title>SocialMAP</title>
+	<title>SocialMAP Prototype</title>
 	
-	<style type="text/css">
-	
-	    html {
-		height:100%;
-	    }   
-	    
-	    body {
-		height: 98%;
-		background-color: #999;
-	    }
-	    
-	    a {
-		font-weight: bold;
-		font-size: 0.9em;
-		text-decoration: none;
-	    }
-	    
-	    a:link {
-		color: #333;
-		
-	    }
-
-	    a:visited {
-		color: #333;
-	    }
-	    
-	</style>
+	<!-- SocialMAP Stylesheet -->
+	<link rel="stylesheet" type="text/css" href="/default.css">
 
 	<!-- Dojo 1.5 JavaScript Framework -->
 	
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/soria/soria.css">
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/widget/Portlet/Portlet.css">
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js" djConfig="parseOnLoad:true"></script>
@@ -90,7 +65,7 @@
 	
     </head>
     
-    <body class='soria'>
+    <body class='claro'>
 
 	<!-- Border Container -->
 	

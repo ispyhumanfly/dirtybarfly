@@ -75,7 +75,7 @@
 		
 	    <label for="body">Body:</label>
 	    
-	    <textarea dojoType="dijit.form.Textarea" style="width:500px; margin: 10px;"
+	    <textarea dojoType="dijit.form.Textarea" style="margin: 10px;"
 		      required="true"
 		      id="body"
 		      name="body"
@@ -108,7 +108,7 @@
 
 </div>
 
-<!-- Settings Options -->
+<!-- Profile Options -->
 
 <div id="dialogSettings" dojoType="dijit.Dialog" title="Customize your SocialMAP experience." style="width: 800px; height: 600px;">
 
@@ -148,7 +148,7 @@
     
 </div>
 
-<button dojoType="dijit.form.Button" type="button" id="settings_button">Settings
+<button dojoType="dijit.form.Button" type="button" id="settings_button">Profile
     
     <script type="dojo/method" event="onClick" args="evt">
 	

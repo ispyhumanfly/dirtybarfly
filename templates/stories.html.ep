@@ -11,13 +11,17 @@
 
     <% foreach my $story ( @{ $self->{'stories'} } ) { %>
 
-    <div dojoType="dijit.TitlePane" title="<%= $story->title %>" id="story_<%= $story->story_id %>" style="margin-bottom: 15px; cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $story->story_id %>').show()">
-                
-        Sent on <%= $story->date %> @ <%= $story->time %> 
+    <div dojoType="dijit.TitlePane" title="<%= $story->title %>" id="story_<%= $story->story_id %>" style="margin-bottom: 15px;">
+        
+        <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $story->story_id %>').show()">
+        
+            Sent on <%= $story->date %> @ <%= $story->time %>
+            
+        </div>
         
         <div dojoType="dijit.Tooltip" connectId="story_<%= $story->story_id %>" position="below">
 
-            Learn and do more with this place.
+            <p><%= $story->body %></p>
         
         </div>
         
@@ -29,15 +33,18 @@
                     
                     <div dojoType="dijit.layout.ContentPane" title="Story" selected="true">
                         
-                        Written By <a href="/profile?user_id=<%= $story->user->user_id %>" id="profile_<%= $story->user->user_id %>"><%= $story->user->name %></a>
+                        Posted by <a href="/users/<%= $story->user->user_id %>" id="tooltip_<%= $story->user->user_id %>"><%= $story->user->name %></a>
+                        @ <%= $story->time %>
                         
-                        <div dojoType="dijit.Tooltip" connectId="profile_<%= $story->user->user_id %>" position="below">
+                        <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $story->user->user_id %>" position="below">
 
                             Look at my profile!
         
                         </div>
                     
                         <p><%= $story->body %></p>
+                        
+                        <fb:like href="/stories/<%= $story->story_id %>"></fb:like>
                         
                     </div>
                     

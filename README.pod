@@ -12,7 +12,7 @@ SocialMAP - A Facebook Connect enabled social-networking software.
 
 =head1 DESCRIPTION
 
-A pretty cool way to interact with people.
+A pretty cool way to interact with people using Facebook and centered around a unique interface to common web tasks.
 
 =head2 Installation
 

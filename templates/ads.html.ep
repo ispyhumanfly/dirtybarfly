@@ -11,13 +11,17 @@
     
     <% foreach my $ad ( @{ $self->{'ads'} } ) { %>
 
-    <div dojoType="dijit.TitlePane" title="<%= $ad->title %>" id="ad_<%= $ad->ad_id %>" style="margin-bottom: 15px; cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $ad->ad_id %>').show()">
-                
-        Sent on <%= $ad->date %> @ <%= $ad->time %> 
+    <div dojoType="dijit.TitlePane" title="<%= $ad->title %>" id="ad_<%= $ad->ad_id %>" style="margin-bottom: 15px;">
         
+        <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $ad->ad_id %>').show()">
+        
+            Sent on <%= $ad->date %> @ <%= $ad->time %>
+            
+        </div>
+
         <div dojoType="dijit.Tooltip" connectId="ad_<%= $ad->ad_id %>" position="below">
 
-            Learn and do more with this place.
+            <p><%= $ad->body %></p>
         
         </div>
         
@@ -29,15 +33,18 @@
                     
                     <div dojoType="dijit.layout.ContentPane" title="Ad" selected="true">
                         
-                        Written By <a href="/profile?user_id=<%= $ad->user->user_id %>" id="profile_<%= $ad->user->user_id %>"><%= $ad->user->name %></a>
+                        Posted by <a href="/users/<%= $ad->user->user_id %>" id="tooltip_<%= $ad->user->user_id %>"><%= $ad->user->name %></a>
+                        @ <%= $ad->time %>
                         
-                        <div dojoType="dijit.Tooltip" connectId="profile_<%= $ad->user->user_id %>" position="below">
+                        <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $ad->user->user_id %>" position="below">
 
                             Look at my profile!
         
                         </div>
                     
                         <p><%= $ad->body %></p>
+                        
+                        <fb:like href="/ads/<%= $ad->ad_id %>"></fb:like>
                         
                     </div>
                     
@@ -52,7 +59,7 @@
             </div>
             
         </div>
-        
+
     </div>
    
     <% } %>

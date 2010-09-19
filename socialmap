@@ -63,6 +63,21 @@ get '/ads' => sub {
 
 } => 'ads';
 
+get '/users' => sub {
+
+    my $self = shift;
+    $self->session( page => 'users' );
+
+    my @users =
+      $MODEL->resultset('User')->search( {}, { order_by => 'user_id ASC' } );
+
+    $self->{'users'} = \@users;
+
+    $self->render( 'users', layout => 'default' );
+    return $self->redirect_to('index') unless $self->session('user_id');
+
+} => 'users';
+
 #### Functions...
 
 get '/session' => sub {
@@ -70,20 +85,21 @@ get '/session' => sub {
     my $self = shift;
 
     if ( $self->param('facebook_id') ) {
-        
+
         my @users = $MODEL->resultset('User')->search();
-        
+
         my $no_match;
-        
+
         for my $user (@users) {
 
-            $no_match++ unless $self->param('facebook_id') eq $user->facebook_id;       
+            $no_match++
+              unless $self->param('facebook_id') eq $user->facebook_id;
         }
-        
+
         if ( $no_match == scalar @users ) {
-            
+
             my $user = $MODEL->resultset('User')->create(
-    
+
                 {
                     facebook_id => $self->param('facebook_id'),
                     name        => $self->param('name'),
@@ -111,7 +127,7 @@ get '/session' => sub {
                     timezone    => $user->timezone,
                 );
 
-                return $self->redirect_to($self->session('page'));
+                return $self->redirect_to( $self->session('page') );
             }
         }
     }
@@ -120,25 +136,51 @@ get '/session' => sub {
         $self->session( expires => $self->param('expires') );
     }
 
-    return $self->redirect_to($self->session('page'));
+    return $self->redirect_to( $self->session('page') );
 
 } => 'session';
 
-get '/profile' => sub {
+any '/:page/:id' => [ page => qr/\w+/, id => qr/\d+/ ] => sub {
 
     my $self = shift;
-    $self->session( page => 'profile' );
 
-    if ( $self->param('user_id') ) {
-        
-        my @users = $MODEL->resultset('User')->search( { user_id => $self->param('user_id') } );
-        $self->{'profile'} = \@users;
+    if ( $self->param('page') eq 'users' ) {
+
+        my @users = $MODEL->resultset('User')
+          ->search( { user_id => $self->param('id') } );
+          
+        $self->{'users'} = \@users;
+        $self->render( 'users', layout => 'default' );
+    }
+
+    elsif ( $self->param('page') eq 'places' ) {
+
+        my @places = $MODEL->resultset('Place')
+          ->search( { place_id => $self->param('id') } );
+          
+        $self->{'places'} = \@places;
+        $self->render( 'places', layout => 'default' );
     }
     
-    $self->render( 'profile', layout => 'default' );
-    return $self->redirect_to('index') unless $self->session('user_id');
+    elsif ( $self->param('page') eq 'stories' ) {
 
-} => 'places';
+        my @stories = $MODEL->resultset('Story')
+          ->search( { story_id => $self->param('id') } );
+        
+        $self->{'stories'} = \@stories;
+        $self->render( 'stories', layout => 'default' );
+    }
+    
+    elsif ( $self->param('page') eq 'ads' ) {
+
+        my @ads = $MODEL->resultset('Ad')
+          ->search( { ad_id => $self->param('id') } );
+          
+        $self->{'ads'} = \@ads;
+        $self->render( 'ads', layout => 'default' );
+    }
+    
+};
 
 #### Forms...
 
@@ -174,7 +216,7 @@ post '/post' => sub {
                 user     => $self->session('user_id'),
             }
         );
-        
+
         return $self->redirect_to('places');
     }
 
@@ -191,7 +233,7 @@ post '/post' => sub {
                 user     => $self->session('user_id'),
             }
         );
-        
+
         return $self->redirect_to('stories');
     }
 
@@ -208,11 +250,11 @@ post '/post' => sub {
                 user     => $self->session('user_id'),
             }
         );
-        
+
         return $self->redirect_to('ads');
     }
 
-    return $self->redirect_to($self->session('page'));
+    return $self->redirect_to( $self->session('page') );
 
 } => 'post';
 

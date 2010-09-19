@@ -42,3 +42,23 @@ CREATE TABLE ad (
     time TEXT NOT NULL,
     user INTEGER NOT NULL REFERENCES user(user_id)
 );
+
+CREATE TABLE adComment (
+
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    ad INTEGER NOT NULL REFERENCES ad(ad_id)
+);
+
+CREATE TABLE adReview (
+
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    ad INTEGER NOT NULL REFERENCES ad(ad_id)
+);

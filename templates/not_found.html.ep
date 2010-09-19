@@ -1,8 +1,13 @@
-<!doctype html><html>
-    <head><title>Not Found</title></head>
-    <body>
-        The page you were requesting
-        "<%= $self->req->url->path || '/' %>"
-        could not be found.
-    </body>
-</html>
+<script type="text/javascript">//<![CDATA[
+    
+//]]></script>
+
+<div dojoType='dijit.layout.ContentPane' region='center'>
+
+    <div dojoType="dijit.TitlePane" title="<%= $self->req->url->path || '/' %>" style="margin-bottom: 15px;">
+        
+        <p>The page you requested could not be found.</p>
+        
+    </div>
+
+</div>

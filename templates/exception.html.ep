@@ -1,23 +1,19 @@
-<!doctype html><html>
 % my $s = $self->stash;
 % my $e = $self->stash('exception');
 % delete $s->{inner_template};
 % delete $s->{exception};
 % my $dump = dumper $s;
 % $s->{exception} = $e;
-    <head>
-	    <title>Exception</title>
-	    <style type="text/css">
-	        body {
-		        font: 0.9em Verdana, "Bitstream Vera Sans", sans-serif;
-	        }
-	        .snippet {
-                font: 115% Monaco, "Courier New", monospace;
-	        }
-	    </style>
-    </head>
-    <body>
-        <% if ($self->app->mode eq 'development') { %>
+
+<script type="text/javascript">//<![CDATA[
+    
+//]]></script>
+
+<div dojoType='dijit.layout.ContentPane' region='center'>
+
+    <div dojoType="dijit.TitlePane" title="Template Title Pane" style="margin-bottom: 15px;">
+	
+	<% if ($self->app->mode eq 'development') { %>
 	        <div>
                 This page was generated from the template
                 "templates/exception.html.ep".
@@ -44,5 +40,7 @@
         <% } else { %>
             <div>Page temporarily unavailable, please come back later.</div>
         <% } %>
-    </body>
-</html>
+        
+    </div>
+
+</div>

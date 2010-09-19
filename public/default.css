@@ -1,0 +1,23 @@
+html {    
+    height:100%;
+}   
+
+body {
+    height: 98%;
+    background-color: #f7fcff;
+}
+
+a {
+    font-weight: bold;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+a:link {
+    color: #333;
+    
+}
+
+a:visited {
+    color: #333;
+}
