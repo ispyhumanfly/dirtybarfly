@@ -12,23 +12,43 @@
     
 //]]></script>
 
-<!-- Context Options -->
+<!-- Context Menu -->
 
 <div dojoType="dijit.Menu" id="windowContextMenu" contextMenuForWindow="true" style="display: none;">
 
-    <% for ( 0 .. 6 ) { %>
+    <div dojoType="dijit.MenuItem">Post
+	    
+	<script type="dojo/method" event="onClick" args="evt">//<![CDATA[
+
+	    dijit.byId("dialogPost").show();
+    
+	//]]></script>
+	
+    </div>
+    
+    <div dojoType="dijit.MenuItem">Settings
+	    
+	<script type="dojo/method" event="onClick" args="evt">//<![CDATA[
+
+	    dijit.byId("dialogSettings").show();
+    
+	//]]></script>
+	
+    </div>
+    
+    <% for ( 0 .. 5 ) { %>
 
     <div dojoType="dijit.MenuItem">
     
-        Menu Item <%= $_ %>
+        Example Menu Item <%= $_ %>
 
     </div>
     
     <% } %>
-
+    
 </div>
 
-<!-- Post Options -->
+<!-- Post Dialog -->
 
 <div id="dialogPost" dojoType="dijit.Dialog" title="Post something on SocialMAP!" style="width: 800px; height: 600px;">
     
@@ -113,15 +133,16 @@
 	dijit.byId("dialogPost").show();
 	
     </script>
+    
 </button>
 
 <div dojoType="dijit.Tooltip" connectId="post_button" position="above">
 
-    Share a new place, story or ad.
+    Post places or events to the SocialMAP.
 
 </div>
 
-<!-- Profile Options -->
+<!-- Settings Dialog -->
 
 <div id="dialogSettings" dojoType="dijit.Dialog" title="Customize your SocialMAP experience." style="width: 800px; height: 600px;">
 
@@ -161,18 +182,19 @@
     
 </div>
 
-<button dojoType="dijit.form.Button" type="button" id="settings_button">Profile
+<button dojoType="dijit.form.Button" type="button" id="settings_button">Settings
     
     <script type="dojo/method" event="onClick" args="evt">
 	
         dijit.byId("dialogSettings").show();
 	
     </script>
+    
 </button>
 
 <div dojoType="dijit.Tooltip" connectId="settings_button" position="above">
 
-    Customize your user experience.
+    Configure your SocialMAP experience.
 
 </div>
 

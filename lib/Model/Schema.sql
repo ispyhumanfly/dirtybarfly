@@ -48,6 +48,7 @@ CREATE TABLE place_image (
     place INTEGER NOT NULL REFERENCES place(place_id)
 );
 
+
 CREATE TABLE event (
 
     event_id INTEGER PRIMARY KEY,

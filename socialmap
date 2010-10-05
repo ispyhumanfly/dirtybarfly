@@ -10,7 +10,7 @@ BEGIN {
 }
 
 use Mojolicious::Lite;
-use REST::Google::Search qw/ LOCAL IMAGES VIDEO /;
+use REST::Google::Search qw/ LOCAL IMAGES /;
 use GIS::Distance;
 
 use lib 'lib';
@@ -78,39 +78,6 @@ get '/places' => sub {
             push @{ $self->{'places'} }, $place;
         }
     }
-    
-    ### Also display local search results...
-    
-    REST::Google::Search->service(LOCAL);
-
-    my $response =
-        REST::Google::Search->new(
-            q => 'Beer' . $self->session('location') . '' );
-
-    my $data    = $response->responseData;
-    my @results = $data->results;
-
-    foreach my $result (@results) {
-
-        push @places, {
-            
-                category       => '',
-                title          => $result->titleNoFormatting,
-                body           => '',
-                date           => '',
-                time           => '',
-                street_address => $result->streetAddress,
-                city           => $result->city,
-                region         => $result->region,
-                country        => $result->country,
-                lat            => $result->lat,
-                lng            => $result->lng,
-                user           => $self->session('user_id'),
-        };
-    }
-
-    #use JSON::XS;    
-    #my $json = JSON::XS->new->utf8->space_after->encode ( { a => [1,2] } ) => {"a": [1, 2]};
 
     $self->render( 'places', layout => 'default' );
 
