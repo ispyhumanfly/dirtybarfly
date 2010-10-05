@@ -51,27 +51,11 @@
 		    
 			</div>
 		    
-			<%= link_to users => {%>
+			<a href='/users'><%= $self->session('name') %> |</a>
 			
-			<%= $self->session('name') %> |
+			<a href='/places'>Places |</a>
 			
-			<%}%>
-			
-			<%= link_to places => {%>
-			Places |
-			<%}%>
-    
-			<%= link_to events => {%>
-			Events |
-			<%}%>
-    
-			<%= link_to stories => {%>
-			Stories |
-			<%}%>
-    
-			<%= link_to ads => {%>
-			Ads
-			<%}%>
+			<a href='/events'>Events</a>
 			
 		    <% } else { %>
 		    
@@ -99,7 +83,7 @@
 		
 	    </div>
 	    
-	    <!-- Requested SocialMAP Content Page -->
+	    <!-- Requested SocialMAP Content -->
 	    
 	    <%= content %>
     	    

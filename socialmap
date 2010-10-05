@@ -78,6 +78,36 @@ get '/places' => sub {
             push @{ $self->{'places'} }, $place;
         }
     }
+    
+    ### Also display local search results...
+    
+    REST::Google::Search->service(LOCAL);
+
+    my $response =
+        REST::Google::Search->new(
+            q => 'Beer' . $self->session('location') . '' );
+
+    my $data    = $response->responseData;
+    my @results = $data->results;
+
+    foreach my $result (@results) {
+
+        push @places, {
+            
+                category       => '',
+                title          => $result->titleNoFormatting,
+                body           => '',
+                date           => '',
+                time           => '',
+                street_address => $result->streetAddress,
+                city           => $result->city,
+                region         => $result->region,
+                country        => $result->country,
+                lat            => $result->lat,
+                lng            => $result->lng,
+                user           => $self->session('user_id'),
+        };
+    }
 
     #use JSON::XS;    
     #my $json = JSON::XS->new->utf8->space_after->encode ( { a => [1,2] } ) => {"a": [1, 2]};
@@ -102,39 +132,6 @@ get '/events' => sub {
     $self->render( 'events', layout => 'default' );
 
 } => 'events';
-
-get '/stories' => sub {
-
-    my $self = shift;
-    $self->session( page => 'stories' );
-
-    return $self->redirect_to('welcome') unless $self->session('user_id');
-
-    my @stories =
-      $MODEL->resultset('Story')
-      ->search( undef, { order_by => 'story_id DESC' } );
-
-    $self->{'stories'} = \@stories;
-
-    $self->render( 'stories', layout => 'default' );
-
-} => 'stories';
-
-get '/ads' => sub {
-
-    my $self = shift;
-    $self->session( page => 'ads' );
-
-    return $self->redirect_to('welcome') unless $self->session('user_id');
-
-    my @ads =
-      $MODEL->resultset('Ad')->search( undef, { order_by => 'ad_id DESC' } );
-
-    $self->{'ads'} = \@ads;
-
-    $self->render( 'ads', layout => 'default' );
-
-} => 'ads';
 
 any '/:page/:id' => [ page => qr/\w+/, id => qr/\d+/ ] => sub {
 
@@ -177,25 +174,6 @@ any '/:page/:id' => [ page => qr/\w+/, id => qr/\d+/ ] => sub {
 
         $self->{'events'} = \@events;
         $self->render( 'events', layout => 'default' );
-    }
-
-    elsif ( $self->param('page') eq 'stories' ) {
-
-        my @stories =
-          $MODEL->resultset('Story')
-          ->search( { story_id => $self->param('id') } );
-
-        $self->{'stories'} = \@stories;
-        $self->render( 'stories', layout => 'default' );
-    }
-
-    elsif ( $self->param('page') eq 'ads' ) {
-
-        my @ads =
-          $MODEL->resultset('Ad')->search( { ad_id => $self->param('id') } );
-
-        $self->{'ads'} = \@ads;
-        $self->render( 'ads', layout => 'default' );
     }
 
 };
@@ -424,40 +402,6 @@ post '/post' => sub {
         );
 
         return $self->redirect_to('events');
-    }
-
-    if ( $self->param('table') eq 'story' ) {
-
-        my $story = $MODEL->resultset('Story')->create(
-
-            {
-                category => $self->param('category'),
-                title    => $self->param('title'),
-                body     => $self->param('body'),
-                date     => "$year-$mon-$mday",
-                time     => "$hour:$min:$sec",
-                user     => $self->session('user_id'),
-            }
-        );
-
-        return $self->redirect_to('stories');
-    }
-
-    if ( $self->param('table') eq 'ad' ) {
-
-        my $ad = $MODEL->resultset('Ad')->create(
-
-            {
-                category => $self->param('category'),
-                title    => $self->param('title'),
-                body     => $self->param('body'),
-                date     => "$year-$mon-$mday",
-                time     => "$hour:$min:$sec",
-                user     => $self->session('user_id'),
-            }
-        );
-
-        return $self->redirect_to('ads');
     }
 
     return $self->redirect_to( $self->session('page') );

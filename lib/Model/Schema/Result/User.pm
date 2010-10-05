@@ -7,7 +7,5 @@ __PACKAGE__->set_primary_key('user_id');
 
 __PACKAGE__->has_many( places   => 'Model::Schema::Result::Place');
 __PACKAGE__->has_many( events   => 'Model::Schema::Result::Event');
-__PACKAGE__->has_many( stories  => 'Model::Schema::Result::Story');
-__PACKAGE__->has_many( ads      => 'Model::Schema::Result::Ad');
 
 1;
