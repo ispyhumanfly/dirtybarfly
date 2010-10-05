@@ -1,0 +1,87 @@
+#!/usr/bin/env perl
+
+BEGIN {
+    
+    system 'sqlite3 socialmap.db < lib/Model/Schema.sql'
+        unless -e 'socialmap.db';
+}
+
+use strict;
+use warnings;
+
+use lib 'lib';
+use Model::Schema;
+
+my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
+
+### Populate...
+use REST::Google::Search qw/ LOCAL IMAGES /;
+REST::Google::Search->service(LOCAL);
+        
+my $response =
+  REST::Google::Search->new( q => "Altair Engineering, Michigan" );
+
+my $data = $response->responseData;
+my @results = $data->results;
+
+foreach my $result (@results) {
+
+    my $place = $MODEL->resultset('Place')->create(
+
+        {
+            category       => 'general',
+            title          => $result->titleNoFormatting,
+            body           => 'Some stuff I put here...',
+            date           => '2010-09-09',
+            time           => 'Early as fuck',
+            street_address => $result->streetAddress,
+            city           => $result->city,
+            region         => $result->region,
+            country        => $result->country,
+            lat            => $result->lat,
+            lng            => $result->lng,
+            user           => 1,
+            
+        }
+    );
+
+    my $new_place = $MODEL->resultset('Place')->search( { lat => $result->lat, lng => $result->lng } )->first;
+    
+    REST::Google::Search->service(IMAGES);
+
+    my $response =
+      REST::Google::Search->new( q => $new_place->title );
+
+     unless ( $response->responseStatus != 200 ) {
+
+        my $data = $response->responseData;
+
+        my @results = $data->results;
+
+        foreach my $result (@results) {
+            
+            my $image = $MODEL->resultset('PlaceImage')->create(
+
+                {
+                    title   => $result->titleNoFormatting,
+                    content => $result->contentNoFormatting,
+                    url     => $result->url,
+                    width   => $result->width,
+                    height  => $result->height,
+                    place   => $new_place->place_id,
+                    
+                }
+            );
+        }    
+    }
+}
+
+
+### List...
+
+my @images = $MODEL->resultset('PlaceImage')->search();
+
+for my $image (@images) {
+    
+    print $image->url;
+}

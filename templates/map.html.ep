@@ -1,0 +1,71 @@
+<% if ( $self->session('user_id') ) { %>
+	
+<!-- Google Maps JavaScript API v3 -->
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+<script type="text/javascript">//<![CDATA[
+
+    function initialize() {
+        
+        var myLatlng = new google.maps.LatLng(<%= $self->session('lat') %>,<%= $self->session('lng') %>);
+
+        var myOptions = {
+            
+            zoom: 8,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.HYBRID
+        };
+
+        var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    
+        <% if ( $self->session('page') eq 'places' ) { %>
+
+            <% foreach my $place ( @{ $self->{'places'} } ) { %>
+            
+            var place_latlng = new google.maps.LatLng(<%= $place->lat %>,<%= $place->lng %>);
+    
+            var place_marker = new google.maps.Marker({
+                
+                position: place_latlng,
+                title: '<%= $place->title %>'
+            });
+
+            place_marker.setMap(map);
+
+            <% } %>
+
+        <% } %>
+        
+        <% if ( $self->session('page') eq 'events' ) { %>
+
+            <% foreach my $event ( @{ $self->{'events'} } ) { %>
+                
+            var event_latlng = new google.maps.LatLng(<%= $event->lat %>,<%= $event->lng %>);
+    
+            var event_marker = new google.maps.Marker({
+                
+                position: event_latlng,
+                title: '<%= $event->title %>'
+            });
+
+            place_marker.setMap(map);
+
+            <% } %>
+
+        <% } %>
+    }
+    
+    function loadScript() {
+        
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "http://maps.google.com/maps/api/js?sensor=false&region=en-US&callback=initialize";
+        document.body.appendChild(script);
+    }
+
+    window.onload = loadScript;
+
+//]]></script>
+
+<% } %>

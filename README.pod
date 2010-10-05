@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-SocialMAP - A Facebook Connect enabled social-networking software. 
+SocialMAP
 
 =head1 SYNOPSIS
 
@@ -12,15 +12,11 @@ SocialMAP - A Facebook Connect enabled social-networking software.
 
 =head1 DESCRIPTION
 
-A pretty cool way to interact with people using Facebook and centered around a unique interface to common web tasks.
+A pretty cool way to interact with people centered around a unique approach to common web tasks.
 
-=head2 Installation
+=head2 CPAN Setup
 
-	sudo cpanp install Mojolicious::Lite DBIx::Class
-
-=head2 Setup
-
-	sqlite3 socialmap.db < lib/Model/Schema.sql
+	sudo cpanp install Mojolicious::Lite DBIx::Class REST::Google::Search GIS::Distance
 
 =head1 BUGS
 

@@ -1,21 +1,29 @@
-<% if ( $self->session('user_id') ) { %>
-
 <script type="text/javascript">//<![CDATA[
 
     dojo.require("dijit.Tooltip");
     dojo.require("dijit.Dialog");
-
+    
 //]]></script>
 
-<div  dojoType="dijit.layout.ContentPane" region="leading" splitter="true">
+<div  dojoType="dijit.layout.ContentPane" region="leading">
 
     <% foreach my $place ( @{ $self->{'places'} } ) { %>
-
+    
     <div dojoType="dijit.TitlePane" title="<%= $place->title %>" id="place_<%= $place->place_id %>" style="margin-bottom: 15px;">
         
         <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $place->place_id %>').show()">
         
-            Sent on <%= $place->date %> @ <%= $place->time %>
+            <img src="https://graph.facebook.com/<%= $place->user->facebook_id %>/picture" />
+            
+            <div style="font: large;">
+                
+                <div style="text-align: center;">
+                    
+                    <%= $place->street_address %>, <%= $place->city %>, <%= $place->region %>. <%= $place->country %>
+                
+                </div>
+                
+            </div>
             
         </div>
         
@@ -33,27 +41,38 @@
                     
                     <div dojoType="dijit.layout.ContentPane" title="Place" selected="true">
                         
-                        Posted by <a href="/users/<%= $place->user->user_id %>" id="tooltip_<%= $place->user->user_id %>"><%= $place->user->name %></a>
+                        Posted by <img src="https://graph.facebook.com/<%= $place->user->facebook_id %>/picture" />
+                        <a href="/users/<%= $place->user->user_id %>" id="tooltip_<%= $place->user->user_id %>"><%= $place->user->name %></a>
                         @ <%= $place->time %>
                         
                         <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $place->user->user_id %>" position="below">
 
-                            Look at my profile!
+                            Check out my User Page!
         
                         </div>
                     
                         <p><%= $place->body %></p>
                         
-                        <fb:like href="/places/<%= $place->place_id %>"></fb:like>
-                        
                     </div>
                     
                     <div dojoType="dijit.layout.ContentPane" title="Comments">
                         
-                        <fb:comments xid="place_<%= $place->place_id %>" numposts="10" width="500"></fb:comments>
+                        <fb:comments xid="<%= $place->place_id %>"numposts="15" width="550"></fb:comments>
                         
                     </div>
 
+                    <div dojoType="dijit.layout.ContentPane" title="Images">
+                        
+                        <% for my $result ( $place->images->all ) { %>
+                        
+                            <img src='<%= $result->url %>' />
+                            
+                            <br />
+                            
+                        <% } %>
+                    
+                    </div>
+                    
                 </div>
                 
             </div>
@@ -66,48 +85,46 @@
         
 </div>
 
-<div dojoType='dijit.layout.ContentPane' region='center'>
+<div dojoType='dijit.layout.ContentPane' region='center' splitter="true">
     
     <div id="map_canvas" style="width: 100%; height: 100%"></div>
 
 </div>
 
-<div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 20%;">
-    
-    <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
-        
-        <div dojoType="dijit.layout.ContentPane" title="Recent Posts" selected="true">
-            
-            <% for ( 0.. 5) { %>   
-        
-            <p>Some sponsored story!</p>
-            
-            <% } %>
-            
-        </div>
-        
-        <div dojoType="dijit.layout.ContentPane" title="Top Rated Posts">
-            
-            <% for ( 0.. 5) { %>   
-        
-            <p>Some sponsored story!</p>
-            
-            <% } %>
-            
-        </div>
-        
-        <div dojoType="dijit.layout.ContentPane" title="Something Else">
-            
-            <% for ( 0.. 5) { %>   
-        
-            <p>Some sponsored story!</p>
-            
-            <% } %>
-            
-        </div>
-        
-    </div>
-    
-</div>
-
-<% } %>
+<!--<div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 20%;">-->
+<!--    -->
+<!--    <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">-->
+<!--        -->
+<!--        <div dojoType="dijit.layout.ContentPane" title="Recent Posts" selected="true">-->
+<!--            -->
+<!--            <% for ( 0.. 5) { %>   -->
+<!--        -->
+<!--            <p>Some sponsored story!</p>-->
+<!--            -->
+<!--            <% } %>-->
+<!--            -->
+<!--        </div>-->
+<!--        -->
+<!--        <div dojoType="dijit.layout.ContentPane" title="Top Rated Posts">-->
+<!--            -->
+<!--            <% for ( 0.. 5) { %>   -->
+<!--        -->
+<!--            <p>Some sponsored story!</p>-->
+<!--            -->
+<!--            <% } %>-->
+<!--            -->
+<!--        </div>-->
+<!--        -->
+<!--        <div dojoType="dijit.layout.ContentPane" title="Something Else">-->
+<!--            -->
+<!--            <% for ( 0.. 5) { %>   -->
+<!--        -->
+<!--            <p>Some sponsored story!</p>-->
+<!--            -->
+<!--            <% } %>-->
+<!--            -->
+<!--        </div>-->
+<!--        -->
+<!--    </div>-->
+<!--    -->
+<!--</div>-->

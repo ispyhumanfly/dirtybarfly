@@ -41,6 +41,7 @@
 	    <select dojoType="dijit.form.FilteringSelect" id="table" name="table" style="margin: 10px;">
 		
 		<option value="place" selected>Place</option>
+		<option value="event">Event</option>
 		<option value="story">Story</option>
 		<option value="ad">Ad</option>
 		
@@ -71,6 +72,18 @@
 	
 	</div>
 	
+	<div style="border-bottom: groove; margin: 5px;">
+	    
+	    <label for="location">Location:</label>
+	    
+	    <input dojoType="dijit.form.ValidationTextBox" style="margin: 10px;"
+		   required="true"
+		   name="location"
+		   id="location"
+		   width="90"
+	    />
+	
+	</div>
 	<div style="border-bottom: groove; margin: 5px;">
 		
 	    <label for="body">Body:</label>

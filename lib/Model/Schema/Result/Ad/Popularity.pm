@@ -1,7 +1,7 @@
-package Model::Schema::Result::AdComment;
+package Model::Schema::Result::Ad::Popularity;
 use base qw/DBIx::Class::Core/;
 
-__PACKAGE__->table('adComment');
+__PACKAGE__->table('ad_popularity');
 __PACKAGE__->add_columns( qw/ id title body date time ad / );
 __PACKAGE__->set_primary_key('id');
 

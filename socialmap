@@ -1,6 +1,17 @@
 #!/usr/bin/env perl
 
+BEGIN {
+
+    if ( -x '/usr/bin/sqlite3' ) {
+
+        system 'sqlite3 socialmap.db < lib/Model/Schema.sql'
+          unless -e 'socialmap.db';
+    }
+}
+
 use Mojolicious::Lite;
+use REST::Google::Search qw/ LOCAL IMAGES VIDEO /;
+use GIS::Distance;
 
 use lib 'lib';
 use Model::Schema;
@@ -12,39 +23,100 @@ my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
 get '/' => sub {
 
     my $self = shift;
-    $self->session( page => 'index' );
+    $self->session( page => 'welcome' );
 
-    $self->render( 'index', layout => 'default' );
+    $self->session('user_id')
+      ? $self->render( 'users',   layout => 'default' )
+      : $self->render( 'welcome', layout => 'default' );
 
-} => 'index';
+} => 'welcome';
+
+get '/users' => sub {
+
+    my $self = shift;
+    $self->session( page => 'users' );
+
+    return $self->redirect_to('welcome') unless $self->session('user_id');
+
+    my @users =
+      $MODEL->resultset('User')->search( undef, { order_by => 'user_id ASC' } );
+
+    $self->{'users'} = \@users;
+
+    $self->render( 'users', layout => 'default' );
+
+} => 'users';
 
 get '/places' => sub {
 
     my $self = shift;
     $self->session( page => 'places' );
 
-    my @places =
-      $MODEL->resultset('Place')->search( {}, { order_by => 'place_id DESC' } );
+    return $self->redirect_to('welcome') unless $self->session('user_id');
 
-    $self->{'places'} = \@places;
+    my @places = $MODEL->resultset('Place')->search(
+        undef,
+
+        {
+            order_by => 'place_id DESC',
+            prefetch => 'images',
+        }
+    );
+
+    for my $place (@places) {
+
+        my $gis = GIS::Distance->new();
+
+        my $distance = $gis->distance(
+            $self->session('lat'), $self->session('lng') => $place->lat,
+            $place->lng
+        );
+
+        # Display all known places within a 50 mile radius.
+        if ( $distance->meters <= (50 * 1609.344) ) {
+
+            push @{ $self->{'places'} }, $place;
+        }
+    }
+
+    #use JSON::XS;    
+    #my $json = JSON::XS->new->utf8->space_after->encode ( { a => [1,2] } ) => {"a": [1, 2]};
 
     $self->render( 'places', layout => 'default' );
-    return $self->redirect_to('index') unless $self->session('user_id');
 
 } => 'places';
+
+get '/events' => sub {
+
+    my $self = shift;
+    $self->session( page => 'events' );
+
+    return $self->redirect_to('welcome') unless $self->session('user_id');
+
+    my @events =
+      $MODEL->resultset('Event')
+      ->search( undef, { order_by => 'event_id DESC' } );
+
+    $self->{'events'} = \@events;
+
+    $self->render( 'events', layout => 'default' );
+
+} => 'events';
 
 get '/stories' => sub {
 
     my $self = shift;
     $self->session( page => 'stories' );
 
+    return $self->redirect_to('welcome') unless $self->session('user_id');
+
     my @stories =
-      $MODEL->resultset('Story')->search( {}, { order_by => 'story_id DESC' } );
+      $MODEL->resultset('Story')
+      ->search( undef, { order_by => 'story_id DESC' } );
 
     $self->{'stories'} = \@stories;
 
     $self->render( 'stories', layout => 'default' );
-    return $self->redirect_to('index') unless $self->session('user_id');
 
 } => 'stories';
 
@@ -53,30 +125,80 @@ get '/ads' => sub {
     my $self = shift;
     $self->session( page => 'ads' );
 
+    return $self->redirect_to('welcome') unless $self->session('user_id');
+
     my @ads =
-      $MODEL->resultset('Ad')->search( {}, { order_by => 'ad_id DESC' } );
+      $MODEL->resultset('Ad')->search( undef, { order_by => 'ad_id DESC' } );
 
     $self->{'ads'} = \@ads;
 
     $self->render( 'ads', layout => 'default' );
-    return $self->redirect_to('index') unless $self->session('user_id');
 
 } => 'ads';
 
-get '/users' => sub {
+any '/:page/:id' => [ page => qr/\w+/, id => qr/\d+/ ] => sub {
 
     my $self = shift;
-    $self->session( page => 'users' );
 
-    my @users =
-      $MODEL->resultset('User')->search( {}, { order_by => 'user_id ASC' } );
+    if ( $self->param('page') eq 'users' ) {
 
-    $self->{'users'} = \@users;
+        return $self->redirect_to('welcome') unless $self->session('user_id');
 
-    $self->render( 'users', layout => 'default' );
-    return $self->redirect_to('index') unless $self->session('user_id');
+        my @users =
+          $MODEL->resultset('User')
+          ->search( { user_id => $self->param('id') } );
 
-} => 'users';
+        $self->{'users'} = \@users;
+        $self->render( 'users', layout => 'default' );
+    }
+
+    elsif ( $self->param('page') eq 'places' ) {
+
+        my @places = $MODEL->resultset('Place')->search(
+
+            { place_id => $self->param('id') },
+
+            {
+                order_by => 'place_id DESC',
+                prefetch => 'images',
+            }
+        );
+
+        $self->{'places'} = \@places;
+
+        $self->render( 'places', layout => 'default' );
+    }
+
+    elsif ( $self->param('page') eq 'events' ) {
+
+        my @events =
+          $MODEL->resultset('Event')
+          ->search( { event_id => $self->param('id') } );
+
+        $self->{'events'} = \@events;
+        $self->render( 'events', layout => 'default' );
+    }
+
+    elsif ( $self->param('page') eq 'stories' ) {
+
+        my @stories =
+          $MODEL->resultset('Story')
+          ->search( { story_id => $self->param('id') } );
+
+        $self->{'stories'} = \@stories;
+        $self->render( 'stories', layout => 'default' );
+    }
+
+    elsif ( $self->param('page') eq 'ads' ) {
+
+        my @ads =
+          $MODEL->resultset('Ad')->search( { ad_id => $self->param('id') } );
+
+        $self->{'ads'} = \@ads;
+        $self->render( 'ads', layout => 'default' );
+    }
+
+};
 
 #### Functions...
 
@@ -90,6 +212,8 @@ get '/session' => sub {
 
         my $no_match;
 
+        # This is temporary; I've sinced learned a DBIC approach to the same problem.
+
         for my $user (@users) {
 
             $no_match++
@@ -98,18 +222,39 @@ get '/session' => sub {
 
         if ( $no_match == scalar @users ) {
 
-            my $user = $MODEL->resultset('User')->create(
+            REST::Google::Search->service(LOCAL);
 
-                {
-                    facebook_id => $self->param('facebook_id'),
-                    name        => $self->param('name'),
-                    gender      => $self->param('gender'),
-                    link        => $self->param('link'),
-                    email       => $self->param('email'),
-                    location    => $self->param('location'),
-                    timezone    => $self->param('timezone'),
+            my $response =
+              REST::Google::Search->new( q => $self->param('location') );
+
+            unless ( $response->responseStatus != 200 ) {
+
+                my $data    = $response->responseData;
+                my @results = $data->results;
+
+                foreach my $result (@results) {
+
+                    my $user = $MODEL->resultset('User')->create(
+
+                        {
+                            facebook_id => $self->param('facebook_id'),
+                            name        => $self->param('name'),
+                            first_name  => $self->param('first_name'),
+                            last_name   => $self->param('last_name'),
+                            gender      => $self->param('gender'),
+                            birthday    => $self->param('birthday'),
+                            email       => $self->param('email'),
+                            timezone    => $self->param('timezone'),
+                            location    => $self->param('location'),
+                            city        => $result->city,
+                            region      => $result->region,
+                            country     => $result->country,
+                            lat         => $result->lat,
+                            lng         => $result->lng,
+                        }
+                    );
                 }
-            );
+            }
         }
 
         for my $user (@users) {
@@ -121,10 +266,18 @@ get '/session' => sub {
                     user_id     => $user->user_id,
                     facebook_id => $user->facebook_id,
                     name        => $user->name,
+                    first_name  => $user->first_name,
+                    last_name   => $user->last_name,
                     gender      => $user->gender,
+                    birthday    => $user->birthday,
                     email       => $user->email,
-                    location    => $user->location,
                     timezone    => $user->timezone,
+                    location    => $user->location,
+                    city        => $user->city,
+                    region      => $user->region,
+                    country     => $user->country,
+                    lat         => $user->lat,
+                    lng         => $user->lng,
                 );
 
                 return $self->redirect_to( $self->session('page') );
@@ -140,61 +293,45 @@ get '/session' => sub {
 
 } => 'session';
 
-any '/:page/:id' => [ page => qr/\w+/, id => qr/\d+/ ] => sub {
-
-    my $self = shift;
-
-    if ( $self->param('page') eq 'users' ) {
-
-        my @users = $MODEL->resultset('User')
-          ->search( { user_id => $self->param('id') } );
-          
-        $self->{'users'} = \@users;
-        $self->render( 'users', layout => 'default' );
-    }
-
-    elsif ( $self->param('page') eq 'places' ) {
-
-        my @places = $MODEL->resultset('Place')
-          ->search( { place_id => $self->param('id') } );
-          
-        $self->{'places'} = \@places;
-        $self->render( 'places', layout => 'default' );
-    }
-    
-    elsif ( $self->param('page') eq 'stories' ) {
-
-        my @stories = $MODEL->resultset('Story')
-          ->search( { story_id => $self->param('id') } );
-        
-        $self->{'stories'} = \@stories;
-        $self->render( 'stories', layout => 'default' );
-    }
-    
-    elsif ( $self->param('page') eq 'ads' ) {
-
-        my @ads = $MODEL->resultset('Ad')
-          ->search( { ad_id => $self->param('id') } );
-          
-        $self->{'ads'} = \@ads;
-        $self->render( 'ads', layout => 'default' );
-    }
-    
-};
-
 #### Forms...
 
-post '/search' => sub {
+post '/location' => sub {
 
     my $self = shift;
 
-    if ( $self->param('value') ) {
+    if ( $self->param('location') ) {
 
-        my $value = $self->param('value');
-        $self->session( search => $value );
+        REST::Google::Search->service(LOCAL);
+
+        my $response =
+          REST::Google::Search->new( q => $self->param('location') );
+
+        unless ( $response->responseStatus != 200 ) {
+
+            my $data    = $response->responseData;
+            my @results = $data->results;
+
+            foreach my $result (@results) {
+
+                $self->session(
+
+                    location => ''
+                      . $result->city . ', '
+                      . $result->region . '',
+                    city    => $result->city,
+                    region  => $result->region,
+                    country => $result->country,
+                    lat     => $result->lat,
+                    lng     => $result->lng,
+
+                );
+            }
+        }
     }
 
-} => 'search';
+    return $self->redirect_to( $self->session('page') );
+
+} => 'location';
 
 post '/post' => sub {
 
@@ -205,7 +342,76 @@ post '/post' => sub {
 
     if ( $self->param('table') eq 'place' ) {
 
-        my $place = $MODEL->resultset('Place')->create(
+        REST::Google::Search->service(LOCAL);
+
+        my $response =
+          REST::Google::Search->new(
+            q => $self->param('title') . ' ' . $self->param('location') );
+
+        my $data    = $response->responseData;
+        my @results = $data->results;
+
+        foreach my $result (@results) {
+
+            my $place = $MODEL->resultset('Place')->create(
+
+                {
+                    category       => $self->param('category'),
+                    title          => $result->titleNoFormatting,
+                    body           => $self->param('body'),
+                    date           => "$year-$mon-$mday",
+                    time           => "$hour:$min:$sec",
+                    street_address => $result->streetAddress,
+                    city           => $result->city,
+                    region         => $result->region,
+                    country        => $result->country,
+                    lat            => $result->lat,
+                    lng            => $result->lng,
+                    user           => $self->session('user_id'),
+                }
+            );
+
+            my $new_place =
+              $MODEL->resultset('Place')
+              ->search( { lat => $result->lat, lng => $result->lng } )->first;
+
+            REST::Google::Search->service(IMAGES);
+
+            my $response =
+              REST::Google::Search->new( q => $new_place->title . ' '
+                  . $new_place->city . ' '
+                  . $new_place->region );
+
+            unless ( $response->responseStatus != 200 ) {
+
+                my $data = $response->responseData;
+
+                my @results = $data->results;
+
+                foreach my $result (@results) {
+
+                    my $image = $MODEL->resultset('PlaceImage')->create(
+
+                        {
+                            title   => $result->titleNoFormatting,
+                            content => $result->contentNoFormatting,
+                            url     => $result->url,
+                            width   => $result->width,
+                            height  => $result->height,
+                            place   => $new_place->place_id,
+
+                        }
+                    );
+                }
+            }
+        }
+
+        return $self->redirect_to('places');
+    }
+
+    if ( $self->param('table') eq 'event' ) {
+
+        my $event = $MODEL->resultset('Event')->create(
 
             {
                 category => $self->param('category'),
@@ -217,7 +423,7 @@ post '/post' => sub {
             }
         );
 
-        return $self->redirect_to('places');
+        return $self->redirect_to('events');
     }
 
     if ( $self->param('table') eq 'story' ) {

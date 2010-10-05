@@ -1,19 +1,75 @@
-<% if ( $self->session('user_id') ) { %>
-
 <script type="text/javascript">//<![CDATA[
-    
-//]]></script>
 
-<div dojoType='dijit.layout.ContentPane' region='center'>
+//]]></script>        
+
+<div dojoType="dijit.layout.ContentPane" region="center">
 
     <% foreach my $user ( @{ $self->{'users'} } ) { %>
     
-    <div dojoType="dijit.TitlePane" title="<%= $user->name %>" style="margin-bottom: 15px;">
+    <div dojoType="dijit.TitlePane" title="User Page of <%= $user->name %>." style="margin-bottom: 15px;">
+        
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+        culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        
+    </div>
+
+    <% } %>
+
+    <div dojoType="dijit.TitlePane" title="People I Follow" style="margin-bottom: 15px;">
+        
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+        culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        
+    </div>
+        
+</div>
+
+<div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 20%;">
+    
+    <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
+        
+        <div dojoType="dijit.layout.ContentPane" title="Recent Activity" selected="true">
+            
+            <% for ( 0.. 5) { %>   
+        
+            <p>Some sponsored story!</p>
+            
+            <% } %>
+            
+        </div>
+        
+        <div dojoType="dijit.layout.ContentPane" title="Top Rated Posts">
+            
+            <% for ( 0.. 5) { %>   
+        
+            <p>Some sponsored story!</p>
+            
+            <% } %>
+            
+        </div>
+        
+        <div dojoType="dijit.layout.ContentPane" title="Something Else">
+            
+            <% for ( 0.. 5) { %>   
+        
+            <p>Some sponsored story!</p>
+            
+            <% } %>
+            
+        </div>
         
     </div>
     
-    <% } %>
-
 </div>
-
-<% } %>
