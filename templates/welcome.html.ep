@@ -18,8 +18,8 @@
             <p>
             Thanks for checking out SocialMAP.  A cool way to interact with people using
             our own unique social-network-like interface to both common and popular web technologies
-            people use every day. SocialMAP currently requires you to create an account using your Facebook login.
-            Please login to Facebook beforing entering SocialMAP. <fb:login-button></fb:login-button>
+            people use every day. SocialMAP currently requires you to login using your Facebook account.
+            Please login to Facebook beforing attempting to enter SocialMAP. <fb:login-button></fb:login-button>
             </p>
             
             <br />

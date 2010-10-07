@@ -278,20 +278,20 @@ post '/location' => sub {
 
 } => 'location';
 
-post '/post' => sub {
+any '/post/:type' => [ type => qr/\w+/ ] => sub {
 
     my $self = shift;
 
     my ( $sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst ) =
       localtime(time);
 
-    if ( $self->param('table') eq 'place' ) {
+    if ( $self->param('type') eq 'place' ) {
 
         REST::Google::Search->service(LOCAL);
 
         my $response =
           REST::Google::Search->new(
-            q => $self->param('title') . ' ' . $self->param('location') );
+            q => $self->param('place_title') . ' ' . $self->param('place_location') );
 
         my $data    = $response->responseData;
         my @results = $data->results;
@@ -301,9 +301,9 @@ post '/post' => sub {
             my $place = $MODEL->resultset('Place')->create(
 
                 {
-                    category       => $self->param('category'),
+                    category       => $self->param('place_category'),
                     title          => $result->titleNoFormatting,
-                    body           => $self->param('body'),
+                    body           => $self->param('place_body'),
                     date           => "$year-$mon-$mday",
                     time           => "$hour:$min:$sec",
                     street_address => $result->streetAddress,
@@ -354,14 +354,14 @@ post '/post' => sub {
         return $self->redirect_to('places');
     }
 
-    if ( $self->param('table') eq 'event' ) {
+    if ( $self->param('type') eq 'event' ) {
 
         my $event = $MODEL->resultset('Event')->create(
 
             {
-                category => $self->param('category'),
-                title    => $self->param('title'),
-                body     => $self->param('body'),
+                category => $self->param('event_category'),
+                title    => $self->param('event_title'),
+                body     => $self->param('event_body'),
                 date     => "$year-$mon-$mday",
                 time     => "$hour:$min:$sec",
                 user     => $self->session('user_id'),
@@ -373,7 +373,7 @@ post '/post' => sub {
 
     return $self->redirect_to( $self->session('page') );
 
-} => 'post';
+};
 
 app->secret('SocialMAP Rocks!');
 app->start;

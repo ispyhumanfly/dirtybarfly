@@ -12,7 +12,7 @@
 
         var myOptions = {
             
-            zoom: 8,
+            zoom: 10,
             center: myLatlng,
             mapTypeId: google.maps.MapTypeId.HYBRID
         };

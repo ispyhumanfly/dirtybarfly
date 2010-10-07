@@ -1,10 +1,8 @@
 <% if ( $self->session('user_id') ) { %>
 
 <script type="text/javascript">//<![CDATA[
-    
-    dojo.require("dijit.Menu");
-    dojo.require("dijit.ColorPalette");
-    dojo.require("dijit.Dialog");
+
+    dojo.require("dijit.Menu");    
     dojo.require("dijit.form.FilteringSelect");
     dojo.require("dijit.form.CheckBox");
     dojo.require("dijit.form.Textarea");
@@ -12,35 +10,15 @@
     
 //]]></script>
 
-<!-- Context Menu -->
+<!-- Settings Context Menu -->
 
 <div dojoType="dijit.Menu" id="windowContextMenu" contextMenuForWindow="true" style="display: none;">
-
-    <div dojoType="dijit.MenuItem">Post
-	    
-	<script type="dojo/method" event="onClick" args="evt">//<![CDATA[
-
-	    dijit.byId("dialogPost").show();
-    
-	//]]></script>
-	
-    </div>
-    
-    <div dojoType="dijit.MenuItem">Settings
-	    
-	<script type="dojo/method" event="onClick" args="evt">//<![CDATA[
-
-	    dijit.byId("dialogSettings").show();
-    
-	//]]></script>
-	
-    </div>
     
     <% for ( 0 .. 5 ) { %>
 
     <div dojoType="dijit.MenuItem">
     
-        Example Menu Item <%= $_ %>
+        Settings Menu Item <%= $_ %>
 
     </div>
     
@@ -48,24 +26,96 @@
     
 </div>
 
+<!-- Post Button -->
+
+<button dojoType="dijit.form.Button" type="button" id="post_button">Post
+
+    <script type="dojo/method" event="onClick" args="evt">
+    
+	dijit.byId("dialog_post").show();
+
+    </script>
+    
+</button>
+
+
+<!-- Post Tooltip -->
+
+<div dojoType="dijit.Tooltip" connectId="post_button" position="above">
+
+    Post places or events to the SocialMAP.
+
+</div>
+
 <!-- Post Dialog -->
 
-<div id="dialogPost" dojoType="dijit.Dialog" title="Post something on SocialMAP!" style="width: 800px; height: 600px;">
+<div id="dialog_post" dojoType="dijit.Dialog" title="Post something to SocialMAP." style="width: 800px; height: 600px;">
+        
+    <div style="width: 780px; height: 500px;">
+	    
+        <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
+            
+            <div dojoType="dijit.layout.ContentPane" title="Place" selected="true">
+		
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post/place" method="POST">
+		    
+		    <div style="border-bottom: groove; margin: 5px;">
+	
+			<label for="place_category">Category:</label>
+			
+			<select dojoType="dijit.form.FilteringSelect" id="place_category" name="place_category" style="margin: 10px;">
+			    
+			    <option value="general">General</option>
+			    <option value="technical" selected>Technical</option>
+			    <option value="business">Business</option>
+			    
+			</select>
+			
+		    </div>
+		    
+		    <button dojoType="dijit.form.Button" type="submit">Submit</button>
+		    <button dojoType="dijit.form.Button" type="reset">Reset</button>
+		    
+		</div>
+		
+	    </div>
+
+            <div dojoType="dijit.layout.ContentPane" title="Event">
+		
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post/event" method="POST">
+
+		    <div style="border-bottom: groove; margin: 5px;">
+	
+			<label for="event_category">Category:</label>
+			
+			<select dojoType="dijit.form.FilteringSelect" id="event_category" name="event_category" style="margin: 10px;">
+			    
+			    <option value="general">General</option>
+			    <option value="technical" selected>Technical</option>
+			    <option value="business">Business</option>
+			    
+			</select>
+			
+		    </div>
+		    
+		    <button dojoType="dijit.form.Button" type="submit">Submit</button>
+		    <button dojoType="dijit.form.Button" type="reset">Reset</button>
+		    
+		</div>
+		
+	    </div>
+	    
+	</div>
+	
+    </div>
     
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post" method="POST">
+</div>
+
+<!-- div id="dialogPostPlace" dojoType="dijit.Dialog" title="Post a Place" style="width: 800px; height: 600px;">
+    
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post/place" method="POST" style="height: 600px;">
 	
 	<div style="border-bottom: groove; margin: 5px;">
-	
-	    <label for="type">Type:</label>
-	    
-	    <select dojoType="dijit.form.FilteringSelect" id="table" name="table" style="margin: 10px;">
-		
-		<option value="place" selected>Place</option>
-		<option value="event">Event</option>
-		<option value="story">Story</option>
-		<option value="ad">Ad</option>
-		
-	    </select>
 	
 	    <label for="category">Category:</label>
 	    
@@ -124,78 +174,48 @@
     
     </div>
 
-</div>
+</div -->
 
-<button dojoType="dijit.form.Button" type="button" id="post_button">Post
+<!-- Post an Event Dialog -->
 
-    <script type="dojo/method" event="onClick" args="evt">
-    
-	dijit.byId("dialogPost").show();
+<!-- div id="dialogPostEvent" dojoType="dijit.Dialog" title="Post an Event" style="width: 800px; height: 600px;">
+
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post/event" method="POST" style="height: 600px;">
+
+	<div style="border-bottom: groove; margin: 5px;">
 	
-    </script>
-    
-</button>
-
-<div dojoType="dijit.Tooltip" connectId="post_button" position="above">
-
-    Post places or events to the SocialMAP.
-
-</div>
-
-<!-- Settings Dialog -->
-
-<div id="dialogSettings" dojoType="dijit.Dialog" title="Customize your SocialMAP experience." style="width: 800px; height: 600px;">
-
-    <div style="width: 780px; height: 500px;">
+	    <label for="event_category">Category:</label>
 	    
-	<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
-    
-	    <!-- Setup Tab -->
+	    <select dojoType="dijit.form.FilteringSelect" id="event_category" name="event_category" style="margin: 10px;">
+		
+		<option value="general">General</option>
+		<option value="technical" selected>Technical</option>
+		<option value="business">Business</option>
+		
+	    </select>
 	    
-	    <div dojoType="dijit.layout.ContentPane" title="Setup" selected="true">	
-
-	    </div>
-    
-	    <!-- Profile Tab -->
-    
-	    <div dojoType="dijit.layout.ContentPane" title="Profile">
-		
-		Name: <%= $self->session('name') %>
-		
-		<br />
-
-		Gender: <%= $self->session('gender') %>
-		
-		<br />
-
-	    </div>
-    
-	    <!-- Usage Tab -->
-    
-	    <div dojoType="dijit.layout.ContentPane" title="Usage">
-		
-	    </div>
-
 	</div>
 	
+	<div style="border-bottom: groove; margin: 5px;">
+	
+	    <label for="place">Place:</label>
+	    
+	    <select dojoType="dijit.form.FilteringSelect" id="place" name="place" style="margin: 10px;">
+		
+		<% foreach my $place ( @{ $self->{'places'} } ) { %>
+	
+		<option value="<%= $place->place_id %>"><%= $place->title %></option>
+		
+		<% } %>
+		
+	    </select>
+	    
+	</div>
+    
     </div>
-    
-</div>
-
-<button dojoType="dijit.form.Button" type="button" id="settings_button">Settings
-    
-    <script type="dojo/method" event="onClick" args="evt">
 	
-        dijit.byId("dialogSettings").show();
-	
-    </script>
-    
-</button>
+</div 
 
-<div dojoType="dijit.Tooltip" connectId="settings_button" position="above">
-
-    Configure your SocialMAP experience.
-
-</div>
+-->
 
 <% } %>

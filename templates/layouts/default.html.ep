@@ -24,6 +24,7 @@
 	    dojo.require("dijit.form.Button");
 	    dojo.require("dijit.layout.AccordionContainer");
 	    dojo.require("dijit.TitlePane");
+	    dojo.require("dijit.Dialog");
             
         //]]></script>
 	
