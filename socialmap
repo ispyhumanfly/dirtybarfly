@@ -28,7 +28,7 @@ get '/' => sub {
     my $self = shift;
     $self->session(page => 'welcome');
 
-    $self->session(SOCIALMAP_FACBOOK_APP => $ENV{'SOCIALMAP_FACEBOOK_APP'});
+    $self->session(SOCIALMAP_FACEBOOK_APP => $ENV{'SOCIALMAP_FACEBOOK_APP'});
 
     $self->session('user_id')
       ? $self->render('users',   layout => 'default')
