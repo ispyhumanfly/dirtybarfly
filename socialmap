@@ -27,25 +27,13 @@ get '/' => sub {
     
     $self->session(SOCIALMAP_FACEBOOK_APP => $ENV{'SOCIALMAP_FACEBOOK_APP'});
 
+    return $self->redirect_to('users') if $self->session('user_id');
+
     return $self->render('users', layout => 'default')
         if $self->session('user_id');
     
     return $self->render('welcome', layout => 'default')
         if not $self->session('user_id');
-};
-
-#### Welcome
-
-get '/' => sub {
-
-    my $self = shift;
-    $self->session( page => 'welcome');
-
-    $self->session(SOCIALMAP_FACEBOOK_APP => $ENV{'SOCIALMAP_FACEBOOK_APP'});
-
-    $self->session('user_id')
-      ? $self->render('places',   layout => 'default')
-      : $self->render('welcome', layout => 'default');
 
 } => 'welcome';
 

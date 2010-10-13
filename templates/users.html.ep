@@ -66,6 +66,10 @@
 
         </div>
         
+        <div dojoType="dijit.layout.ContentPane" title="SocialMAP Updates">
+
+        </div>
+        
     </div>
     
 </div>
