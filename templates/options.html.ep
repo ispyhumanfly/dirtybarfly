@@ -1,12 +1,106 @@
 <% if ( $self->session('user_id') ) { %>
 
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/Grid.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/claroGrid.css">
+
 <script type="text/javascript">//<![CDATA[
 
     dojo.require("dijit.Menu");    
     dojo.require("dijit.form.FilteringSelect");
+    dojo.require("dijit.form.DateTextBox");
+    dojo.require("dijit.form.TimeTextBox");
     dojo.require("dijit.form.CheckBox");
     dojo.require("dijit.form.Textarea");
+    dojo.require("dijit.Editor");
     dojo.require("dijit.layout.TabContainer");
+    dojo.require("dojox.data.GoogleSearchStore");
+    dojo.require("dojox.grid.DataGrid");
+
+    var layoutResults = [
+
+        [{
+	    
+        field: "titleNoFormatting",
+        name: "Title",
+        width: 20
+    },
+    {
+        field: "streetAddress",
+        name: "Address",
+        width: 20
+    },
+    {
+        field: "city",
+        name: "City",
+        width: 5
+    },
+    {
+        field: "region",
+        name: "Region",
+        width: 5
+    },
+    {
+        field: "country",
+        name: "Country",
+        width: 'auto'
+	
+    }]];
+
+    function search_results() {
+
+        //Link button to search, where search text is drawn from the input box.
+        //Had to resize the grids on selection of tabs, otherwise they wouldn't always display.
+        function resizeGrids() {
+	    
+            dijit.byId("localGrid").resize();
+            
+        }
+        dojo.connect(dijit.byId("tabSearch"), "selectChild", resizeGrids);
+
+        function search() {
+        
+	    var text = dijit.byId("searchText").getValue();
+            text = dojo.trim(text);
+            
+	    if (text !== "") {
+                var query = {
+		    
+                    text: text,
+		    centerLatLong: '<%= $self->session('lat') %>,<%= $self->session('lng') %>',
+                };
+                dijit.byId("localGrid").setQuery(query);
+            }
+        }
+        dojo.connect(dijit.byId("searchButton"), "onClick", search);
+    }
+    
+    dojo.addOnLoad(function() {
+        
+        var post_place = function(item_select) {
+	    
+	    var category = dijit.byId("category").getValue();
+	    var item  	 = item_select.grid.getItem(item_select.rowIndex);
+            
+	    var string = 
+	    
+		"&category="	  	+ dojo.trim(category) +
+		"&title=" 	  	+ item_select.grid.store.getValue(item, "titleNoFormatting") +
+		"&street_address="	+ item_select.grid.store.getValue(item, "streetAddress") +
+		"&city="		+ item_select.grid.store.getValue(item, "city") +
+		"&region="	  	+ item_select.grid.store.getValue(item, "region") +
+		"&country="	  	+ item_select.grid.store.getValue(item, "country") +
+		"&lat="		  	+ item_select.grid.store.getValue(item, "lat") +
+		"&lng="		  	+ item_select.grid.store.getValue(item, "lng") + "";
+	        
+
+	    window.location = "/places/post/place?" + string + "";
+	    
+        }
+        dojo.connect(dijit.byId("localGrid"), "onRowClick", post_place);
+	
+	search_results();
+        
+    });
     
 //]]></script>
 
@@ -38,12 +132,11 @@
     
 </button>
 
-
 <!-- Post Tooltip -->
 
 <div dojoType="dijit.Tooltip" connectId="post_button" position="above">
 
-    Post places or events to the SocialMAP.
+    Post your favorite places and future events on the SocialMAP.
 
 </div>
 
@@ -51,56 +144,99 @@
 
 <div id="dialog_post" dojoType="dijit.Dialog" title="Post something to SocialMAP." style="width: 800px; height: 600px;">
         
-    <div style="width: 780px; height: 500px;">
+    <div style="width: inherit; height: 550px;">
 	    
         <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
             
             <div dojoType="dijit.layout.ContentPane" title="Place" selected="true">
 		
-		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post/place" method="POST">
+		Category:
+		
+		<select dojoType="dijit.form.FilteringSelect" id="category">
+		
+		    <option value="general">General</option>
+		    <option value="technical" selected>Technical</option>
+		    <option value="business">Business</option>
 		    
-		    <div style="border-bottom: groove; margin: 5px;">
+		</select>
+		
+		Place:
+		
+		<div dojoType="dijit.form.TextBox" id="searchText" width="50" placeHolder="Enter search criteria."></div>
+
+		<div dojoType="dijit.form.Button" id="searchButton">Search</div>
 	
-			<label for="place_category">Category:</label>
-			
-			<select dojoType="dijit.form.FilteringSelect" id="place_category" name="place_category" style="margin: 10px;">
-			    
-			    <option value="general">General</option>
-			    <option value="technical" selected>Technical</option>
-			    <option value="business">Business</option>
-			    
-			</select>
-			
+		<div dojoType="dojox.data.GoogleLocalSearchStore" jsId="localStore"></div>
+		
+		<br />
+		
+		<div dojoType="dijit.layout.ContentPane" id="tabSearch">
+		    
+		    <div id="localGrid" style="width: inherit; height: 375px;" dojoType="dojox.grid.DataGrid"
+		    store="localStore" structure="layoutResults" query="{ text: 'business', centerLatLong: '<%= $self->session('lat') %>,<%= $self->session('lng') %>'}" rowsPerPage="40">
 		    </div>
-		    
-		    <button dojoType="dijit.form.Button" type="submit">Submit</button>
-		    <button dojoType="dijit.form.Button" type="reset">Reset</button>
-		    
+		
 		</div>
 		
 	    </div>
-
+	
             <div dojoType="dijit.layout.ContentPane" title="Event">
 		
-		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post/event" method="POST">
-
-		    <div style="border-bottom: groove; margin: 5px;">
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/places/post/event" method="POST">
+    
+		    Category:
+		    
+		    <select dojoType="dijit.form.FilteringSelect" name="category" style="margin: 10px;">
+			
+			<option value="general">General</option>
+			<option value="technical" selected>Technical</option>
+			<option value="business">Business</option>
+			
+		    </select>
 	
-			<label for="event_category">Category:</label>
+		    Title:
+		    
+		    <div dojoType="dijit.form.TextBox" name="title" width="50" required="true"></div>
 			
-			<select dojoType="dijit.form.FilteringSelect" id="event_category" name="event_category" style="margin: 10px;">
-			    
-			    <option value="general">General</option>
-			    <option value="technical" selected>Technical</option>
-			    <option value="business">Business</option>
-			    
-			</select>
+		    Place:
+		    
+		    <select dojoType="dijit.form.FilteringSelect" name="place" style="margin: 10px;">
 			
-		    </div>
+			<% foreach my $place ( @{ $self->{'places'} } ) { %>
+		
+			<option value="<%= $place->place_id %>"><%= $place->title %></option>
+			
+			<% } %>
+			
+		    </select>
+    
+		    Start Date:
+		    
+		    <input dojoType="dijit.form.DateTextBox" name="start_date" required="true" />
+		    
+		    Stop Date:
+		    
+		    <input dojoType="dijit.form.DateTextBox" name="stop_date" required="true" />
+		    
+		    Start Time:
+		    
+		    <input dojoType="dijit.form.TimeTextBox" name="start_time" required="true" />
+    
+		    Stop Time:
+		    
+		    <input dojoType="dijit.form.TimeTextBox" name="stop_time" required="true" />
+		    
+		    About:
+		    
+		    <br />
+		    
+		    <textarea dojoType="dijit.form.Textarea" name="about" style="width: 400px;"></textarea>
+		    
+		    <br />
 		    
 		    <button dojoType="dijit.form.Button" type="submit">Submit</button>
 		    <button dojoType="dijit.form.Button" type="reset">Reset</button>
-		    
+		
 		</div>
 		
 	    </div>
@@ -110,112 +246,5 @@
     </div>
     
 </div>
-
-<!-- div id="dialogPostPlace" dojoType="dijit.Dialog" title="Post a Place" style="width: 800px; height: 600px;">
-    
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post/place" method="POST" style="height: 600px;">
-	
-	<div style="border-bottom: groove; margin: 5px;">
-	
-	    <label for="category">Category:</label>
-	    
-	    <select dojoType="dijit.form.FilteringSelect" id="category" name="category" style="margin: 10px;">
-		
-		<option value="general">General</option>
-		<option value="technical" selected>Technical</option>
-		<option value="business">Business</option>
-		
-	    </select>
-	    
-	</div>
-	
-	<div style="border-bottom: groove; margin: 5px;">
-	    
-	    <label for="title">Title:</label>
-	    
-	    <input dojoType="dijit.form.ValidationTextBox" style="margin: 10px;"
-		   required="true"
-		   name="title"
-		   id="title"
-		   width="90"
-	    />
-	
-	</div>
-	
-	<div style="border-bottom: groove; margin: 5px;">
-	    
-	    <label for="location">Location:</label>
-	    
-	    <input dojoType="dijit.form.ValidationTextBox" style="margin: 10px;"
-		   required="true"
-		   name="location"
-		   id="location"
-		   width="90"
-	    />
-	
-	</div>
-	<div style="border-bottom: groove; margin: 5px;">
-		
-	    <label for="body">Body:</label>
-	    
-	    <textarea dojoType="dijit.form.Textarea" style="margin: 10px;"
-		      required="true"
-		      id="body"
-		      name="body"
-	    >
-	    </textarea>
-	
-	</div>
-	
-	<br />
-	
-	<button dojoType="dijit.form.Button" type="submit">Submit</button>
-	<button dojoType="dijit.form.Button" type="reset">Reset</button>
-    
-    </div>
-
-</div -->
-
-<!-- Post an Event Dialog -->
-
-<!-- div id="dialogPostEvent" dojoType="dijit.Dialog" title="Post an Event" style="width: 800px; height: 600px;">
-
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/post/event" method="POST" style="height: 600px;">
-
-	<div style="border-bottom: groove; margin: 5px;">
-	
-	    <label for="event_category">Category:</label>
-	    
-	    <select dojoType="dijit.form.FilteringSelect" id="event_category" name="event_category" style="margin: 10px;">
-		
-		<option value="general">General</option>
-		<option value="technical" selected>Technical</option>
-		<option value="business">Business</option>
-		
-	    </select>
-	    
-	</div>
-	
-	<div style="border-bottom: groove; margin: 5px;">
-	
-	    <label for="place">Place:</label>
-	    
-	    <select dojoType="dijit.form.FilteringSelect" id="place" name="place" style="margin: 10px;">
-		
-		<% foreach my $place ( @{ $self->{'places'} } ) { %>
-	
-		<option value="<%= $place->place_id %>"><%= $place->title %></option>
-		
-		<% } %>
-		
-	    </select>
-	    
-	</div>
-    
-    </div>
-	
-</div 
-
--->
 
 <% } %>

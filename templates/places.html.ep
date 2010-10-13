@@ -17,9 +17,13 @@
             
             <div style="font: large;">
                 
-                <div style="text-align: center;">
+                <div style="text-align: left; font-size: smaller;">
                     
-                    <%= $place->street_address %>, <%= $place->city %>, <%= $place->region %>. <%= $place->country %>
+                    Location: <%= $place->street_address %>, <%= $place->city %>
+                    
+                    <br />
+                    
+                    Events: <%= scalar $place->events->all %>
                 
                 </div>
                 
@@ -29,13 +33,13 @@
         
         <div dojoType="dijit.Tooltip" connectId="place_<%= $place->place_id %>" position="below">
 
-            <p><%= $place->body %></p>
+            Some information about the place.
         
         </div>
         
         <div id="dialog_<%= $place->place_id %>" dojoType="dijit.Dialog" title="<%= $place->title %>" style="width: 800px; height: 600px;">
         
-            <div style="width: 780px; height: 500px;">
+            <div style="width: inherit; height: 550px;">
 	    
                 <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
                     
@@ -51,26 +55,58 @@
         
                         </div>
                     
-                        <p><%= $place->body %></p>
+                        <br />
                         
+                        <br />
+                        
+                        Address: Location: <%= $place->street_address %>, <%= $place->city %>, <%= $place->region %> <br />
+                        Popularity: <%= $place->popularity %> <br />
+                        Events: <%= scalar $place->events->all %>
+                        
+                    
+                    </div>
+                    
+                    <div dojoType="dijit.layout.ContentPane" title="Events">
+                        
+                        <% for my $event ( $place->events->all ) { %>
+                        
+                        <div dojoType="dijit.TitlePane" title="<%= $event->title %>" style="margin-bottom: 15px;">
+                    
+                            <img src="https://graph.facebook.com/<%= $event->user->facebook_id %>/picture" />
+                            <a href="/users/<%= $event->user->user_id %>" id="tooltip_<%= $event->user->user_id %>"><%= $event->user->name %></a>
+                            @ <%= $event->time %>
+                            
+                            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $place->user->user_id %>" position="below">
+    
+                                Check out my User Page!
+            
+                            </div>
+                        
+                            <p><%= $event->about %></p>
+                               
+                            <div style="font-size: smaller; text-align: right; margin: 5px;">
+                            
+                                Begin: <%= $event->start_date %>,
+                                End: <%= $event->stop_date %>,
+                                Start: <%= $event->start_time %>,
+                                Stop: <%= $event->stop_time %>     
+                                    
+                            </div>
+                            
+                        </div>
+                            
+                        <% } %>
+                    
                     </div>
                     
                     <div dojoType="dijit.layout.ContentPane" title="Comments">
                         
-                        <fb:comments xid="<%= $place->place_id %>"numposts="15" width="550"></fb:comments>
+                        <div dojoType="dijit.TitlePane" title="A Collection of Facebook Comments" style="margin-bottom: 15px;">
                         
-                    </div>
-
-                    <div dojoType="dijit.layout.ContentPane" title="Images">
+                            <fb:comments xid="<%= $place->place_id %>" numposts="15" width="550"></fb:comments>    
                         
-                        <% for my $result ( $place->images->all ) { %>
+                        </div>
                         
-                            <img src='<%= $result->url %>' />
-                            
-                            <br />
-                            
-                        <% } %>
-                    
                     </div>
                     
                 </div>

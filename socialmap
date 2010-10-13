@@ -18,7 +18,7 @@ use Model::Schema;
 
 my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
 
-#### Pages...
+#### Welcome
 
 get '/' => sub {
 
@@ -30,6 +30,8 @@ get '/' => sub {
       : $self->render( 'welcome', layout => 'default' );
 
 } => 'welcome';
+
+### Users
 
 get '/users' => sub {
 
@@ -47,6 +49,8 @@ get '/users' => sub {
 
 } => 'users';
 
+### Places
+
 get '/places' => sub {
 
     my $self = shift;
@@ -59,7 +63,7 @@ get '/places' => sub {
 
         {
             order_by => 'place_id DESC',
-            prefetch => 'images',
+            prefetch => 'events',
         }
     );
 
@@ -78,27 +82,66 @@ get '/places' => sub {
             push @{ $self->{'places'} }, $place;
         }
     }
-
-    $self->render( 'places', layout => 'default' );
+        
+    $self->render( 'blank', layout => 'default' )
+        unless exists $self->{'places'};
+        
+    $self->render( 'places', layout => 'default' );    
 
 } => 'places';
 
-get '/events' => sub {
+any '/places/post/:type' => [ type => qr/\w+/ ] => sub {
 
     my $self = shift;
-    $self->session( page => 'events' );
 
-    return $self->redirect_to('welcome') unless $self->session('user_id');
+    my ( $sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst ) =
+      localtime(time);
 
-    my @events =
-      $MODEL->resultset('Event')
-      ->search( undef, { order_by => 'event_id DESC' } );
+    if ( $self->param('type') eq 'place' ) {
 
-    $self->{'events'} = \@events;
+        my $place = $MODEL->resultset('Place')->create(
 
-    $self->render( 'events', layout => 'default' );
+            {
+                category       => $self->param('category'),
+                title          => $self->param('title'),
+                date           => "$year-$mon-$mday",
+                time           => "$hour:$min:$sec",
+                street_address => $self->param('street_address'),
+                city           => $self->param('city'),
+                region         => $self->param('region'),
+                country        => $self->param('country'),
+                lat            => $self->param('lat'),
+                lng            => $self->param('lng'),
+                popularity     => 0,
+                user           => $self->session('user_id'),
+            }
+        );
+    }
 
-} => 'events';
+    if ( $self->param('type') eq 'event' ) {
+
+        my $event = $MODEL->resultset('PlaceEvent')->create(
+
+            {
+                category    => $self->param('category'),
+                title       => $self->param('title'),
+                place       => $self->param('place'),
+                start_date  => $self->param('start_date'),
+                stop_date   => $self->param('stop_date'),
+                start_time  => $self->param('start_time'),
+                stop_time   => $self->param('stop_time'),
+                about       => $self->param('about'),
+                date        => "$year-$mon-$mday",
+                time        => "$hour:$min:$sec",
+                popularity  => 0,
+                user        => $self->session('user_id'),
+            }
+        );
+    }
+
+    return $self->redirect_to( $self->session('page') );
+
+};
 
 any '/:page/:id' => [ page => qr/\w+/, id => qr/\d+/ ] => sub {
 
@@ -124,23 +167,13 @@ any '/:page/:id' => [ page => qr/\w+/, id => qr/\d+/ ] => sub {
 
             {
                 order_by => 'place_id DESC',
-                prefetch => 'images',
+                prefetch => 'events',
             }
         );
 
         $self->{'places'} = \@places;
 
         $self->render( 'places', layout => 'default' );
-    }
-
-    elsif ( $self->param('page') eq 'events' ) {
-
-        my @events =
-          $MODEL->resultset('Event')
-          ->search( { event_id => $self->param('id') } );
-
-        $self->{'events'} = \@events;
-        $self->render( 'events', layout => 'default' );
     }
 
 };
@@ -278,102 +311,5 @@ post '/location' => sub {
 
 } => 'location';
 
-any '/post/:type' => [ type => qr/\w+/ ] => sub {
-
-    my $self = shift;
-
-    my ( $sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst ) =
-      localtime(time);
-
-    if ( $self->param('type') eq 'place' ) {
-
-        REST::Google::Search->service(LOCAL);
-
-        my $response =
-          REST::Google::Search->new(
-            q => $self->param('place_title') . ' ' . $self->param('place_location') );
-
-        my $data    = $response->responseData;
-        my @results = $data->results;
-
-        foreach my $result (@results) {
-
-            my $place = $MODEL->resultset('Place')->create(
-
-                {
-                    category       => $self->param('place_category'),
-                    title          => $result->titleNoFormatting,
-                    body           => $self->param('place_body'),
-                    date           => "$year-$mon-$mday",
-                    time           => "$hour:$min:$sec",
-                    street_address => $result->streetAddress,
-                    city           => $result->city,
-                    region         => $result->region,
-                    country        => $result->country,
-                    lat            => $result->lat,
-                    lng            => $result->lng,
-                    user           => $self->session('user_id'),
-                }
-            );
-
-            my $new_place =
-              $MODEL->resultset('Place')
-              ->search( { lat => $result->lat, lng => $result->lng } )->first;
-
-            REST::Google::Search->service(IMAGES);
-
-            my $response =
-              REST::Google::Search->new( q => $new_place->title . ' '
-                  . $new_place->city . ' '
-                  . $new_place->region );
-
-            unless ( $response->responseStatus != 200 ) {
-
-                my $data = $response->responseData;
-
-                my @results = $data->results;
-
-                foreach my $result (@results) {
-
-                    my $image = $MODEL->resultset('PlaceImage')->create(
-
-                        {
-                            title   => $result->titleNoFormatting,
-                            content => $result->contentNoFormatting,
-                            url     => $result->url,
-                            width   => $result->width,
-                            height  => $result->height,
-                            place   => $new_place->place_id,
-
-                        }
-                    );
-                }
-            }
-        }
-
-        return $self->redirect_to('places');
-    }
-
-    if ( $self->param('type') eq 'event' ) {
-
-        my $event = $MODEL->resultset('Event')->create(
-
-            {
-                category => $self->param('event_category'),
-                title    => $self->param('event_title'),
-                body     => $self->param('event_body'),
-                date     => "$year-$mon-$mday",
-                time     => "$hour:$min:$sec",
-                user     => $self->session('user_id'),
-            }
-        );
-
-        return $self->redirect_to('events');
-    }
-
-    return $self->redirect_to( $self->session('page') );
-
-};
-
-app->secret('SocialMAP Rocks!');
+app->secret('Insurgent Software Rocks!');
 app->start;

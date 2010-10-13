@@ -13,7 +13,7 @@
 
     <div id="dialog_welcome" dojoType="dijit.Dialog" title="Welcome to SocialMAP!" style="width: 800px; height: 600px;">
     
-        <div style="width: 780px; height: 500px;">
+        <div style="width: inherit; height: 550px;">
             
             <p>
             Thanks for checking out SocialMAP.  A cool way to interact with people using

@@ -6,22 +6,19 @@
 
     <% foreach my $user ( @{ $self->{'users'} } ) { %>
     
-    <div dojoType="dijit.TitlePane" title="User Page of <%= $user->name %>." style="margin-bottom: 15px;">
+    <div dojoType="dijit.TitlePane" title="Live Stream of <%= $user->name %>." style="margin-bottom: 15px;">
         
-        <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-        culpa qui officia deserunt mollit anim id est laborum.
-        </p>
+        <div style="text-align: center;">
+            
+            <fb:live-stream event_app_id="151734874839220" width="700" height="300" xid="stream-user<%= $user->user_id %>" via_url="/" always_post_to_friends="false"></fb:live-stream>
+            
+        </div>
         
     </div>
 
     <% } %>
 
-    <div dojoType="dijit.TitlePane" title="People I Follow" style="margin-bottom: 15px;">
+    <div dojoType="dijit.TitlePane" title="About SocialMAP" style="margin-bottom: 15px;">
         
         <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -36,25 +33,29 @@
         
 </div>
 
-<div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 20%;">
+<div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 35%;">
     
     <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
         
-        <div dojoType="dijit.layout.ContentPane" title="Recent Activity" selected="true">
+        <div dojoType="dijit.layout.ContentPane" title="My Friends" selected="true">
             
-            <% for ( 0.. 5) { %>   
-        
-            <p>Some sponsored story!</p>
-            
-            <% } %>
+            <fb:facepile max-rows="5" width="300"></fb:facepile>
             
         </div>
-        
-        <div dojoType="dijit.layout.ContentPane" title="Top Rated Posts">
+
+        <div dojoType="dijit.layout.ContentPane" title="My Stats">
             
-            <% for ( 0.. 5) { %>   
+            <% foreach my $user ( @{ $self->{'users'} } ) { %>
         
-            <p>Some sponsored story!</p>
+            <div style="font-size: smaller;">
+                
+                Places: <%= scalar $user->places->all %>
+                
+                <br />
+                
+                Events: <%= scalar $user->events->all %>
+                
+            </div>
             
             <% } %>
             
