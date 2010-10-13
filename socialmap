@@ -186,19 +186,33 @@ get '/session' => sub {
 
     if ( $self->param('facebook_id') ) {
 
-        my @users = $MODEL->resultset('User')->search();
+        my $existing_user = $MODEL->resultset('Place')->search( { facebook_id => $self->param('facebook_id') } )->first;
 
-        my $no_match;
+        if ( $existing_user->facebook_id eq $self->param('facebook_id') ) {
 
-        # This is temporary; I've sinced learned a DBIC approach to the same problem.
+            $self->session(
 
-        for my $user (@users) {
+                user_id     => $existing_user->user_id,
+                facebook_id => $existing_user->facebook_id,
+                name        => $existing_user->name,
+                first_name  => $existing_user->first_name,
+                last_name   => $existing_user->last_name,
+                gender      => $existing_user->gender,
+                birthday    => $existing_user->birthday,
+                email       => $existing_user->email,
+                timezone    => $existing_user->timezone,
+                location    => $existing_user->location,
+                city        => $existing_user->city,
+                region      => $existing_user->region,
+                country     => $existing_user->country,
+                lat         => $existing_user->lat,
+                lng         => $existing_user->lng,
+            );
 
-            $no_match++
-              unless $self->param('facebook_id') eq $user->facebook_id;
+            return $self->redirect_to( $self->session('page') );
         }
-
-        if ( $no_match == scalar @users ) {
+        
+        elsif ( not $existing_user ) {
 
             REST::Google::Search->service(LOCAL);
 
@@ -234,33 +248,7 @@ get '/session' => sub {
                 }
             }
         }
-
-        for my $user (@users) {
-
-            if ( $user->facebook_id eq $self->param('facebook_id') ) {
-
-                $self->session(
-
-                    user_id     => $user->user_id,
-                    facebook_id => $user->facebook_id,
-                    name        => $user->name,
-                    first_name  => $user->first_name,
-                    last_name   => $user->last_name,
-                    gender      => $user->gender,
-                    birthday    => $user->birthday,
-                    email       => $user->email,
-                    timezone    => $user->timezone,
-                    location    => $user->location,
-                    city        => $user->city,
-                    region      => $user->region,
-                    country     => $user->country,
-                    lat         => $user->lat,
-                    lng         => $user->lng,
-                );
-
-                return $self->redirect_to( $self->session('page') );
-            }
-        }
+        
     }
     elsif ( $self->param('expires') ) {
 

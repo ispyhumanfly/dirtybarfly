@@ -10,7 +10,7 @@
         
         <div style="text-align: center;">
             
-            <fb:live-stream event_app_id="151734874839220" width="700" height="300" xid="stream-user<%= $user->user_id %>" via_url="/" always_post_to_friends="false"></fb:live-stream>
+            <fb:live-stream event_app_id="151734874839220" width="700" height="400" xid="stream-user<%= $user->user_id %>" via_url="/" always_post_to_friends="false"></fb:live-stream>
             
         </div>
         
