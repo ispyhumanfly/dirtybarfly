@@ -10,26 +10,13 @@
         
         <div style="text-align: center;">
             
-            <fb:live-stream event_app_id="151734874839220" width="650" height="300" xid="user_<%= $user->user_id %>" via_url="/users/<%= $user->user_id %>" always_post_to_friends="true"></fb:live-stream>
+            <fb:live-stream event_app_id="<%= $self->session('SOCIALMAP_FACEBOOK_APP') %>" width="650" height="300" xid="user_<%= $user->user_id %>" via_url="/users/<%= $user->user_id %>" always_post_to_friends="false"></fb:live-stream>
             
         </div>
         
     </div>
 
     <% } %>
-
-    <div dojoType="dijit.TitlePane" title="About SocialMAP" style="margin-bottom: 15px;">
-        
-        <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-        culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-        
-    </div>
         
 </div>
 
@@ -43,18 +30,18 @@
             
         </div>
 
-        <div dojoType="dijit.layout.ContentPane" title="My Stats">
+        <div dojoType="dijit.layout.ContentPane" title="All Friends">
             
             <% foreach my $user ( @{ $self->{'users'} } ) { %>
         
-            <div style="font-size: smaller;">
-                
-                Places: <%= scalar $user->places->all %>
-                
-                <br />
-                
-                Events: <%= scalar $user->events->all %>
-                
+            <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" /></a>
+               
+            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $user->user_id %>" position="below">
+
+                Places:     <%= scalar $user->places->all %>,
+                Events:     <%= scalar $user->events->all %>,
+                Popularity: <%= $user->popularity %>
+
             </div>
             
             <% } %>

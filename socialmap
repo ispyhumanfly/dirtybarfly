@@ -13,7 +13,7 @@ BEGIN {
 }
 
 use Mojolicious::Lite;
-use REST::Google::Search qw/ LOCAL IMAGES /;
+use REST::Google::Search qw/ LOCAL /;
 use GIS::Distance;
 
 use lib 'lib';
@@ -31,8 +31,8 @@ get '/' => sub {
     $self->session(SOCIALMAP_FACEBOOK_APP => $ENV{'SOCIALMAP_FACEBOOK_APP'});
 
     $self->session('user_id')
-      ? $self->render('users',   layout => 'default')
-      : $self->render('welcome', layout => 'default');
+      ? $self->render('welcome', layout => 'default')
+      : $self->render('users',   layout => 'default'); 
 
 } => 'welcome';
 
