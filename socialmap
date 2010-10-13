@@ -186,9 +186,11 @@ get '/session' => sub {
 
     if ( $self->param('facebook_id') ) {
 
-        my $existing_user = $MODEL->resultset('Place')->search( { facebook_id => $self->param('facebook_id') } )->first;
-
-        if ( $existing_user->facebook_id eq $self->param('facebook_id') ) {
+        my $existing_user = $MODEL->resultset('User')->search( { facebook_id => $self->param('facebook_id') } )->first;
+        
+        # The user exists...
+        
+        if ( $existing_user != undef ) {
 
             $self->session(
 
@@ -212,7 +214,9 @@ get '/session' => sub {
             return $self->redirect_to( $self->session('page') );
         }
         
-        elsif ( not $existing_user ) {
+        # The user does not exist...
+        
+        if ( $existing_user == undef ) {
 
             REST::Google::Search->service(LOCAL);
 
