@@ -9,6 +9,8 @@ META.yml
 MANIFEST*
 !MANIFEST.SKIP
 pm_to_blib
+
+log
 SocialMAP.komodoproject
 socialmap.db
 socialmap.bak
