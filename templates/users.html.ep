@@ -1,5 +1,7 @@
 <script type="text/javascript">//<![CDATA[
 
+    dojo.require("dijit.Tooltip");
+
 //]]></script>        
 
 <div dojoType="dijit.layout.ContentPane" region="center">
@@ -24,13 +26,13 @@
     
     <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
         
-        <div dojoType="dijit.layout.ContentPane" title="My Friends" selected="true">
+        <div dojoType="dijit.layout.ContentPane" title="Friends">
             
             <fb:facepile max-rows="5" width="300"></fb:facepile>
             
         </div>
 
-        <div dojoType="dijit.layout.ContentPane" title="All Friends">
+        <div dojoType="dijit.layout.ContentPane" title="Everyone" selected="true">
             
             <% foreach my $user ( @{ $self->{'users'} } ) { %>
         
@@ -48,14 +50,20 @@
             
         </div>
         
-        <div dojoType="dijit.layout.ContentPane" title="Something Else">
-            
-            <% for ( 0.. 5) { %>   
+        <div dojoType="dijit.layout.ContentPane" title="Popularity">
+
+            <% foreach my $user ( @{ $self->{'users'} } ) { %>
         
-            <p>Some sponsored story!</p>
+            <a href="/users/<%= $user->user_id %>" id="popularity_<%= $user->user_id %>"><img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" /></a>
+               
+            <div dojoType="dijit.Tooltip" connectId="popularity_<%= $user->user_id %>" position="below">
+
+                <%= $user->name %>,  Popularity: <%= ( $user->popularity + int( scalar $user->places->all + scalar $user->events->all ) ) %>
+
+            </div>
             
             <% } %>
-            
+
         </div>
         
     </div>

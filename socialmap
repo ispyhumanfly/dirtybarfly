@@ -21,18 +21,31 @@ use Model::Schema;
 
 my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
 
+get '/' => sub {
+
+    my $self = shift;
+    
+    $self->session(SOCIALMAP_FACEBOOK_APP => $ENV{'SOCIALMAP_FACEBOOK_APP'});
+
+    return $self->render('users', layout => 'default')
+        if $self->session('user_id');
+    
+    return $self->render('welcome', layout => 'default')
+        if not $self->session('user_id');
+};
+
 #### Welcome
 
 get '/' => sub {
 
     my $self = shift;
-    $self->session(page => 'welcome');
+    $self->session( page => 'welcome');
 
     $self->session(SOCIALMAP_FACEBOOK_APP => $ENV{'SOCIALMAP_FACEBOOK_APP'});
 
     $self->session('user_id')
-      ? $self->render('welcome', layout => 'default')
-      : $self->render('users',   layout => 'default'); 
+      ? $self->render('places',   layout => 'default')
+      : $self->render('welcome', layout => 'default');
 
 } => 'welcome';
 
@@ -180,7 +193,7 @@ any '/:page/:id' => [page => qr/\w+/, id => qr/\d+/] => sub {
 
 #### Functions...
 
-get '/session' => sub {
+get '/login' => sub {
 
     my $self = shift;
 
@@ -252,7 +265,7 @@ get '/session' => sub {
 
     return $self->redirect_to($self->session('page'));
 
-} => 'session';
+} => 'login';
 
 #### Forms...
 

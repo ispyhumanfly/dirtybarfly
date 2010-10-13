@@ -127,7 +127,7 @@
 			    
 			    FB.api( '/me', function(facebook) {
 			    
-				window.location = '/session' +
+				window.location = '/login' +
 
 				    '?facebook_id='	+ facebook.id +				    
 				    '&name='		+ facebook.name +
@@ -147,7 +147,7 @@
     
 			    <% if ( $self->session('facebook_id') ) { %>
 			    
-			    window.location = '/session?expires=1';
+			    window.location = '/login?expires=1';
 			    
 			    <% } %>
 			}
