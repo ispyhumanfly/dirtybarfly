@@ -8,11 +8,11 @@ SocialMAP
 
 =head1 SYNOPSIS
 
-	./socialmap daemon --listen http://localhost:3000
+	./socialmap daemon_prefork --lock socialmap.lock --pid socialmap.pid --clients 100
 
 =head1 DESCRIPTION
 
-A pretty cool way to interact with people centered around a unique approach to common web tasks.
+A pretty cool way to interact with people centered around a unique approach to common web services.
 
 =head2 CPAN Setup
 

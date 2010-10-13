@@ -117,7 +117,7 @@
     
 		window.fbAsyncInit = function() {
 		    
-		    FB.init({appId: '151734874839220', status: true, cookie: true, xfbml: true});
+		    FB.init({appId: '<%= $self->session('SOCIALMAP_FACEBOOK_APPID') %>', status: true, cookie: true, xfbml: true});
 		    
 		    FB.getLoginStatus(function(response) {
   

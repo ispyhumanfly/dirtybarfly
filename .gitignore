@@ -11,6 +11,8 @@ MANIFEST*
 pm_to_blib
 
 log
-SocialMAP.komodoproject
+socialmap.komodoproject
 socialmap.db
+socialmap.lock
+socialmap.pid
 socialmap.bak
