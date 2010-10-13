@@ -1,8 +1,0 @@
-#!/bin/bash
-
-### Your Facebook Connect Application ID
-export SOCIALMAP_FACEBOOK_APP="109704272395181"
-
-### Application Server Parameters
-./socialmap daemon_prefork --lock socialmap.lock --pid socialmap.pid --clients 100
-
