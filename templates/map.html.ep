@@ -18,7 +18,25 @@
         };
 
         var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+        <% if ( $self->session('page') eq 'people' ) { %>
+
+            <% foreach my $user ( @{ $self->{'users'} } ) { %>
+                
+            var user_latlng = new google.maps.LatLng(<%= $user->lat %>,<%= $user->lng %>);
     
+            var user_marker = new google.maps.Marker({
+                
+                position: user_latlng,
+                title: '<%= $user->name %>'
+            });
+
+            user_marker.setMap(map);
+
+            <% } %>
+
+        <% } %>
+        
         <% if ( $self->session('page') eq 'places' ) { %>
 
             <% foreach my $place ( @{ $self->{'places'} } ) { %>
@@ -36,24 +54,7 @@
             <% } %>
 
         <% } %>
-        
-        <% if ( $self->session('page') eq 'events' ) { %>
 
-            <% foreach my $event ( @{ $self->{'events'} } ) { %>
-                
-            var event_latlng = new google.maps.LatLng(<%= $event->lat %>,<%= $event->lng %>);
-    
-            var event_marker = new google.maps.Marker({
-                
-                position: event_latlng,
-                title: '<%= $event->title %>'
-            });
-
-            place_marker.setMap(map);
-
-            <% } %>
-
-        <% } %>
     }
     
     function loadScript() {

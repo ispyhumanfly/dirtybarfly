@@ -55,6 +55,8 @@
 		    
 			<a href='/users'><%= $self->session('name') %> |</a>
 			
+			<a href='/people'>People |</a>
+			
 			<a href='/places'>Places</a>
 			
 		    <% } else { %>

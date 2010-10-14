@@ -18,6 +18,10 @@ A pretty cool way to interact with people centered around a unique approach to c
 
 	sudo cpanp install Mojolicious::Lite DBIx::Class REST::Google::Search GIS::Distance
 
+=head2 Environment Setup
+
+	export SOCIALMAP_FACEBOOK_APP="<Facebook Application ID>"
+	
 =head1 BUGS
 
 	http://github.com/insurgentsoftware/socialmap/issues

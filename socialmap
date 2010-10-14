@@ -24,10 +24,10 @@ my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
 get '/' => sub {
 
     my $self = shift;
-    
-    $self->session(SOCIALMAP_FACEBOOK_APP => $ENV{'SOCIALMAP_FACEBOOK_APP'});
 
     return $self->redirect_to('users') if $self->session('user_id');
+
+    $self->session(SOCIALMAP_FACEBOOK_APP => $ENV{'SOCIALMAP_FACEBOOK_APP'});
 
     return $self->render('users', layout => 'default')
         if $self->session('user_id');
@@ -54,6 +54,46 @@ get '/users' => sub {
     $self->render('users', layout => 'default');
 
 } => 'users';
+
+### People
+
+get '/people' => sub {
+
+    my $self = shift;
+    $self->session(page => 'people');
+
+    return $self->redirect_to('welcome') unless $self->session('user_id');
+
+    my @users = $MODEL->resultset('User')->search(
+        undef,
+
+        {   order_by => 'user_id DESC',
+            prefetch => [ 'places', 'events' ],
+        }
+    );
+
+    for my $user (@users) {
+
+        my $gis = GIS::Distance->new();
+
+        my $distance = $gis->distance(
+            $self->session('lat'), $self->session('lng') => $user->lat,
+            $user->lng
+        );
+
+        # Display all known places within a 50 mile radius.
+        if ($distance->meters <= (50 * 1609.344)) {
+
+            push @{$self->{'users'}}, $user;
+        }
+    }
+
+    $self->render('blank', layout => 'default')
+      unless exists $self->{'users'};
+
+    $self->render('people', layout => 'default');
+
+} => 'people';
 
 ### Places
 

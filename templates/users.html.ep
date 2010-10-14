@@ -8,7 +8,7 @@
 
     <% foreach my $user ( @{ $self->{'users'} } ) { %>
     
-    <div dojoType="dijit.TitlePane" title="Live Stream of <%= $user->name %>." style="margin-bottom: 15px;">
+    <div dojoType="dijit.TitlePane" title="Following <%= $user->name %>." style="margin-bottom: 15px;">
         
         <div style="text-align: center;">
             
