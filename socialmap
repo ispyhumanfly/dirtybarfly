@@ -37,12 +37,12 @@ get '/' => sub {
 
 } => 'welcome';
 
-### Users
+### Dashboard
 
-get '/users' => sub {
+get '/dashboard' => sub {
 
     my $self = shift;
-    $self->session(page => 'users');
+    $self->session(page => 'dashboard');
 
     return $self->redirect_to('welcome') unless $self->session('user_id');
 
@@ -53,7 +53,7 @@ get '/users' => sub {
 
     $self->render('users', layout => 'default');
 
-} => 'users';
+} => 'dashboard';
 
 ### People
 

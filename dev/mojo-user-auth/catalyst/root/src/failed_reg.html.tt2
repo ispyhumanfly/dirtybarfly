@@ -1,5 +1,0 @@
-[% WRAPPER "templates/layouts/insurgent.html.tt2" %]
-<h1>[% header %]</h1>
-<p>[% explanation %]</p>
-[% register_form %]
-[% END %]
