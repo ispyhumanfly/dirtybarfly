@@ -25,11 +25,9 @@ get '/' => sub {
 
     my $self = shift;
 
-    return $self->redirect_to('users') if $self->session('user_id');
-
     $self->session(SOCIALMAP_FACEBOOK_APP => $ENV{'SOCIALMAP_FACEBOOK_APP'});
 
-    return $self->render('users', layout => 'default')
+    return $self->redirect_to('dashboard', layout => 'default')
         if $self->session('user_id');
     
     return $self->render('welcome', layout => 'default')
