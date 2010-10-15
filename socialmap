@@ -51,16 +51,16 @@ get '/dashboard' => sub {
 
     $self->{'users'} = \@users;
 
-    $self->render('users', layout => 'default');
+    $self->render('dashboard', layout => 'default');
 
 } => 'dashboard';
 
-### People
+### Users
 
-get '/people' => sub {
+get '/users' => sub {
 
     my $self = shift;
-    $self->session(page => 'people');
+    $self->session(page => 'users');
 
     return $self->redirect_to('welcome') unless $self->session('user_id');
 
@@ -91,9 +91,9 @@ get '/people' => sub {
     $self->render('blank', layout => 'default')
       unless exists $self->{'users'};
 
-    $self->render('people', layout => 'default');
+    $self->render('users', layout => 'default');
 
-} => 'people';
+} => 'users';
 
 ### Places
 

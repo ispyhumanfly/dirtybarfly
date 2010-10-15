@@ -1,75 +1,129 @@
 <script type="text/javascript">//<![CDATA[
 
     dojo.require("dijit.Tooltip");
+    dojo.require("dijit.Dialog");
+    
+//]]></script>
 
-//]]></script>        
-
-<div dojoType="dijit.layout.ContentPane" region="center">
+<div  dojoType="dijit.layout.ContentPane" region="leading">
 
     <% foreach my $user ( @{ $self->{'users'} } ) { %>
     
-    <div dojoType="dijit.TitlePane" title="Following <%= $user->name %>." style="margin-bottom: 15px;">
+    <div dojoType="dijit.TitlePane" title="<%= $user->name %>" id="user_<%= $user->user_id %>" style="margin-bottom: 15px;">
         
-        <div style="text-align: center;">
+        <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $user->user_id %>').show()">
+        
+            <img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" />
             
-            <fb:live-stream event_app_id="<%= $self->session('SOCIALMAP_FACEBOOK_APP') %>" width="650" height="300" xid="user_<%= $user->user_id %>" via_url="/users/<%= $user->user_id %>" always_post_to_friends="false"></fb:live-stream>
+            <div style="font: large;">
+                
+                <div style="text-align: left; font-size: smaller;">
+                    
+		    Location: <%= $user->city %>, <%= $user->region %>, <%= $user->country %>
+		    
+                    Places: <%= scalar $user->places->all %>
+                    
+                    <br />
+                    
+                    Events: <%= scalar $user->events->all %>
+                
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div dojoType="dijit.Tooltip" connectId="user_<%= $user->user_id %>" position="below">
+
+            Some information about the place.
+        
+        </div>
+        
+        <div id="dialog_<%= $user->user_id %>" dojoType="dijit.Dialog" title="<%= $user->name %>" style="width: 800px; height: 600px;">
+        
+            <div style="width: inherit; height: 550px;">
+	    
+                <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
+                    
+                    <div dojoType="dijit.layout.ContentPane" title="Places">
+                        
+                        <% for my $place ( $user->places->all ) { %>
+                        
+                        <div dojoType="dijit.TitlePane" title="<%= $place->title %>" style="margin-bottom: 15px;">
+                    
+                            <img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" />
+                            <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><%= $user->name %></a>
+                            @ <%= $place->time %>
+                            
+                            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $user->user_id %>" position="below">
+    
+                                Check out my User Page!
+            
+                            </div>
+                            
+                        </div>
+                            
+                        <% } %>
+                    
+                    </div>
+                    
+                    <div dojoType="dijit.layout.ContentPane" title="Events">
+                        
+                        <% for my $event ( $user->events->all ) { %>
+                        
+                        <div dojoType="dijit.TitlePane" title="<%= $event->title %>" style="margin-bottom: 15px;">
+                    
+                            <img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" />
+                            <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><%= $user->name %></a>
+                            @ <%= $event->time %>
+                            
+                            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $user->user_id %>" position="below">
+    
+                                Check out my User Page!
+            
+                            </div>
+                        
+                            <p><%= $event->about %></p>
+                               
+                            <div style="font-size: smaller; text-align: right; margin: 5px;">
+                            
+                                Begin: <%= $event->start_date %>,
+                                End: <%= $event->stop_date %>,
+                                Start: <%= $event->start_time %>,
+                                Stop: <%= $event->stop_time %>     
+                                    
+                            </div>
+                            
+                        </div>
+                            
+                        <% } %>
+                    
+                    </div>
+                    
+                    <div dojoType="dijit.layout.ContentPane" title="Comments">
+                        
+                        <div dojoType="dijit.TitlePane" title="A Collection of Facebook Comments" style="margin-bottom: 15px;">
+                        
+                            <fb:comments xid="<%= $user->user_id %>" numposts="15" width="550"></fb:comments>    
+                        
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
             
         </div>
         
     </div>
-
+   
     <% } %>
         
 </div>
 
-<div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 35%;">
+<div dojoType='dijit.layout.ContentPane' region='center'>
     
-    <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
-        
-        <div dojoType="dijit.layout.ContentPane" title="Friends">
-            
-            <fb:facepile max-rows="5" width="300"></fb:facepile>
-            
-        </div>
+    <div id="map_canvas" style="width: 100%; height: 100%"></div>
 
-        <div dojoType="dijit.layout.ContentPane" title="Everyone" selected="true">
-            
-            <% foreach my $user ( @{ $self->{'users'} } ) { %>
-        
-            <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" /></a>
-               
-            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $user->user_id %>" position="below">
-
-                Places:     <%= scalar $user->places->all %>,
-                Events:     <%= scalar $user->events->all %>,
-                Popularity: <%= $user->popularity %>
-
-            </div>
-            
-            <% } %>
-            
-        </div>
-        
-        <div dojoType="dijit.layout.ContentPane" title="Popularity">
-
-            <% foreach my $user ( @{ $self->{'users'} } ) { %>
-        
-            <a href="/users/<%= $user->user_id %>" id="popularity_<%= $user->user_id %>"><img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" /></a>
-               
-            <div dojoType="dijit.Tooltip" connectId="popularity_<%= $user->user_id %>" position="below">
-
-                <%= $user->name %>,  Popularity: <%= ( $user->popularity + int( scalar $user->places->all + scalar $user->events->all ) ) %>
-
-            </div>
-            
-            <% } %>
-
-        </div>
-        
-        <div dojoType="dijit.layout.ContentPane" title="SocialMAP Updates">
-
-        </div>
-        
-    </div>
-    
 </div>

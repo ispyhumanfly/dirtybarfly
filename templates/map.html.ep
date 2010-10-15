@@ -19,7 +19,7 @@
 
         var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-        <% if ( $self->session('page') eq 'people' ) { %>
+        <% if ( $self->session('page') eq 'users' ) { %>
 
             <% foreach my $user ( @{ $self->{'users'} } ) { %>
                 
