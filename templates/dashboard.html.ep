@@ -10,6 +10,8 @@
     
     <div dojoType="dijit.TitlePane" title="Following <%= $user->name %>." style="margin-bottom: 15px;">
     
+        <img src="<%= $user->avatar %>" width="50" height="50" />
+        
         <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><%= $user->name %></a>
         
         <div style="text-align: center;">
@@ -66,13 +68,13 @@
 
         </div>
         
-        <div dojoType="dijit.layout.ContentPane" title="Profile">
+        <div dojoType="dijit.layout.ContentPane" title="Account">
             
             <% foreach my $user ( @{ $self->{'users'} } ) { %>
         
                 <% if ( ( $user->user_id ) eq ( $self->session('user_id') ) ) { %>
                 
-                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
+                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/dashboard/submit/account" method="POST">
                 
                     Name:
 		    
@@ -107,10 +109,6 @@
 		    
 		    <div dojoType="dijit.form.TextBox" name="timezone" width="50" placeHolder="<%= $user->timezone %>" required="true"></div>
 		    
-                    Location:
-		    
-		    <div dojoType="dijit.form.TextBox" name="location" width="50" placeHolder="<%= $user->location %>" required="true"></div>
-                    
 		    City:
 		    
 		    <div dojoType="dijit.form.TextBox" name="city" width="50" placeHolder="<%= $user->city %>" required="true"></div>
@@ -123,6 +121,15 @@
 		    
 		    <div dojoType="dijit.form.TextBox" name="country" width="50" placeHolder="<%= $user->country %>"required="true"></div>
 		    
+                    Avatar:
+		    
+		    <div dojoType="dijit.form.TextBox" name="avatar" width="50" placeHolder="<%= $user->avatar %>"required="true"></div>
+		    
+                    About:
+		    
+		    <textarea dojoType="dijit.form.Textarea" name="about" required="true"><%= $user->about %></textarea>
+		    
+                    
                     <div dojoType="dijit.form.Button" type="submit">Update</div>
                 
                 </div>

@@ -13,6 +13,7 @@
         
         <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $place->place_id %>').show()">
         
+            <img src="<%= $place->user->avatar %>" width="50" height="50" />
             Submitted by <a href="/users/<%= $place->user->user_id %>" id="tooltip_<%= $place->user->user_id %>"><%= $place->user->name %></a>
         
             
@@ -46,6 +47,7 @@
                     
                     <div dojoType="dijit.layout.ContentPane" title="Place" selected="true">
                         
+                        <img src="<%= $place->user->avatar %>" width="50" height="50" />
                         Submitted by <a href="/users/<%= $place->user->user_id %>" id="tooltip_<%= $place->user->user_id %>"><%= $place->user->name %></a>
                         
                         <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $place->user->user_id %>" position="below">

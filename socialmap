@@ -224,73 +224,6 @@ any '/:page/:id' => [page => qr/\w+/, id => qr/\d+/] => sub {
 
 };
 
-#### Functions...
-
-post '/login' => sub {
-
-    my $self = shift;
-
-    if (($self->param('name')) and ($self->param('email')) and ($self->param('location'))) {
-
-        REST::Google::Search->service(LOCAL);
-
-        my $response =
-          REST::Google::Search->new(q => $self->param('location'));
-
-        if ($response->responseStatus == 200) {
-
-            my $data    = $response->responseData;
-            my @results = $data->results;
-
-            foreach my $result (@results) {
-
-                my $user = $MODEL->resultset('User')->find_or_create(
-
-                    {   
-                        name        => $self->param('name'),
-                        email       => $self->param('email'),
-                        location    => '' . $result->city . ', ' . $result->region . '',
-                        city        => $result->city,
-                        region      => $result->region,
-                        country     => $result->country,
-                        lat         => $result->lat,
-                        lng         => $result->lng,
-                    }
-                );
-            }
-        }
-        else {
-            
-            return $self->redirect_to('welcome');
-        }
-
-        my $user =
-          $MODEL->resultset('User')
-          ->search({name => $self->param('name'), email => $self->param('email') })->first;
-
-        $self->session(
-
-            user_id     => $user->user_id,
-            name        => $user->name, 
-            email       => $user->email,
-            location    => $user->location,
-            city        => $user->city,
-            region      => $user->region,
-            country     => $user->country,
-            lat         => $user->lat,
-            lng         => $user->lng,
-        );
-        
-    }
-    elsif ($self->param('expires')) {
-
-        $self->session(expires => $self->param('expires'));
-    }
-
-    return $self->redirect_to('dashboard');
-
-} => 'login';
-
 #### Forms...
 
 post '/login' => sub {
@@ -311,52 +244,55 @@ post '/login' => sub {
 
             foreach my $result (@results) {
 
-                my $user = $MODEL->resultset('User')->find_or_create(
+                my $check_user = $MODEL->resultset('User')->find_or_create(
 
                     {   
                         name        => $self->param('name'),
                         email       => $self->param('email'),
-                        location    => '' . $result->city . ', ' . $result->region . '',
                         city        => $result->city,
                         region      => $result->region,
                         country     => $result->country,
                         lat         => $result->lat,
                         lng         => $result->lng,
+                        avatar      => '/avatar.png',
+                        about       => 'Just another SocialMAP freak!'
                     }
                 );
+                
+                my $session_user = $MODEL->resultset('User')
+                ->search({name => $self->param('name'), email => $self->param('email'), city => $result->city, region => $result->region })->first;
+      
+                $self->session(
+      
+                    user_id     => $session_user->user_id,
+                    name        => $session_user->name, 
+                    email       => $session_user->email,
+                    city        => $session_user->city,
+                    region      => $session_user->region,
+                    country     => $session_user->country,
+                    lat         => $session_user->lat,
+                    lng         => $session_user->lng,
+                );
             }
+            
+            return $self->redirect_to('dashboard');
         }
         else {
             
             return $self->redirect_to('welcome');
         }
-
-        my $user =
-          $MODEL->resultset('User')
-          ->search({name => $self->param('name'), email => $self->param('email') })->first;
-
-        $self->session(
-
-            user_id     => $user->user_id,
-            name        => $user->name, 
-            email       => $user->email,
-            location    => $user->location,
-            city        => $user->city,
-            region      => $user->region,
-            country     => $user->country,
-            lat         => $user->lat,
-            lng         => $user->lng,
-        );
-        
     }
     
 } => 'login';
 
 get '/logout' => sub {
-        my $self = shift;
-        $self->session(expires => 1);
-        $self->redirect_to('welcome');
-    } => 'logout';
+    
+    my $self = shift;
+    
+    $self->session(expires => 1);
+    $self->redirect_to('welcome');
+
+} => 'logout';
 
 post '/location' => sub {
 
@@ -378,9 +314,6 @@ post '/location' => sub {
 
                 $self->session(
 
-                    location => ''
-                      . $result->city . ', '
-                      . $result->region . '',
                     city    => $result->city,
                     region  => $result->region,
                     country => $result->country,

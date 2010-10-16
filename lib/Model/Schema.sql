@@ -11,12 +11,13 @@ CREATE TABLE user (
     birthday TEXT NULL,
     email TEXT NOT NULL,
     timezone TEXT NULL,
-    location TEXT NOT NULL,
     city TEXT NULL,
     region TEXT NULL,
     country TEXT NULL,
     lat FLOAT NOT NULL,
     lng FLOAT NOT NULL,
+    avatar TEXT NULL,
+    about TEXT NULL,
     popularity INTEGER NULL
 );
 

@@ -20,48 +20,46 @@
                 
                 <div dojoType="dijit.layout.ContentPane" title="Welcome">
                     
-                    <p>
-                    Thanks for checking out SocialMAP.  A cool way to interact with people using
-                    our own unique social-network-like interface to both common and popular web technologies
-                    people use every day.
-                    </p>
+                    <blockquote>
+                        
+                        <p>
+                            Thanks for checking out SocialMAP.  A cool way to interact with people using
+                            our own unique social-network-like interface to both common and popular web technologies
+                            people use every day.
+                        </p>
                     
-                </div>
-                
-                <div dojoType="dijit.layout.ContentPane" title="Login">
+                        <p>
+                            During this testing period, we've made logging in and using SocialMAP very easy.  Simply enter a name and and email address
+                            to create an account.  You can use these same credentials to access your existing account.  If this is your first time logging
+                            in, an account will be created automatically for you. Be sure to enter the same city every time you log back in or a new account
+                            will be created based on your newly entered location. Thanks, have fun, and please send us your comments!
+                        </p>
+                        
+                    </blockquote>
                     
                     <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/login" method="POST">
                         
-                        <p style="margin: 10px; border: dotted;">
+                        <div style="border: outset; margin: 10px; vertical-align: middle;">
                             
-                            If you're name and email do not already exist within our database, we will automatically create an account for you.
-                        
-                        </p>
-                        
-                        <br />
-                       
-                        Name:
-		    
-                        <div dojoType="dijit.form.TextBox" name="name" width="50" placeHolder="Stinky Butt" required="true"></div>
-			
-                        Email:
-		    
-                        <div dojoType="dijit.form.TextBox" name="email" width="50" placeHolder="someone@somewhere.com" required="true"></div>
-                        
-                        Location:
-		    
-                        <div dojoType="dijit.form.TextBox" name="location" width="50" placeHolder="Detroit, Michigan" required="true"></div>
-                        
-                        <button dojoType="dijit.form.Button" type="submit">Submit</button>
+                             Name:
+                         
+                             <div dojoType="dijit.form.TextBox" name="name" width="50" placeHolder="Dummy Name" required="true"></div>
+                             
+                             Email:
+                         
+                             <div dojoType="dijit.form.TextBox" name="email" width="50" placeHolder="dummy@email.com" required="true"></div>
+                             
+                             Location:
+                         
+                             <div dojoType="dijit.form.TextBox" name="location" width="50" placeHolder="City, Region" required="true"></div>
+                             
+                             <button dojoType="dijit.form.Button" type="submit">Login</button>
+                             
+                        </div>
                         
                     </div>
                     
                 </div>
-                
-                <div dojoType="dijit.layout.ContentPane" title="New">
-                
-                </div>
-                
             </div>
         </div>    
     </div>
