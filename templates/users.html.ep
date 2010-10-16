@@ -14,7 +14,8 @@
         <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $user->user_id %>').show()">
         
             <img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" />
-            
+            <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><%= $user->name %></a>
+        
             <div style="font: large;">
                 
                 <div style="text-align: left; font-size: smaller;">
@@ -53,7 +54,6 @@
                     
                             <img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" />
                             <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><%= $user->name %></a>
-                            @ <%= $place->time %>
                             
                             <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $user->user_id %>" position="below">
     

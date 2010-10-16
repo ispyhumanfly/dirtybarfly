@@ -180,9 +180,11 @@ any '/places/post/:type' => [type => qr/\w+/] => sub {
         );
     }
 
-    return $self->redirect_to($self->session('page'));
+    return $self->redirect_to('places');
 
 };
+
+### Specific Page Information
 
 any '/:page/:id' => [page => qr/\w+/, id => qr/\d+/] => sub {
 
@@ -240,19 +242,19 @@ get '/login' => sub {
                 my $user = $MODEL->resultset('User')->find_or_create(
 
                     {   facebook_id => $self->param('facebook_id'),
-                        name        => $self->param('name'),
-                        first_name  => $self->param('first_name'),
-                        last_name   => $self->param('last_name'),
-                        gender      => $self->param('gender'),
-                        birthday    => $self->param('birthday'),
-                        email       => $self->param('email'),
-                        timezone    => $self->param('timezone'),
-                        location    => $self->param('location'),
-                        city        => $result->city,
-                        region      => $result->region,
-                        country     => $result->country,
-                        lat         => $result->lat,
-                        lng         => $result->lng,
+                        name        => $self->param('name')         || 'Unknown',
+                        first_name  => $self->param('first_name')   || 'Unknown',
+                        last_name   => $self->param('last_name')    || 'Unknown',
+                        gender      => $self->param('gender')       || 'Unknown',
+                        birthday    => $self->param('birthday')     || 'Unknown',
+                        email       => $self->param('email')        || 'Unknown',
+                        timezone    => $self->param('timezone')     || 'Unknown',
+                        location    => $self->param('location')     || 'Unknown',
+                        city        => $result->city                || 'Unknown',
+                        region      => $result->region              || 'Unknown',
+                        country     => $result->country             || 'Unknown',
+                        lat         => $result->lat                 || 'Unknown',
+                        lng         => $result->lng                 || 'Unknown',
                     }
                 );
             }
@@ -280,16 +282,14 @@ get '/login' => sub {
             lat         => $user->lat,
             lng         => $user->lng,
         );
-
-        return $self->redirect_to($self->session('page'));
-
+        
     }
     elsif ($self->param('expires')) {
 
         $self->session(expires => $self->param('expires'));
     }
 
-    return $self->redirect_to($self->session('page'));
+    return $self->redirect_to('dashboard');
 
 } => 'login';
 

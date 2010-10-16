@@ -14,6 +14,8 @@
         <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $place->place_id %>').show()">
         
             <img src="https://graph.facebook.com/<%= $place->user->facebook_id %>/picture" />
+            <a href="/users/<%= $place->user->user_id %>" id="tooltip_<%= $place->user->user_id %>"><%= $place->user->name %></a>
+        
             
             <div style="font: large;">
                 
