@@ -53,6 +53,12 @@ get '/dashboard' => sub {
 
 } => 'dashboard';
 
+any '/dashboard/post/:type' => [type => qr/\w+/] => sub {
+
+    my $self = shift;
+
+};
+
 ### Users
 
 get '/users' => sub {
@@ -133,7 +139,7 @@ get '/places' => sub {
 
 } => 'places';
 
-any '/places/post/:type' => [type => qr/\w+/] => sub {
+any '/places/submit/:type' => [type => qr/\w+/] => sub {
 
     my $self = shift;
 
@@ -213,7 +219,6 @@ any '/:page/:id' => [page => qr/\w+/, id => qr/\d+/] => sub {
         );
 
         $self->{'places'} = \@places;
-
         $self->render('places', layout => 'default');
     }
 
@@ -221,11 +226,11 @@ any '/:page/:id' => [page => qr/\w+/, id => qr/\d+/] => sub {
 
 #### Functions...
 
-get '/login' => sub {
+post '/login' => sub {
 
     my $self = shift;
 
-    if (($self->param('facebook_id')) and ($self->param('location'))) {
+    if (($self->param('name')) and ($self->param('email')) and ($self->param('location'))) {
 
         REST::Google::Search->service(LOCAL);
 
@@ -241,40 +246,33 @@ get '/login' => sub {
 
                 my $user = $MODEL->resultset('User')->find_or_create(
 
-                    {   facebook_id => $self->param('facebook_id'),
-                        name        => $self->param('name')         || 'Unknown',
-                        first_name  => $self->param('first_name')   || 'Unknown',
-                        last_name   => $self->param('last_name')    || 'Unknown',
-                        gender      => $self->param('gender')       || 'Unknown',
-                        birthday    => $self->param('birthday')     || 'Unknown',
-                        email       => $self->param('email')        || 'Unknown',
-                        timezone    => $self->param('timezone')     || 'Unknown',
-                        location    => $self->param('location')     || 'Unknown',
-                        city        => $result->city                || 'Unknown',
-                        region      => $result->region              || 'Unknown',
-                        country     => $result->country             || 'Unknown',
-                        lat         => $result->lat                 || 'Unknown',
-                        lng         => $result->lng                 || 'Unknown',
+                    {   
+                        name        => $self->param('name'),
+                        email       => $self->param('email'),
+                        location    => '' . $result->city . ', ' . $result->region . '',
+                        city        => $result->city,
+                        region      => $result->region,
+                        country     => $result->country,
+                        lat         => $result->lat,
+                        lng         => $result->lng,
                     }
                 );
             }
         }
+        else {
+            
+            return $self->redirect_to('welcome');
+        }
 
         my $user =
           $MODEL->resultset('User')
-          ->search({facebook_id => $self->param('facebook_id')})->first;
+          ->search({name => $self->param('name'), email => $self->param('email') })->first;
 
         $self->session(
 
             user_id     => $user->user_id,
-            facebook_id => $user->facebook_id,
-            name        => $user->name,
-            first_name  => $user->first_name,
-            last_name   => $user->last_name,
-            gender      => $user->gender,
-            birthday    => $user->birthday,
+            name        => $user->name, 
             email       => $user->email,
-            timezone    => $user->timezone,
             location    => $user->location,
             city        => $user->city,
             region      => $user->region,
@@ -294,6 +292,71 @@ get '/login' => sub {
 } => 'login';
 
 #### Forms...
+
+post '/login' => sub {
+
+    my $self = shift;
+
+    if (($self->param('name')) and ($self->param('email')) and ($self->param('location'))) {
+
+        REST::Google::Search->service(LOCAL);
+
+        my $response =
+          REST::Google::Search->new(q => $self->param('location'));
+
+        if ($response->responseStatus == 200) {
+
+            my $data    = $response->responseData;
+            my @results = $data->results;
+
+            foreach my $result (@results) {
+
+                my $user = $MODEL->resultset('User')->find_or_create(
+
+                    {   
+                        name        => $self->param('name'),
+                        email       => $self->param('email'),
+                        location    => '' . $result->city . ', ' . $result->region . '',
+                        city        => $result->city,
+                        region      => $result->region,
+                        country     => $result->country,
+                        lat         => $result->lat,
+                        lng         => $result->lng,
+                    }
+                );
+            }
+        }
+        else {
+            
+            return $self->redirect_to('welcome');
+        }
+
+        my $user =
+          $MODEL->resultset('User')
+          ->search({name => $self->param('name'), email => $self->param('email') })->first;
+
+        $self->session(
+
+            user_id     => $user->user_id,
+            name        => $user->name, 
+            email       => $user->email,
+            location    => $user->location,
+            city        => $user->city,
+            region      => $user->region,
+            country     => $user->country,
+            lat         => $user->lat,
+            lng         => $user->lng,
+        );
+        
+    }
+    
+} => 'login';
+
+get '/logout' => sub {
+        my $self = shift;
+        $self->session(expires => 1);
+        $self->redirect_to('welcome');
+    } => 'logout';
 
 post '/location' => sub {
 

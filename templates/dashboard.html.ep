@@ -10,12 +10,11 @@
     
     <div dojoType="dijit.TitlePane" title="Following <%= $user->name %>." style="margin-bottom: 15px;">
     
-        <img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" />
         <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><%= $user->name %></a>
         
         <div style="text-align: center;">
             
-            <fb:live-stream width="650" height="300" xid="user_<%= $user->user_id %>" via_url="/users/<%= $user->user_id %>" always_post_to_friends="false"></fb:live-stream>
+            <p>Will eventually display various portions of <%= $user->name %>'s activity on the SocialMAP.</p>
             
         </div>
         
@@ -39,7 +38,7 @@
             
             <% foreach my $user ( @{ $self->{'users'} } ) { %>
         
-            <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" /></a>
+            <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"></a>
                
             <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $user->user_id %>" position="below">
 
@@ -57,8 +56,6 @@
 
             <% foreach my $user ( @{ $self->{'users'} } ) { %>
         
-            <a href="/users/<%= $user->user_id %>" id="popularity_<%= $user->user_id %>"><img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" /></a>
-               
             <div dojoType="dijit.Tooltip" connectId="popularity_<%= $user->user_id %>" position="below">
 
                 <%= $user->name %>,  Popularity: <%= ( $user->popularity + int( scalar $user->places->all + scalar $user->events->all ) ) %>
@@ -73,11 +70,11 @@
             
             <% foreach my $user ( @{ $self->{'users'} } ) { %>
         
-                <% if ( ( $user->facebook_id ) eq ( $self->session('facebook_id') ) ) { %>
+                <% if ( ( $user->user_id ) eq ( $self->session('user_id') ) ) { %>
                 
                 <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
                 
-                    User Name:
+                    Name:
 		    
 		    <div dojoType="dijit.form.TextBox" name="name" width="50" placeHolder="<%= $user->name %>" required="true"></div>
 			

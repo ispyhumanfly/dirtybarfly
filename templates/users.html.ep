@@ -13,7 +13,6 @@
         
         <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $user->user_id %>').show()">
         
-            <img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" />
             <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><%= $user->name %></a>
         
             <div style="font: large;">
@@ -52,7 +51,6 @@
                         
                         <div dojoType="dijit.TitlePane" title="<%= $place->title %>" style="margin-bottom: 15px;">
                     
-                            <img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" />
                             <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><%= $user->name %></a>
                             
                             <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $user->user_id %>" position="below">
@@ -73,7 +71,6 @@
                         
                         <div dojoType="dijit.TitlePane" title="<%= $event->title %>" style="margin-bottom: 15px;">
                     
-                            <img src="https://graph.facebook.com/<%= $user->facebook_id %>/picture" />
                             <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><%= $user->name %></a>
                             @ <%= $event->time %>
                             

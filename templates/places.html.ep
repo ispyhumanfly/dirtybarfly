@@ -13,8 +13,7 @@
         
         <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $place->place_id %>').show()">
         
-            <img src="https://graph.facebook.com/<%= $place->user->facebook_id %>/picture" />
-            <a href="/users/<%= $place->user->user_id %>" id="tooltip_<%= $place->user->user_id %>"><%= $place->user->name %></a>
+            Submitted by <a href="/users/<%= $place->user->user_id %>" id="tooltip_<%= $place->user->user_id %>"><%= $place->user->name %></a>
         
             
             <div style="font: large;">
@@ -47,9 +46,7 @@
                     
                     <div dojoType="dijit.layout.ContentPane" title="Place" selected="true">
                         
-                        Posted by <img src="https://graph.facebook.com/<%= $place->user->facebook_id %>/picture" />
-                        <a href="/users/<%= $place->user->user_id %>" id="tooltip_<%= $place->user->user_id %>"><%= $place->user->name %></a>
-                        @ <%= $place->time %>
+                        Submitted by <a href="/users/<%= $place->user->user_id %>" id="tooltip_<%= $place->user->user_id %>"><%= $place->user->name %></a>
                         
                         <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $place->user->user_id %>" position="below">
 
@@ -74,9 +71,7 @@
                         
                         <div dojoType="dijit.TitlePane" title="<%= $event->title %>" style="margin-bottom: 15px;">
                     
-                            <img src="https://graph.facebook.com/<%= $event->user->facebook_id %>/picture" />
-                            <a href="/users/<%= $event->user->user_id %>" id="tooltip_<%= $event->user->user_id %>"><%= $event->user->name %></a>
-                            @ <%= $event->time %>
+                            Submitted by <a href="/users/<%= $event->user->user_id %>" id="tooltip_<%= $event->user->user_id %>"><%= $event->user->name %></a>
                             
                             <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $place->user->user_id %>" position="below">
     

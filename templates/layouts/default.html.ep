@@ -119,41 +119,7 @@
     
 		window.fbAsyncInit = function() {
 		    
-		    FB.init({appId: '<%= $self->session('SOCIALMAP_FACEBOOK_APP') %>', status: true, cookie: true, xfbml: true});
-		    
-		    FB.getLoginStatus(function(response) {
-  
-			if (response.session) {
-			    
-			    <% unless ( $self->session('facebook_id') ) { %>
-			    
-			    FB.api( '/me', function(facebook) {
-			    
-				window.location = '/login' +
-
-				    '?facebook_id='	+ facebook.id +				    
-				    '&name='		+ facebook.name +
-				    '&first_name='	+ facebook.first_name +
-				    '&last_name='	+ facebook.last_name +
-				    '&gender='		+ facebook.gender +
-				    '&birthday='	+ facebook.birthday +
-				    '&email='		+ facebook.email +
-				    '&location=' 	+ facebook.location.name +
-				    '&timezone='	+ facebook.timezone + '';
-			    });
-			    
-			    <% } %>
-			
-			}
-			else {
-    
-			    <% if ( $self->session('facebook_id') ) { %>
-			    
-			    window.location = '/login?expires=1';
-			    
-			    <% } %>
-			}
-		    });		    
+		    FB.init({appId: '<%= $self->session('SOCIALMAP_FACEBOOK_APP') %>', status: true, cookie: true, xfbml: true});   
 		};
 		(function() {
 		    

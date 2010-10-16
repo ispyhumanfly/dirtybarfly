@@ -93,7 +93,7 @@
 		"&lng="		  	+ item_select.grid.store.getValue(item, "lng") + "";
 	        
 
-	    window.location = "/places/post/place?" + string + "";
+	    window.location = "/places/submit/place?" + string + "";
 	    
         }
         dojo.connect(dijit.byId("localGrid"), "onRowClick", post_place);
@@ -120,29 +120,29 @@
     
 </div>
 
-<!-- Post Button -->
+<!-- Submit Button -->
 
-<button dojoType="dijit.form.Button" type="button" id="post_button">Post
+<button dojoType="dijit.form.Button" type="button" id="submit_button">Submit
 
     <script type="dojo/method" event="onClick" args="evt">
     
-	dijit.byId("dialog_post").show();
+	dijit.byId("dialog_submit").show();
 
     </script>
     
 </button>
 
-<!-- Post Tooltip -->
+<!-- Submit Tooltip -->
 
-<div dojoType="dijit.Tooltip" connectId="post_button" position="above">
+<div dojoType="dijit.Tooltip" connectId="submit_button" position="above">
 
-    Post your favorite places and future events on the SocialMAP.
+    Submit your favorite places and future events on the SocialMAP.
 
 </div>
 
-<!-- Post Dialog -->
+<!-- Submit Dialog -->
 
-<div id="dialog_post" dojoType="dijit.Dialog" title="Post something to SocialMAP." style="width: 800px; height: 600px;">
+<div id="dialog_submit" dojoType="dijit.Dialog" title="Submit something to SocialMAP." style="width: 800px; height: 600px;">
         
     <div style="width: inherit; height: 550px;">
 	    
@@ -154,9 +154,9 @@
 		
 		<select dojoType="dijit.form.FilteringSelect" id="category">
 		
-		    <option value="general">General</option>
-		    <option value="technical" selected>Technical</option>
-		    <option value="business">Business</option>
+		    <option value="General">General</option>
+		    <option value="Technical" selected>Technical</option>
+		    <option value="Business">Business</option>
 		    
 		</select>
 		
@@ -182,15 +182,15 @@
 	
             <div dojoType="dijit.layout.ContentPane" title="Event">
 		
-		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/places/post/event" method="POST">
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/places/submit/event" method="POST">
     
 		    Category:
 		    
 		    <select dojoType="dijit.form.FilteringSelect" name="category" style="margin: 10px;">
 			
-			<option value="general">General</option>
-			<option value="technical" selected>Technical</option>
-			<option value="business">Business</option>
+			<option value="General">General</option>
+			<option value="Technical" selected>Technical</option>
+			<option value="Business">Business</option>
 			
 		    </select>
 	
