@@ -1,4 +1,4 @@
-<% if ( $self->session('user_id') ) { %>
+<% if ( ( $self->session('user_id') ) and not ( $self->session('page') eq 'dashboard' ) ) { %>
 	
 <!-- Google Maps JavaScript API v3 -->
 

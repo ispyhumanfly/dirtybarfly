@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
     <head>
 	
@@ -75,7 +75,7 @@
 		    
 			<div dojoType="dijit.form.TextBox" width="50" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
 
-			<div dojoType="dijit.form.Button" type="submit">Search</div>
+			<div dojoType="dijit.form.Button" type="submit">Location</div>
 		    
 		    </div>
 		    
@@ -97,7 +97,11 @@
 		    
 		    <div style="float: left;">
 			
+			<% unless ( $self->session('page') eq 'dashboard' ) { %>
+			
 			<%= include 'options' %>
+			
+			<% } %>
 			
 		    </div>
 		
@@ -110,27 +114,6 @@
 		</div>
 		
 	    </div>
-    
-	    <!-- Facebook JavaScript SDK -->
-	    
-	    <div id="fb-root"></div>
-	        
-	    <script type="text/javascript">//<![CDATA[
-    
-		window.fbAsyncInit = function() {
-		    
-		    FB.init({appId: '<%= $self->session('SOCIALMAP_FACEBOOK_APP') %>', status: true, cookie: true, xfbml: true});   
-		};
-		(function() {
-		    
-		    var e = document.createElement('script'); e.async = true;
-		    e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-		    
-		    document.getElementById('fb-root').appendChild(e);
-		    
-		}());
-		
-	    //]]></script>
     
 	</div>
 	

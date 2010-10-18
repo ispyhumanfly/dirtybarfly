@@ -7,9 +7,6 @@ BEGIN {
         system 'sqlite3 socialmap.db < lib/Model/Schema.sql'
           unless -e 'socialmap.db';
     }
-
-    die 'The environment variable SOCIALMAP_FACEBOOK_APP has not been defined'
-      unless defined $ENV{'SOCIALMAP_FACEBOOK_APP'};
 }
 
 use Mojolicious::Lite;
@@ -25,13 +22,11 @@ get '/' => sub {
 
     my $self = shift;
 
-    $self->session(SOCIALMAP_FACEBOOK_APP => $ENV{'SOCIALMAP_FACEBOOK_APP'});
-
     return $self->redirect_to('dashboard', layout => 'default')
-        if $self->session('user_id');
-    
+      if $self->session('user_id');
+
     return $self->render('welcome', layout => 'default')
-        if not $self->session('user_id');
+      if not $self->session('user_id');
 
 } => 'welcome';
 
@@ -53,11 +48,37 @@ get '/dashboard' => sub {
 
 } => 'dashboard';
 
-any '/dashboard/post/:type' => [type => qr/\w+/] => sub {
-
-    my $self = shift;
-
-};
+#any '/dashboard/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
+#
+#    my $self = shift;
+#
+#    my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) =
+#      localtime(time);
+#
+#    if ($self->param('type') eq 'account') {
+#
+#        $MODEL->resultset('User')->search({user_id => $self->param('id')})
+#          ->update(
+#            {   name       => $self->session('name'),
+#                first_name => $self->param('first_name'),
+#                last_name  => $self->param('last_name'),
+#                gender     => $self->param('gender'),
+#                birthday   => $self->param('birthday'),
+#                email      => $self->param('email'),
+#                timezone   => $self->param('timezone'),
+#                city       => $self->param('city'),
+#                region     => $self->param('region'),
+#                country    => $self->param('country'),
+#                avatar     => $self->param('avatar')
+#            }
+#          );
+#
+#    }
+#    else {
+#
+#        return $self->redirect_to('dashboard');
+#    }
+#};
 
 ### Users
 
@@ -72,7 +93,7 @@ get '/users' => sub {
         undef,
 
         {   order_by => 'user_id DESC',
-            prefetch => [ 'places', 'events' ],
+            prefetch => ['places', 'events'],
         }
     );
 
@@ -192,7 +213,7 @@ any '/places/submit/:type' => [type => qr/\w+/] => sub {
 
 ### Specific Page Information
 
-any '/:page/:id' => [page => qr/\w+/, id => qr/\d+/] => sub {
+get '/:page/:id' => [page => qr/\w+/, id => qr/\d+/] => sub {
 
     my $self = shift;
 
@@ -226,11 +247,14 @@ any '/:page/:id' => [page => qr/\w+/, id => qr/\d+/] => sub {
 
 #### Forms...
 
-post '/login' => sub {
+get '/login' => sub {
 
     my $self = shift;
 
-    if (($self->param('name')) and ($self->param('email')) and ($self->param('location'))) {
+    if (    ($self->param('name'))
+        and ($self->param('email'))
+        and ($self->param('location')))
+    {
 
         REST::Google::Search->service(LOCAL);
 
@@ -244,51 +268,55 @@ post '/login' => sub {
 
             foreach my $result (@results) {
 
-                my $check_user = $MODEL->resultset('User')->find_or_create(
+                my $new_user = $MODEL->resultset('User')->find_or_create(
 
-                    {   
-                        name        => $self->param('name'),
-                        email       => $self->param('email'),
-                        city        => $result->city,
-                        region      => $result->region,
-                        country     => $result->country,
-                        lat         => $result->lat,
-                        lng         => $result->lng,
-                        avatar      => '/avatar.png',
-                        about       => 'Just another SocialMAP freak!'
+                    {   name    => $self->param('name'),
+                        email   => $self->param('email'),
+                        city    => $result->city,
+                        region  => $result->region,
+                        country => $result->country,
+                        avatar  => '/avatar.png',
+                        about   => 'I love to use SocialMAP.',
+                        lat     => $result->lat,
+                        lng     => $result->lng,
                     }
                 );
-                
-                my $session_user = $MODEL->resultset('User')
-                ->search({name => $self->param('name'), email => $self->param('email'), city => $result->city, region => $result->region })->first;
-      
+
+                my $session_user = $MODEL->resultset('User')->search(
+                    {   name   => $self->param('name'),
+                        email  => $self->param('email'),
+                        city   => $result->city,
+                        region => $result->region
+                    }
+                )->first;
+
                 $self->session(
-      
-                    user_id     => $session_user->user_id,
-                    name        => $session_user->name, 
-                    email       => $session_user->email,
-                    city        => $session_user->city,
-                    region      => $session_user->region,
-                    country     => $session_user->country,
-                    lat         => $session_user->lat,
-                    lng         => $session_user->lng,
+
+                    user_id => $session_user->user_id,
+                    name    => $session_user->name,
+                    email   => $session_user->email,
+                    city    => $session_user->city,
+                    region  => $session_user->region,
+                    country => $session_user->country,
+                    lat     => $session_user->lat,
+                    lng     => $session_user->lng,
                 );
             }
-            
-            return $self->redirect_to('dashboard');
         }
         else {
-            
+
             return $self->redirect_to('welcome');
         }
     }
-    
+
+    return $self->redirect_to('dashboard');
+
 } => 'login';
 
 get '/logout' => sub {
-    
+
     my $self = shift;
-    
+
     $self->session(expires => 1);
     $self->redirect_to('welcome');
 

@@ -100,12 +100,6 @@
                     
                     <div dojoType="dijit.layout.ContentPane" title="Comments">
                         
-                        <div dojoType="dijit.TitlePane" title="A Collection of Facebook Comments" style="margin-bottom: 15px;">
-                        
-                            <fb:comments xid="<%= $place->place_id %>" numposts="15" width="550"></fb:comments>    
-                        
-                        </div>
-                        
                     </div>
                     
                 </div>

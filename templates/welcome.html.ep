@@ -11,57 +11,58 @@
 //]]></script>
 
 <div dojoType='dijit.layout.ContentPane' region='center'>
-
-    <div id="dialog_welcome" dojoType="dijit.Dialog" title="Welcome to SocialMAP!" style="width: 800px; height: 600px;">
     
-        <div style="width: inherit; height: 550px;">
-        
-            <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
+    
+</div>
+
+<div id="dialog_welcome" dojoType="dijit.Dialog" title="Welcome to SocialMAP!" style="width: 800px; height: 600px;">
+
+    <div style="width: inherit; height: 550px;">
+    
+        <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
+            
+            <div dojoType="dijit.layout.ContentPane" title="Welcome">
                 
-                <div dojoType="dijit.layout.ContentPane" title="Welcome">
+                <blockquote>
                     
-                    <blockquote>
-                        
-                        <p>
-                            Thanks for checking out SocialMAP.  A cool way to interact with people using
-                            our own unique social-network-like interface to both common and popular web technologies
-                            people use every day.
-                        </p>
+                    <p>
+                        Thanks for checking out SocialMAP.  A cool way to interact with people using
+                        our own unique social-network-like interface to both common and popular web technologies
+                        people use every day.
+                    </p>
+                
+                    <p>
+                        During this testing period, we've made logging in and using SocialMAP very easy.  Simply enter a name and and email address
+                        to create an account.  You can use these same credentials to access your existing account.  If this is your first time logging
+                        in, an account will be created automatically for you. Be sure to enter the same city every time you log back in or a new account
+                        will be created based on your newly entered location. Thanks, have fun, and please send us your comments!
+                    </p>
                     
-                        <p>
-                            During this testing period, we've made logging in and using SocialMAP very easy.  Simply enter a name and and email address
-                            to create an account.  You can use these same credentials to access your existing account.  If this is your first time logging
-                            in, an account will be created automatically for you. Be sure to enter the same city every time you log back in or a new account
-                            will be created based on your newly entered location. Thanks, have fun, and please send us your comments!
-                        </p>
-                        
-                    </blockquote>
+                </blockquote>
+                
+                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/login" method="GET">
                     
-                    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/login" method="POST">
+                    <div style="border: outset; margin: 10px; vertical-align: middle;">
                         
-                        <div style="border: outset; margin: 10px; vertical-align: middle;">
-                            
-                             Name:
+                         Name:
+                     
+                         <div dojoType="dijit.form.TextBox" name="name" width="50" placeHolder="Dummy Name" required="true"></div>
                          
-                             <div dojoType="dijit.form.TextBox" name="name" width="50" placeHolder="Dummy Name" required="true"></div>
-                             
-                             Email:
+                         Email:
+                     
+                         <div dojoType="dijit.form.TextBox" name="email" width="50" placeHolder="dummy@email.com" required="true"></div>
                          
-                             <div dojoType="dijit.form.TextBox" name="email" width="50" placeHolder="dummy@email.com" required="true"></div>
-                             
-                             Location:
+                         Location:
+                     
+                         <div dojoType="dijit.form.TextBox" name="location" width="50" placeHolder="City, Region" required="true"></div>
                          
-                             <div dojoType="dijit.form.TextBox" name="location" width="50" placeHolder="City, Region" required="true"></div>
-                             
-                             <button dojoType="dijit.form.Button" type="submit">Login</button>
-                             
-                        </div>
-                        
+                         <button dojoType="dijit.form.Button" type="submit">Login</button>
+                         
                     </div>
                     
                 </div>
+                
             </div>
-        </div>    
-    </div>
-
+        </div>
+    </div>    
 </div>
