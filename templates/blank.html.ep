@@ -15,9 +15,7 @@
 
 </div>
 
-<% if ( $self->session('page') eq 'places' ) { %>
-
-<div id="dialog_blank" dojoType="dijit.Dialog" title="Nothing Here" style="width: 400px; height: 300px;">
+<div id="dialog_blank" dojoType="dijit.Dialog" title="Blank" style="width: 400px; height: 300px;">
 
     <div style=" text-align: center; width: inherit; height: 250px;">
         
@@ -26,5 +24,3 @@
     </div>
     
 </div>
-
-<% } %>

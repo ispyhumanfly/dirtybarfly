@@ -18,8 +18,7 @@ CREATE TABLE user (
     lng FLOAT NOT NULL,
     avatar TEXT NULL,
     about TEXT NULL,
-    join_date TEXT NOT NULL,
-    last_updated TEXT NULL,
+    following INTEGER NULL REFERENCES user(user_id),
     popularity INTEGER NULL
 );
 

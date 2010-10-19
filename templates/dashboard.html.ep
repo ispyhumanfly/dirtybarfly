@@ -41,7 +41,7 @@
             
         </div>
 
-        <div dojoType="dijit.layout.ContentPane" title="Account" selected="true">
+        <div dojoType="dijit.layout.ContentPane" title="Settings" selected="true">
             
             <% foreach my $user ( @{ $self->{'users'} } ) { %>
         

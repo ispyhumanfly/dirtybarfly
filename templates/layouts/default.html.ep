@@ -97,11 +97,7 @@
 		    
 		    <div style="float: left;">
 			
-			<% unless ( $self->session('page') eq 'dashboard' ) { %>
-			
 			<%= include 'options' %>
-			
-			<% } %>
 			
 		    </div>
 		
