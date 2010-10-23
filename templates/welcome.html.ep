@@ -32,7 +32,7 @@
                     </p>
                 
                     <p>
-                        During this testing period, we've made logging in and using SocialMAP very easy.  Simply enter a name and and email address
+                        During this testing period, we've made logging in and using SocialMAP very easy.  Simply enter a name and an email address
                         to create an account.  You can use these same credentials to access your existing account.  If this is your first time logging
                         in, an account will be created automatically for you. Be sure to enter the same city every time you log back in or a new account
                         will be created based on your newly entered location. Thanks, have fun, and please send us your comments!
@@ -42,7 +42,7 @@
                 
                 <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/login" method="GET">
                     
-                    <div style="border: outset; margin: 10px; vertical-align: middle;">
+                    <div style="border: outset; margin: 10px; vertical-align: middle; padding: 5px;">
                         
                          Name:
                      

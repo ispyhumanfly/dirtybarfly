@@ -7,26 +7,28 @@
 
 <div  dojoType="dijit.layout.ContentPane" region="leading">
 
-    <% foreach my $user ( @{ $self->{'users'} } ) { %>
+    <% foreach my $person ( @{ $self->{'people'} } ) { %>
     
-    <div dojoType="dijit.TitlePane" title="<%= $user->name %>" id="user_<%= $user->user_id %>" style="margin-bottom: 15px;">
+    <div dojoType="dijit.TitlePane" title="<%= $person->name %>" style="margin-bottom: 15px;">
         
-        <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $user->user_id %>').show()">
-        
-            <img src="<%= $user->avatar %>" width="50" height="50" />
-            <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><%= $user->name %></a>
+        <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $person->person_id %>').show()">
+
+            <a href="/people/<%= $person->person_id %>" id="tooltip_<%= $person->person_id %>">
+            
+                <img src="<%= $person->avatar %>" width="50" height="50" />
+            </a>
         
             <div style="font: large;">
                 
                 <div style="text-align: left; font-size: smaller;">
                     
-		    Location: <%= $user->city %>, <%= $user->region %>, <%= $user->country %>
+		    Location: <%= $person->city %>, <%= $person->region %>, <%= $person->country %>
 		    
-                    Places: <%= scalar $user->places->all %>
+                    Places: <%= scalar $person->places->all %>
                     
                     <br />
                     
-                    Events: <%= scalar $user->events->all %>
+                    Events: <%= scalar $person->events->all %>
                 
                 </div>
                 
@@ -34,13 +36,13 @@
             
         </div>
         
-        <div dojoType="dijit.Tooltip" connectId="user_<%= $user->user_id %>" position="below">
+        <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $person->person_id %>" position="below">
 
-            Some information about the place.
+            <%= $person->about %>
         
         </div>
         
-        <div id="dialog_<%= $user->user_id %>" dojoType="dijit.Dialog" title="<%= $user->name %>" style="width: 800px; height: 600px;">
+        <div id="dialog_<%= $person->person_id %>" dojoType="dijit.Dialog" title="<%= $person->name %>" style="width: 800px; height: 600px;">
         
             <div style="width: inherit; height: 550px;">
 	    
@@ -48,14 +50,14 @@
                     
                     <div dojoType="dijit.layout.ContentPane" title="Places">
                         
-                        <% for my $place ( $user->places->all ) { %>
+                        <% for my $place ( $person->places->all ) { %>
                         
                         <div dojoType="dijit.TitlePane" title="<%= $place->title %>" style="margin-bottom: 15px;">
                     
-                            <img src="<%= $place->user->avatar %>" width="50" height="50" />
-                            <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><%= $user->name %></a>
+                            <img src="<%= $place->person->avatar %>" width="50" height="50" />
+                            <a href="/people/<%= $person->person_id %>" id="tooltip_<%= $person->person_id %>"><%= $person->name %></a>
                             
-                            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $user->user_id %>" position="below">
+                            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $person->person_id %>" position="below">
     
                                 Check out my User Page!
             
@@ -69,14 +71,14 @@
                     
                     <div dojoType="dijit.layout.ContentPane" title="Events">
                         
-                        <% for my $event ( $user->events->all ) { %>
+                        <% for my $event ( $person->events->all ) { %>
                         
                         <div dojoType="dijit.TitlePane" title="<%= $event->title %>" style="margin-bottom: 15px;">
                     
-                            <a href="/users/<%= $user->user_id %>" id="tooltip_<%= $user->user_id %>"><%= $user->name %></a>
+                            <a href="/people/<%= $person->person_id %>" id="tooltip_<%= $person->person_id %>"><%= $person->name %></a>
                             @ <%= $event->time %>
                             
-                            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $user->user_id %>" position="below">
+                            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $person->person_id %>" position="below">
     
                                 Check out my User Page!
             

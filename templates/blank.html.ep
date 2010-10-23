@@ -19,7 +19,17 @@
 
     <div style=" text-align: center; width: inherit; height: 250px;">
         
-        <p>... why not try Submit something new to the SocialMAP?!</p>
+        <% if ( $self->session('page') eq 'people' ) { %>
+        
+        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> is using SocialMAP :(</p>
+        
+        <% } %>
+
+        <% if ( $self->session('page') eq 'places' ) { %>
+        
+        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> has submitted any places to SocialMAP :(</p>
+        
+        <% } %>
         
     </div>
     

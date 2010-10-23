@@ -1,9 +1,9 @@
 
--- User Information --
+-- Person --
 
-CREATE TABLE user (
+CREATE TABLE person (
 
-    user_id INTEGER PRIMARY KEY,
+    person_id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     first_name TEXT NULL,
     last_name TEXT NULL,
@@ -18,11 +18,11 @@ CREATE TABLE user (
     lng FLOAT NOT NULL,
     avatar TEXT NULL,
     about TEXT NULL,
-    following INTEGER NULL REFERENCES user(user_id),
+    following INTEGER NULL REFERENCES person(person_id),
     popularity INTEGER NULL
 );
 
--- Place Related Information --
+-- Place --
 
 CREATE TABLE place (
 
@@ -38,7 +38,7 @@ CREATE TABLE place (
     lat FLOAT NOT NULL,
     lng FLOAT NOT NULL,
     popularity INTEGER NULL,
-    user INTEGER NOT NULL REFERENCES user(user_id)
+    person INTEGER NOT NULL REFERENCES person(person_id)
 );
 
 CREATE TABLE place_event (
@@ -55,5 +55,5 @@ CREATE TABLE place_event (
     time TEXT NOT NULL,
     popularity INTEGER NULL,
     place INTEGER NOT NULL REFERENCES place(place_id),
-    user INTEGER NOT NULL REFERENCES user(user_id)
+    person INTEGER NOT NULL REFERENCES person(person_id)
 );

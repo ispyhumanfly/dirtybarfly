@@ -13,8 +13,8 @@
         
         <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $place->place_id %>').show()">
         
-            <img src="<%= $place->user->avatar %>" width="50" height="50" />
-            Submitted by <a href="/users/<%= $place->user->user_id %>" id="tooltip_<%= $place->user->user_id %>"><%= $place->user->name %></a>
+            <img src="<%= $place->person->avatar %>" width="50" height="50" />
+            Submitted by <a href="/people/<%= $place->person->person_id %>" id="tooltip_<%= $place->person->person_id %>"><%= $place->person->name %></a>
         
             
             <div style="font: large;">
@@ -47,10 +47,10 @@
                     
                     <div dojoType="dijit.layout.ContentPane" title="Place" selected="true">
                         
-                        <img src="<%= $place->user->avatar %>" width="50" height="50" />
-                        Submitted by <a href="/users/<%= $place->user->user_id %>" id="tooltip_<%= $place->user->user_id %>"><%= $place->user->name %></a>
+                        <img src="<%= $place->person->avatar %>" width="50" height="50" />
+                        Submitted by <a href="/people/<%= $place->person->person_id %>" id="tooltip_<%= $place->person->person_id %>"><%= $place->person->name %></a>
                         
-                        <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $place->user->user_id %>" position="below">
+                        <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $place->person->person_id %>" position="below">
 
                             Check out my User Page!
         
@@ -73,9 +73,9 @@
                         
                         <div dojoType="dijit.TitlePane" title="<%= $event->title %>" style="margin-bottom: 15px;">
                     
-                            Submitted by <a href="/users/<%= $event->user->user_id %>" id="tooltip_<%= $event->user->user_id %>"><%= $event->user->name %></a>
+                            Submitted by <a href="/people/<%= $event->person->person_id %>" id="tooltip_<%= $event->person->person_id %>"><%= $event->person->name %></a>
                             
-                            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $place->user->user_id %>" position="below">
+                            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $place->person->person_id %>" position="below">
     
                                 Check out my User Page!
             

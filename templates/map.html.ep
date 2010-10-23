@@ -1,4 +1,4 @@
-<% if ( ( $self->session('user_id') ) and not ( $self->session('page') eq 'dashboard' ) ) { %>
+<% if ( ( $self->session('person_id') ) and not ( $self->session('page') eq 'dashboard' ) ) { %>
 	
 <!-- Google Maps JavaScript API v3 -->
 
@@ -19,19 +19,19 @@
 
         var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-        <% if ( $self->session('page') eq 'users' ) { %>
+        <% if ( $self->session('page') eq 'people' ) { %>
 
-            <% foreach my $user ( @{ $self->{'users'} } ) { %>
+            <% foreach my $person ( @{ $self->{'people'} } ) { %>
                 
-            var user_latlng = new google.maps.LatLng(<%= $user->lat %>,<%= $user->lng %>);
+            var person_latlng = new google.maps.LatLng(<%= $person->lat %>,<%= $person->lng %>);
     
-            var user_marker = new google.maps.Marker({
+            var person_marker = new google.maps.Marker({
                 
-                position: user_latlng,
-                title: '<%= $user->name %>'
+                position: person_latlng,
+                title: '<%= $person->name %>'
             });
 
-            user_marker.setMap(map);
+            person_marker.setMap(map);
 
             <% } %>
 

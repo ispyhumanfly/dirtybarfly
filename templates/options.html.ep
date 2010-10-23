@@ -1,4 +1,4 @@
-<% if ( $self->session('user_id') ) { %>
+<% if ( $self->session('person_id') ) { %>
 
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/Grid.css">
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/claroGrid.css">

@@ -18,15 +18,17 @@ use Model::Schema;
 
 my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
 
+### Welcome
+
 get '/' => sub {
 
     my $self = shift;
 
     return $self->redirect_to('dashboard', layout => 'default')
-      if $self->session('user_id');
+      if $self->session('person_id');
 
     return $self->render('welcome', layout => 'default')
-      if not $self->session('user_id');
+      if not $self->session('person_id');
 
 } => 'welcome';
 
@@ -37,88 +39,88 @@ get '/dashboard' => sub {
     my $self = shift;
     $self->session(page => 'dashboard');
 
-    return $self->redirect_to('welcome') unless $self->session('user_id');
+    return $self->redirect_to('welcome') unless $self->session('person_id');
 
-    my @users =
-      $MODEL->resultset('User')->search(undef, {order_by => 'user_id ASC'});
+    my @people =
+      $MODEL->resultset('Person')
+      ->search(undef, {order_by => 'person_id ASC'});
 
-    $self->{'users'} = \@users;
+    $self->{'people'} = \@people;
 
     $self->render('dashboard', layout => 'default');
 
 } => 'dashboard';
 
-#any '/dashboard/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
-#
-#    my $self = shift;
-#
-#    my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) =
-#      localtime(time);
-#
-#    if ($self->param('type') eq 'account') {
-#
-#        $MODEL->resultset('User')->search({user_id => $self->param('id')})
-#          ->update(
-#            {   name       => $self->session('name'),
-#                first_name => $self->param('first_name'),
-#                last_name  => $self->param('last_name'),
-#                gender     => $self->param('gender'),
-#                birthday   => $self->param('birthday'),
-#                email      => $self->param('email'),
-#                timezone   => $self->param('timezone'),
-#                city       => $self->param('city'),
-#                region     => $self->param('region'),
-#                country    => $self->param('country'),
-#                avatar     => $self->param('avatar')
-#            }
-#          );
-#
-#    }
-#    else {
-#
-#        return $self->redirect_to('dashboard');
-#    }
-#};
-
-### Users
-
-get '/users' => sub {
+post '/dashboard/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
     my $self = shift;
-    $self->session(page => 'users');
 
-    return $self->redirect_to('welcome') unless $self->session('user_id');
+    my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) =
+      localtime(time);
 
-    my @users = $MODEL->resultset('User')->search(
+    if ($self->param('type') eq 'person') {
+
+        $MODEL->resultset('Person')->search({person_id => $self->param('id')})
+          ->update(
+            {   name       => $self->param('name'),
+                first_name => $self->param('first_name'),
+                last_name  => $self->param('last_name'),
+                gender     => $self->param('gender'),
+                birthday   => $self->param('birthday'),
+                email      => $self->param('email'),
+                timezone   => $self->param('timezone'),
+                city       => $self->param('city'),
+                region     => $self->param('region'),
+                country    => $self->param('country'),
+                avatar     => $self->param('avatar'),
+                about     => $self->param('about')
+            }
+          );
+
+    }
+        
+    return $self->redirect_to('dashboard');
+    
+};
+
+### Person
+
+get '/people' => sub {
+
+    my $self = shift;
+    $self->session(page => 'people');
+
+    return $self->redirect_to('welcome') unless $self->session('person_id');
+
+    my @people = $MODEL->resultset('Person')->search(
         undef,
 
-        {   order_by => 'user_id DESC',
+        {   order_by => 'person_id DESC',
             prefetch => ['places', 'events'],
         }
     );
 
-    for my $user (@users) {
+    for my $person (@people) {
 
         my $gis = GIS::Distance->new();
 
         my $distance = $gis->distance(
-            $self->session('lat'), $self->session('lng') => $user->lat,
-            $user->lng
+            $self->session('lat'), $self->session('lng') => $person->lat,
+            $person->lng
         );
 
-        # Display all known places within a 50 mile radius.
         if ($distance->meters <= (50 * 1609.344)) {
 
-            push @{$self->{'users'}}, $user;
+            push @{$self->{'people'}}, $person;
         }
     }
 
     $self->render('blank', layout => 'default')
-      unless exists $self->{'users'};
+      unless exists $self->{'people'};
 
-    $self->render('users', layout => 'default');
+    $self->render('people', layout => 'default');
 
-} => 'users';
+} => 'people';
 
 ### Places
 
@@ -127,7 +129,7 @@ get '/places' => sub {
     my $self = shift;
     $self->session(page => 'places');
 
-    return $self->redirect_to('welcome') unless $self->session('user_id');
+    return $self->redirect_to('welcome') unless $self->session('person_id');
 
     my @places = $MODEL->resultset('Place')->search(
         undef,
@@ -146,7 +148,6 @@ get '/places' => sub {
             $place->lng
         );
 
-        # Display all known places within a 50 mile radius.
         if ($distance->meters <= (50 * 1609.344)) {
 
             push @{$self->{'places'}}, $place;
@@ -182,7 +183,7 @@ any '/places/submit/:type' => [type => qr/\w+/] => sub {
                 lat            => $self->param('lat'),
                 lng            => $self->param('lng'),
                 popularity     => 0,
-                user           => $self->session('user_id'),
+                person         => $self->session('person_id'),
             }
         );
     }
@@ -202,7 +203,7 @@ any '/places/submit/:type' => [type => qr/\w+/] => sub {
                 date       => "$year-$mon-$mday",
                 time       => "$hour:$min:$sec",
                 popularity => 0,
-                user       => $self->session('user_id'),
+                person     => $self->session('person_id'),
             }
         );
     }
@@ -217,15 +218,17 @@ get '/:page/:id' => [page => qr/\w+/, id => qr/\d+/] => sub {
 
     my $self = shift;
 
-    if ($self->param('page') eq 'users') {
+    if ($self->param('page') eq 'people') {
 
-        return $self->redirect_to('welcome') unless $self->session('user_id');
+        return $self->redirect_to('welcome')
+          unless $self->session('person_id');
 
-        my @users =
-          $MODEL->resultset('User')->search({user_id => $self->param('id')});
+        my @people =
+          $MODEL->resultset('Person')
+          ->search({person_id => $self->param('id')});
 
-        $self->{'users'} = \@users;
-        $self->render('users', layout => 'default');
+        $self->{'people'} = \@people;
+        $self->render('people', layout => 'default');
     }
 
     elsif ($self->param('page') eq 'places') {
@@ -268,7 +271,7 @@ get '/login' => sub {
 
             foreach my $result (@results) {
 
-                my $new_user = $MODEL->resultset('User')->find_or_create(
+                my $new_person = $MODEL->resultset('Person')->find_or_create(
 
                     {   name    => $self->param('name'),
                         email   => $self->param('email'),
@@ -282,7 +285,7 @@ get '/login' => sub {
                     }
                 );
 
-                my $session_user = $MODEL->resultset('User')->search(
+                my $session_person = $MODEL->resultset('Person')->search(
                     {   name   => $self->param('name'),
                         email  => $self->param('email'),
                         city   => $result->city,
@@ -292,14 +295,14 @@ get '/login' => sub {
 
                 $self->session(
 
-                    user_id => $session_user->user_id,
-                    name    => $session_user->name,
-                    email   => $session_user->email,
-                    city    => $session_user->city,
-                    region  => $session_user->region,
-                    country => $session_user->country,
-                    lat     => $session_user->lat,
-                    lng     => $session_user->lng,
+                    person_id => $session_person->person_id,
+                    name      => $session_person->name,
+                    email     => $session_person->email,
+                    city      => $session_person->city,
+                    region    => $session_person->region,
+                    country   => $session_person->country,
+                    lat       => $session_person->lat,
+                    lng       => $session_person->lng,
                 );
             }
         }
