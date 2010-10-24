@@ -13,9 +13,7 @@
         
         <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $place->place_id %>').show()">
         
-            <img src="<%= $place->person->avatar %>" width="50" height="50" />
-            Submitted by <a href="/people/<%= $place->person->person_id %>" id="tooltip_<%= $place->person->person_id %>"><%= $place->person->name %></a>
-        
+            <img src="/avatar.png" width="50" height="50" />        
             
             <div style="font: large;">
                 
@@ -48,7 +46,7 @@
                     <div dojoType="dijit.layout.ContentPane" title="Place" selected="true">
                         
                         <img src="<%= $place->person->avatar %>" width="50" height="50" />
-                        Submitted by <a href="/people/<%= $place->person->person_id %>" id="tooltip_<%= $place->person->person_id %>"><%= $place->person->name %></a>
+                        Submitted by <a href="/person/<%= $place->person->person_id %>" id="tooltip_<%= $place->person->person_id %>"><%= $place->person->name %></a>
                         
                         <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $place->person->person_id %>" position="below">
 
@@ -73,7 +71,7 @@
                         
                         <div dojoType="dijit.TitlePane" title="<%= $event->title %>" style="margin-bottom: 15px;">
                     
-                            Submitted by <a href="/people/<%= $event->person->person_id %>" id="tooltip_<%= $event->person->person_id %>"><%= $event->person->name %></a>
+                            Submitted by <a href="/person/<%= $event->person->person_id %>" id="tooltip_<%= $event->person->person_id %>"><%= $event->person->name %></a>
                             
                             <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $place->person->person_id %>" position="below">
     
@@ -96,10 +94,6 @@
                             
                         <% } %>
                     
-                    </div>
-                    
-                    <div dojoType="dijit.layout.ContentPane" title="Comments">
-                        
                     </div>
                     
                 </div>

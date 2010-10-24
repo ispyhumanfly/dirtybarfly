@@ -12,8 +12,6 @@
     
         <img src="<%= $person->avatar %>" width="50" height="50" />
         
-        <a href="/people/<%= $person->person_id %>" id="tooltip_<%= $person->person_id %>"><%= $person->name %></a>
-        
         <div style="text-align: center;">
             
             <p>Will eventually display various portions of <%= $person->name %>'s activity on the SocialMAP.</p>
@@ -30,7 +28,7 @@
     
     <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
         
-        <div dojoType="dijit.layout.ContentPane" title="Following">
+        <div dojoType="dijit.layout.ContentPane" title="Popular" selected="true">
             
             
         </div>
@@ -41,7 +39,7 @@
             
         </div>
 
-        <div dojoType="dijit.layout.ContentPane" title="You" selected="true">
+        <div dojoType="dijit.layout.ContentPane" title="You">
             
             <% foreach my $person ( @{ $self->{'people'} } ) { %>
         

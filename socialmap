@@ -83,7 +83,7 @@ post '/dashboard/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
     
 };
 
-### Person
+### People
 
 get '/people' => sub {
 
@@ -121,6 +121,22 @@ get '/people' => sub {
     $self->render('people', layout => 'default');
 
 } => 'people';
+
+get '/person/:id' => [id => qr/\d+/] => sub {
+
+    my $self = shift;
+
+    return $self->redirect_to('welcome')
+      unless $self->session('person_id');
+
+    my @people =
+      $MODEL->resultset('Person')
+      ->search({person_id => $self->param('id')});
+
+    $self->{'people'} = \@people;
+    $self->render('people', layout => 'default');
+
+};
 
 ### Places
 
@@ -212,43 +228,25 @@ any '/places/submit/:type' => [type => qr/\w+/] => sub {
 
 };
 
-### Specific Page Information
-
-get '/:page/:id' => [page => qr/\w+/, id => qr/\d+/] => sub {
+get '/place/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
 
-    if ($self->param('page') eq 'people') {
+    my @places = $MODEL->resultset('Place')->search(
 
-        return $self->redirect_to('welcome')
-          unless $self->session('person_id');
+        {place_id => $self->param('id')},
 
-        my @people =
-          $MODEL->resultset('Person')
-          ->search({person_id => $self->param('id')});
+        {   order_by => 'place_id DESC',
+            prefetch => 'events',
+        }
+    );
 
-        $self->{'people'} = \@people;
-        $self->render('people', layout => 'default');
-    }
-
-    elsif ($self->param('page') eq 'places') {
-
-        my @places = $MODEL->resultset('Place')->search(
-
-            {place_id => $self->param('id')},
-
-            {   order_by => 'place_id DESC',
-                prefetch => 'events',
-            }
-        );
-
-        $self->{'places'} = \@places;
-        $self->render('places', layout => 'default');
-    }
+    $self->{'places'} = \@places;
+    $self->render('places', layout => 'default');
 
 };
 
-#### Forms...
+#### SocialMAP Functions...
 
 get '/login' => sub {
 
@@ -314,7 +312,7 @@ get '/login' => sub {
 
     return $self->redirect_to('dashboard');
 
-} => 'login';
+};
 
 get '/logout' => sub {
 
@@ -323,7 +321,7 @@ get '/logout' => sub {
     $self->session(expires => 1);
     $self->redirect_to('welcome');
 
-} => 'logout';
+};
 
 post '/location' => sub {
 
@@ -358,7 +356,7 @@ post '/location' => sub {
 
     return $self->redirect_to($self->session('page'));
 
-} => 'location';
+};
 
 app->secret('Insurgent Software Rocks!');
 app->start;

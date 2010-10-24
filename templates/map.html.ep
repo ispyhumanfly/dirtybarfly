@@ -19,7 +19,7 @@
 
         var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-        <% if ( $self->session('page') eq 'people' ) { %>
+        <% if ( ( $self->session('page') eq 'people' ) or ( $self->session('page') eq 'person' ) ) { %>
 
             <% foreach my $person ( @{ $self->{'people'} } ) { %>
                 
@@ -37,7 +37,7 @@
 
         <% } %>
         
-        <% if ( $self->session('page') eq 'places' ) { %>
+        <% if ( ( $self->session('page') eq 'places' ) or ( $self->session('page') eq 'place' ) ) { %>
 
             <% foreach my $place ( @{ $self->{'places'} } ) { %>
             
