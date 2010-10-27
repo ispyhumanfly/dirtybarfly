@@ -64,6 +64,8 @@
                         <% for my $place ( $person->places->all ) { %>
                         
                         <div dojoType="dijit.TitlePane" title="<%= $place->title %>" style="margin-bottom: 15px;">
+			
+			    Submitted by <img src="<%= $place->person->avatar %>" width="15" height="15" /> <a href="/person/<%= $place->person->person_id %>"><%= $place->person->name %></a>
                     
 			    <p>
 				Address: <%= $place->street_address %>, <%= $place->city %>, <%= $place->region %>
@@ -81,6 +83,8 @@
                         <% for my $event ( $person->events->all ) { %>
                         
                         <div dojoType="dijit.TitlePane" title="<%= $event->title %>" style="margin-bottom: 15px;">
+			
+			    Submitted by <img src="<%= $event->person->avatar %>" width="15" height="15" /> <a href="/person/<%= $event->person->person_id %>"><%= $event->person->name %></a>
                         
                             <p><%= $event->about %></p>
                                

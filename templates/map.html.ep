@@ -24,11 +24,14 @@
             <% foreach my $person ( @{ $self->{'people'} } ) { %>
                 
             var person_latlng = new google.maps.LatLng(<%= $person->lat %>,<%= $person->lng %>);
+
+            var person_avatar = new google.maps.MarkerImage('/marker.png'); // Will eventually display the person's avatar...
     
             var person_marker = new google.maps.Marker({
                 
                 position: person_latlng,
-                title: '<%= $person->name %>'
+                title: '<%= $person->name %>',
+                icon: person_avatar
             });
 
             person_marker.setMap(map);
@@ -43,10 +46,13 @@
             
             var place_latlng = new google.maps.LatLng(<%= $place->lat %>,<%= $place->lng %>);
     
+            var place_avatar = new google.maps.MarkerImage('/marker.png'); // Will eventually display the place's avatar...
+            
             var place_marker = new google.maps.Marker({
                 
                 position: place_latlng,
-                title: '<%= $place->title %>'
+                title: '<%= $place->title %>',
+                icon: place_avatar
             });
 
             place_marker.setMap(map);

@@ -22,6 +22,16 @@ CREATE TABLE person (
     popularity INTEGER NULL
 );
 
+CREATE TABLE person_track (
+
+    track_id INTEGER PRIMARY KEY,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    action TEXT NOT NULL,
+    comment TEXT NOT NULL,
+    person INTEGER NOT NULL REFERENCES person(person_id)
+);
+
 -- Place --
 
 CREATE TABLE place (

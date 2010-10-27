@@ -10,11 +10,23 @@
     
     <div dojoType="dijit.TitlePane" title="Following <%= $person->name %>" style="margin-bottom: 15px;">
     
-        <img src="<%= $person->avatar %>" width="50" height="50" />
+        <img src="<%= $person->avatar %>" width="50" height="50" style="float: left;"/>
         
-        <div style="text-align: center;">
+        <div style="font-size: smaller;">
             
-            <p>Will eventually display various portions of <%= $person->name %>'s activity on the SocialMAP.</p>
+            <blockquote>
+                
+                <ul>
+                    
+                    <% for my $track ( $person->tracks->all ) { %>
+                    
+                    <li><%= $track->comment %></li>
+                
+                    <% } %>
+                    
+                </ul>
+                
+            </blockquote>
             
         </div>
         
@@ -30,12 +42,23 @@
         
         <div dojoType="dijit.layout.ContentPane" title="Popular" selected="true">
             
+            <% for ( 0 .. 20 ) { %>
+            
+            <p>The #<%= $_ %> most popular thing in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
+            
+            <% } %>
+            
             
         </div>
 
         <div dojoType="dijit.layout.ContentPane" title="Followers">
             
-            <p> Something </p>
+            
+            <% for ( 0 .. 10 ) { %>
+            
+            <p>Someone who is following you...<p>
+            
+            <% } %>
             
         </div>
 

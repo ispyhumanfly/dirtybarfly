@@ -21,3 +21,5 @@ a:link {
 a:visited {
     color: #333;
 }
+
+#map_canvas { height: 100% }
