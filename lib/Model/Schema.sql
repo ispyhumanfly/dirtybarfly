@@ -18,9 +18,10 @@ CREATE TABLE person (
     lng FLOAT NOT NULL,
     avatar TEXT NULL,
     about TEXT NULL,
-    following INTEGER NULL REFERENCES person(person_id),
     popularity INTEGER NULL
 );
+
+-- Person Tracks & Tracking --
 
 CREATE TABLE person_track (
 
@@ -29,6 +30,12 @@ CREATE TABLE person_track (
     time TEXT NOT NULL,
     action TEXT NOT NULL,
     comment TEXT NOT NULL,
+    person INTEGER NOT NULL REFERENCES person(person_id)
+);
+
+CREATE TABLE person_tracking (
+
+    tracking_id INTEGER PRIMARY KEY,
     person INTEGER NOT NULL REFERENCES person(person_id)
 );
 

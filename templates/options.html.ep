@@ -136,7 +136,7 @@
 
 <div dojoType="dijit.Tooltip" connectId="submit_button" position="above">
 
-    Submit your favorite places and future events on the SocialMAP.
+    <p>Tell me about a new place or an event you're attending.</p>
 
 </div>
 
@@ -146,7 +146,7 @@
         
     <div style="width: inherit; height: 550px;">
 	    
-        <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
+        <div dojoType="dijit.layout.TabContainer" style="width: inherit; height: inherit;">
             
             <div dojoType="dijit.layout.ContentPane" title="Place" selected="true">
 		

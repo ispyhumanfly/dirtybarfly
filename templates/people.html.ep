@@ -2,6 +2,8 @@
 
     dojo.require("dijit.Tooltip");
     dojo.require("dijit.Dialog");
+    dojo.require("dijit.form.Button");
+    dojo.require("dijit.Menu");
     
 //]]></script>
 
@@ -21,7 +23,7 @@
 
 	    <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $person->person_id %>" position="below">
 
-	        <%= $person->about %>
+	        <p><%= $person->about %></p>
         
 	    </div>
         
@@ -56,9 +58,57 @@
 			Location: <%= $person->city %>, <%= $person->region %> <br />
 			About: <%= $person->about %> <br />
 			Popularity: <%= $person->popularity %> <br />
+			
+			<div dojoType="dijit.form.ComboButton" style="margin: 10px;">
+			
+			    <span>
+				Tracking
+			    </span>
+			
+			    <div dojoType="dijit.Menu">
+				
+				<div dojoType="dijit.MenuItem" onClick="dojo.xhrPost({ url: 'tracking/person/<%= $person->person_id %>', postData: 'start=1' })">
+				    Start
+				</div>
+				
+				<div dojoType="dijit.MenuItem" onClick="dojo.xhrPost({ url: 'tracking/person/<%= $person->person_id %>', postData: 'stop=1' })">
+				    Stop
+				</div>
+				
+			    </div>
+			</div>
                         
                     </div>
+                    
+		    
+		    <div dojoType="dijit.layout.ContentPane" title="Tracks">
+			
+			<div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
+			    
+			    <div dojoType="dijit.layout.ContentPane" title="Me" selected="true">
+				
+				<% for ( 1 .. 8 ) { %>
+				
+				<p><img src="/avatar.png" width="25" height="25" /> The #<%= $_ %> most popular thing in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
+				
+				<% } %>
+				
+			    </div>
+			
+			    <div dojoType="dijit.layout.ContentPane" title="Places" selected="true">
+				
+				<% for ( 1 .. 8 ) { %>
+				
+				<p><img src="/avatar.png" width="25" height="25" /> The #<%= $_ %> most popular thing in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
+				
+				<% } %>
+				
+			    </div>
+			    
+			</div>
                         
+                    </div>
+		    
                     <div dojoType="dijit.layout.ContentPane" title="Places">
                         
                         <% for my $place ( $person->places->all ) { %>

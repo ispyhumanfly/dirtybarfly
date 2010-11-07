@@ -33,7 +33,7 @@
         
         <div dojoType="dijit.Tooltip" connectId="place_<%= $place->place_id %>" position="below">
 
-            <!-- $place->about -->
+            <p><!-- $place->about --></p>
         
         </div>
         

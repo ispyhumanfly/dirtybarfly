@@ -3,9 +3,9 @@
 
     <head>
 	
-	<title>SocialMAP Prototype</title>
+	<title>Socialmap Prototype</title>
 	
-	<!-- SocialMAP Stylesheet -->
+	<!-- Socialmap Stylesheet -->
 	
 	<link rel="stylesheet" type="text/css" href="/default.css">
 
@@ -45,31 +45,27 @@
 		
 		<div style="float: left; vertical-align: middle; margin: 5px;">
 			
+		    <div style="font-size: 30px; border-bottom: groove thin #f7fcff; margin: 5px;">
+		    
+			<img src="/logo.png" style="width: auto; height: 50px;"/>
+		
+		    </div>
+		
 		    <% if ( $self->session('person_id') ) { %>
 		    
-			<div style="font-size: 30px; border-bottom: groove thin #f7fcff; margin: 5px;">
-			
-			    SocialMAP
+		    <a href='/dashboard'><%= $self->session('name') %> |</a>
 		    
-			</div>
+		    <a href='/people'>People |</a>
 		    
-			<a href='/dashboard'><%= $self->session('name') %> |</a>
-			
-			<a href='/people'>People |</a>
-			
-			<a href='/places'>Places</a>
-			
-		    <% } else { %>
-		    
-		    SocialMAP Prototype v1.0
+		    <a href='/places'>Places</a>
 		    
 		    <% } %>
 		    
 		</div>
 		
-		<div style="float: right; vertical-align: middle; margin-top: 45px;">
-		    
-		    <% if ( $self->session('person_id') ) { %>
+		<% if ( $self->session('person_id') ) { %>
+		
+		<div style="float: right; vertical-align: middle; margin-top: 45px;" id="tooltip_location">
 		    	
 		    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
 		    
@@ -78,10 +74,16 @@
 			<div dojoType="dijit.form.Button" type="submit">Location</div>
 		    
 		    </div>
-		    
-		    <% } %>
-		    
+        
 		</div>
+		
+		<div dojoType="dijit.Tooltip" connectId="tooltip_location" position="below">
+
+		    <p>Tell me where you want to go.</p>
+	    
+		</div>
+		
+		<% } %>
 		
 	    </div>
 	    
@@ -103,7 +105,7 @@
 		
 		    <div style="float: right;">
 			
-			<a href="http://www.insurgentsoftware.com">SocialMAP &copy; 2010 Insurgent Software, LLC.</a>
+			<a href="http://www.insurgentsoftware.com">Socialmap &copy; 2010 Insurgent Software, LLC.</a>
 		    
 		    </div>
 		    

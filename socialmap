@@ -41,16 +41,15 @@ get '/dashboard' => sub {
 
     return $self->redirect_to('welcome') unless $self->session('person_id');
 
-    my @people = $MODEL->resultset('Person')->search(
-        undef,
+    my @people = $MODEL->resultset('Person')->search( { person_id => $self->session('person_id') },
 
-        {   order_by => 'person_id DESC',
-            prefetch => 'tracks',
+        {   #order_by => 'person_id DESC',
+            prefetch => ['tracks', 'tracking'],
         }
     );
     
-    $self->{'people'} = \@people;
-
+    $self->{'people'}   = \@people;
+    
     $self->render('dashboard', layout => 'default');
 
 } => 'dashboard';
@@ -125,6 +124,8 @@ get '/people' => sub {
     $self->render('people', layout => 'default');
 
 } => 'people';
+
+### Person Detail
 
 get '/person/:id' => [id => qr/\d+/] => sub {
 
@@ -208,7 +209,7 @@ any '/places/submit/:type' => [type => qr/\w+/] => sub {
             }
         );
         
-        ### Person Tracking
+        # Person Track
         
         my $track = $MODEL->resultset('PersonTrack')->create(
 
@@ -240,7 +241,7 @@ any '/places/submit/:type' => [type => qr/\w+/] => sub {
             }
         );
  
-        ### Person Tracking
+        # Person Track
         
         my $track = $MODEL->resultset('PersonTrack')->create(
 
@@ -256,6 +257,8 @@ any '/places/submit/:type' => [type => qr/\w+/] => sub {
     return $self->redirect_to('places');
 
 };
+
+### Place Detail
 
 get '/place/:id' => [id => qr/\d+/] => sub {
 
@@ -278,7 +281,7 @@ get '/place/:id' => [id => qr/\d+/] => sub {
 
 #### SocialMAP Functions...
 
-get '/login' => sub {
+get '/signin' => sub {
 
     my $self = shift;
     
@@ -336,7 +339,7 @@ get '/login' => sub {
                     lng       => $session_person->lng,
                 );
                 
-                ### Person Tracking
+                # Person Track
         
                 my $track = $MODEL->resultset('PersonTrack')->create(
         
@@ -359,14 +362,14 @@ get '/login' => sub {
 
 };
 
-get '/logout' => sub {
+get '/signout' => sub {
 
     my $self = shift;
     
     my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) =
       localtime(time);
     
-    ### Person Tracking
+    # Person Track
 
     my $track = $MODEL->resultset('PersonTrack')->create(
 
@@ -416,7 +419,7 @@ post '/location' => sub {
             }
         }
         
-        ### Person Tracking
+        # Person Track
         
         my $track = $MODEL->resultset('PersonTrack')->create(
 
@@ -431,6 +434,30 @@ post '/location' => sub {
 
     return $self->redirect_to($self->session('page'));
 
+};
+
+# Person Tracking
+
+post '/tracking/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
+
+    my $self = shift;
+
+    my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) =
+      localtime(time);
+
+    if ($self->param('type') eq 'person') {
+
+        if ($self->param('start')) {
+        
+            my $tracking = $MODEL->resultset('PersonTracking')->create({person => $self->param('id')});
+        }
+        elsif ($self->param('stop')) {
+            
+            my $tracking = $MODEL->resultset('PersonTracking')->search({person => $self->param('id')})
+              ->delete({person => $self->param('id')});
+        }
+    }
+    
 };
 
 app->secret('Insurgent Software Rocks!');

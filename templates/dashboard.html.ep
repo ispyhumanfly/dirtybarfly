@@ -7,30 +7,44 @@
 <div dojoType="dijit.layout.ContentPane" region="center">
 
     <% foreach my $person ( @{ $self->{'people'} } ) { %>
-    
-    <div dojoType="dijit.TitlePane" title="Following <%= $person->name %>" style="margin-bottom: 15px;">
-    
-        <img src="<%= $person->avatar %>" width="50" height="50" style="float: left;"/>
         
-        <div style="font-size: smaller;">
+        <% foreach my $tracking ( $person->tracking->all ) { %>
+        
+        <div dojoType="dijit.TitlePane" title="Tracking <%= $tracking->name %>" style="margin-bottom: 15px;">
+        
+            <div id="tooltip_<%= $tracking->person %>">
             
-            <blockquote>
+                <img src="<%= $tracking->avatar %>" width="50" height="50" style="position: relative;"/>
                 
-                <ul>
-                    
-                    <% for my $track ( $person->tracks->all ) { %>
-                    
-                    <li><%= $track->comment %></li>
+            </div>
+    
+            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $tracking->person %>" position="below">
+    
+                <p><%= $tracking->about %></p>
+        
+            </div>
+            
+            <div style="font-size: smaller;">
                 
-                    <% } %>
+                <blockquote>
                     
-                </ul>
+                    <ul>
+                        
+                        <% foreach my $track ( $tracking->person->tracks->all ) { %>
+                        
+                            <li><%= $track->comment %></li>
+                            
+                        <% } %>
+                        
+                    </ul>
+                    
+                </blockquote>
                 
-            </blockquote>
+            </div>
             
         </div>
         
-    </div>
+        <% } %>
 
     <% } %>
         
@@ -42,21 +56,21 @@
         
         <div dojoType="dijit.layout.ContentPane" title="Popular" selected="true">
             
-            <% for ( 0 .. 20 ) { %>
+            <% for ( 1 .. 8 ) { %>
             
-            <p>The #<%= $_ %> most popular thing in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
+            <p><img src="/avatar.png" width="25" height="25" /> The #<%= $_ %> most popular thing in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
             
             <% } %>
             
             
         </div>
 
-        <div dojoType="dijit.layout.ContentPane" title="Followers">
+        <div dojoType="dijit.layout.ContentPane" title="Trackers">
             
             
-            <% for ( 0 .. 10 ) { %>
+            <% for ( 0 .. 4 ) { %>
             
-            <p>Someone who is following you...<p>
+            <p><img src="/avatar.png" width="25" height="25" /> Someone who is tracking you...<p>
             
             <% } %>
             
