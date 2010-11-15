@@ -2,7 +2,7 @@ package Model::Schema::Result::Person;
 use base qw/DBIx::Class::Core/;
 
 __PACKAGE__->table('person');
-__PACKAGE__->add_columns( qw/ person_id name first_name last_name gender birthday email timezone city region country lat lng avatar about popularity / );
+__PACKAGE__->add_columns( qw/ person_id name password first_name last_name gender birthday email timezone city region country lat lng avatar about popularity / );
 __PACKAGE__->set_primary_key('person_id');
 
 ### Tracking

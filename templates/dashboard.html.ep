@@ -10,39 +10,7 @@
         
         <% foreach my $tracking ( $person->tracking->all ) { %>
         
-        <div dojoType="dijit.TitlePane" title="Tracking <%= $tracking->name %>" style="margin-bottom: 15px;">
-        
-            <div id="tooltip_<%= $tracking->person %>">
-            
-                <img src="<%= $tracking->avatar %>" width="50" height="50" style="position: relative;"/>
-                
-            </div>
-    
-            <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $tracking->person %>" position="below">
-    
-                <p><%= $tracking->about %></p>
-        
-            </div>
-            
-            <div style="font-size: smaller;">
-                
-                <blockquote>
-                    
-                    <ul>
-                        
-                        <% foreach my $track ( $tracking->person->tracks->all ) { %>
-                        
-                            <li><%= $track->comment %></li>
-                            
-                        <% } %>
-                        
-                    </ul>
-                    
-                </blockquote>
-                
-            </div>
-            
-        </div>
+            <%= $tracking->name %>
         
         <% } %>
 

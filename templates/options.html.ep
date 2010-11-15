@@ -122,13 +122,23 @@
 
 <!-- Submit Button -->
 
-<button dojoType="dijit.form.Button" type="button" id="submit_button">Submit
+<% if ( $self->session('page') eq 'places' ) { %>
+
+<button dojoType="dijit.form.Button" id="submit_button">Submit
 
     <script type="dojo/method" event="onClick" args="evt">
     
 	dijit.byId("dialog_submit").show();
 
     </script>
+
+<!-- This is a temporary workaround to disable the submit button on any page other than Places -->
+
+<% } else { %>
+
+<button dojoType="dijit.form.Button" id="submit_button">Submit
+
+<% } %>
     
 </button>
 
