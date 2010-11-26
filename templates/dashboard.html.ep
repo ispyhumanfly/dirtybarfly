@@ -7,12 +7,30 @@
 <div dojoType="dijit.layout.ContentPane" region="center">
 
     <% foreach my $person ( @{ $self->{'people'} } ) { %>
+    
+    <div dojoType="dijit.TitlePane" title="Tracking <%= $person->name %>" style="margin-bottom: 15px;">
+    
+        <img src="<%= $person->avatar %>" width="50" height="50" style="float: left;"/>
         
-        <% foreach my $tracking ( $person->tracking->all ) { %>
+        <div style="font-size: small;">
+            
+            <blockquote>
+                
+                <ul>
+                    
+                    <% for my $track ( $person->tracks->all ) { %>
+                    
+                    <li><%= $track->comment %></li>
+                
+                    <% } %>
+                    
+                </ul>
+                
+            </blockquote>
+            
+        </div>
         
-            <%=# $tracking->name %>
-        
-        <% } %>
+    </div>
 
     <% } %>
         
@@ -36,9 +54,9 @@
         <div dojoType="dijit.layout.ContentPane" title="Trackers">
             
             
-            <% for ( 0 .. 4 ) { %>
+            <% foreach my $person ( @{ $self->{'people'} } ) { %>
             
-            <p><img src="/avatar.png" width="25" height="25" /> Someone who is tracking you...<p>
+            <p><img src="<%= $person->avatar %>" width="25" height="25" /> <%= $person->name %> is tracking you...<p>
             
             <% } %>
             

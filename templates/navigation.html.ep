@@ -22,6 +22,11 @@
     dojo.require("dijit.form.TextBox");
     dojo.require("dijit.form.Button");
 
+    dojo.require("dijit.MenuBar");
+    dojo.require("dijit.PopupMenuBarItem");
+    dojo.require("dijit.Menu");
+    dojo.require("dijit.MenuItem");
+    dojo.require("dijit.PopupMenuItem");
 
     
     var layoutResults = [
@@ -112,44 +117,7 @@
     
 //]]></script>
     
-<div style="float: right; vertical-align: middle; margin-left: 10px;" id="tooltip_location">
-
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
-
-	<div dojoType="dijit.form.TextBox" width="50" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
-
-	<div dojoType="dijit.form.Button" type="submit"></div>
-
-    </div>
-
-</div>
-
-<div dojoType="dijit.Tooltip" connectId="tooltip_location" position="below">
-
-    <p>Tell me where you want to go.</p>
-
-</div>
-
-<div dojoType="dijit.MenuBar" id="navMenu" style="float: right;">
-
-    <!--<div dojoType="dijit.MenuBarItem">
-	
-	<span>Location</span>
-    
-	<div dojoType="dijit.TooltipDialog">
-	    
-	    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
-	    
-		<div dojoType="dijit.form.TextBox" width="50" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
-	
-		<div dojoType="dijit.form.Button" type="submit">Save</div>
-	    
-	    </div>
-	
-	    
-	</div>
-	
-    </div>-->
+<div dojoType="dijit.MenuBar" style="float: left;">
 
     <div dojoType="dijit.MenuBarItem">
 	
@@ -158,18 +126,6 @@
 	<script type="dojo/method" event="onClick" args="evt">
     
 	    window.location = "/dashboard";
-
-	</script>
-	
-    </div>
-
-    <div dojoType="dijit.MenuBarItem">
-	
-	<span>Options</span>
-    
-	<script type="dojo/method" event="onClick" args="evt">
-    
-	    dijit.byId("dialog_submit").show();
 
 	</script>
 	
@@ -223,6 +179,72 @@
 	
     </div>
     
+    <div dojoType="dijit.PopupMenuBarItem">
+	
+        <span>
+            Options
+        </span>
+	
+        <div dojoType="dijit.Menu">
+            
+	    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut" onClick="dijit.byId('dialog_submit').show()">
+		Submit
+	    </div>
+	    
+	    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy" onClick="alert('comedy!')">
+		Comedy
+	    </div>
+    
+	    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste" onClick="alert('romance!')">	
+		Romance
+	    </div>
+	    
+	    <div dojoType="dijit.MenuSeparator"></div>
+	    
+	    <div dojoType="dijit.PopupMenuItem">
+		
+		<span>
+		    Categories
+		</span>
+		
+		<div dojoType="dijit.Menu">
+		
+		    <div dojoType="dijit.MenuItem" onClick="alert('diehard!')">
+			General
+		    </div>
+		    <div dojoType="dijit.MenuItem" onClick="alert('indiana!')">
+			Technical
+		    </div>
+		    <div dojoType="dijit.MenuItem" onClick="alert('indiana!')">
+			Business
+		    </div>
+		
+		</div>
+	    
+	    </div>
+	    
+        </div>
+	
+    </div>
+    
+</div>
+
+<div style="float: right; margin-left: 10px;" id="tooltip_location">
+
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
+
+	<div dojoType="dijit.form.TextBox" width="50" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
+
+	<div dojoType="dijit.form.Button" type="submit">...</div>
+
+    </div>
+
+</div>
+
+<div dojoType="dijit.Tooltip" connectId="tooltip_location" position="below">
+
+    <p>Tell me where you want to go.</p>
+
 </div>
 
 <!-- Submit Dialog -->

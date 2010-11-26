@@ -50,7 +50,7 @@
 			
 		    <div style="font-size: 30px; margin: 5px;">
 		    
-			<img src="/logo.png" style="width: auto; height: 50px;"/>
+			<img src="/logo.png" style="width: auto; height: 60px;"/>
 		
 		    </div>
 		
@@ -72,7 +72,7 @@
 	    
 	    <div dojoType="dijit.layout.ContentPane" region="bottom">
 
-		<div style="vertical-align: middle;">
+		<div style="vertical-align: middle; float: right;">
 		    
 		    <p>Socialmap (c) 2010 Insurgent Software, LLC</p>
 		

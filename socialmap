@@ -42,10 +42,10 @@ get '/dashboard' => sub {
     return $self->redirect_to('welcome') unless $self->session('person_id');
 
     my @people = $MODEL->resultset('Person')->search(
-        {person_id => $self->session('person_id')},
+        undef,
 
         {   order_by => 'person_id DESC',
-            prefetch => 'tracking',
+            prefetch => 'tracks',
         }
     );
 
