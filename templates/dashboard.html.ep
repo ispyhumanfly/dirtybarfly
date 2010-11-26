@@ -10,7 +10,7 @@
         
         <% foreach my $tracking ( $person->tracking->all ) { %>
         
-            <%= $tracking->name %>
+            <%=# $tracking->name %>
         
         <% } %>
 

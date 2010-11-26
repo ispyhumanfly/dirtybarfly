@@ -5,7 +5,7 @@
 	
 	<title>Socialmap</title>
 	
-	<!-- Socialmap Stylesheet -->
+	<!-- Stylesheet -->
 	
 	<link rel="stylesheet" type="text/css" href="/default.css">
 
@@ -20,14 +20,17 @@
             
             dojo.require("dijit.layout.BorderContainer");
             dojo.require("dijit.layout.ContentPane");
-	    dojo.require("dijit.form.Form");
-	    dojo.require("dijit.form.TextBox");
-	    dojo.require("dijit.form.Button");
 	    dojo.require("dijit.layout.AccordionContainer");
 	    dojo.require("dijit.TitlePane");
 	    dojo.require("dijit.Dialog");
+	    dojo.require("dijit.form.Form");
+	    dojo.require("dijit.form.TextBox");
+	    dojo.require("dijit.form.Button");
+
             
         //]]></script>
+	
+	<!-- Google Map -->
 	
 	<%= include 'map' %>
 	
@@ -53,45 +56,11 @@
 		
 		    <% if ( $self->session('person_id') ) { %>
 		    
-		    <a href='/dashboard'><%= $self->session('name') %> |</a>
-		    
-		    <a href='/people'>People |</a>
-		    
-		    <a href='/places'>Places |</a>
-		    
-		    <a href='#'>Stories |</a>
-		    
-		    <a href='#'>Ads |</a>
-		    
-		    <a href='#'>Discussion |</a>
-		    
-		    <a href='#'>Graph</a>
+		    <%= include 'navigation' %>
 		    
 		    <% } %>
-		    
+			
 		</div>
-		
-		<% if ( $self->session('person_id') ) { %>
-		
-		<div style="float: right; vertical-align: middle; margin-top: 45px;" id="tooltip_location">
-		    	
-		    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
-		    
-			<div dojoType="dijit.form.TextBox" width="50" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
-
-			<div dojoType="dijit.form.Button" type="submit">Location</div>
-		    
-		    </div>
-        
-		</div>
-		
-		<div dojoType="dijit.Tooltip" connectId="tooltip_location" position="below">
-
-		    <p>Tell me where you want to go.</p>
-	    
-		</div>
-		
-		<% } %>
 		
 	    </div>
 	    
@@ -105,18 +74,8 @@
 
 		<div style="vertical-align: middle;">
 		    
-		    <div style="float: left;">
-			
-			<%= include 'options' %>
-			
-		    </div>
+		    <p>Socialmap (c) 2010 Insurgent Software, LLC</p>
 		
-		    <div style="float: right;">
-			
-			<a href="http://www.insurgentsoftware.com">Socialmap &copy; 2010 Insurgent Software, LLC.</a>
-		    
-		    </div>
-		    
 		</div>
 		
 	    </div>

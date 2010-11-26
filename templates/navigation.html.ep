@@ -1,21 +1,29 @@
-<% if ( $self->session('person_id') ) { %>
-
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/Grid.css">
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/claroGrid.css">
 
 <script type="text/javascript">//<![CDATA[
 
-    dojo.require("dijit.Menu");    
     dojo.require("dijit.form.FilteringSelect");
     dojo.require("dijit.form.DateTextBox");
     dojo.require("dijit.form.TimeTextBox");
     dojo.require("dijit.form.CheckBox");
     dojo.require("dijit.form.Textarea");
-    dojo.require("dijit.Editor");
     dojo.require("dijit.layout.TabContainer");
     dojo.require("dojox.data.GoogleSearchStore");
     dojo.require("dojox.grid.DataGrid");
+    
+    dojo.require("dijit.MenuBar");
+    dojo.require("dijit.MenuBarItem");
+    dojo.require("dijit.Menu");
+    dojo.require("dijit.MenuItem");
+    
+    dojo.require("dijit.TooltipDialog");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.TextBox");
+    dojo.require("dijit.form.Button");
 
+
+    
     var layoutResults = [
 
         [{
@@ -103,51 +111,118 @@
     });
     
 //]]></script>
-
-<!-- Settings Context Menu -->
-
-<div dojoType="dijit.Menu" id="windowContextMenu" contextMenuForWindow="true" style="display: none;">
     
-    <% for ( 0 .. 5 ) { %>
+<div style="float: right; vertical-align: middle; margin-left: 10px;" id="tooltip_location">
 
-    <div dojoType="dijit.MenuItem">
-    
-        Settings Menu Item <%= $_ %>
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
+
+	<div dojoType="dijit.form.TextBox" width="50" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
+
+	<div dojoType="dijit.form.Button" type="submit"></div>
 
     </div>
-    
-    <% } %>
-    
+
 </div>
 
-<!-- Submit Button -->
+<div dojoType="dijit.Tooltip" connectId="tooltip_location" position="below">
 
-<% if ( $self->session('page') eq 'places' ) { %>
+    <p>Tell me where you want to go.</p>
 
-<button dojoType="dijit.form.Button" id="submit_button">Submit
+</div>
 
-    <script type="dojo/method" event="onClick" args="evt">
+<div dojoType="dijit.MenuBar" id="navMenu" style="float: right;">
+
+    <!--<div dojoType="dijit.MenuBarItem">
+	
+	<span>Location</span>
     
-	dijit.byId("dialog_submit").show();
+	<div dojoType="dijit.TooltipDialog">
+	    
+	    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
+	    
+		<div dojoType="dijit.form.TextBox" width="50" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
+	
+		<div dojoType="dijit.form.Button" type="submit">Save</div>
+	    
+	    </div>
+	
+	    
+	</div>
+	
+    </div>-->
 
-    </script>
-
-<!-- This is a temporary workaround to disable the submit button on any page other than Places -->
-
-<% } else { %>
-
-<button dojoType="dijit.form.Button" id="submit_button">Submit
-
-<% } %>
+    <div dojoType="dijit.MenuBarItem">
+	
+	<span><%= $self->session('name') %></span>
     
-</button>
+	<script type="dojo/method" event="onClick" args="evt">
+    
+	    window.location = "/dashboard";
 
-<!-- Submit Tooltip -->
+	</script>
+	
+    </div>
 
-<div dojoType="dijit.Tooltip" connectId="submit_button" position="above">
+    <div dojoType="dijit.MenuBarItem">
+	
+	<span>Options</span>
+    
+	<script type="dojo/method" event="onClick" args="evt">
+    
+	    dijit.byId("dialog_submit").show();
 
-    <p>Tell me about a new place or an event you're attending.</p>
+	</script>
+	
+    </div>
 
+    <div dojoType="dijit.MenuBarItem">
+	
+	<span>People</span>
+    
+	<script type="dojo/method" event="onClick" args="evt">
+    
+	    window.location = "/people";
+
+	</script>
+	
+    </div>
+    
+    <div dojoType="dijit.MenuBarItem">
+	
+	<span>Places</span>
+    
+	<script type="dojo/method" event="onClick" args="evt">
+    
+	    window.location = "/places";
+
+	</script>
+	
+    </div>
+    
+    <div dojoType="dijit.MenuBarItem">
+	
+	<span>Classifieds</span>
+    
+	<script type="dojo/method" event="onClick" args="evt">
+    
+	    // do something...
+
+	</script>
+	
+    </div>
+
+    <div dojoType="dijit.MenuBarItem">
+	
+	<span>Discussion</span>
+    
+	<script type="dojo/method" event="onClick" args="evt">
+    
+	    // do something...
+
+	</script>
+	
+    </div>
+    
 </div>
 
 <!-- Submit Dialog -->
@@ -256,5 +331,3 @@
     </div>
     
 </div>
-
-<% } %>
