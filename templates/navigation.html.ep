@@ -161,7 +161,7 @@
     
 	<script type="dojo/method" event="onClick" args="evt">
     
-	    // do something...
+	    window.location = "/classifieds";
 
 	</script>
 	
@@ -173,7 +173,7 @@
     
 	<script type="dojo/method" event="onClick" args="evt">
     
-	    // do something...
+	    window.location = "/discussion";
 
 	</script>
 	

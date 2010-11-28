@@ -276,6 +276,28 @@ get '/place/:id' => [id => qr/\d+/] => sub {
 
 };
 
+get '/classifieds' => sub {
+
+    my $self = shift;
+    $self->session(page => 'classifieds');
+
+    return $self->redirect_to('welcome') unless $self->session('person_id');
+
+    $self->render('classifieds', layout => 'default');
+
+} => 'classifieds';
+
+get '/discussion' => sub {
+
+    my $self = shift;
+    $self->session(page => 'discussion');
+
+    return $self->redirect_to('welcome') unless $self->session('person_id');
+
+    $self->render('discussion', layout => 'default');
+
+} => 'dashboard';
+
 #### System Buttons
 
 post '/signin' => sub {
