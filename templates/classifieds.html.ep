@@ -1,15 +1,64 @@
-<% if ( $self->session('user_id') ) { %>
-
 <script type="text/javascript">//<![CDATA[
     
 //]]></script>
 
 <div dojoType='dijit.layout.ContentPane' region='center'>
 
-    <div dojoType="dijit.TitlePane" title="Template Title Pane" style="margin-bottom: 15px;">
+    <% for ( 1 .. 7 ) { %>
+    
+    <div dojoType="dijit.TitlePane" title="12/0<%= $_ %>/2010" style="margin-bottom: 15px;">
+    
+        <% for ( 1 .. 4 ) { %>
         
+        <div style="border-color: inherit; border-top: 0.05em solid; border-bottom: 0.05em solid; padding: 15px; margin: 2px; background-color: #f7fcff;">
+            
+            <p>Something that is for sale.</p>
+            
+        </div>
+        
+        <% } %>
+    
     </div>
 
+    <% } %>
+    
 </div>
 
-<% } %>
+<div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 35%;">
+    
+    <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
+        
+        <div dojoType="dijit.layout.ContentPane" title="Popular" selected="true">
+            
+            <% for ( 1 .. 8 ) { %>
+            
+            <p><img src="/avatar.png" width="25" height="25" /> The #<%= $_ %> most popular thing in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
+            
+            <% } %>
+            
+            
+        </div>
+
+        <div dojoType="dijit.layout.ContentPane" title="Trackers">
+            
+            <% for ( 1 .. 8 ) { %>
+            
+            <p><img src="/avatar.png" width="25" height="25" /> The #<%= $_ %> most popular thing in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
+            
+            <% } %>
+            
+        </div>
+
+        <div dojoType="dijit.layout.ContentPane" title="You">
+            
+            <% for ( 1 .. 8 ) { %>
+            
+            <p><img src="/avatar.png" width="25" height="25" /> The #<%= $_ %> most popular thing in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
+            
+            <% } %>
+            
+        </div>
+        
+    </div>
+    
+</div>

@@ -1,15 +1,25 @@
-<% if ( $self->session('user_id') ) { %>
-
 <script type="text/javascript">//<![CDATA[
     
 //]]></script>
 
 <div dojoType='dijit.layout.ContentPane' region='center'>
 
-    <div dojoType="dijit.TitlePane" title="Template Title Pane" style="margin-bottom: 15px;">
+    <% for ( 1 .. 4 ) { %>
+    
+    <div dojoType="dijit.TitlePane" title="Some Discussion Group" style="margin-bottom: 15px;">
+    
+        <% for ( 1 .. 5 ) { %>
         
+        <div style="border-color: inherit; border-top: 0.05em solid; border-bottom: 0.05em solid; padding: 15px; margin: 2px; background-color: #f7fcff;">
+            
+            <p>Some topic of this group.</p>
+            
+        </div>
+        
+        <% } %>
+    
     </div>
 
+    <% } %>
+    
 </div>
-
-<% } %>
