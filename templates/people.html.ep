@@ -23,7 +23,7 @@
 
 	    <div dojoType="dijit.Tooltip" connectId="tooltip_<%= $person->person_id %>" position="below">
 
-	        <p><%= $person->about %></p>
+	        <p><%= $person->blurp %></p>
         
 	    </div>
         
@@ -56,7 +56,7 @@
 			<img src="<%= $person->avatar %>" width="50" height="50" />
 			
 			Location: <%= $person->city %>, <%= $person->region %> <br />
-			About: <%= $person->about %> <br />
+			Blurp: <%= $person->blurp %> <br />
 			Popularity: <%= $person->popularity %> <br />
 			
 			<div dojoType="dijit.form.ComboButton" style="margin: 10px;">

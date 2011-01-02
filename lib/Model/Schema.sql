@@ -11,15 +11,15 @@ CREATE TABLE person (
     gender TEXT NULL,
     birthday TEXT NULL,
     email TEXT NOT NULL,
-    timezone TEXT NULL,
     city TEXT NOT NULL,
     region TEXT NOT NULL,
     country TEXT NOT NULL,
     lat FLOAT NOT NULL,
     lng FLOAT NOT NULL,
     avatar TEXT NULL,
-    about TEXT NULL,
-    popularity INTEGER NULL
+    blurp TEXT NULL,
+    popularity INTEGER NULL,
+    tracking TEXT NULL
 );
 
 -- Person Tracks & Tracking --
@@ -31,12 +31,6 @@ CREATE TABLE person_track (
     time TEXT NOT NULL,
     action TEXT NOT NULL,
     comment TEXT NOT NULL,
-    person INTEGER NOT NULL REFERENCES person(person_id)
-);
-
-CREATE TABLE person_tracking (
-
-    tracking_id INTEGER PRIMARY KEY,
     person INTEGER NOT NULL REFERENCES person(person_id)
 );
 

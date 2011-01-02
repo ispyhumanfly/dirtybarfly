@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
 
+use Modern::Perl;
+
 BEGIN {
 
     if (-x '/usr/bin/sqlite3') {
@@ -41,25 +43,38 @@ get '/dashboard' => sub {
 
     return $self->redirect_to('welcome') unless $self->session('person_id');
 
-    my @people = $MODEL->resultset('Person')->search(
-        undef,
+    my $person = $MODEL->resultset('Person')->search(
+        {person_id => $self->session('person_id')},
 
         {   order_by => 'person_id DESC',
             prefetch => 'tracks',
         }
-    );
+    )->first;
 
-    $self->{'people'} = \@people;
+    for (split /,/, $person->tracking) {
+
+        push @{$self->{'tracking'}},
+          $MODEL->resultset('Person')->search({person_id => $_},
+            {   order_by => 'person_id DESC',
+                prefetch => 'tracks',
+            }
+        )->first;
+    }
+
+    $self->{'person'} = $person;
 
     $self->render('dashboard', layout => 'default');
 
 } => 'dashboard';
 
-post '/dashboard/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
+post '/dashboard/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] =>
+  sub {
 
     my $self = shift;
 
     if ($self->param('type') eq 'person') {
+
+        return if $self->param('password_1') ne $self->param('password_2');
 
         $MODEL->resultset('Person')->search({person_id => $self->param('id')})
           ->update(
@@ -69,12 +84,12 @@ post '/dashboard/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
                 gender     => $self->param('gender'),
                 birthday   => $self->param('birthday'),
                 email      => $self->param('email'),
-                timezone   => $self->param('timezone'),
                 city       => $self->param('city'),
                 region     => $self->param('region'),
                 country    => $self->param('country'),
                 avatar     => $self->param('avatar'),
-                about      => $self->param('about')
+                blurp      => $self->param('blurp'),
+                password   => $self->param('password_1')
             }
           );
 
@@ -341,6 +356,9 @@ post '/signup' => sub {
         and ($self->param('password_2')))
     {
 
+        return if $self->param('email_1')    ne $self->param('email_2');
+        return if $self->param('password_1') ne $self->param('password_2');
+
         REST::Google::Search->service(LOCAL);
 
         my $response =
@@ -362,7 +380,7 @@ post '/signup' => sub {
                         region   => $result->region,
                         country  => $result->country,
                         avatar   => '/avatar.png',
-                        about    => 'I love to use SocialMAP.',
+                        blurp    => 'I love to use SocialMAP.',
                         lat      => $result->lat,
                         lng      => $result->lng,
                     }
@@ -436,26 +454,42 @@ post '/location' => sub {
 
 };
 
-# Person Tracking
-
 post '/tracking/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
     my $self = shift;
 
     if ($self->param('type') eq 'person') {
 
-        if ($self->param('start')) {
+        my $person =
+          $MODEL->resultset('Person')
+          ->search({person_id => $self->session('person_id')})->first;
 
-            my $tracking =
-              $MODEL->resultset('PersonTracking')
-              ->create({person => $self->param('id')});
+        my @current_tracking = split /,/, $person->tracking;
+
+        my @new_tracking;
+
+        for (@current_tracking) {
+
+            push @new_tracking, $_ unless $_ == $self->param('id');
+        }
+        
+        if ($self->param('start')) {
+            
+            push @new_tracking, $self->param('id');
+
+            my $csv = join ',', @new_tracking;
+
+            $MODEL->resultset('Person')
+              ->search({person_id => $self->session('person_id')})
+              ->update({tracking => $csv});
         }
         elsif ($self->param('stop')) {
 
-            my $tracking =
-              $MODEL->resultset('PersonTracking')
-              ->search({person => $self->param('id')})
-              ->delete({person => $self->param('id')});
+            my $csv = join ',', @new_tracking;
+
+            $MODEL->resultset('Person')
+              ->search({person_id => $self->session('person_id')})
+              ->update({tracking => $csv});
         }
     }
 

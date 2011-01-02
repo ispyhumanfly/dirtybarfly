@@ -1,18 +1,25 @@
 #!/usr/bin/env perl
 
-use strict;
-use warnings;
+use Modern::Perl;
 
-use lib '../lib';
+use lib 'lib/';
 use Model::Schema;
 
-my $MODEL = Model::Schema->connect('dbi:SQLite:../socialmap.db');
+my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
 
-### List...
+my @people = $MODEL->resultset('Person')->all;
 
-my @tracking = $MODEL->resultset('PersonTracking')->search();
+for (@people) {
 
-for my $person (@tracking) {
+    my @tracking;
+
+    push @tracking, ( $_ + rand [10] ) for 0 .. 10;
+
+    my $csv = join ',', @tracking;
+
+    $_->tracking( $csv );
     
-    print $person->name;
+    $_->update;
 }
+
+say $_->tracking for @people;

@@ -45,7 +45,7 @@
                          
                         Password:
                      
-                        <div dojoType="dijit.form.TextBox" name="password" width="50" required="true"></div>
+                        <div dojoType="dijit.form.TextBox" type="password" name="password" width="50" required="true"></div>
                          
                         <button dojoType="dijit.form.Button" type="submit">Sign In</button>
                         
@@ -87,11 +87,11 @@
                         
                         Password:
                          
-                        <div dojoType="dijit.form.TextBox" name="password_1" width="50" required="true"></div>
+                        <div dojoType="dijit.form.TextBox" type="password" name="password_1" width="50" required="true"></div>
                         
                         Again:
                         
-                        <div dojoType="dijit.form.TextBox" name="password_2" width="50" required="true"></div>
+                        <div dojoType="dijit.form.TextBox" type="password" name="password_2" width="50" required="true"></div>
 
                     </blockquote>
 

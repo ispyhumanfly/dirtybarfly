@@ -56,7 +56,7 @@
 		
 		    <% if ( $self->session('person_id') ) { %>
 		    
-		    <%= include 'navigation' %>
+		    <%= include 'controls' %>
 		    
 		    <% } %>
 			
@@ -74,7 +74,7 @@
 
 		<div style="vertical-align: middle; float: right;">
 		    
-		    <p>Socialmap (c) 2010 Insurgent Software, LLC</p>
+		    <p>Socialmap (c) 2010 - 2011 Insurgent Software, LLC</p>
 		
 		</div>
 		

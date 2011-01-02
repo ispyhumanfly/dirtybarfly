@@ -6,7 +6,7 @@
 
 <div dojoType="dijit.layout.ContentPane" region="center">
 
-    <% foreach my $person ( @{ $self->{'people'} } ) { %>
+    <% foreach my $person ( @{ $self->{'tracking'} } ) { %>
     
     <div dojoType="dijit.TitlePane" title="Tracking <%= $person->name %>" style="margin-bottom: 15px;">
     
@@ -54,9 +54,9 @@
         <div dojoType="dijit.layout.ContentPane" title="Trackers">
             
             
-            <% foreach my $person ( @{ $self->{'people'} } ) { %>
+            <% for ( 1 .. 4 ) { %>
             
-            <p><img src="<%= $person->avatar %>" width="25" height="25" /> <%= $person->name %> is tracking you...<p>
+            <p><img src="/avatar.png" width="25" height="25" /> Someone is tracking you...<p>
             
             <% } %>
             
@@ -64,73 +64,73 @@
 
         <div dojoType="dijit.layout.ContentPane" title="You">
             
-            <% foreach my $person ( @{ $self->{'people'} } ) { %>
-        
-                <% if ( ( $person->person_id ) eq ( $self->session('person_id') ) ) { %>
-                
-                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/dashboard/update/person/<%= $person->person_id %>" method="POST">
-                
-                    Name:
+	    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/dashboard/update/person/<%= $self->{'person'}->person_id %>" method="POST">
+	    
+		Name:
+		
+		<div dojoType="dijit.form.TextBox" name="name" width="50" value="<%= $self->{'person'}->name %>" required="true"></div>
 		    
-		    <div dojoType="dijit.form.TextBox" name="name" width="50" value="<%= $person->name %>" required="true"></div>
-			
-                    First Name:
+		First Name:
+		
+		<div dojoType="dijit.form.TextBox" name="first_name" width="50" value="<%= $self->{'person'}->first_name %>"></div>
 		    
-		    <div dojoType="dijit.form.TextBox" name="first_name" width="50" value="<%= $person->first_name %>" required="true"></div>
-			
-                    Last Name:
+		Last Name:
+		
+		<div dojoType="dijit.form.TextBox" name="last_name" width="50" value="<%= $self->{'person'}->last_name %>"></div>
+		
+		Gender:
+		
+		<select dojoType="dijit.form.FilteringSelect" name="gender" style="margin: 10px;">
 		    
-		    <div dojoType="dijit.form.TextBox" name="last_name" width="50" value="<%= $person->last_name %>" required="true"></div>
+		    <option value="Male" selected="true">Male</option>
+		    <option value="Female">Female</option>
 		    
-                    Gender:
+		</select>
+		
+		Birthday:
+		
+		<input dojoType="dijit.form.DateTextBox" name="birthday" value="<%= $self->{'person'}->birthday %>" />
+		
+		Email:
+		
+		<div dojoType="dijit.form.TextBox" name="email" width="50" value="<%= $self->{'person'}->email %>"required="true"></div>
+		
+		City:
+		
+		<div dojoType="dijit.form.TextBox" name="city" width="50" value="<%= $self->{'person'}->city %>" required="true"></div>
+		
+		Region:
+		
+		<div dojoType="dijit.form.TextBox" name="region" width="50" value="<%= $self->{'person'}->region %>" required="true"></div>
+		
+		Country:
+		
+		<div dojoType="dijit.form.TextBox" name="country" width="50" value="<%= $self->{'person'}->country %>"required="true"></div>
+		
+		Avatar:
+		
+		<div dojoType="dijit.form.TextBox" name="avatar" width="50" value="<%= $self->{'person'}->avatar %>" required="true"></div>
+		
+		Blurp:
+		
+		<textarea dojoType="dijit.form.Textarea" name="blurp" style="height: 300px;"><%= $self->{'person'}->blurp %></textarea>
+		
+		<blockquote>
 		    
-		    <select dojoType="dijit.form.FilteringSelect" name="gender" style="margin: 10px;">
-			
-			<option value="Male" selected="true">Male</option>
-			<option value="Female">Female</option>
-			
-		    </select>
-                    
-                    Birthday:
+		    Password:
+		     
+		    <div dojoType="dijit.form.TextBox" type="password" name="password_1" value="<%= $self->{'person'}->password %>" width="50" required="true"></div>
 		    
-		    <input dojoType="dijit.form.DateTextBox" name="birthday" value="<%= $person->birthday %>" required="true" />
+		    Again:
 		    
-                    Email:
-		    
-		    <div dojoType="dijit.form.TextBox" name="email" width="50" value="<%= $person->email %>"required="true"></div>
-                        
-                    Timezone:
-                        
-		    <div dojoType="dijit.form.TextBox" name="timezone" width="50" value="<%= $person->timezone %>" required="true"></div>
-		    
-		    City:
-		    
-		    <div dojoType="dijit.form.TextBox" name="city" width="50" value="<%= $person->city %>" required="true"></div>
-		    
-                    Region:
-		    
-		    <div dojoType="dijit.form.TextBox" name="region" width="50" value="<%= $person->region %>" required="true"></div>
-		    
-                    Country:
-		    
-		    <div dojoType="dijit.form.TextBox" name="country" width="50" value="<%= $person->country %>"required="true"></div>
-		    
-                    Avatar:
-		    
-		    <div dojoType="dijit.form.TextBox" name="avatar" width="50" value="<%= $person->avatar %>"required="true"></div>
-		    
-                    About:
-		    
-		    <textarea dojoType="dijit.form.Textarea" name="about" style="height: 300px;" required="true"><%= $person->about %></textarea>
-                    
-                    <div dojoType="dijit.form.Button" type="submit">Update</div>
-                
-                </div>
-                
-                <% } %>
-            
-            <% } %>
-        
+		    <div dojoType="dijit.form.TextBox" type="password" name="password_2" value="<%= $self->{'person'}->password %>" width="50" required="true"></div>
+
+		</blockquote>
+		
+		<div dojoType="dijit.form.Button" type="submit">Update</div>
+	    
+	    </div>
+	
         </div>
         
     </div>
