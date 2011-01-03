@@ -20,6 +20,10 @@ use Model::Schema;
 
 my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
 
+####################
+#### System Pages ##
+####################
+
 ### Welcome
 
 get '/' => sub {
@@ -66,38 +70,6 @@ get '/dashboard' => sub {
     $self->render('dashboard', layout => 'default');
 
 } => 'dashboard';
-
-post '/dashboard/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] =>
-  sub {
-
-    my $self = shift;
-
-    if ($self->param('type') eq 'person') {
-
-        return if $self->param('password_1') ne $self->param('password_2');
-
-        $MODEL->resultset('Person')->search({person_id => $self->param('id')})
-          ->update(
-            {   name       => $self->param('name'),
-                first_name => $self->param('first_name'),
-                last_name  => $self->param('last_name'),
-                gender     => $self->param('gender'),
-                birthday   => $self->param('birthday'),
-                email      => $self->param('email'),
-                city       => $self->param('city'),
-                region     => $self->param('region'),
-                country    => $self->param('country'),
-                avatar     => $self->param('avatar'),
-                blurp      => $self->param('blurp'),
-                password   => $self->param('password_1')
-            }
-          );
-
-    }
-
-    return $self->redirect_to('dashboard');
-
-  };
 
 ### People
 
@@ -195,81 +167,6 @@ get '/places' => sub {
 
 } => 'places';
 
-any '/places/submit/:type' => [type => qr/\w+/] => sub {
-
-    my $self = shift;
-
-    my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) =
-      localtime(time);
-
-    if ($self->param('type') eq 'place') {
-
-        my $place = $MODEL->resultset('Place')->create(
-
-            {   category       => $self->param('category'),
-                title          => $self->param('title'),
-                date           => "$year-$mon-$mday",
-                time           => "$hour:$min:$sec",
-                street_address => $self->param('street_address'),
-                city           => $self->param('city'),
-                region         => $self->param('region'),
-                country        => $self->param('country'),
-                lat            => $self->param('lat'),
-                lng            => $self->param('lng'),
-                popularity     => 0,
-                person         => $self->session('person_id'),
-            }
-        );
-
-        # Person Track
-
-        my $track = $MODEL->resultset('PersonTrack')->create(
-
-            {   date    => "$year-$mon-$mday",
-                time    => "$hour:$min:$sec",
-                action  => 'PLACE_SUBMIT',
-                comment => 'Just sumitted a place to SocialMAP.',
-                person  => $self->session('person_id'),
-            }
-        );
-    }
-
-    if ($self->param('type') eq 'event') {
-
-        my $event = $MODEL->resultset('PlaceEvent')->create(
-
-            {   category   => $self->param('category'),
-                title      => $self->param('title'),
-                place      => $self->param('place'),
-                start_date => $self->param('start_date'),
-                stop_date  => $self->param('stop_date'),
-                start_time => $self->param('start_time'),
-                stop_time  => $self->param('stop_time'),
-                about      => $self->param('about'),
-                date       => "$year-$mon-$mday",
-                time       => "$hour:$min:$sec",
-                popularity => 0,
-                person     => $self->session('person_id'),
-            }
-        );
-
-        # Person Track
-
-        my $track = $MODEL->resultset('PersonTrack')->create(
-
-            {   date    => "$year-$mon-$mday",
-                time    => "$hour:$min:$sec",
-                action  => 'EVENT_SUBMIT',
-                comment => 'Just sumitted an event to SocialMAP.',
-                person  => $self->session('person_id'),
-            }
-        );
-    }
-
-    return $self->redirect_to('places');
-
-};
-
 ### Place by ID
 
 get '/place/:id' => [id => qr/\d+/] => sub {
@@ -313,7 +210,9 @@ get '/discussion' => sub {
 
 } => 'dashboard';
 
-#### System Buttons
+######################
+#### System Actions ##
+######################
 
 post '/signin' => sub {
 
@@ -331,7 +230,6 @@ post '/signin' => sub {
 
             person_id => $session_person->person_id,
             name      => $session_person->name,
-            email     => $session_person->email,
             city      => $session_person->city,
             region    => $session_person->region,
             country   => $session_person->country,
@@ -380,9 +278,10 @@ post '/signup' => sub {
                         region   => $result->region,
                         country  => $result->country,
                         avatar   => '/avatar.png',
-                        blurp    => 'I love to use SocialMAP.',
+                        blurb    => 'I love to use SocialMAP.',
                         lat      => $result->lat,
                         lng      => $result->lng,
+                        popularity => 0,
                     }
                 );
 
@@ -492,6 +391,112 @@ post '/tracking/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
               ->update({tracking => $csv});
         }
     }
+
+};
+
+post '/submit/:type' => [type => qr/\w+/] => sub {
+
+    my $self = shift;
+
+    my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) =
+      localtime(time);
+
+    if ($self->param('type') eq 'place') {
+
+        my $place = $MODEL->resultset('Place')->create(
+
+            {   category       => $self->param('category'),
+                title          => $self->param('title'),
+                date           => "$year-$mon-$mday",
+                time           => "$hour:$min:$sec",
+                street_address => $self->param('street_address'),
+                city           => $self->param('city'),
+                region         => $self->param('region'),
+                country        => $self->param('country'),
+                lat            => $self->param('lat'),
+                lng            => $self->param('lng'),
+                popularity     => 0,
+                person         => $self->session('person_id'),
+            }
+        );
+
+        # Person Track
+
+        my $track = $MODEL->resultset('PersonTrack')->create(
+
+            {   date    => "$year-$mon-$mday",
+                time    => "$hour:$min:$sec",
+                action  => 'PLACE_SUBMIT',
+                comment => 'Just submitted a place to SocialMAP.',
+                person  => $self->session('person_id'),
+            }
+        );
+    }
+
+    if ($self->param('type') eq 'event') {
+
+        my $event = $MODEL->resultset('PlaceEvent')->create(
+
+            {   category   => $self->param('category'),
+                title      => $self->param('title'),
+                place      => $self->param('place'),
+                start_date => $self->param('start_date'),
+                stop_date  => $self->param('stop_date'),
+                start_time => $self->param('start_time'),
+                stop_time  => $self->param('stop_time'),
+                about      => $self->param('about'),
+                date       => "$year-$mon-$mday",
+                time       => "$hour:$min:$sec",
+                popularity => 0,
+                person     => $self->session('person_id'),
+            }
+        );
+
+        # Person Track
+
+        my $track = $MODEL->resultset('PersonTrack')->create(
+
+            {   date    => "$year-$mon-$mday",
+                time    => "$hour:$min:$sec",
+                action  => 'EVENT_SUBMIT',
+                comment => 'Just sumitted an event to SocialMAP.',
+                person  => $self->session('person_id'),
+            }
+        );
+    }
+
+    return $self->redirect_to('places');
+
+};
+
+post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
+
+    my $self = shift;
+    
+    if ($self->param('type') eq 'person') {
+    
+        return if $self->param('password_1') ne $self->param('password_2');
+    
+        $MODEL->resultset('Person')->search({person_id => $self->param('id')})
+          ->update(
+            {   name       => $self->param('name'),
+                first_name => $self->param('first_name'),
+                last_name  => $self->param('last_name'),
+                gender     => $self->param('gender'),
+                birthday   => $self->param('birthday'),
+                email      => $self->param('email'),
+                city       => $self->param('city'),
+                region     => $self->param('region'),
+                country    => $self->param('country'),
+                avatar     => $self->param('avatar'),
+                blurb      => $self->param('blurb'),
+                password   => $self->param('password_1')
+            }
+          );
+    
+    }
+    
+    return $self->redirect_to('dashboard');
 
 };
 

@@ -64,7 +64,7 @@
 
         <div dojoType="dijit.layout.ContentPane" title="You">
             
-	    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/dashboard/update/person/<%= $self->{'person'}->person_id %>" method="POST">
+	    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/update/person/<%= $self->{'person'}->person_id %>" method="POST">
 	    
 		Name:
 		
@@ -111,9 +111,9 @@
 		
 		<div dojoType="dijit.form.TextBox" name="avatar" width="50" value="<%= $self->{'person'}->avatar %>" required="true"></div>
 		
-		Blurp:
+		Blurb:
 		
-		<textarea dojoType="dijit.form.Textarea" name="blurp" style="height: 300px;"><%= $self->{'person'}->blurp %></textarea>
+		<textarea dojoType="dijit.form.Textarea" name="blurb" style="height: 300px;"><%= $self->{'person'}->blurb %></textarea>
 		
 		<blockquote>
 		    

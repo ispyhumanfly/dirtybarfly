@@ -17,12 +17,12 @@ CREATE TABLE person (
     lat FLOAT NOT NULL,
     lng FLOAT NOT NULL,
     avatar TEXT NULL,
-    blurp TEXT NULL,
+    blurb TEXT NULL,
     popularity INTEGER NULL,
     tracking TEXT NULL
 );
 
--- Person Tracks & Tracking --
+-- Person Tracks --
 
 CREATE TABLE person_track (
 

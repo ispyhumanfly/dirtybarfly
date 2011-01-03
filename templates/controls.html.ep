@@ -106,7 +106,7 @@
 		"&lng="		  	+ item_select.grid.store.getValue(item, "lng") + "";
 	        
 
-	    window.location = "/places/submit/place?" + string + "";
+	    window.location = "/submit/place?" + string + "";
 	    
         }
         dojo.connect(dijit.byId("localGrid"), "onRowClick", post_place);
@@ -182,7 +182,7 @@
     <div dojoType="dijit.PopupMenuBarItem">
 	
         <span>
-            Options
+            Menu
         </span>
 	
         <div dojoType="dijit.Menu">

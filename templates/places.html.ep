@@ -1,24 +1,19 @@
-<script type="text/javascript"> // < ![
-    CDATA [
+<script type="text/javascript">//<![CDATA[
 
-        dojo . require("dijit.Tooltip");
-          dojo . require("dijit.Dialog");
+    dojo.require("dijit.Tooltip");
+    dojo.require("dijit.Dialog");
+    dojo.require("dijit.form.Button");
+    dojo.require("dijit.Menu");
+    
+//]]></script>
 
-          //
-    ]
-  ] > </script>
+<div  dojoType="dijit.layout.ContentPane" region="leading">
 
-  < div dojoType = "dijit.layout.ContentPane" region = "leading" >
-
-  <% foreach my $place ( @{ $self-> {'places'}
-  } )                               { %>
-
-    < div dojoType = "dijit.TitlePane" title = "<%= $place->title %>" id =
-    "place_<%= $place->place_id %>" style =
-    "margin-bottom: 15px;" >
-
-<div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $place->
-    place_id %> ').show()">
+    <% foreach my $place ( @{ $self->{'places'} } ) { %>
+    
+    <div dojoType="dijit.TitlePane" title="<%= $place->title %>" id="place_<%= $place->place_id %>" style="margin-bottom: 15px;">
+        
+        <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $place->place_id %>').show()">
         
             <img src="/avatar.png" width="50" height="50" />        
             
@@ -40,7 +35,7 @@
         
         <div dojoType="dijit.Tooltip" connectId="place_<%= $place->place_id %>" position="below">
 
-            <p><!-- $place->blurp --></p>
+            <p><!-- $place->about --></p>
         
         </div>
         
@@ -59,6 +54,28 @@
                         Address: Location: <%= $place->street_address %>, <%= $place->city %>, <%= $place->region %> <br />
                         Popularity: <%= $place->popularity %> <br />
                         Events: <%= scalar $place->events->all %>
+			
+			<br />
+			<br />
+			
+			<div dojoType="dijit.form.ComboButton" style="margin: 10px;">
+				
+			    <span>
+				Tracking
+			    </span>
+			
+			    <div dojoType="dijit.Menu">
+				
+				<div dojoType="dijit.MenuItem" onClick="dojo.xhrPost({ url: 'tracking/place/<%= $place->place_id %>', postData: 'start=1' })">
+				    Start
+				</div>
+				
+				<div dojoType="dijit.MenuItem" onClick="dojo.xhrPost({ url: 'tracking/place/<%= $place->place_id %>', postData: 'stop=1' })">
+				    Stop
+				</div>
+				
+			    </div>
+			</div>
                     
                     </div>
                     
@@ -99,7 +116,7 @@
         
 </div>
 
-<div dojoType=' dijit . layout . ContentPane ' region=' center '>
+<div dojoType='dijit.layout.ContentPane' region='center'>
     
     <div id="map_canvas" style="width: 100%; height: 100%"></div>
 
