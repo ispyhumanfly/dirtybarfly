@@ -6,8 +6,8 @@ BEGIN {
 
     if (-x '/usr/bin/sqlite3') {
 
-        system 'sqlite3 socialmap.db < lib/Model/Schema.sql'
-          unless -e 'socialmap.db';
+        system 'sqlite3 konekt.db < lib/Model/Schema.sql'
+          unless -e 'konekt.db';
     }
 }
 
@@ -18,7 +18,7 @@ use GIS::Distance;
 use lib 'lib';
 use Model::Schema;
 
-my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
+my $MODEL = Model::Schema->connect('dbi:SQLite:konekt.db');
 
 ####################
 #### System Pages ##
@@ -57,8 +57,8 @@ get '/dashboard' => sub {
 
     for (split /,/, $person->tracking) {
 
-        push @{$self->{'tracking'}},
-          $MODEL->resultset('Person')->search({person_id => $_},
+        push @{$self->{'tracking'}}, $MODEL->resultset('Person')->search(
+            {person_id => $_},
             {   order_by => 'person_id DESC',
                 prefetch => 'tracks',
             }
@@ -226,6 +226,8 @@ post '/signin' => sub {
             }
         )->first;
 
+        return $self->redirect_to('welcome') unless $session_person;
+
         $self->session(
 
             person_id => $session_person->person_id,
@@ -271,16 +273,16 @@ post '/signup' => sub {
 
                 my $new_person = $MODEL->resultset('Person')->create(
 
-                    {   name     => $self->param('name'),
-                        email    => $self->param('email_1'),
-                        password => $self->param('password_1'),
-                        city     => $result->city,
-                        region   => $result->region,
-                        country  => $result->country,
-                        avatar   => '/avatar.png',
-                        blurb    => 'I love to use SocialMAP.',
-                        lat      => $result->lat,
-                        lng      => $result->lng,
+                    {   name       => $self->param('name'),
+                        email      => $self->param('email_1'),
+                        password   => $self->param('password_1'),
+                        city       => $result->city,
+                        region     => $result->region,
+                        country    => $result->country,
+                        avatar     => '/avatar.png',
+                        blurb      => 'I love to use Konekt.',
+                        lat        => $result->lat,
+                        lng        => $result->lng,
                         popularity => 0,
                     }
                 );
@@ -371,9 +373,9 @@ post '/tracking/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
             push @new_tracking, $_ unless $_ == $self->param('id');
         }
-        
+
         if ($self->param('start')) {
-            
+
             push @new_tracking, $self->param('id');
 
             my $csv = join ',', @new_tracking;
@@ -427,7 +429,7 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
             {   date    => "$year-$mon-$mday",
                 time    => "$hour:$min:$sec",
                 action  => 'PLACE_SUBMIT',
-                comment => 'Just submitted a place to SocialMAP.',
+                comment => 'Just submitted a place to Konekt.',
                 person  => $self->session('person_id'),
             }
         );
@@ -459,7 +461,7 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
             {   date    => "$year-$mon-$mday",
                 time    => "$hour:$min:$sec",
                 action  => 'EVENT_SUBMIT',
-                comment => 'Just sumitted an event to SocialMAP.',
+                comment => 'Just submitted an event to Konekt.',
                 person  => $self->session('person_id'),
             }
         );
@@ -472,11 +474,11 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
 post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
     my $self = shift;
-    
+
     if ($self->param('type') eq 'person') {
-    
+
         return if $self->param('password_1') ne $self->param('password_2');
-    
+
         $MODEL->resultset('Person')->search({person_id => $self->param('id')})
           ->update(
             {   name       => $self->param('name'),
@@ -493,9 +495,9 @@ post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
                 password   => $self->param('password_1')
             }
           );
-    
+
     }
-    
+
     return $self->redirect_to('dashboard');
 
 };

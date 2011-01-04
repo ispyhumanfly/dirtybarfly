@@ -289,7 +289,7 @@
 	
             <div dojoType="dijit.layout.ContentPane" title="Event">
 		
-		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/places/submit/event" method="POST">
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/place/event" method="POST">
     
 		    Category:
 		    

@@ -5,7 +5,7 @@ use Modern::Perl;
 use lib 'lib/';
 use Model::Schema;
 
-my $MODEL = Model::Schema->connect('dbi:SQLite:socialmap.db');
+my $MODEL = Model::Schema->connect('dbi:SQLite:konekt.db');
 
 my @people = $MODEL->resultset('Person')->all;
 

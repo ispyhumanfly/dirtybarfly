@@ -4,11 +4,11 @@
 
 =head1 NAME
 
-SocialMAP
+Konekt
 
 =head1 SYNOPSIS
 
-	./socialmap daemon
+	./konekt daemon
 
 =head1 DESCRIPTION
 
@@ -20,11 +20,11 @@ A pretty cool way to interact with people centered around a unique approach to c
 
 =head1 BUGS
 
-	http://github.com/insurgentsoftware/socialmap/issues
+	http://github.com/insurgentsoftware/konekt/issues
 
 =head1 SEE ALSO
 
-	http://github.com/insurgentsoftware/socialmap/wiki
+	http://github.com/insurgentsoftware/konekt/wiki
 
 =head1 LICENSE
 

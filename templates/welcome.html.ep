@@ -15,7 +15,7 @@
     
 </div>
 
-<div id="dialog_welcome" dojoType="dijit.Dialog" title="Welcome to Socialmap!" style="width: 800px; height: 600px;">
+<div id="dialog_welcome" dojoType="dijit.Dialog" title="Welcome to Konekt!" style="width: 800px; height: 600px;">
 
     <div style="width: inherit; height: 550px;">
     
@@ -26,7 +26,7 @@
                 <blockquote>
                     
                     <p>
-                        Thanks for checking out Socialmap.  A cool way to interact with people using
+                        Thanks for checking out Konekt.  A cool way to interact with people using
                         our own unique social-network-like interface to common and popular web technologies
                         people use every day.
                     </p>

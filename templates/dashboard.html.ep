@@ -69,6 +69,10 @@
 		Name:
 		
 		<div dojoType="dijit.form.TextBox" name="name" width="50" value="<%= $self->{'person'}->name %>" required="true"></div>
+
+		<img src="<%= $self->{'person'}->avatar %>" />Avatar:
+		
+		<div dojoType="dijit.form.TextBox" name="avatar" width="50" value="<%= $self->{'person'}->avatar %>" required="true"></div>
 		    
 		First Name:
 		
@@ -94,22 +98,6 @@
 		Email:
 		
 		<div dojoType="dijit.form.TextBox" name="email" width="50" value="<%= $self->{'person'}->email %>"required="true"></div>
-		
-		City:
-		
-		<div dojoType="dijit.form.TextBox" name="city" width="50" value="<%= $self->{'person'}->city %>" required="true"></div>
-		
-		Region:
-		
-		<div dojoType="dijit.form.TextBox" name="region" width="50" value="<%= $self->{'person'}->region %>" required="true"></div>
-		
-		Country:
-		
-		<div dojoType="dijit.form.TextBox" name="country" width="50" value="<%= $self->{'person'}->country %>"required="true"></div>
-		
-		Avatar:
-		
-		<div dojoType="dijit.form.TextBox" name="avatar" width="50" value="<%= $self->{'person'}->avatar %>" required="true"></div>
 		
 		Blurb:
 		

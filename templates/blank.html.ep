@@ -21,13 +21,13 @@
         
         <% if ( $self->session('page') eq 'people' ) { %>
         
-        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> is using SocialMAP :(</p>
+        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> is using Konekt. :(</p>
         
         <% } %>
 
         <% if ( $self->session('page') eq 'places' ) { %>
         
-        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> has submitted any places to SocialMAP :(</p>
+        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> has submitted any places to Konekt. :(</p>
         
         <% } %>
         

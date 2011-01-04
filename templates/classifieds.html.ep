@@ -12,7 +12,7 @@
         
         <div style="border-color: inherit; border-top: 0.05em solid; border-bottom: 0.05em solid; padding: 15px; margin: 2px; background-color: #f7fcff;">
             
-            <p>Something that is for sale.</p>
+            <p><img src="/avatar.png" width="25" height="25" />Something that is for sale.</p>
             
         </div>
         
