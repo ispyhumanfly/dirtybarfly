@@ -13,9 +13,9 @@ pm_to_blib
 *.bak
 log
 nytprof
-socialmap.komodoproject
-socialmap.kdev4
-socialmap.db
-socialmap.lock
-socialmap.pid
+konekt.komodoproject
+konekt.kdev4
+konekt.db
+konekt.lock
+konekt.pid
 nytprof.out
