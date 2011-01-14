@@ -20,10 +20,6 @@ use Model::Schema;
 
 my $MODEL = Model::Schema->connect('dbi:SQLite:konekt.db');
 
-####################
-#### System Pages ##
-####################
-
 ### Welcome
 
 get '/' => sub {
@@ -84,7 +80,8 @@ get '/people' => sub {
         undef,
 
         {   order_by => 'person_id DESC',
-            prefetch => ['places', 'events'],
+
+            #prefetch => ['events', 'events'],
         }
     );
 
@@ -128,65 +125,80 @@ get '/person/:id' => [id => qr/\d+/] => sub {
 
 };
 
-### Places
+### Events
 
-get '/places' => sub {
+get '/events' => sub {
 
     my $self = shift;
-    $self->session(page => 'places');
+    $self->session(page => 'events');
 
     return $self->redirect_to('welcome') unless $self->session('person_id');
 
-    my @places = $MODEL->resultset('Place')->search(
+    my @events = $MODEL->resultset('Event')->search(
         undef,
 
-        {   order_by => 'place_id DESC',
-            prefetch => 'events',
+        {   order_by => 'event_id DESC',
+            prefetch => 'comments',
         }
     );
 
-    for my $place (@places) {
+    for my $event (@events) {
 
         my $gis = GIS::Distance->new();
 
         my $distance = $gis->distance(
-            $self->session('lat'), $self->session('lng') => $place->lat,
-            $place->lng
+            $self->session('lat'), $self->session('lng') => $event->lat,
+            $event->lng
         );
 
         if ($distance->meters <= (50 * 1609.344)) {
 
-            push @{$self->{'places'}}, $place;
+            push @{$self->{'events'}}, $event;
         }
     }
 
     $self->render('blank', layout => 'default')
-      unless exists $self->{'places'};
+      unless exists $self->{'events'};
 
-    $self->render('places', layout => 'default');
+    $self->render('events', layout => 'default');
 
-} => 'places';
+} => 'events';
 
-### Place by ID
+### Event by ID
 
-get '/place/:id' => [id => qr/\d+/] => sub {
+get '/event/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
-    $self->session(page => 'place');
+    $self->session(page => 'event');
 
-    my @places = $MODEL->resultset('Place')->search(
+    my @events = $MODEL->resultset('Event')->search(
 
-        {place_id => $self->param('id')},
+        {event_id => $self->param('id')},
 
-        {   order_by => 'place_id DESC',
-            prefetch => 'events',
+        {   order_by => 'event_id DESC',
+            prefetch => 'comments',
         }
     );
 
-    $self->{'places'} = \@places;
-    $self->render('places', layout => 'default');
+    $self->{'events'} = \@events;
+    $self->render('events', layout => 'default');
 
 };
+
+### Discussions
+
+get '/discussions' => sub {
+
+    my $self = shift;
+    $self->session(page => 'discussions');
+
+    return $self->redirect_to('welcome') unless $self->session('person_id');
+
+    $self->render('discussions', layout => 'default');
+
+} => 'discussions';
+
+## Classifieds
 
 get '/classifieds' => sub {
 
@@ -198,21 +210,6 @@ get '/classifieds' => sub {
     $self->render('classifieds', layout => 'default');
 
 } => 'classifieds';
-
-get '/discussion' => sub {
-
-    my $self = shift;
-    $self->session(page => 'discussion');
-
-    return $self->redirect_to('welcome') unless $self->session('person_id');
-
-    $self->render('discussion', layout => 'default');
-
-} => 'dashboard';
-
-######################
-#### System Actions ##
-######################
 
 post '/signin' => sub {
 
@@ -403,71 +400,58 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
     my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) =
       localtime(time);
 
-    if ($self->param('type') eq 'place') {
-
-        my $place = $MODEL->resultset('Place')->create(
-
-            {   category       => $self->param('category'),
-                title          => $self->param('title'),
-                date           => "$year-$mon-$mday",
-                time           => "$hour:$min:$sec",
-                street_address => $self->param('street_address'),
-                city           => $self->param('city'),
-                region         => $self->param('region'),
-                country        => $self->param('country'),
-                lat            => $self->param('lat'),
-                lng            => $self->param('lng'),
-                popularity     => 0,
-                person         => $self->session('person_id'),
-            }
-        );
-
-        # Person Track
-
-        my $track = $MODEL->resultset('PersonTrack')->create(
-
-            {   date    => "$year-$mon-$mday",
-                time    => "$hour:$min:$sec",
-                action  => 'PLACE_SUBMIT',
-                comment => 'Just submitted a place to Konekt.',
-                person  => $self->session('person_id'),
-            }
-        );
-    }
-
     if ($self->param('type') eq 'event') {
+        
+        my $event_id = $self->param('id');
 
-        my $event = $MODEL->resultset('PlaceEvent')->create(
+        REST::Google::Search->service(LOCAL);
 
-            {   category   => $self->param('category'),
-                title      => $self->param('title'),
-                place      => $self->param('place'),
-                start_date => $self->param('start_date'),
-                stop_date  => $self->param('stop_date'),
-                start_time => $self->param('start_time'),
-                stop_time  => $self->param('stop_time'),
-                about      => $self->param('about'),
-                date       => "$year-$mon-$mday",
-                time       => "$hour:$min:$sec",
-                popularity => 0,
-                person     => $self->session('person_id'),
+        my $response =
+          REST::Google::Search->new(q => $self->param('location'));
+
+        if ($response->responseStatus == 200) {
+
+            my $data    = $response->responseData;
+            my @results = $data->results;
+
+            foreach my $result (@results) {
+
+                my $event = $MODEL->resultset('Event')->create(
+
+                    {   category       => $self->param('category'),
+                        title          => $self->param('title'),
+                        start_date     => $self->param('start_date'),
+                        stop_date      => $self->param('stop_date'),
+                        start_time     => $self->param('start_time'),
+                        stop_time      => $self->param('stop_time'),
+                        about          => $self->param('about'),
+                        date           => "$year-$mon-$mday",
+                        time           => "$hour:$min:$sec",
+                        street_address => $result->streetAddress,
+                        city           => $result->city,
+                        region         => $result->region,
+                        country        => $result->country,
+                        lat            => $result->lat,
+                        lng            => $result->lng,
+                        popularity     => 0,
+                        person         => $self->session('person_id'),
+                    }
+                );
+
+                my $track = $MODEL->resultset('PersonTrack')->create(
+
+                    {   date    => "$year-$mon-$mday",
+                        time    => "$hour:$min:$sec",
+                        comment => 'Just submitted a event to Konekt.',
+                        link    => '/event/' . $event->event_id,
+                        person  => $self->session('person_id'),
+                    }
+                );
             }
-        );
+        }
 
-        # Person Track
-
-        my $track = $MODEL->resultset('PersonTrack')->create(
-
-            {   date    => "$year-$mon-$mday",
-                time    => "$hour:$min:$sec",
-                action  => 'EVENT_SUBMIT',
-                comment => 'Just submitted an event to Konekt.',
-                person  => $self->session('person_id'),
-            }
-        );
+        return $self->redirect_to('events');
     }
-
-    return $self->redirect_to('places');
 
 };
 
@@ -478,23 +462,39 @@ post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
     if ($self->param('type') eq 'person') {
 
         return if $self->param('password_1') ne $self->param('password_2');
+        
+        REST::Google::Search->service(LOCAL);
 
-        $MODEL->resultset('Person')->search({person_id => $self->param('id')})
-          ->update(
-            {   name       => $self->param('name'),
-                first_name => $self->param('first_name'),
-                last_name  => $self->param('last_name'),
-                gender     => $self->param('gender'),
-                birthday   => $self->param('birthday'),
-                email      => $self->param('email'),
-                city       => $self->param('city'),
-                region     => $self->param('region'),
-                country    => $self->param('country'),
-                avatar     => $self->param('avatar'),
-                blurb      => $self->param('blurb'),
-                password   => $self->param('password_1')
+        my $response =
+          REST::Google::Search->new(q => $self->param('location'));
+
+        if ($response->responseStatus == 200) {
+
+            my $data    = $response->responseData;
+            my @results = $data->results;
+
+            foreach my $result (@results) {
+                
+                $MODEL->resultset('Person')->search({person_id => $self->param('id')})
+                    ->update(
+                      {   name       => $self->param('name'),
+                          first_name => $self->param('first_name'),
+                          last_name  => $self->param('last_name'),
+                          gender     => $self->param('gender'),
+                          birthday   => $self->param('birthday'),
+                          email      => $self->param('email'),
+                          city       => $result->city,
+                          region     => $result->region,
+                          country    => $result->country,
+                          lat        => $result->lat,
+                          lng        => $result->lng,
+                          avatar     => $self->param('avatar'),
+                          blurb      => $self->param('blurb'),
+                          password   => $self->param('password_1')
+                      }
+                    );             
             }
-          );
+        }
 
     }
 

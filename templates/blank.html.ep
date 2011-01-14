@@ -25,9 +25,9 @@
         
         <% } %>
 
-        <% if ( $self->session('page') eq 'places' ) { %>
+        <% if ( $self->session('page') eq 'events' ) { %>
         
-        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> has submitted any places to Konekt. :(</p>
+        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> has submitted any events to Konekt. :(</p>
         
         <% } %>
         

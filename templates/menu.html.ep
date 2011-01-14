@@ -28,93 +28,6 @@
     dojo.require("dijit.MenuItem");
     dojo.require("dijit.PopupMenuItem");
 
-    
-    var layoutResults = [
-
-        [{
-	    
-        field: "titleNoFormatting",
-        name: "Title",
-        width: 20
-    },
-    {
-        field: "streetAddress",
-        name: "Address",
-        width: 20
-    },
-    {
-        field: "city",
-        name: "City",
-        width: 5
-    },
-    {
-        field: "region",
-        name: "Region",
-        width: 5
-    },
-    {
-        field: "country",
-        name: "Country",
-        width: 'auto'
-	
-    }]];
-
-    function search_results() {
-
-        //Link button to search, where search text is drawn from the input box.
-        //Had to resize the grids on selection of tabs, otherwise they wouldn't always display.
-        function resizeGrids() {
-	    
-            dijit.byId("localGrid").resize();
-            
-        }
-        dojo.connect(dijit.byId("tabSearch"), "selectChild", resizeGrids);
-
-        function search() {
-        
-	    var text = dijit.byId("searchText").getValue();
-            text = dojo.trim(text);
-            
-	    if (text !== "") {
-                var query = {
-		    
-                    text: text,
-		    centerLatLong: '<%= $self->session('lat') %>,<%= $self->session('lng') %>',
-                };
-                dijit.byId("localGrid").setQuery(query);
-            }
-        }
-        dojo.connect(dijit.byId("searchButton"), "onClick", search);
-    }
-    
-    dojo.addOnLoad(function() {
-        
-        var post_place = function(item_select) {
-	    
-	    var category = dijit.byId("category").getValue();
-	    var item  	 = item_select.grid.getItem(item_select.rowIndex);
-            
-	    var string = 
-	    
-		"&category="	  	+ dojo.trim(category) +
-		"&title=" 	  	+ item_select.grid.store.getValue(item, "titleNoFormatting") +
-		"&street_address="	+ item_select.grid.store.getValue(item, "streetAddress") +
-		"&city="		+ item_select.grid.store.getValue(item, "city") +
-		"&region="	  	+ item_select.grid.store.getValue(item, "region") +
-		"&country="	  	+ item_select.grid.store.getValue(item, "country") +
-		"&lat="		  	+ item_select.grid.store.getValue(item, "lat") +
-		"&lng="		  	+ item_select.grid.store.getValue(item, "lng") + "";
-	        
-
-	    window.location = "/submit/place?" + string + "";
-	    
-        }
-        dojo.connect(dijit.byId("localGrid"), "onRowClick", post_place);
-	
-	search_results();
-        
-    });
-    
 //]]></script>
     
 <div dojoType="dijit.MenuBar" style="float: left;">
@@ -145,16 +58,28 @@
     
     <div dojoType="dijit.MenuBarItem">
 	
-	<span>Places</span>
+	<span>Events</span>
     
 	<script type="dojo/method" event="onClick" args="evt">
     
-	    window.location = "/places";
+	    window.location = "/events";
 
 	</script>
 	
     </div>
     
+    <div dojoType="dijit.MenuBarItem">
+	
+	<span>Discussions</span>
+    
+	<script type="dojo/method" event="onClick" args="evt">
+    
+	    window.location = "/discussions";
+
+	</script>
+	
+    </div>
+
     <div dojoType="dijit.MenuBarItem">
 	
 	<span>Classifieds</span>
@@ -162,18 +87,6 @@
 	<script type="dojo/method" event="onClick" args="evt">
     
 	    window.location = "/classifieds";
-
-	</script>
-	
-    </div>
-
-    <div dojoType="dijit.MenuBarItem">
-	
-	<span>Discussion</span>
-    
-	<script type="dojo/method" event="onClick" args="evt">
-    
-	    window.location = "/discussion";
 
 	</script>
 	
@@ -223,6 +136,12 @@
 	    
 	    </div>
 	    
+	    <div dojoType="dijit.MenuSeparator"></div>
+	    
+	    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste" onClick="window.location='/signout';">	
+		Sign Out
+	    </div>
+	    
         </div>
 	
     </div>
@@ -235,7 +154,7 @@
 
 	<div dojoType="dijit.form.TextBox" width="50" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
 
-	<div dojoType="dijit.form.Button" type="submit">...</div>
+	<div dojoType="dijit.form.Button" type="submit">Go</div>
 
     </div>
 
@@ -249,47 +168,15 @@
 
 <!-- Submit Dialog -->
 
-<div id="dialog_submit" dojoType="dijit.Dialog" title="Submit something to SocialMAP." style="width: 800px; height: 600px;">
+<div id="dialog_submit" dojoType="dijit.Dialog" title="Submit something to Konekt." style="width: 800px; height: 600px;">
         
     <div style="width: inherit; height: 550px;">
 	    
         <div dojoType="dijit.layout.TabContainer" style="width: inherit; height: inherit;">
             
-            <div dojoType="dijit.layout.ContentPane" title="Place" selected="true">
-		
-		Category:
-		
-		<select dojoType="dijit.form.FilteringSelect" id="category">
-		
-		    <option value="General">General</option>
-		    <option value="Technical" selected>Technical</option>
-		    <option value="Business">Business</option>
-		    
-		</select>
-		
-		Place:
-		
-		<div dojoType="dijit.form.TextBox" id="searchText" width="50" placeHolder="Enter search criteria."></div>
-
-		<div dojoType="dijit.form.Button" id="searchButton">Search</div>
-	
-		<div dojoType="dojox.data.GoogleLocalSearchStore" jsId="localStore"></div>
-		
-		<br />
-		
-		<div dojoType="dijit.layout.ContentPane" id="tabSearch">
-		    
-		    <div id="localGrid" style="width: inherit; height: 375px;" dojoType="dojox.grid.DataGrid"
-		    store="localStore" structure="layoutResults" query="{ text: 'business', centerLatLong: '<%= $self->session('lat') %>,<%= $self->session('lng') %>'}" rowsPerPage="40">
-		    </div>
-		
-		</div>
-		
-	    </div>
-	
             <div dojoType="dijit.layout.ContentPane" title="Event">
 		
-		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/place/event" method="POST">
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/event" method="POST">
     
 		    Category:
 		    
@@ -305,17 +192,9 @@
 		    
 		    <div dojoType="dijit.form.TextBox" name="title" width="50" required="true"></div>
 			
-		    Place:
+		    Location:
 		    
-		    <select dojoType="dijit.form.FilteringSelect" name="place" style="margin: 10px;">
-			
-			<% foreach my $place ( @{ $self->{'places'} } ) { %>
-		
-			<option value="<%= $place->place_id %>"><%= $place->title %></option>
-			
-			<% } %>
-			
-		    </select>
+		    <div dojoType="dijit.form.TextBox" name="location" width="50" required="true"></div>
     
 		    Start Date:
 		    

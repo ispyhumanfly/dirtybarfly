@@ -4,6 +4,7 @@
     dojo.require("dijit.Dialog");
     dojo.require("dijit.form.Button");
     dojo.require("dijit.Menu");
+    dojo.require("dijit.form.ToggleButton");
     
 //]]></script>
 
@@ -33,8 +34,6 @@
                     
 		    Location: <%= $person->city %>, <%= $person->region %>, <%= $person->country %>
 		    
-                    Places: <%= scalar $person->places->all %>
-                    
                     <br />
                     
                     Events: <%= scalar $person->events->all %>
@@ -109,25 +108,6 @@
                         
                     </div>
 		    
-                    <div dojoType="dijit.layout.ContentPane" title="Places">
-                        
-                        <% for my $place ( $person->places->all ) { %>
-                        
-                        <div dojoType="dijit.TitlePane" title="<%= $place->title %>" style="margin-bottom: 15px;">
-			
-			    Submitted by <img src="<%= $place->person->avatar %>" width="15" height="15" /> <a href="/person/<%= $place->person->person_id %>"><%= $place->person->name %></a>
-                    
-			    <p>
-				Address: <%= $place->street_address %>, <%= $place->city %>, <%= $place->region %>
-				Popularity: <%= $place->popularity %>
-			    </p>
-			    
-                        </div>
-                            
-                        <% } %>
-                    
-                    </div>
-                    
                     <div dojoType="dijit.layout.ContentPane" title="Events">
                         
                         <% for my $event ( $person->events->all ) { %>
@@ -169,4 +149,39 @@
     
     <div id="map_canvas" style="width: 100%; height: 100%"></div>
 
+</div>
+
+<div dojoType='dojox.layout.ExpandoPane' region='trailing' style="width: 30%;">
+    
+    <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
+        
+        <div dojoType="dijit.layout.ContentPane" title="Something" selected="true">
+            
+            <% for ( 1 .. 8 ) { %>
+            
+            <p><img src="/avatar.png" width="25" height="25" /> The #<%= $_ %> something in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
+            
+            <% } %>
+            
+            
+        </div>
+
+        <div dojoType="dijit.layout.ContentPane" title="Something">
+            
+            
+            <% for ( 1 .. 4 ) { %>
+            
+            <p><img src="/avatar.png" width="25" height="25" /> Something about something...<p>
+            
+            <% } %>
+            
+        </div>
+
+        <div dojoType="dijit.layout.ContentPane" title="Something Else">
+            
+	    
+        </div>
+        
+    </div>
+    
 </div>

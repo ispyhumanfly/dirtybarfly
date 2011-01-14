@@ -12,11 +12,11 @@ Konekt
 
 =head1 DESCRIPTION
 
-A pretty cool way to interact with people centered around a unique approach to common web services.
+A pretty cool way to interact with people.
 
 =head2 CPAN Setup
 
-	sudo cpanp install Mojolicious::Lite DBIx::Class REST::Google::Search GIS::Distance
+	sudo cpanp install Modern::Perl Mojolicious::Lite DBIx::Class REST::Google::Search GIS::Distance
 
 =head1 BUGS
 

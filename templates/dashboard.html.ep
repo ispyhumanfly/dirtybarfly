@@ -1,6 +1,10 @@
 <script type="text/javascript">//<![CDATA[
 
     dojo.require("dijit.Tooltip");
+    dojo.require("dijit.Dialog");
+    dojo.require("dijit.form.Button");
+    dojo.require("dijit.Menu");
+    dojo.require("dijit.form.ToggleButton");
 
 //]]></script>        
 
@@ -20,7 +24,7 @@
                     
                     <% for my $track ( $person->tracks->all ) { %>
                     
-                    <li><%= $track->comment %></li>
+                    <li><a href="<%= $track->link %>"> <%= $track->comment %> </a></li>
                 
                     <% } %>
                     
@@ -36,7 +40,7 @@
         
 </div>
 
-<div dojoType='dijit.layout.ContentPane' region='trailing' style="width: 35%;">
+<div dojoType='dojox.layout.ExpandoPane' region='trailing' style="width: 30%;">
     
     <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
         
@@ -98,6 +102,10 @@
 		Email:
 		
 		<div dojoType="dijit.form.TextBox" name="email" width="50" value="<%= $self->{'person'}->email %>"required="true"></div>
+		
+		Location:
+		
+		<div dojoType="dijit.form.TextBox" name="location" width="50" value="<%= $self->{'person'}->city %>, <%= $self->{'person'}->region %>" required="true"></div>
 		
 		Blurb:
 		

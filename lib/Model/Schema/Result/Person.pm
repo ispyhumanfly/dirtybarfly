@@ -7,9 +7,9 @@ __PACKAGE__->add_columns(
 );
 __PACKAGE__->set_primary_key('person_id');
 
-
-__PACKAGE__->has_many( tracks => 'Model::Schema::Result::PersonTrack' );
-__PACKAGE__->has_many( places => 'Model::Schema::Result::Place' );
-__PACKAGE__->has_many( events => 'Model::Schema::Result::PlaceEvent' );
+__PACKAGE__->has_many(tracks      => 'Model::Schema::Result::PersonTrack');
+__PACKAGE__->has_many(events      => 'Model::Schema::Result::Event');
+__PACKAGE__->has_many(discussion  => 'Model::Schema::Result::Discussion');
+__PACKAGE__->has_many(classifieds => 'Model::Schema::Result::Classified');
 
 1;

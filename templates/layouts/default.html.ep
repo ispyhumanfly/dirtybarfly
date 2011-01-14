@@ -11,6 +11,10 @@
 
 	<!-- Dojo 1.5 JavaScript Framework -->
 	
+	<style type="text/css">
+	    @import url("http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/layout/resources/ExpandoPane.css");
+	</style>
+	
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/widget/Portlet/Portlet.css">
 
@@ -20,13 +24,13 @@
             
             dojo.require("dijit.layout.BorderContainer");
             dojo.require("dijit.layout.ContentPane");
+	    dojo.require("dojox.layout.ExpandoPane");
 	    dojo.require("dijit.layout.AccordionContainer");
 	    dojo.require("dijit.TitlePane");
 	    dojo.require("dijit.Dialog");
 	    dojo.require("dijit.form.Form");
 	    dojo.require("dijit.form.TextBox");
 	    dojo.require("dijit.form.Button");
-
             
         //]]></script>
 	
@@ -56,7 +60,7 @@
 		
 		    <% if ( $self->session('person_id') ) { %>
 		    
-		    <%= include 'controls' %>
+		    <%= include 'menu' %>
 		    
 		    <% } %>
 			

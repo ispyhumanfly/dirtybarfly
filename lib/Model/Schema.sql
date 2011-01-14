@@ -22,23 +22,55 @@ CREATE TABLE person (
     tracking TEXT NULL
 );
 
--- Person Tracks --
-
 CREATE TABLE person_track (
 
     track_id INTEGER PRIMARY KEY,
     date TEXT NOT NULL,
     time TEXT NOT NULL,
-    action TEXT NOT NULL,
     comment TEXT NOT NULL,
+    link TEXT NULL,
     person INTEGER NOT NULL REFERENCES person(person_id)
 );
 
--- Place --
+-- Event --
 
-CREATE TABLE place (
+CREATE TABLE event (
 
-    place_id INTEGER PRIMARY KEY,
+    event_id INTEGER PRIMARY KEY,
+    category TEXT NOT NULL,
+    title TEXT NOT NULL,
+    start_date TEXT NOT NULL,
+    stop_date TEXT NOT NULL,
+    start_time TEXT NOT NULL,
+    stop_time TEXT NOT NULL,
+    about TEXT NOT NULL,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    street_address TEXT NOT NULL,
+    city TEXT NOT NULL,
+    region TEXT NOT NULL,
+    country TEXT NOT NULL,
+    lat FLOAT NOT NULL,
+    lng FLOAT NOT NULL,
+    popularity INTEGER NULL,
+    person INTEGER NOT NULL REFERENCES person(person_id)
+);
+
+CREATE TABLE event_comment (
+
+    comment_id INTEGER PRIMARY KEY,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    comment TEXT NOT NULL,
+    event INTEGER NOT NULL REFERENCES event(event_id),
+    person INTEGER NOT NULL REFERENCES person(person_id)
+);
+
+-- Discussion --
+
+CREATE TABLE discussion (
+
+    discussion_id INTEGER PRIMARY KEY,
     category TEXT NOT NULL,
     title TEXT NOT NULL,
     date TEXT NOT NULL,
@@ -53,9 +85,9 @@ CREATE TABLE place (
     person INTEGER NOT NULL REFERENCES person(person_id)
 );
 
-CREATE TABLE place_event (
+CREATE TABLE discussion_comment (
 
-    event_id INTEGER PRIMARY KEY,
+    comment_id INTEGER PRIMARY KEY,
     category TEXT NOT NULL,
     title TEXT NOT NULL,
     start_date TEXT NOT NULL,
@@ -66,6 +98,35 @@ CREATE TABLE place_event (
     date TEXT NOT NULL,
     time TEXT NOT NULL,
     popularity INTEGER NULL,
-    place INTEGER NOT NULL REFERENCES place(place_id),
+    person INTEGER NOT NULL REFERENCES person(person_id)
+);
+
+-- Classified --
+
+CREATE TABLE classified (
+
+    classified_id INTEGER PRIMARY KEY,
+    category TEXT NOT NULL,
+    title TEXT NOT NULL,
+    about TEXT NOT NULL,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    street_address TEXT NOT NULL,
+    city TEXT NOT NULL,
+    region TEXT NOT NULL,
+    country TEXT NOT NULL,
+    lat FLOAT NOT NULL,
+    lng FLOAT NOT NULL,
+    popularity INTEGER NOT NULL,
+    person INTEGER NOT NULL REFERENCES person(person_id)
+);
+
+CREATE TABLE classified_comment (
+
+    comment_id INTEGER PRIMARY KEY,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    comment TEXT NOT NULL,
+    classified INTEGER NOT NULL REFERENCES classified(classified_id),
     person INTEGER NOT NULL REFERENCES person(person_id)
 );
