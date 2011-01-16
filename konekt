@@ -120,6 +120,18 @@ get '/person/:id' => [id => qr/\d+/] => sub {
     my @people =
       $MODEL->resultset('Person')->search({person_id => $self->param('id')});
 
+    for my $person (@people) {
+        
+        $self->session(
+
+            city      => $person->city,
+            region    => $person->region,
+            country   => $person->country,
+            lat       => $person->lat,
+            lng       => $person->lng,
+        );
+    }
+
     $self->{'people'} = \@people;
     $self->render('people', layout => 'default');
 
@@ -171,14 +183,20 @@ get '/event/:id' => [id => qr/\d+/] => sub {
     my $self = shift;
     $self->session(page => 'event');
 
-    my @events = $MODEL->resultset('Event')->search(
+    my @events =
+      $MODEL->resultset('Event')->search({event_id => $self->param('id')});
+    
+    for my $event (@events) {
+        
+        $self->session(
 
-        {event_id => $self->param('id')},
-
-        {   order_by => 'event_id DESC',
-            prefetch => 'comments',
-        }
-    );
+            city      => $event->city,
+            region    => $event->region,
+            country   => $event->country,
+            lat       => $event->lat,
+            lng       => $event->lng,
+        );
+    }
 
     $self->{'events'} = \@events;
     $self->render('events', layout => 'default');
@@ -194,9 +212,60 @@ get '/discussions' => sub {
 
     return $self->redirect_to('welcome') unless $self->session('person_id');
 
+    my @discussions = $MODEL->resultset('Discussion')->search(
+        undef,
+
+        {   order_by => 'discussion_id DESC',
+            prefetch => 'comments',
+        }
+    );
+
+    for my $discussion (@discussions) {
+
+        my $gis = GIS::Distance->new();
+
+        my $distance = $gis->distance(
+            $self->session('lat'), $self->session('lng') => $discussion->lat,
+            $discussion->lng
+        );
+
+        if ($distance->meters <= (50 * 1609.344)) {
+
+            push @{$self->{'discussions'}}, $discussion;
+        }
+    }
+
+    $self->render('blank', layout => 'default')
+      unless exists $self->{'discussions'};
+
     $self->render('discussions', layout => 'default');
 
 } => 'discussions';
+
+get '/discussion/:id' => [id => qr/\d+/] => sub {
+
+    my $self = shift;
+    $self->session(page => 'discussion');
+
+    my @discussions =
+      $MODEL->resultset('Discussion')->search({discussion_id => $self->param('id')});
+    
+    for my $discussion (@discussions) {
+        
+        $self->session(
+
+            city      => $discussion->city,
+            region    => $discussion->region,
+            country   => $discussion->country,
+            lat       => $discussion->lat,
+            lng       => $discussion->lng,
+        );
+    }
+
+    $self->{'discussions'} = \@discussions;
+    $self->render('discussions', layout => 'default');
+
+};
 
 ## Classifieds
 
@@ -401,8 +470,6 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
       localtime(time);
 
     if ($self->param('type') eq 'event') {
-        
-        my $event_id = $self->param('id');
 
         REST::Google::Search->service(LOCAL);
 
@@ -449,9 +516,54 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
                 );
             }
         }
-
-        return $self->redirect_to('events');
     }
+    
+    if ($self->param('type') eq 'discussion') {
+
+        REST::Google::Search->service(LOCAL);
+    
+        my $response =
+          REST::Google::Search->new(q => '' . $self->session('city') . ' ' . $self->session('region') . '');
+    
+        if ($response->responseStatus == 200) {
+    
+            my $data    = $response->responseData;
+            my @results = $data->results;
+    
+            foreach my $result (@results) {
+    
+                my $discussion = $MODEL->resultset('Discussion')->create(
+    
+                    {   category       => $self->param('category'),
+                        title          => $self->param('title'),
+                        about          => $self->param('about'),
+                        date           => "$year-$mon-$mday",
+                        time           => "$hour:$min:$sec",
+                        street_address => $result->streetAddress,
+                        city           => $result->city,
+                        region         => $result->region,
+                        country        => $result->country,
+                        lat            => $result->lat,
+                        lng            => $result->lng,
+                        popularity     => 0,
+                        person         => $self->session('person_id'),
+                    }
+                );
+    
+                my $track = $MODEL->resultset('PersonTrack')->create(
+    
+                    {   date    => "$year-$mon-$mday",
+                        time    => "$hour:$min:$sec",
+                        comment => 'Just submitted a discussion to Konekt.',
+                        link    => '/discussion/' . $discussion->discussion_id,
+                        person  => $self->session('person_id'),
+                    }
+                );
+            }
+        }
+    }
+    
+    return $self->redirect_to($self->session('page'));
 
 };
 

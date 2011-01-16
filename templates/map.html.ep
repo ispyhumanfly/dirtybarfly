@@ -40,22 +40,43 @@
 
         <% } %>
         
-        <% if ( ( $self->session('page') eq 'places' ) or ( $self->session('page') eq 'place' ) ) { %>
+        <% if ( ( $self->session('page') eq 'events' ) or ( $self->session('page') eq 'event' ) ) { %>
 
-            <% foreach my $place ( @{ $self->{'places'} } ) { %>
+            <% foreach my $event ( @{ $self->{'events'} } ) { %>
             
-            var place_latlng = new google.maps.LatLng(<%= $place->lat %>,<%= $place->lng %>);
+            var event_latlng = new google.maps.LatLng(<%= $event->lat %>,<%= $event->lng %>);
     
-            var place_avatar = new google.maps.MarkerImage('/marker.png'); // Will eventually display the place's avatar...
+            var event_avatar = new google.maps.MarkerImage('/marker.png'); // Will eventually display the event's avatar...
             
-            var place_marker = new google.maps.Marker({
+            var event_marker = new google.maps.Marker({
                 
-                position: place_latlng,
-                title: '<%= $place->title %>',
-                icon: place_avatar
+                position: event_latlng,
+                title: '<%= $event->title %>',
+                icon: event_avatar
             });
 
-            place_marker.setMap(map);
+            event_marker.setMap(map);
+
+            <% } %>
+
+        <% } %>
+	
+	<% if ( ( $self->session('page') eq 'discussions' ) or ( $self->session('page') eq 'discussion' ) ) { %>
+
+            <% foreach my $discussion ( @{ $self->{'discussions'} } ) { %>
+            
+            var discussion_latlng = new google.maps.LatLng(<%= $discussion->lat %>,<%= $discussion->lng %>);
+    
+            var discussion_avatar = new google.maps.MarkerImage('/marker.png'); // Will discussionually display the discussion's avatar...
+            
+            var discussion_marker = new google.maps.Marker({
+                
+                position: discussion_latlng,
+                title: '<%= $discussion->title %>',
+                icon: discussion_avatar
+            });
+
+            discussion_marker.setMap(map);
 
             <% } %>
 

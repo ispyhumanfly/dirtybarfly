@@ -75,6 +75,7 @@ CREATE TABLE discussion (
     title TEXT NOT NULL,
     date TEXT NOT NULL,
     time TEXT NOT NULL,
+    about TEXT NOT NULL,
     street_address TEXT NOT NULL,
     city TEXT NOT NULL,
     region TEXT NOT NULL,
@@ -88,16 +89,10 @@ CREATE TABLE discussion (
 CREATE TABLE discussion_comment (
 
     comment_id INTEGER PRIMARY KEY,
-    category TEXT NOT NULL,
-    title TEXT NOT NULL,
-    start_date TEXT NOT NULL,
-    stop_date TEXT NOT NULL,
-    start_time TEXT NOT NULL,
-    stop_time TEXT NOT NULL,
-    about TEXT NOT NULL,
     date TEXT NOT NULL,
     time TEXT NOT NULL,
-    popularity INTEGER NULL,
+    comment TEXT NOT NULL,
+    discussion INTEGER NOT NULL REFERENCES discussion(discussion_id),
     person INTEGER NOT NULL REFERENCES person(person_id)
 );
 

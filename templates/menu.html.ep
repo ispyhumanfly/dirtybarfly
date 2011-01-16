@@ -101,15 +101,7 @@
         <div dojoType="dijit.Menu">
             
 	    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut" onClick="dijit.byId('dialog_submit').show()">
-		Submit
-	    </div>
-	    
-	    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy" onClick="alert('comedy!')">
-		Comedy
-	    </div>
-    
-	    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste" onClick="alert('romance!')">	
-		Romance
+		Submit to Konekt!
 	    </div>
 	    
 	    <div dojoType="dijit.MenuSeparator"></div>
@@ -117,21 +109,19 @@
 	    <div dojoType="dijit.PopupMenuItem">
 		
 		<span>
-		    Categories
+		    Submenu
 		</span>
 		
 		<div dojoType="dijit.Menu">
-		
+
+		    <% for (1 .. 4) { %>
+		    
 		    <div dojoType="dijit.MenuItem" onClick="alert('diehard!')">
-			General
-		    </div>
-		    <div dojoType="dijit.MenuItem" onClick="alert('indiana!')">
-			Technical
-		    </div>
-		    <div dojoType="dijit.MenuItem" onClick="alert('indiana!')">
-			Business
+			Random submenu option <%= $_ %>
 		    </div>
 		
+		    <% } %>
+		    
 		</div>
 	    
 	    </div>
@@ -225,6 +215,44 @@
 		
 		</div>
 		
+	    </div>
+
+            <div dojoType="dijit.layout.ContentPane" title="Discussion">
+		
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/discussion" method="POST">
+    
+		    Category:
+		    
+		    <select dojoType="dijit.form.FilteringSelect" name="category" style="margin: 10px;">
+			
+			<option value="General">General</option>
+			<option value="Technical" selected>Technical</option>
+			<option value="Business">Business</option>
+			
+		    </select>
+	
+		    Title:
+		    
+		    <div dojoType="dijit.form.TextBox" name="title" width="50" required="true"></div>
+		    
+		    About:
+		    
+		    <br />
+		    
+		    <textarea dojoType="dijit.form.Textarea" name="about" style="width: 400px;"></textarea>
+		    
+		    <br />
+		    
+		    <button dojoType="dijit.form.Button" type="submit">Submit</button>
+		    <button dojoType="dijit.form.Button" type="reset">Reset</button>
+		
+		</div>
+
+	    </div>
+	    
+            <div dojoType="dijit.layout.ContentPane" title="Classified">
+
+
 	    </div>
 	    
 	</div>

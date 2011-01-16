@@ -9,35 +9,56 @@
 //]]></script>        
 
 <div dojoType="dijit.layout.ContentPane" region="center">
+    
+    <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="bottom">
+	
+	<div dojoType="dijit.layout.ContentPane" title="People Tracks" selected="true">
+	    
+	    <% foreach my $person ( @{ $self->{'tracking'} } ) { %>
 
-    <% foreach my $person ( @{ $self->{'tracking'} } ) { %>
+	    <div dojoType="dijit.TitlePane" title="Tracking <%= $person->name %>" style="margin-bottom: 15px;">
+	    
+		<img src="<%= $person->avatar %>" width="50" height="50" style="float: left;"/>
+		
+		<div style="font-size: small;">
+		    
+		    <blockquote>
+			
+			<ul>
+			    
+			    <% for my $track ( $person->tracks->all ) { %>
+			    
+			    <li><a href="<%= $track->link %>"> <%= $track->comment %> </a></li>
+			
+			    <% } %>
+			    
+			</ul>
+			
+		    </blockquote>
+		    
+		</div>
+		
+	    </div>
+	
+	    <% } %>
     
-    <div dojoType="dijit.TitlePane" title="Tracking <%= $person->name %>" style="margin-bottom: 15px;">
+	</div>
+
+	<div dojoType="dijit.layout.ContentPane" title="Event Tracks">
+	    
     
-        <img src="<%= $person->avatar %>" width="50" height="50" style="float: left;"/>
-        
-        <div style="font-size: small;">
-            
-            <blockquote>
-                
-                <ul>
-                    
-                    <% for my $track ( $person->tracks->all ) { %>
-                    
-                    <li><a href="<%= $track->link %>"> <%= $track->comment %> </a></li>
-                
-                    <% } %>
-                    
-                </ul>
-                
-            </blockquote>
-            
-        </div>
-        
+	</div>
+	<div dojoType="dijit.layout.ContentPane" title="Discussion Tracks">
+	    
+    
+	</div>
+	<div dojoType="dijit.layout.ContentPane" title="Classified Tracks">
+	    
+    
+	</div>
+	
     </div>
-
-    <% } %>
-        
+    
 </div>
 
 <div dojoType='dojox.layout.ExpandoPane' region='trailing' style="width: 30%;">

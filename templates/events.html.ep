@@ -7,70 +7,76 @@
     
 //]]></script>
 
-<div  dojoType="dijit.layout.ContentPane" region="leading">
+<div  dojoType="dijit.layout.ContentPane" region="leading" style="width: 25%;" splitter="true">
 
-    <% foreach my $event ( @{ $self->{'events'} } ) { %>
-    
-    <div dojoType="dijit.TitlePane" title="<%= $event->title %>" id="event_<%= $event->event_id %>" style="margin-bottom: 15px;">
-        
-        <div style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $event->event_id %>').show()">
-        
-            <img src="/avatar.png" width="50" height="50" />        
-            
-            <div style="font: large;">
-                
-                <div style="text-align: left; font-size: smaller;">
-                    
-                    Location: <%= $event->street_address %>, <%= $event->city %>, <%= $event->region %>
-                
-                </div>
-                
-            </div>
-            
-        </div>
-        
-        <div dojoType="dijit.Tooltip" connectId="event_<%= $event->event_id %>" position="below">
+    <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="bottom">
 
-            <p><%= $event->about %></p>
-        
-        </div>
-        
-        <div id="dialog_<%= $event->event_id %>" dojoType="dijit.Dialog" title="<%= $event->title %>" style="width: 800px; height: 600px;">
-        
-            <div style="width: inherit; height: 550px;">
+	<div dojoType="dijit.layout.ContentPane" title="All" selected="true">
+
+	    <% foreach my $event ( @{ $self->{'events'} } ) { %>
 	    
-                <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
-                    
-                    <div dojoType="dijit.layout.ContentPane" title="Events">
-                        
-                        <div dojoType="dijit.TitlePane" title="<%= $event->title %>" style="margin-bottom: 15px;">
-                    
-                            Submitted by <img src="<%= $event->person->avatar %>" width="15" height="15" /> <a href="/person/<%= $event->person->person_id %>"><%= $event->person->name %></a>
-                            
-                            <p><%= $event->about %></p>
-                               
-                            <div style="font-size: smaller; text-align: right; margin: 5px;">
-                            
-                                Begin: <%= $event->start_date %>,
-                                End: <%= $event->stop_date %>,
-                                Start: <%= $event->start_time %>,
-                                Stop: <%= $event->stop_time %>     
-                                    
-                            </div>
-                            
-                        </div>
-                            
-                    </div>
-                    
-                </div>
-                
-            </div>
+	    <div id="event_<%= $event->event_id %>" style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $event->event_id %>').show()">
             
-        </div>
-        
+                <p style="font-size: small; margin: 5px;"><img src="<%= $event->person->avatar %>" width="35" height="35" /> <%= $event->title %> </p>
+            
+            </div>
+    
+            <div dojoType="dijit.Tooltip" connectId="event_<%= $event->event_id %>" position="below">
+    
+                <p><%= $event->about %></p>
+            
+            </div>
+	    
+	    <div id="dialog_<%= $event->event_id %>" dojoType="dijit.Dialog" title="<%= $event->title %>" style="width: 800px; height: 600px;">
+	    
+		<div style="width: inherit; height: 550px;">
+		
+		    <div dojoType="dijit.layout.TabContainer" tabStrip="true" style="width: 100%; height: 100%;" tabPosition="right-h">
+			
+			<div dojoType="dijit.layout.ContentPane" title="About">
+			    
+			    Submitted by <img src="<%= $event->person->avatar %>" width="15" height="15" /> <a href="/person/<%= $event->person->person_id %>"><%= $event->person->name %></a>
+			    
+			    <p><%= $event->about %></p>
+			       
+			    <div style="font-size: smaller; text-align: right; margin: 5px;">
+			    
+				Begin: <%= $event->start_date %>,
+				End: <%= $event->stop_date %>,
+				Start: <%= $event->start_time %>,
+				Stop: <%= $event->stop_time %>     
+				    
+			    </div>
+		
+			</div>
+			
+			<% for ( 1 .. 7 ) { %>
+			
+			<div dojoType="dijit.layout.ContentPane" title="Something <%= $_ %>" closeable="true">
+			    
+			</div>
+			
+			<% } %>
+			
+		    </div>
+		    
+		</div>
+		
+	    </div>
+	    
+	    <% } %>
+
+	</div>
+
+	<% for ( 1 .. 7 ) { %>
+	
+	<div dojoType="dijit.layout.ContentPane" title="Category <%= $_ %>" closeable="true">
+	    
+	</div>
+	
+	<% } %>
+	
     </div>
-   
-    <% } %>
         
 </div>
 
@@ -80,7 +86,7 @@
 
 </div>
 
-<div dojoType='dojox.layout.ExpandoPane' region='trailing' style="width: 30%;">
+<div dojoType='dojox.layout.ExpandoPane' region='trailing' style="width: 25%;">
     
     <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
         
