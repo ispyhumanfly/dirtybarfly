@@ -13,41 +13,65 @@
 
 	<div dojoType="dijit.layout.ContentPane" title="All" selected="true">
 
-	    <% foreach my $discussion ( @{ $self->{'discussions'} } ) { %>
+	    <% foreach my $topic ( @{ $self->{'topics'} } ) { %>
 
-            <div id="discussion_<%= $discussion->discussion_id %>" style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $discussion->discussion_id %>').show()">
+            <div id="topic_<%= $topic->topic_id %>" style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $topic->topic_id %>').show()">
             
-                <p style="font-size: small; margin: 5px;"><img src="<%= $discussion->person->avatar %>" width="35" height="35" /> <%= $discussion->title %> </p>
+                <p style="font-size: small; margin: 5px;"><img src="<%= $topic->person->avatar %>" width="35" height="35" /> <%= $topic->title %> </p>
             
             </div>
     
-            <div dojoType="dijit.Tooltip" connectId="discussion_<%= $discussion->discussion_id %>" position="below">
+            <div dojoType="dijit.Tooltip" connectId="topic_<%= $topic->topic_id %>" position="below">
     
-                <p><%= $discussion->about %></p>
+                <p><%= $topic->about %></p>
             
             </div>
 
-            <div id="dialog_<%= $discussion->discussion_id %>" dojoType="dijit.Dialog" title="<%= $discussion->title %>" style="width: 800px; height: 600px;">
+            <div id="dialog_<%= $topic->topic_id %>" dojoType="dijit.Dialog" title="<%= $topic->title %>" style="width: 800px; height: 600px;">
             
                 <div style="width: inherit; height: 550px;">
                 
                     <div dojoType="dijit.layout.TabContainer" tabStrip="true" style="width: 100%; height: 100%;" tabPosition="right-h">
                         
-                        <div dojoType="dijit.layout.ContentPane" title="About">
+                        <div dojoType="dijit.layout.ContentPane" title="Topic">
                             
-                            Submitted by <img src="<%= $discussion->person->avatar %>" width="15" height="15" /> <a href="/person/<%= $discussion->person->person_id %>"><%= $discussion->person->name %></a>
-                            
-                            <p><%= $discussion->about %></p>
+                            Submitted by <img src="<%= $topic->person->avatar %>" width="25" height="25" /> <a href="/person/<%= $topic->person->person_id %>"><%= $topic->person->name %></a>
+			
+			    <p style="font-size: medium; margin: 15px;">
+				
+				<%= $topic->about %>
+			    
+			    </p>
+			    
+			    <blockquote title="Comments">
+				
+				<% for ( 1 .. 4 ) { %>
+				
+				<p><img src="/avatar.png" width="25" height="25" />Some comment written by someone.<p>
+				
+				<% } %>
+				
+			    </blockquote>
+			    
+			    <div style="float: right;">
+				
+				<textarea dojoType="dijit.form.Textarea" name="comment" style="width: 300px;"></textarea>
+				
+				<div dojoType="dijit.form.Button" type="submit">Comment</div>
+		    
+			    </div>
                                
                         </div>
-                        
-                        <% for ( 1 .. 7 ) { %>
-                        
-                        <div dojoType="dijit.layout.ContentPane" title="Something <%= $_ %>" closeable="true">
-                            
-                        </div>
-                        
-                        <% } %>
+                    
+			<div dojoType="dijit.layout.ContentPane" title="Trackers">
+			    
+			    <% for ( 1 .. 4 ) { %>
+				
+			    <p><img src="/avatar.png" width="25" height="25" />Someone who is tracking this topic.<p>
+				
+			    <% } %>
+			    
+			</div>
                         
                     </div>
                     
@@ -89,11 +113,9 @@
             
             <% } %>
             
-            
         </div>
 
         <div dojoType="dijit.layout.ContentPane" title="Something">
-            
             
             <% for ( 1 .. 4 ) { %>
             

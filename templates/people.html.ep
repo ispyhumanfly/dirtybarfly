@@ -8,7 +8,7 @@
     
 //]]></script>
 
-<div  dojoType="dijit.layout.ContentPane" region="leading" style="width: 25%;" splitter="true">
+<div  dojoType="dijit.layout.ContentPane" region="center">
 
     <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="bottom">
 	
@@ -16,31 +16,47 @@
 
 	    <% foreach my $person ( @{ $self->{'people'} } ) { %>
 	    
-	    <div id="person_<%= $person->person_id %>" style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $person->person_id %>').show()">
-            
-                <p style="font-size: small; margin: 5px;"><img src="<%= $person->avatar %>" width="35" height="35" /> <%= $person->name %> </p>
-            
-            </div>
+	    <div dojoType="dijit.TitlePane" title="Tracking <%= $person->name %>" style="margin-bottom: 15px;">
+	    
+		<div id="person_<%= $person->person_id %>" style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $person->person_id %>').show()">
+		    
+		    <div dojoType="dijit.layout.ContentPane" region="leading">
+		
+			<img src="<%= $person->avatar %>" style="width: 75px; height: 75px; float: left;"/>
+			
+		    </div>
+		    
+		    <div dojoType="dijit.layout.ContentPane" region="trailing">
+			    
+			<div style="font-size: small;">
+			
+	    
+			</div>
     
-            <div dojoType="dijit.Tooltip" connectId="person_<%= $person->person_id %>" position="below">
-    
-                <p><%= $person->blurb %></p>
-            
-            </div>
+		    </div>
+		    
+		</div>
+		
+		<div dojoType="dijit.Tooltip" connectId="person_<%= $person->person_id %>" position="below">
+	
+		    <p><%= $person->blurb %></p>
+		
+		</div>
+		
+	    </div>
 	    
 	    <div id="dialog_<%= $person->person_id %>" dojoType="dijit.Dialog" title="<%= $person->name %>" style="width: 800px; height: 600px;">
 	    
 		<div style="width: inherit; height: 550px;">
 		
-		    <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
+		    <div dojoType="dijit.layout.TabContainer" tabStrip="true" style="width: 100%; height: 100%;" tabPosition="right-h">
 		    
-			<div dojoType="dijit.layout.ContentPane" title="Me" selected="true">
+			<div dojoType="dijit.layout.ContentPane" title="Person" selected="true">
 			    
 			    <img src="<%= $person->avatar %>" width="50" height="50" />
 			    
 			    Location: <%= $person->city %>, <%= $person->region %> <br />
 			    Blurb: <%= $person->blurb %> <br />
-			    Popularity: <%= $person->popularity %> <br />
 			    
 			    <div dojoType="dijit.form.ComboButton" style="margin: 10px;">
 			    
@@ -63,58 +79,14 @@
 			    
 			</div>
 			
-			
-			<div dojoType="dijit.layout.ContentPane" title="Tracks">
+			<div dojoType="dijit.layout.ContentPane" title="Trackers">
 			    
-			    <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
+			    <% for ( 1 .. 4 ) { %>
 				
-				<div dojoType="dijit.layout.ContentPane" title="Me" selected="true">
-				    
-				    <% for ( 1 .. 8 ) { %>
-				    
-				    <p><img src="/avatar.png" width="25" height="25" /> The #<%= $_ %> most popular thing in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
-				    
-				    <% } %>
-				    
-				</div>
-			    
-				<div dojoType="dijit.layout.ContentPane" title="Places" selected="true">
-				    
-				    <% for ( 1 .. 8 ) { %>
-				    
-				    <p><img src="/avatar.png" width="25" height="25" /> The #<%= $_ %> most popular thing in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
-				    
-				    <% } %>
-				    
-				</div>
-				
-			    </div>
-			    
-			</div>
-			
-			<div dojoType="dijit.layout.ContentPane" title="Events">
-			    
-			    <% for my $event ( $person->events->all ) { %>
-			    
-			    <div dojoType="dijit.TitlePane" title="<%= $event->title %>" style="margin-bottom: 15px;">
-			    
-				Submitted by <img src="<%= $event->person->avatar %>" width="15" height="15" /> <a href="/person/<%= $event->person->person_id %>"><%= $event->person->name %></a>
-			    
-				<p><%= $event->about %></p>
-				   
-				<div style="font-size: smaller; text-align: right; margin: 5px;">
-				
-				    Begin: <%= $event->start_date %>,
-				    End: <%= $event->stop_date %>,
-				    Start: <%= $event->start_time %>,
-				    Stop: <%= $event->stop_time %>     
-					
-				</div>
-				
-			    </div>
+				<p><img src="/avatar.png" width="25" height="25" />Someone who is tracking this person.<p>
 				
 			    <% } %>
-			
+			    
 			</div>
 		    
 		    </div>
@@ -131,29 +103,17 @@
         
 </div>
 
-<div dojoType='dijit.layout.ContentPane' region='center'>
-    
-    <div id="map_canvas" style="width: 100%; height: 100%"></div>
-
-</div>
-
-<div dojoType='dojox.layout.ExpandoPane' region='trailing' style="width: 25%;">
+<div dojoType='dojox.layout.ExpandoPane' region='trailing' style="width: 35%;" splitter="true">
     
     <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
         
-        <div dojoType="dijit.layout.ContentPane" title="Something" selected="true">
+        <div dojoType="dijit.layout.ContentPane" title="The Map" selected="true">
             
-            <% for ( 1 .. 8 ) { %>
-            
-            <p><img src="/avatar.png" width="25" height="25" /> The #<%= $_ %> something in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
-            
-            <% } %>
-            
+            <div id="map_canvas" style="width: 100%; height: 100%"></div>
             
         </div>
 
         <div dojoType="dijit.layout.ContentPane" title="Something">
-            
             
             <% for ( 1 .. 4 ) { %>
             

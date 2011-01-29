@@ -15,28 +15,16 @@
     
 </div>
 
-<div id="dialog_welcome" dojoType="dijit.Dialog" title="Welcome to Konekt!" style="width: 800px; height: 600px;">
+<div id="dialog_welcome" dojoType="dijit.Dialog" title="Welcome to Moonfuzz!" style="width: 900px; height: 400px;">
 
     <div style="width: inherit; height: 550px;">
     
         <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
             
-            <div dojoType="dijit.layout.ContentPane" title="Sign In">
+            <div dojoType="dijit.layout.ContentPane" title="Sign In" style="background-image: url('/welcome.png'); background-size: 75%;">
         
-                <blockquote>
-                    
-                    <p>
-                        Thanks for checking out Konekt.  A cool way to interact with people using
-                        our own unique social-network-like interface to common and popular web technologies
-                        people use every day.
-                    </p>
-                    
-                </blockquote>
-                
                 <div style="text-align: center; margin: 10px;">
-                    
-                    <img src="/insurgentsoftware.gif" style="width: auto; height: 50px;"/>
-                
+        
                     <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/signin" method="POST">
                         
                         Name:
@@ -55,9 +43,9 @@
                 
             </div>
             
-            <div dojoType="dijit.layout.ContentPane" title="Sign Up">
+            <div dojoType="dijit.layout.ContentPane" title="Register">
                 
-                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/signup" method="POST">
+                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/register" method="POST">
                 
                     <blockquote>
                         
@@ -95,7 +83,7 @@
 
                     </blockquote>
 
-                    <div dojoType="dijit.form.Button" type="submit">Sign Up</div>
+                    <div dojoType="dijit.form.Button" type="submit">Register</div>
                 
                 </div>
                 

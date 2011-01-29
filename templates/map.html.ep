@@ -1,4 +1,4 @@
-<% if ( ( $self->session('person_id') ) and not ( $self->session('page') eq 'dashboard' ) ) { %>
+<% if ( $self->session('page') ne 'dashboard' ) { %>
 	
 <!-- Google Maps JavaScript API v3 -->
 
@@ -61,22 +61,43 @@
 
         <% } %>
 	
-	<% if ( ( $self->session('page') eq 'discussions' ) or ( $self->session('page') eq 'discussion' ) ) { %>
+	<% if ( ( $self->session('page') eq 'topics' ) or ( $self->session('page') eq 'topic' ) ) { %>
 
-            <% foreach my $discussion ( @{ $self->{'discussions'} } ) { %>
+            <% foreach my $topic ( @{ $self->{'topics'} } ) { %>
             
-            var discussion_latlng = new google.maps.LatLng(<%= $discussion->lat %>,<%= $discussion->lng %>);
+            var topic_latlng = new google.maps.LatLng(<%= $topic->lat %>,<%= $topic->lng %>);
     
-            var discussion_avatar = new google.maps.MarkerImage('/marker.png'); // Will discussionually display the discussion's avatar...
+            var topic_avatar = new google.maps.MarkerImage('/marker.png'); // Will topicually display the topic's avatar...
             
-            var discussion_marker = new google.maps.Marker({
+            var topic_marker = new google.maps.Marker({
                 
-                position: discussion_latlng,
-                title: '<%= $discussion->title %>',
-                icon: discussion_avatar
+                position: topic_latlng,
+                title: '<%= $topic->title %>',
+                icon: topic_avatar
             });
 
-            discussion_marker.setMap(map);
+            topic_marker.setMap(map);
+
+            <% } %>
+
+        <% } %>
+
+	<% if ( ( $self->session('page') eq 'classifieds' ) or ( $self->session('page') eq 'classified' ) ) { %>
+
+            <% foreach my $classified ( @{ $self->{'classifieds'} } ) { %>
+            
+            var classified_latlng = new google.maps.LatLng(<%= $classified->lat %>,<%= $classified->lng %>);
+    
+            var classified_avatar = new google.maps.MarkerImage('/marker.png'); // Will classifiedually display the classified's avatar...
+            
+            var classified_marker = new google.maps.Marker({
+                
+                position: classified_latlng,
+                title: '<%= $classified->title %>',
+                icon: classified_avatar
+            });
+
+            classified_marker.setMap(map);
 
             <% } %>
 

@@ -18,18 +18,17 @@ CREATE TABLE person (
     lng FLOAT NOT NULL,
     avatar TEXT NULL,
     blurb TEXT NULL,
-    popularity INTEGER NULL,
-    tracking TEXT NULL
+    tracking TEXT NULL,
+    datetime INTEGER NOT NULL
 );
 
 CREATE TABLE person_track (
 
     track_id INTEGER PRIMARY KEY,
-    date TEXT NOT NULL,
-    time TEXT NOT NULL,
     comment TEXT NOT NULL,
     link TEXT NULL,
-    person INTEGER NOT NULL REFERENCES person(person_id)
+    person INTEGER NOT NULL REFERENCES person(person_id),
+    datetime INTEGER NOT NULL
 );
 
 -- Event --
@@ -38,43 +37,45 @@ CREATE TABLE event (
 
     event_id INTEGER PRIMARY KEY,
     category TEXT NOT NULL,
+    start_datetime INTEGER NOT NULL,
+    stop_datetime INTEGER NOT NULL,
     title TEXT NOT NULL,
-    start_date TEXT NOT NULL,
-    stop_date TEXT NOT NULL,
-    start_time TEXT NOT NULL,
-    stop_time TEXT NOT NULL,
     about TEXT NOT NULL,
-    date TEXT NOT NULL,
-    time TEXT NOT NULL,
     street_address TEXT NOT NULL,
     city TEXT NOT NULL,
     region TEXT NOT NULL,
     country TEXT NOT NULL,
     lat FLOAT NOT NULL,
     lng FLOAT NOT NULL,
-    popularity INTEGER NULL,
-    person INTEGER NOT NULL REFERENCES person(person_id)
+    person INTEGER NOT NULL REFERENCES person(person_id),
+    datetime INTEGER NOT NULL
+);
+
+CREATE TABLE event_track (
+
+    track_id INTEGER PRIMARY KEY,
+    comment TEXT NOT NULL,
+    link TEXT NULL,
+    event INTEGER NOT NULL REFERENCES event(event_id),
+    datetime INTEGER NOT NULL
 );
 
 CREATE TABLE event_comment (
 
     comment_id INTEGER PRIMARY KEY,
-    date TEXT NOT NULL,
-    time TEXT NOT NULL,
     comment TEXT NOT NULL,
     event INTEGER NOT NULL REFERENCES event(event_id),
-    person INTEGER NOT NULL REFERENCES person(person_id)
+    person INTEGER NOT NULL REFERENCES person(person_id),
+    datetime INTEGER NOT NULL
 );
 
 -- Discussion --
 
-CREATE TABLE discussion (
+CREATE TABLE topic (
 
-    discussion_id INTEGER PRIMARY KEY,
+    topic_id INTEGER PRIMARY KEY,
     category TEXT NOT NULL,
     title TEXT NOT NULL,
-    date TEXT NOT NULL,
-    time TEXT NOT NULL,
     about TEXT NOT NULL,
     street_address TEXT NOT NULL,
     city TEXT NOT NULL,
@@ -82,18 +83,26 @@ CREATE TABLE discussion (
     country TEXT NOT NULL,
     lat FLOAT NOT NULL,
     lng FLOAT NOT NULL,
-    popularity INTEGER NULL,
-    person INTEGER NOT NULL REFERENCES person(person_id)
+    person INTEGER NOT NULL REFERENCES person(person_id),
+    datetime INTEGER NOT NULL
 );
 
-CREATE TABLE discussion_comment (
+CREATE TABLE topic_track (
+
+    track_id INTEGER PRIMARY KEY,
+    comment TEXT NOT NULL,
+    link TEXT NULL,
+    topic INTEGER NOT NULL REFERENCES topic(topic_id),
+    datetime INTEGER NOT NULL
+);
+
+CREATE TABLE topic_comment (
 
     comment_id INTEGER PRIMARY KEY,
-    date TEXT NOT NULL,
-    time TEXT NOT NULL,
     comment TEXT NOT NULL,
-    discussion INTEGER NOT NULL REFERENCES discussion(discussion_id),
-    person INTEGER NOT NULL REFERENCES person(person_id)
+    topic INTEGER NOT NULL REFERENCES topic(topic_id),
+    person INTEGER NOT NULL REFERENCES person(person_id),
+    datetime INTEGER NOT NULL
 );
 
 -- Classified --
@@ -104,24 +113,31 @@ CREATE TABLE classified (
     category TEXT NOT NULL,
     title TEXT NOT NULL,
     about TEXT NOT NULL,
-    date TEXT NOT NULL,
-    time TEXT NOT NULL,
     street_address TEXT NOT NULL,
     city TEXT NOT NULL,
     region TEXT NOT NULL,
     country TEXT NOT NULL,
     lat FLOAT NOT NULL,
     lng FLOAT NOT NULL,
-    popularity INTEGER NOT NULL,
-    person INTEGER NOT NULL REFERENCES person(person_id)
+    price INTEGER NOT NULL,
+    person INTEGER NOT NULL REFERENCES person(person_id),
+    datetime INTEGER NOT NULL
+);
+
+CREATE TABLE classified_track (
+
+    track_id INTEGER PRIMARY KEY,
+    comment TEXT NOT NULL,
+    link TEXT NULL,
+    classified INTEGER NOT NULL REFERENCES classified(classified_id),
+    datetime INTEGER NOT NULL
 );
 
 CREATE TABLE classified_comment (
 
     comment_id INTEGER PRIMARY KEY,
-    date TEXT NOT NULL,
-    time TEXT NOT NULL,
     comment TEXT NOT NULL,
     classified INTEGER NOT NULL REFERENCES classified(classified_id),
-    person INTEGER NOT NULL REFERENCES person(person_id)
+    person INTEGER NOT NULL REFERENCES person(person_id),
+    datetime INTEGER NOT NULL
 );

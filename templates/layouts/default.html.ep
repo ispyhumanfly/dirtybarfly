@@ -3,11 +3,11 @@
 
     <head>
 	
-	<title>Konekt</title>
+	<title>Moonfuzz</title>
 	
 	<!-- Stylesheet -->
 	
-	<link rel="stylesheet" type="text/css" href="/default.css">
+	<link rel="stylesheet" type="text/css" href="/moonfuzz.css">
 
 	<!-- Dojo 1.5 JavaScript Framework -->
 	
@@ -15,7 +15,7 @@
 	    @import url("http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/layout/resources/ExpandoPane.css");
 	</style>
 	
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css">
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/tundra/tundra.css">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/widget/Portlet/Portlet.css">
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js" djConfig="parseOnLoad:true"></script>
@@ -40,21 +40,21 @@
 	
     </head>
     
-    <body class='claro'>
+    <body class='tundra'>
 
 	<!-- Page Container -->
 	
-	<div dojoType="dijit.layout.BorderContainer" style="height:100%; width: 100%;">
+	<div dojoType="dijit.layout.BorderContainer" style="height:100%; width: 100%; border: 0.01em solid; margin: 0px; padding: 0.00em;">
 	    
 	    <!-- Page Header -->
 	    
-	    <div dojoType="dijit.layout.ContentPane" region="top">
+	    <div dojoType="dijit.layout.ContentPane" region="top" style="background-color: #2b2d2c; border-color: #2b2d2c;">
 		
 		<div style="float: left; vertical-align: middle; margin: 5px;">
 			
 		    <div style="font-size: 30px; margin: 5px;">
 		    
-			<img src="/logo.png" style="width: auto; height: 60px;"/>
+			<img src="/logo.png" style="width: auto; height: 100px;"/>
 		
 		    </div>
 		
@@ -74,17 +74,28 @@
     	    
 	    <!-- Page Footer -->
 	    
-	    <div dojoType="dijit.layout.ContentPane" region="bottom">
-
-		<div style="vertical-align: middle; float: right;">
+	    <div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #2b2d2c; border-color: #2b2d2c;">
+    
+		<div style="vertical-align: middle; float: left; color: #ffffff; font-size: large;">
 		    
-		    <p>Konekt (c) 2010 - 2011 Insurgent Software, LLC</p>
+		    <p>Moonfuzz &copy; 2011 Insurgent Software, LLC.</p>
+		
+		</div>
+		
+		<div style="vertical-align: middle; float: right; color: #ffffff; font-size: large;">
+		    
+		    <p>
+			About Us <img src="/Moonfuzz/point.png">
+			Privacy <img src="/Moonfuzz/point.png">
+			Terms of Use <img src="/Moonfuzz/point.png">
+			Help
+		    </p>
 		
 		</div>
 		
 	    </div>
-    
-	</div>
 	
+	</div>
+    
     </body>
 </html>

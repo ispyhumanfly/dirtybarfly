@@ -18,24 +18,32 @@
 
 	    <div dojoType="dijit.TitlePane" title="Tracking <%= $person->name %>" style="margin-bottom: 15px;">
 	    
-		<img src="<%= $person->avatar %>" width="50" height="50" style="float: left;"/>
+		<div dojoType="dijit.layout.ContentPane" region="leading">
+	    
+		    <img src="<%= $person->avatar %>" style="width: 75px; height: 75px; float: left;"/>
+		    
+		</div>
 		
-		<div style="font-size: small;">
-		    
-		    <blockquote>
+		<div dojoType="dijit.layout.ContentPane" region="trailing">
 			
-			<ul>
-			    
-			    <% for my $track ( $person->tracks->all ) { %>
-			    
-			    <li><a href="<%= $track->link %>"> <%= $track->comment %> </a></li>
+		    <div style="font-size: small;">
 			
-			    <% } %>
+			<blockquote>
 			    
-			</ul>
+			    <ul>
+				
+				<% for my $track ( $person->tracks->all ) { %>
+				
+				<li><a href="<%= $track->link %>"> <%= $track->comment %> </a></li>
+			    
+				<% } %>
+				
+			    </ul>
+			    
+			</blockquote>
 			
-		    </blockquote>
-		    
+		    </div>
+
 		</div>
 		
 	    </div>
@@ -48,7 +56,7 @@
 	    
     
 	</div>
-	<div dojoType="dijit.layout.ContentPane" title="Discussion Tracks">
+	<div dojoType="dijit.layout.ContentPane" title="Topic Tracks">
 	    
     
 	</div>
@@ -143,6 +151,8 @@
 		    <div dojoType="dijit.form.TextBox" type="password" name="password_2" value="<%= $self->{'person'}->password %>" width="50" required="true"></div>
 
 		</blockquote>
+		
+		<h1><%= $self->{'person'}->datetime %></h1>
 		
 		<div dojoType="dijit.form.Button" type="submit">Update</div>
 	    

@@ -21,13 +21,25 @@
         
         <% if ( $self->session('page') eq 'people' ) { %>
         
-        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> is using Konekt. :(</p>
+        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> is using Moonfuzz. :(</p>
         
         <% } %>
 
         <% if ( $self->session('page') eq 'events' ) { %>
         
-        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> has submitted any events to Konekt. :(</p>
+        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> has submitted any events to Moonfuzz. :(</p>
+        
+        <% } %>
+        
+        <% if ( $self->session('page') eq 'topics' ) { %>
+        
+        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> has submitted any topics to Moonfuzz. :(</p>
+        
+        <% } %>
+       
+        <% if ( $self->session('page') eq 'classifieds' ) { %>
+        
+        <p>... sadly, no one in <%= $self->session('city') %>, <%= $self->session('region') %> has submitted any classifieds to Moonfuzz. :(</p>
         
         <% } %>
         
