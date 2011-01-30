@@ -1,3 +1,6 @@
+@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/layout/resources/ExpandoPane.css");
+@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/tundra/tundra.css");
+
 html {    
     height:100%;
 }   
@@ -5,6 +8,7 @@ html {
 body {
     height: 98%;
     background-color: #2b2d2c;
+    overflow: hidden;
 }
 
 a {
@@ -23,3 +27,30 @@ a:visited {
 }
 
 #map_canvas { height: 100% }
+
+#welcome_background {
+    
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+}
+
+#header_background {
+    
+        width: 75%;
+        height: auto;
+        position: absolute;
+
+}
+
+#header_content {
+    
+    height: 100px;
+    background-image: url('/logo.png');
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-color: #2b2d2c;
+    border-color: #2b2d2c;
+}

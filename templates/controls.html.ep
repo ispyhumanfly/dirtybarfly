@@ -25,115 +25,7 @@
 
 //]]></script>
     
-<div dojoType="dijit.MenuBar" style="float: left;">
-
-    <div dojoType="dijit.MenuBarItem">
-	
-	<span><%= $self->session('name') %></span>
-    
-	<script type="dojo/method" event="onClick" args="evt">
-    
-	    window.location = "/dashboard";
-
-	</script>
-	
-    </div>
-
-    <div dojoType="dijit.MenuBarItem">
-	
-	<span>People</span>
-    
-	<script type="dojo/method" event="onClick" args="evt">
-    
-	    window.location = "/people";
-
-	</script>
-	
-    </div>
-    
-    <div dojoType="dijit.MenuBarItem">
-	
-	<span>Events</span>
-    
-	<script type="dojo/method" event="onClick" args="evt">
-    
-	    window.location = "/events";
-
-	</script>
-	
-    </div>
-    
-    <div dojoType="dijit.MenuBarItem">
-	
-	<span>Topics</span>
-    
-	<script type="dojo/method" event="onClick" args="evt">
-    
-	    window.location = "/topics";
-
-	</script>
-	
-    </div>
-
-    <div dojoType="dijit.MenuBarItem">
-	
-	<span>Classifieds</span>
-    
-	<script type="dojo/method" event="onClick" args="evt">
-    
-	    window.location = "/classifieds";
-
-	</script>
-	
-    </div>
-    
-    <div dojoType="dijit.PopupMenuBarItem">
-	
-        <span>
-            Menu
-        </span>
-	
-        <div dojoType="dijit.Menu">
-            
-	    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut" onClick="dijit.byId('dialog_submit').show()">
-		Submit to Moonfuzz!
-	    </div>
-	    
-	    <div dojoType="dijit.MenuSeparator"></div>
-	    
-	    <div dojoType="dijit.PopupMenuItem">
-		
-		<span>
-		    Submenu
-		</span>
-		
-		<div dojoType="dijit.Menu">
-
-		    <% for (1 .. 4) { %>
-		    
-		    <div dojoType="dijit.MenuItem" onClick="alert('diehard!')">
-			Random submenu option <%= $_ %>
-		    </div>
-		
-		    <% } %>
-		    
-		</div>
-	    
-	    </div>
-	    
-	    <div dojoType="dijit.MenuSeparator"></div>
-	    
-	    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste" onClick="window.location='/signout';">	
-		Sign Out
-	    </div>
-	    
-        </div>
-	
-    </div>
-    
-</div>
-
-<div style="float: right; margin-left: 10px;" id="tooltip_location">
+<div style="float: right;" id="tooltip_location">
 
     <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
 
@@ -157,7 +49,7 @@
         
     <div style="width: inherit; height: 550px;">
 	    
-        <div dojoType="dijit.layout.TabContainer" style="width: inherit; height: inherit;">
+        <div dojoType="dijit.layout.TabContainer" style="width: inherit; height: inherit;" tabPosition="top">
             
             <div dojoType="dijit.layout.ContentPane" title="Event">
 		
@@ -298,6 +190,77 @@
 	    
 	</div>
 	
+    </div>
+    
+</div>
+
+<!-- You Dialog -->
+
+<div id="dialog_you" dojoType="dijit.Dialog" title="Your personal settings and notifications." style="width: 800px; height: 600px;">
+        
+    <div style="width: inherit; height: 550px;">
+	
+	<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/update/person/<%= $self->{'person'}->person_id %>" method="POST">
+
+	    Name:
+
+	    <div dojoType="dijit.form.TextBox" name="name" width="50" value="<%= $self->{'person'}->name %>" required="true"></div>
+
+	    <img src="<%= $self->{'person'}->avatar %>" />Avatar:
+
+	    <div dojoType="dijit.form.TextBox" name="avatar" width="50" value="<%= $self->{'person'}->avatar %>" required="true"></div>
+
+	    First Name:
+
+	    <div dojoType="dijit.form.TextBox" name="first_name" width="50" value="<%= $self->{'person'}->first_name %>"></div>
+
+	    Last Name:
+
+	    <div dojoType="dijit.form.TextBox" name="last_name" width="50" value="<%= $self->{'person'}->last_name %>"></div>
+
+	    Gender:
+
+	    <select dojoType="dijit.form.FilteringSelect" name="gender" style="margin: 10px;">
+
+		<option value="Male" selected="true">Male</option>
+		<option value="Female">Female</option>
+
+	    </select>
+
+	    Birthday:
+
+	    <input dojoType="dijit.form.DateTextBox" name="birthday" value="<%= $self->{'person'}->birthday %>" />
+
+	    Email:
+
+	    <div dojoType="dijit.form.TextBox" name="email" width="50" value="<%= $self->{'person'}->email %>"required="true"></div>
+
+	    Location:
+
+	    <div dojoType="dijit.form.TextBox" name="location" width="50" value="<%= $self->{'person'}->city %>, <%= $self->{'person'}->region %>" required="true"></div>
+
+	    Blurb:
+
+	    <textarea dojoType="dijit.form.Textarea" name="blurb" style="height: 300px;"><%= $self->{'person'}->blurb %></textarea>
+
+	    <blockquote>
+
+		Password:
+
+		<div dojoType="dijit.form.TextBox" type="password" name="password_1" value="<%= $self->{'person'}->password %>" width="50" required="true"></div>
+
+		Again:
+
+		<div dojoType="dijit.form.TextBox" type="password" name="password_2" value="<%= $self->{'person'}->password %>" width="50" required="true"></div>
+
+	    </blockquote>
+
+	    <h1><%= $self->{'person'}->datetime %></h1>
+
+	    <div dojoType="dijit.form.Button" type="submit">Update</div>
+
+	</div>
+    
     </div>
     
 </div>

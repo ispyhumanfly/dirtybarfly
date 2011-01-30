@@ -8,126 +8,101 @@
     
 //]]></script>
 
-<div  dojoType="dijit.layout.ContentPane" region="center">
 
-    <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="bottom">
-	
-	<div dojoType="dijit.layout.ContentPane" title="All" selected="true">
-
-	    <% foreach my $person ( @{ $self->{'people'} } ) { %>
-	    
-	    <div dojoType="dijit.TitlePane" title="Tracking <%= $person->name %>" style="margin-bottom: 15px;">
-	    
-		<div id="person_<%= $person->person_id %>" style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $person->person_id %>').show()">
-		    
-		    <div dojoType="dijit.layout.ContentPane" region="leading">
-		
-			<img src="<%= $person->avatar %>" style="width: 75px; height: 75px; float: left;"/>
-			
-		    </div>
-		    
-		    <div dojoType="dijit.layout.ContentPane" region="trailing">
-			    
-			<div style="font-size: small;">
-			
-	    
-			</div>
+<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="bottom">
     
-		    </div>
-		    
-		</div>
-		
-		<div dojoType="dijit.Tooltip" connectId="person_<%= $person->person_id %>" position="below">
+    <div dojoType="dijit.layout.ContentPane" title="Category 1">
 	
-		    <p><%= $person->blurb %></p>
+	<% foreach my $person ( @{ $self->{'people'} } ) { %>
+	
+	<div dojoType="dijit.TitlePane" title="<%= $person->name %>" style="margin-bottom: 15px;">
+	
+	    <div id="person_<%= $person->person_id %>" style="cursor: pointer;" onclick="javascript:dijit.byId('person_dialog_<%= $person->person_id %>').show()">
 		
+		<div dojoType="dijit.layout.ContentPane" region="leading">
+	    
+		    <img src="<%= $person->avatar %>" style="width: 75px; height: 75px; float: left;"/>
+		    
 		</div>
 		
-	    </div>
-	    
-	    <div id="dialog_<%= $person->person_id %>" dojoType="dijit.Dialog" title="<%= $person->name %>" style="width: 800px; height: 600px;">
-	    
-		<div style="width: inherit; height: 550px;">
-		
-		    <div dojoType="dijit.layout.TabContainer" tabStrip="true" style="width: 100%; height: 100%;" tabPosition="right-h">
-		    
-			<div dojoType="dijit.layout.ContentPane" title="Person" selected="true">
-			    
-			    <img src="<%= $person->avatar %>" width="50" height="50" />
-			    
-			    Location: <%= $person->city %>, <%= $person->region %> <br />
-			    Blurb: <%= $person->blurb %> <br />
-			    
-			    <div dojoType="dijit.form.ComboButton" style="margin: 10px;">
-			    
-				<span>
-				    Tracking
-				</span>
-			    
-				<div dojoType="dijit.Menu">
-				    
-				    <div dojoType="dijit.MenuItem" onClick="dojo.xhrPost({ url: 'tracking/person/<%= $person->person_id %>', postData: 'start=1' })">
-					Start
-				    </div>
-				    
-				    <div dojoType="dijit.MenuItem" onClick="dojo.xhrPost({ url: 'tracking/person/<%= $person->person_id %>', postData: 'stop=1' })">
-					Stop
-				    </div>
-				    
-				</div>
-			    </div>
-			    
-			</div>
+		<div dojoType="dijit.layout.ContentPane" region="trailing">
 			
-			<div dojoType="dijit.layout.ContentPane" title="Trackers">
-			    
-			    <% for ( 1 .. 4 ) { %>
-				
-				<p><img src="/avatar.png" width="25" height="25" />Someone who is tracking this person.<p>
-				
-			    <% } %>
-			    
-			</div>
+		    <div style="font-size: small;">
 		    
+	
 		    </div>
-		    
+	
 		</div>
 		
 	    </div>
-	   
-	    <% } %>
-
+	    
+	    <div dojoType="dijit.Tooltip" connectId="person_<%= $person->person_id %>" position="below">
+	
+		<p><%= $person->blurb %></p>
+	    
+	    </div>
+	    
 	</div>
 	
-    </div>
-        
-</div>
-
-<div dojoType='dojox.layout.ExpandoPane' region='trailing' style="width: 35%;" splitter="true">
-    
-    <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
-        
-        <div dojoType="dijit.layout.ContentPane" title="The Map" selected="true">
-            
-            <div id="map_canvas" style="width: 100%; height: 100%"></div>
-            
-        </div>
-
-        <div dojoType="dijit.layout.ContentPane" title="Something">
-            
-            <% for ( 1 .. 4 ) { %>
-            
-            <p><img src="/avatar.png" width="25" height="25" /> Something about something...<p>
-            
-            <% } %>
-            
-        </div>
-
-        <div dojoType="dijit.layout.ContentPane" title="Something Else">
-            
+	<div id="person_dialog_<%= $person->person_id %>" dojoType="dijit.Dialog" title="<%= $person->name %>" style="width: 800px; height: 600px;">
+	
+	    <div style="width: inherit; height: 550px;">
 	    
-        </div>
-        
+		<div dojoType="dijit.layout.TabContainer" tabStrip="true" style="width: 100%; height: 100%;" tabPosition="right-h">
+		
+		    <div dojoType="dijit.layout.ContentPane" title="Person" selected="true">
+			
+			<img src="<%= $person->avatar %>" width="50" height="50" />
+			
+			Location: <%= $person->city %>, <%= $person->region %> <br />
+			Blurb: <%= $person->blurb %> <br />
+			
+			<div dojoType="dijit.form.ComboButton" style="margin: 10px;">
+			
+			    <span>
+				Tracking
+			    </span>
+			
+			    <div dojoType="dijit.Menu">
+				
+				<div dojoType="dijit.MenuItem" onClick="dojo.xhrPost({ url: 'tracking/person/<%= $person->person_id %>', postData: 'start=1' })">
+				    Start
+				</div>
+				
+				<div dojoType="dijit.MenuItem" onClick="dojo.xhrPost({ url: 'tracking/person/<%= $person->person_id %>', postData: 'stop=1' })">
+				    Stop
+				</div>
+				
+			    </div>
+			</div>
+			
+		    </div>
+		    
+		    <div dojoType="dijit.layout.ContentPane" title="Trackers">
+			
+			<% for ( 1 .. 4 ) { %>
+			    
+			    <p><img src="/avatar.png" width="25" height="25" />Someone who is tracking this person.<p>
+			    
+			<% } %>
+			
+		    </div>
+		
+		</div>
+		
+	    </div>
+	    
+	</div>
+	
+	<% } %>
+	
     </div>
+
+    <div dojoType="dijit.layout.ContentPane" title="Category 2"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Category 3"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Category 4"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Category 5"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Category 6"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Category 7"></div>
     
 </div>

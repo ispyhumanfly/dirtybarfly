@@ -1,0 +1,43 @@
+<script type="text/javascript">//<![CDATA[
+
+    dojo.require("dijit.Tooltip");
+    dojo.require("dijit.Dialog");
+    dojo.require("dijit.form.Button");
+    dojo.require("dijit.Menu");
+    dojo.require("dijit.form.ToggleButton");
+
+//]]></script>        
+
+<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="bottom">
+    
+    <div dojoType="dijit.layout.ContentPane" title="People">
+
+	<% foreach my $person ( @{ $self->{'tracking'} } ) { %>
+	
+	<div dojoType="dijit.TitlePane" title="Tracking <%= $person->name %>" style="margin-bottom: 15px;">
+	
+	    <div dojoType="dijit.layout.ContentPane" region="leading">
+	
+		<img src="<%= $person->avatar %>" style="width: 75px; height: 75px; float: left;"/>
+		
+	    </div>
+	    
+	    <div dojoType="dijit.layout.ContentPane" region="trailing">
+		    
+		<div style="font-size: small;">
+		    
+		</div>
+	
+	    </div>
+	    
+	</div>
+	
+	<% } %>	
+	
+    </div>
+    
+    <div dojoType="dijit.layout.ContentPane" title="Events"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Topics"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Classifieds"></div>
+    
+</div>

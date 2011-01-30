@@ -7,129 +7,103 @@
     
 //]]></script>
 
-<div  dojoType="dijit.layout.ContentPane" region="leading" style="width: 25%;" splitter="true">
 
-    <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="bottom">
-
-	<div dojoType="dijit.layout.ContentPane" title="All" selected="true">
-
-	    <% foreach my $topic ( @{ $self->{'topics'} } ) { %>
-
-            <div id="topic_<%= $topic->topic_id %>" style="cursor: pointer;" onclick="javascript:dijit.byId('dialog_<%= $topic->topic_id %>').show()">
-            
-                <p style="font-size: small; margin: 5px;"><img src="<%= $topic->person->avatar %>" width="35" height="35" /> <%= $topic->title %> </p>
-            
-            </div>
+<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="bottom">
     
-            <div dojoType="dijit.Tooltip" connectId="topic_<%= $topic->topic_id %>" position="below">
-    
-                <p><%= $topic->about %></p>
-            
-            </div>
-
-            <div id="dialog_<%= $topic->topic_id %>" dojoType="dijit.Dialog" title="<%= $topic->title %>" style="width: 800px; height: 600px;">
-            
-                <div style="width: inherit; height: 550px;">
-                
-                    <div dojoType="dijit.layout.TabContainer" tabStrip="true" style="width: 100%; height: 100%;" tabPosition="right-h">
-                        
-                        <div dojoType="dijit.layout.ContentPane" title="Topic">
-                            
-                            Submitted by <img src="<%= $topic->person->avatar %>" width="25" height="25" /> <a href="/person/<%= $topic->person->person_id %>"><%= $topic->person->name %></a>
-			
-			    <p style="font-size: medium; margin: 15px;">
-				
-				<%= $topic->about %>
-			    
-			    </p>
-			    
-			    <blockquote title="Comments">
-				
-				<% for ( 1 .. 4 ) { %>
-				
-				<p><img src="/avatar.png" width="25" height="25" />Some comment written by someone.<p>
-				
-				<% } %>
-				
-			    </blockquote>
-			    
-			    <div style="float: right;">
-				
-				<textarea dojoType="dijit.form.Textarea" name="comment" style="width: 300px;"></textarea>
-				
-				<div dojoType="dijit.form.Button" type="submit">Comment</div>
+    <div dojoType="dijit.layout.ContentPane" title="Category 1">
+	
+	<% foreach my $topic ( @{ $self->{'topics'} } ) { %>
+	
+	<div dojoType="dijit.TitlePane" title="<%= $topic->title %>" style="margin-bottom: 15px;">
+	
+	    <div id="topic_<%= $topic->topic_id %>" style="cursor: pointer;" onclick="javascript:dijit.byId('topic_dialog_<%= $topic->topic_id %>').show()">
+		
+		<div dojoType="dijit.layout.ContentPane" region="leading">
+	    
+		    <img src="<%= $topic->person->avatar %>" style="width: 75px; height: 75px; float: left;"/>
 		    
-			    </div>
-                               
-                        </div>
-                    
-			<div dojoType="dijit.layout.ContentPane" title="Trackers">
+		</div>
+		
+		<div dojoType="dijit.layout.ContentPane" region="trailing">
+			
+		    <div style="font-size: small;">
+		    
+	
+		    </div>
+	
+		</div>
+		
+	    </div>
+	    
+	    <div dojoType="dijit.Tooltip" connectId="topic_<%= $topic->topic_id %>" position="below">
+	
+		<p><%= $topic->about %></p>
+	    
+	    </div>
+	    
+	</div>
+	
+	<div id="topic_dialog_<%= $topic->topic_id %>" dojoType="dijit.Dialog" title="<%= $topic->title %>" style="width: 800px; height: 600px;">
+	
+	    <div style="width: inherit; height: 550px;">
+	    
+		<div dojoType="dijit.layout.TabContainer" tabStrip="true" style="width: 100%; height: 100%;" tabPosition="right-h">
+		    
+		    <div dojoType="dijit.layout.ContentPane" title="Topic">
+			
+			Submitted by <img src="<%= $topic->person->avatar %>" width="25" height="25" /> <a href="/person/<%= $topic->person->person_id %>"><%= $topic->person->name %></a>
+		    
+			<p style="font-size: medium; margin: 15px;">
+			    
+			    <%= $topic->about %>
+			
+			</p>
+			
+			<blockquote title="Comments">
 			    
 			    <% for ( 1 .. 4 ) { %>
-				
-			    <p><img src="/avatar.png" width="25" height="25" />Someone who is tracking this topic.<p>
-				
+			    
+			    <p><img src="/avatar.png" width="25" height="25" />Some comment written by someone.<p>
+			    
 			    <% } %>
 			    
+			</blockquote>
+			
+			<div style="float: right;">
+			    
+			    <textarea dojoType="dijit.form.Textarea" name="comment" style="width: 300px;"></textarea>
+			    
+			    <div dojoType="dijit.form.Button" type="submit">Comment</div>
+		
 			</div>
-                        
-                    </div>
-                    
-                </div>
-                
-            </div>
-            
-            <% } %>
-
-	</div>
-
-	<% for ( 1 .. 7 ) { %>
-	
-	<div dojoType="dijit.layout.ContentPane" title="Category <%= $_ %>" closeable="true">
+			   
+		    </div>
+		
+		    <div dojoType="dijit.layout.ContentPane" title="Trackers">
+			
+			<% for ( 1 .. 4 ) { %>
+			    
+			<p><img src="/avatar.png" width="25" height="25" />Someone who is tracking this topic.<p>
+			    
+			<% } %>
+			
+		    </div>
+		    
+		</div>
+		
+	    </div>
 	    
 	</div>
 	
 	<% } %>
 	
     </div>
+
+    <div dojoType="dijit.layout.ContentPane" title="Category 2"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Category 3"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Category 4"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Category 5"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Category 6"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Category 7"></div>
         
-</div>
-
-<div dojoType='dijit.layout.ContentPane' region='center'>
-    
-    <div id="map_canvas" style="width: 100%; height: 100%"></div>
-
-</div>
-
-<div dojoType='dojox.layout.ExpandoPane' region='trailing' style="width: 25%;">
-    
-    <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
-        
-        <div dojoType="dijit.layout.ContentPane" title="Something" selected="true">
-            
-            <% for ( 1 .. 8 ) { %>
-            
-            <p><img src="/avatar.png" width="25" height="25" /> The #<%= $_ %> something in <%= $self->session('city') %>, <%= $self->session('region') %>. <p>
-            
-            <% } %>
-            
-        </div>
-
-        <div dojoType="dijit.layout.ContentPane" title="Something">
-            
-            <% for ( 1 .. 4 ) { %>
-            
-            <p><img src="/avatar.png" width="25" height="25" /> Something about something...<p>
-            
-            <% } %>
-            
-        </div>
-
-        <div dojoType="dijit.layout.ContentPane" title="Something Else">
-            
-	    
-        </div>
-        
-    </div>
-    
 </div>

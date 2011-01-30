@@ -42,7 +42,6 @@ get '/' => sub {
 get '/dashboard' => sub {
 
     my $self = shift;
-    $self->session(page => 'dashboard');
 
     return $self->redirect_to('welcome') unless $self->session('person_id');
 
@@ -66,248 +65,25 @@ get '/dashboard' => sub {
 
     $self->{'person'} = $person;
 
+    $self->{'people'} =
+      prepare_content('Person', 'person_id', 'tracks', $self->session('lat'),
+        $self->session('lng'));
+
+    $self->{'events'} =
+      prepare_content('Event', 'event_id', 'comments', $self->session('lat'),
+        $self->session('lng'));
+
+    $self->{'topics'} =
+      prepare_content('Topic', 'topic_id', 'comments', $self->session('lat'),
+        $self->session('lng'));
+
+    $self->{'classifieds'} =
+      prepare_content('Classified', 'classified_id', 'comments',
+        $self->session('lat'), $self->session('lng'));
+
     $self->render('dashboard', layout => 'default');
 
 } => 'dashboard';
-
-### People
-
-get '/people' => sub {
-
-    my $self = shift;
-    $self->session(page => 'people');
-
-    return $self->redirect_to('welcome') unless $self->session('person_id');
-
-    my @people = $MODEL->resultset('Person')->search(
-        undef,
-
-        {order_by => 'person_id DESC'}
-    );
-
-    for (@people) {
-
-        my $distance = get_distance(
-            $self->session('lat'), $self->session('lng') => $_->lat,
-            $_->lng
-        );
-
-        push @{$self->{'people'}}, $_ if $distance <= 3000;    
-    }
-
-    $self->render('blank', layout => 'default')
-      unless exists $self->{'people'};
-
-    $self->render('people', layout => 'default');
-
-} => 'people';
-
-get '/person/:id' => [id => qr/\d+/] => sub {
-
-    my $self = shift;
-    $self->session(page => 'person');
-
-    return $self->redirect_to('welcome')
-      unless $self->session('person_id');
-
-    my @people =
-      $MODEL->resultset('Person')->search({person_id => $self->param('id')});
-
-    for (@people) {
-
-        $self->session(
-
-            city    => $_->city,
-            region  => $_->region,
-            country => $_->country,
-            lat     => $_->lat,
-            lng     => $_->lng,
-        );
-    }
-
-    $self->{'people'} = \@people;
-    $self->render('people', layout => 'default');
-
-};
-
-### Events
-
-get '/events' => sub {
-
-    my $self = shift;
-    $self->session(page => 'events');
-
-    return $self->redirect_to('welcome') unless $self->session('person_id');
-
-    my @events = $MODEL->resultset('Event')->search(
-        undef,
-
-        {   order_by => 'event_id DESC',
-            prefetch => 'comments',
-        }
-    );
-
-    for (@events) {
-
-        my $distance = get_distance(
-            $self->session('lat'), $self->session('lng') => $_->lat,
-            $_->lng
-        );
-
-        push @{$self->{'events'}}, $_ if $distance <= 3000;    
-    }
-
-    $self->render('blank', layout => 'default')
-      unless exists $self->{'events'};
-
-    $self->render('events', layout => 'default');
-
-} => 'events';
-
-get '/event/:id' => [id => qr/\d+/] => sub {
-
-    my $self = shift;
-    $self->session(page => 'event');
-
-    my @events =
-      $MODEL->resultset('Event')->search({event_id => $self->param('id')});
-
-    for (@events) {
-
-        $self->session(
-
-            city    => $_->city,
-            region  => $_->region,
-            country => $_->country,
-            lat     => $_->lat,
-            lng     => $_->lng,
-        );
-    }
-
-    $self->{'events'} = \@events;
-    $self->render('events', layout => 'default');
-
-};
-
-### Topics
-
-get '/topics' => sub {
-
-    my $self = shift;
-    $self->session(page => 'topics');
-
-    return $self->redirect_to('welcome') unless $self->session('person_id');
-
-    my @topics = $MODEL->resultset('Topic')->search(
-        undef,
-
-        {   order_by => 'topic_id DESC',
-            prefetch => 'comments',
-        }
-    );
-
-    for (@topics) {
-
-        my $distance = get_distance(
-            $self->session('lat'), $self->session('lng') => $_->lat,
-            $_->lng
-        );
-
-        push @{$self->{'topics'}}, $_ if $distance <= 3000;    
-    }
-
-    $self->render('blank', layout => 'default')
-      unless exists $self->{'topics'};
-
-    $self->render('topics', layout => 'default');
-
-} => 'topics';
-
-get '/topic/:id' => [id => qr/\d+/] => sub {
-
-    my $self = shift;
-    $self->session(page => 'topic');
-
-    my @topics =
-      $MODEL->resultset('Topic')->search({topic_id => $self->param('id')});
-
-    for (@topics) {
-
-        $self->session(
-
-            city    => $_->city,
-            region  => $_->region,
-            country => $_->country,
-            lat     => $_->lat,
-            lng     => $_->lng,
-        );
-    }
-
-    $self->{'topics'} = \@topics;
-    $self->render('topics', layout => 'default');
-
-};
-
-## Classifieds
-
-get '/classifieds' => sub {
-
-    my $self = shift;
-    $self->session(page => 'classifieds');
-
-    return $self->redirect_to('welcome') unless $self->session('person_id');
-
-    my @classifieds = $MODEL->resultset('Classified')->search(
-        undef,
-
-        {   order_by => 'classified_id DESC',
-            prefetch => 'comments',
-        }
-    );
-
-    for (@classifieds) {
-
-        my $distance = get_distance(
-            $self->session('lat'), $self->session('lng') => $_->lat,
-            $_->lng
-        );
-
-        push @{$self->{'classifieds'}}, $_ if $distance <= 3000;    
-    }
-
-    $self->render('blank', layout => 'default')
-      unless exists $self->{'classifieds'};
-
-    $self->render('classifieds', layout => 'default');
-
-} => 'classifieds';
-
-
-get '/classified/:id' => [id => qr/\d+/] => sub {
-
-    my $self = shift;
-    $self->session(page => 'classified');
-
-    my @classifieds =
-      $MODEL->resultset('Classified')
-      ->search({classified_id => $self->param('id')});
-
-    for (@classifieds) {
-
-        $self->session(
-
-            city    => $_->city,
-            region  => $_->region,
-            country => $_->country,
-            lat     => $_->lat,
-            lng     => $_->lng,
-        );
-    }
-
-    $self->{'classifieds'} = \@classifieds;
-    $self->render('classifieds', layout => 'default');
-
-};
 
 ## Commands
 
@@ -323,7 +99,7 @@ post '/signin' => sub {
         for (@people) {
 
             if (Crypt::SaltedHash->validate(
-                    $_->password, $self->param('password'), 8
+                    $_->password, $self->param('password')
                 )
               )
             {
@@ -362,30 +138,29 @@ post '/register' => sub {
 
         return if $self->param('email_1')    ne $self->param('email_2');
         return if $self->param('password_1') ne $self->param('password_2');
-        
+
         my @results = google_local($self->param('location'));
-        
+
         for (@results) {
-    
+
             my $new_person = $MODEL->resultset('Person')->create(
-    
-                {   name  => $self->param('name'),
-                    email => $self->param('email_1'),
-                    password =>
-                      salt_password($self->param('password_1')),
-                    city       => $_->city,
-                    region     => $_->region,
-                    country    => $_->country,
-                    avatar     => '/avatar.png',
-                    blurb      => 'This place is cool!',
-                    lat        => $_->lat,
-                    lng        => $_->lng,
-                    datetime   => DateTime->now,
+
+                {   name     => $self->param('name'),
+                    email    => $self->param('email_1'),
+                    password => salt_password($self->param('password_1')),
+                    city     => $_->city,
+                    region   => $_->region,
+                    country  => $_->country,
+                    avatar   => '/avatar.png',
+                    blurb    => 'This place is cool!',
+                    lat      => $_->lat,
+                    lng      => $_->lng,
+                    datetime => DateTime->now,
                 }
             );
-    
+
             $self->session(
-    
+
                 person_id => $new_person->person_id,
                 name      => $new_person->name,
                 email     => $new_person->email,
@@ -397,7 +172,7 @@ post '/register' => sub {
             );
         }
     }
-    
+
     return $self->redirect_to('dashboard');
 
 };
@@ -432,7 +207,7 @@ post '/location' => sub {
         }
     }
 
-    return $self->redirect_to($self->session('page'));
+    return $self->redirect_to('dashboard');
 
 };
 
@@ -483,8 +258,9 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
 
     if ($self->param('type') eq 'event') {
 
-        my @results = google_local($self->param('location'));
-        
+        my @results = google_local(
+            $self->session('city') . ' ' . $self->session('region'));
+
         for (@results) {
 
             my $event = $MODEL->resultset('Event')->create(
@@ -518,8 +294,9 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
 
     elsif ($self->param('type') eq 'topic') {
 
-        my @results = google_local($self->param('location'));
-        
+        my @results = google_local(
+            $self->session('city') . ' ' . $self->session('region'));
+
         for (@results) {
 
             my $topic = $MODEL->resultset('Topic')->create(
@@ -551,8 +328,9 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
 
     elsif ($self->param('type') eq 'classified') {
 
-        my @results = google_local($self->param('location'));
-        
+        my @results = google_local(
+            $self->session('city') . ' ' . $self->session('region'));
+
         for (@results) {
 
             my $classified = $MODEL->resultset('Classified')->create(
@@ -583,7 +361,7 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
         }
     }
 
-    return $self->redirect_to($self->session('page'));
+    return $self->redirect_to('dashboard');
 
 };
 
@@ -626,13 +404,33 @@ post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
 ### Tools
 
+sub prepare_content {
+
+    my ($result_set, $order_by, $prefetch, $lat, $lng) = @_;
+
+    my @filtered_results;
+
+    my @results = $MODEL->resultset($result_set)->all;
+
+    for (@results) {
+
+        my $gis = GIS::Distance->new();
+
+        my $distance = $gis->distance($lat, $lng => $_->lat, $_->lng);
+
+        if ($distance->meters <= (50 * 1609.344)) {
+
+            push @filtered_results, $_;
+        }
+    }
+
+    return \@filtered_results;
+
+}
+
 sub salt_password {
 
-    my $crypt = Crypt::SaltedHash->new(
-
-        algorithm => 'SHA-256',
-        salt_len  => 8, 
-    );
+    my $crypt = Crypt::SaltedHash->new(algorithm => 'SHA-256');
 
     $crypt->add(shift);
 
@@ -640,29 +438,18 @@ sub salt_password {
 
 }
 
-sub get_distance {
-
-    my $geo = GIS::Distance->new();
-
-    my $distance = $geo->distance(shift);
-    
-    return 50; #$distance->meters;
-
-}
-
 sub google_local {
-    
+
     REST::Google::Search->service(LOCAL);
 
-    my $response =
-      REST::Google::Search->new(q => shift);
+    my $response = REST::Google::Search->new(q => shift);
 
     if ($response->responseStatus == 200) {
 
         my $data = $response->responseData;
         return $data->results;
     }
-    
+
 }
 
 app->secret('Insurgent Software Rocks!');
