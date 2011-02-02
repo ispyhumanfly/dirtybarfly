@@ -73,9 +73,13 @@ get '/dashboard' => sub {
       prepare_content('Event', 'event_id', 'comments', $self->session('lat'),
         $self->session('lng'));
 
-    $self->{'topics'} =
-      prepare_content('Topic', 'topic_id', 'comments', $self->session('lat'),
+    $self->{'places'} =
+      prepare_content('Place', 'place_id', 'comments', $self->session('lat'),
         $self->session('lng'));
+
+    $self->{'discussions'} =
+      prepare_content('Discussion', 'discussion_id', 'comments',
+        $self->session('lat'), $self->session('lng'));
 
     $self->{'classifieds'} =
       prepare_content('Classified', 'classified_id', 'comments',
@@ -124,7 +128,7 @@ post '/signin' => sub {
 
 };
 
-post '/register' => sub {
+post '/signup' => sub {
 
     my $self = shift;
 
@@ -252,6 +256,63 @@ post '/tracking/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
 };
 
+post '/comment/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
+
+    my $self = shift;
+
+    if ($self->param('type') eq 'event') {
+
+        $MODEL->resultset('EventComment')->create(
+
+            {   datetime => DateTime->now,
+                comment  => $self->param('comment'),
+                event    => $self->param('id'),
+                person   => $self->session('person_id'),
+            }
+        );
+    }
+
+    if ($self->param('type') eq 'place') {
+
+        $MODEL->resultset('PlaceComment')->create(
+
+            {   datetime => DateTime->now,
+                comment  => $self->param('comment'),
+                place    => $self->param('id'),
+                person   => $self->session('person_id'),
+            }
+        );
+    }
+
+    if ($self->param('type') eq 'discussion') {
+
+        $MODEL->resultset('DiscussionComment')->create(
+
+            {   datetime   => DateTime->now,
+                comment    => $self->param('comment'),
+                discussion => $self->param('id'),
+                person     => $self->session('person_id'),
+            }
+        );
+    }
+
+    if ($self->param('type') eq 'classified') {
+
+        $MODEL->resultset('ClassifiedComment')->create(
+
+            {   datetime   => DateTime->now,
+                comment    => $self->param('comment'),
+                classified => $self->param('id'),
+                person     => $self->session('person_id'),
+            }
+        );
+    }
+
+    return $self->redirect_to('dashboard');
+
+};
+
+
 post '/submit/:type' => [type => qr/\w+/] => sub {
 
     my $self = shift;
@@ -265,8 +326,7 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
 
             my $event = $MODEL->resultset('Event')->create(
 
-                {   category       => $self->param('category'),
-                    title          => $self->param('title'),
+                {   title          => $self->param('title'),
                     start_datetime => $self->param('start_date'),
                     stop_datetime  => $self->param('stop_date'),
                     about          => $self->param('about'),
@@ -284,7 +344,7 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
             my $person_track = $MODEL->resultset('PersonTrack')->create(
 
                 {   datetime => DateTime->now,
-                    comment  => 'Just submitted a event to Konekt.',
+                    comment  => 'Just submitted a event.',
                     link     => '/event/' . $event->event_id,
                     person   => $self->session('person_id'),
                 }
@@ -292,14 +352,47 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
         }
     }
 
-    elsif ($self->param('type') eq 'topic') {
+    elsif ($self->param('type') eq 'place') {
+
+        my @results = google_local($self->param('location'));
+
+        for (@results) {
+
+            my $place = $MODEL->resultset('Place')->create(
+
+                {   category       => $self->param('category'),
+                    title          => $_->titleNoFormatting,
+                    about          => $self->param('about'),
+                    street_address => $_->streetAddress,
+                    city           => $_->city,
+                    region         => $_->region,
+                    country        => $_->country,
+                    lat            => $_->lat,
+                    lng            => $_->lng,
+                    datetime       => DateTime->now,
+                    person         => $self->session('person_id'),
+                }
+            );
+
+            my $person_track = $MODEL->resultset('PersonTrack')->create(
+
+                {   datetime => DateTime->now,
+                    comment  => 'Just submitted a place.',
+                    link     => '/place/' . $place->place_id,
+                    person   => $self->session('person_id'),
+                }
+            );
+        }
+    }
+
+    elsif ($self->param('type') eq 'discussion') {
 
         my @results = google_local(
             $self->session('city') . ' ' . $self->session('region'));
 
         for (@results) {
 
-            my $topic = $MODEL->resultset('Topic')->create(
+            my $discussion = $MODEL->resultset('Discussion')->create(
 
                 {   category       => $self->param('category'),
                     title          => $self->param('title'),
@@ -318,8 +411,8 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
             my $person_track = $MODEL->resultset('PersonTrack')->create(
 
                 {   datetime => DateTime->now,
-                    comment  => 'Just submitted a topic to Konekt.',
-                    link     => '/topic/' . $topic->topic_id,
+                    comment  => 'Just submitted a discussion.',
+                    link     => '/discussion/' . $discussion->discussion_id,
                     person   => $self->session('person_id'),
                 }
             );
@@ -353,7 +446,7 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
             my $person_track = $MODEL->resultset('PersonTrack')->create(
 
                 {   datetime => DateTime->now,
-                    comment  => 'Just submitted a classified to Konekt.',
+                    comment  => 'Just submitted a classified.',
                     link     => '/classified/' . $classified->classified_id,
                     person   => $self->session('person_id'),
                 }
@@ -410,7 +503,13 @@ sub prepare_content {
 
     my @filtered_results;
 
-    my @results = $MODEL->resultset($result_set)->all;
+    my @results = $MODEL->resultset($result_set)->search(
+        undef,
+
+        {   order_by => $order_by . ' DESC',
+            prefetch => $prefetch,
+        }
+    );
 
     for (@results) {
 
@@ -426,6 +525,22 @@ sub prepare_content {
 
     return \@filtered_results;
 
+}
+
+sub insert_comment {
+
+    my ($result_set, $comment, $type, $comment_id, $person_id) = @_;
+    
+    $MODEL->resultset($result_set)->create(
+
+        {   datetime => DateTime->now,
+            comment  => $comment,
+            event    => $comment_id,
+            person   => $person_id,
+        }
+    );
+    
+    return;
 }
 
 sub salt_password {

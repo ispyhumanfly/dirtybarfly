@@ -36,7 +36,6 @@ CREATE TABLE person_track (
 CREATE TABLE event (
 
     event_id INTEGER PRIMARY KEY,
-    category TEXT NOT NULL,
     start_datetime INTEGER NOT NULL,
     stop_datetime INTEGER NOT NULL,
     title TEXT NOT NULL,
@@ -69,11 +68,11 @@ CREATE TABLE event_comment (
     datetime INTEGER NOT NULL
 );
 
--- Discussion --
+-- Place --
 
-CREATE TABLE topic (
+CREATE TABLE place (
 
-    topic_id INTEGER PRIMARY KEY,
+    place_id INTEGER PRIMARY KEY,
     category TEXT NOT NULL,
     title TEXT NOT NULL,
     about TEXT NOT NULL,
@@ -87,20 +86,56 @@ CREATE TABLE topic (
     datetime INTEGER NOT NULL
 );
 
-CREATE TABLE topic_track (
+CREATE TABLE place_track (
 
     track_id INTEGER PRIMARY KEY,
     comment TEXT NOT NULL,
     link TEXT NULL,
-    topic INTEGER NOT NULL REFERENCES topic(topic_id),
+    place INTEGER NOT NULL REFERENCES place(place_id),
     datetime INTEGER NOT NULL
 );
 
-CREATE TABLE topic_comment (
+CREATE TABLE place_comment (
 
     comment_id INTEGER PRIMARY KEY,
     comment TEXT NOT NULL,
-    topic INTEGER NOT NULL REFERENCES topic(topic_id),
+    place INTEGER NOT NULL REFERENCES place(place_id),
+    person INTEGER NOT NULL REFERENCES person(person_id),
+    datetime INTEGER NOT NULL
+);
+
+-- Discussion --
+
+CREATE TABLE discussion (
+
+    discussion_id INTEGER PRIMARY KEY,
+    category TEXT NOT NULL,
+    title TEXT NOT NULL,
+    about TEXT NOT NULL,
+    street_address TEXT NOT NULL,
+    city TEXT NOT NULL,
+    region TEXT NOT NULL,
+    country TEXT NOT NULL,
+    lat FLOAT NOT NULL,
+    lng FLOAT NOT NULL,
+    person INTEGER NOT NULL REFERENCES person(person_id),
+    datetime INTEGER NOT NULL
+);
+
+CREATE TABLE discussion_track (
+
+    track_id INTEGER PRIMARY KEY,
+    comment TEXT NOT NULL,
+    link TEXT NULL,
+    discussion INTEGER NOT NULL REFERENCES discussion(discussion_id),
+    datetime INTEGER NOT NULL
+);
+
+CREATE TABLE discussion_comment (
+
+    comment_id INTEGER PRIMARY KEY,
+    comment TEXT NOT NULL,
+    discussion INTEGER NOT NULL REFERENCES discussion(discussion_id),
     person INTEGER NOT NULL REFERENCES person(person_id),
     datetime INTEGER NOT NULL
 );

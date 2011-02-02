@@ -9,31 +9,24 @@
 //]]></script>
 
 
-<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="bottom">
+<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="top">
     
     <div dojoType="dijit.layout.ContentPane" title="Category 1">
 	
 	<% foreach my $person ( @{ $self->{'people'} } ) { %>
 	
-	<div dojoType="dijit.TitlePane" title="<%= $person->name %>" style="margin-bottom: 15px;">
+	<div id="result_item">
 	
 	    <div id="person_<%= $person->person_id %>" style="cursor: pointer;" onclick="javascript:dijit.byId('person_dialog_<%= $person->person_id %>').show()">
 		
-		<div dojoType="dijit.layout.ContentPane" region="leading">
-	    
-		    <img src="<%= $person->avatar %>" style="width: 75px; height: 75px; float: left;"/>
-		    
-		</div>
-		
-		<div dojoType="dijit.layout.ContentPane" region="trailing">
-			
-		    <div style="font-size: small;">
-		    
-	
-		    </div>
-	
-		</div>
-		
+                <p>
+                    <img src="<%= $person->avatar %>" width="50" height="50" />
+                    
+                    <span style="margin-left: 5px; font-size: large;"><%= $person->name %></span>
+                    <span style="margin-left: 5px; font-size: smaller; font-style: italic; color: grey;">22 minutes ago w/ 12 comments & 138 trackers</span>
+                
+                </p>
+                
 	    </div>
 	    
 	    <div dojoType="dijit.Tooltip" connectId="person_<%= $person->person_id %>" position="below">

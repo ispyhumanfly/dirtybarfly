@@ -3,7 +3,7 @@ use base qw/DBIx::Class::Core/;
 
 __PACKAGE__->table('event');
 __PACKAGE__->add_columns(
-    qw/ event_id category title about street_address city region country lat lng person /
+    qw/ event_id title about street_address city region country lat lng person /
 );
 
 __PACKAGE__->load_components(qw/InflateColumn::DateTime/);

@@ -13,7 +13,8 @@ __PACKAGE__->set_primary_key('person_id');
 
 __PACKAGE__->has_many(tracks      => 'Model::Schema::Result::PersonTrack');
 __PACKAGE__->has_many(events      => 'Model::Schema::Result::Event');
-__PACKAGE__->has_many(topics      => 'Model::Schema::Result::Topic');
+__PACKAGE__->has_many(places      => 'Model::Schema::Result::Place');
+__PACKAGE__->has_many(discussions => 'Model::Schema::Result::Discussion');
 __PACKAGE__->has_many(classifieds => 'Model::Schema::Result::Classified');
 
 1;

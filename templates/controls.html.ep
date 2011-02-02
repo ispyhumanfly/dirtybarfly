@@ -1,27 +1,4 @@
-
 <script type="text/javascript">//<![CDATA[
-
-    dojo.require("dijit.form.FilteringSelect");
-    dojo.require("dijit.form.DateTextBox");
-    dojo.require("dijit.form.TimeTextBox");
-    dojo.require("dijit.form.CheckBox");
-    dojo.require("dijit.form.Textarea");
-    dojo.require("dijit.layout.TabContainer");
-    
-    dojo.require("dijit.MenuBar");
-    dojo.require("dijit.MenuBarItem");
-    dojo.require("dijit.Menu");
-    dojo.require("dijit.MenuItem");
-    
-    dojo.require("dijit.TooltipDialog");
-    dojo.require("dijit.form.Form");
-    dojo.require("dijit.form.TextBox");
-    dojo.require("dijit.form.Button");
-
-    dojo.require("dijit.PopupMenuBarItem");
-    
-    dojo.require("dijit.Editor");
-
 
 //]]></script>
     
@@ -29,10 +6,9 @@
 
     <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
 
-	<div dojoType="dijit.form.TextBox" width="50" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
-
-	<div dojoType="dijit.form.Button" type="submit">Go</div>
-
+	<div dojoType="dijit.form.TextBox" style="width: 250px; position: relative;" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
+    
+	<button dojoType="dijit.form.Button" type="submit" style="position: relative;">Location</button>
     </div>
 
 </div>
@@ -55,18 +31,6 @@
 		
 		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/event" method="POST">
     
-		    Category:
-		    
-		    <select dojoType="dijit.form.FilteringSelect" name="category" style="margin: 10px;">
-			
-			<% for ( 1 .. 7 ) { %>
-			
-			<option value="category_<%= $_ %>">Category <%= $_ %></option>
-			
-			<% } %>
-	
-		    </select>
-		    
 		    Title:
 		    
 		    <div dojoType="dijit.form.TextBox" name="title" width="50" required="true"></div>
@@ -109,22 +73,60 @@
 		
 	    </div>
 
-            <div dojoType="dijit.layout.ContentPane" title="Topic">
+            <div dojoType="dijit.layout.ContentPane" title="Place">
 		
-		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/topic" method="POST">
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/place" method="POST">
     
 		    Category:
 		    
 		    <select dojoType="dijit.form.FilteringSelect" name="category" style="margin: 10px;">
 			
-			<% for ( 1 .. 7 ) { %>
+			<option value="Care Clubs">Care Clubs</option>
+			<option value="Dispenseries">Dispenseries</option>
+			<option value="Grow Shops">Grow Shops</option>
+			<option value="Bong Shops">Bong Shops</option>
+			<option value="420 friendly medical facilities">420 friendly medical facilities</option>
 			
-			<option value="category_<%= $_ %>">Category <%= $_ %></option>
-			
-			<% } %>
-	
 		    </select>
+
+		    Location:
+		    
+		    <div dojoType="dijit.form.TextBox" name="location" width="50" required="true"></div>
 	
+		    About:
+		    
+		    <br />
+		        
+		    <textarea dojoType="dijit.Editor" id="place_about" name="about" required="true">
+		    
+		    </textarea>
+		
+		    <br />
+		    
+		    <button dojoType="dijit.form.Button" type="submit">Submit</button>
+		    <button dojoType="dijit.form.Button" type="reset">Reset</button>
+		
+		</div>
+
+	    </div>
+
+            <div dojoType="dijit.layout.ContentPane" title="Discussion">
+		
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/discussion" method="POST">
+    
+		    Category:
+		    
+		    <select dojoType="dijit.form.FilteringSelect" name="category" style="margin: 10px;">
+			
+			<option value="Growing">Growing</option>
+			<option value="Lighting">Lighting</option>
+			<option value="Nutrients">Nutrients</option>
+			<option value="Legal">Legal</option>
+			<option value="Pests/Bugs">Pests/Bugs</option>
+			<option value="General">General</option>
+			
+		    </select>
+		    
 		    Title:
 		    
 		    <div dojoType="dijit.form.TextBox" name="title" width="50" required="true"></div>
@@ -133,7 +135,7 @@
 		    
 		    <br />
 		        
-		    <textarea dojoType="dijit.Editor" id="topic_about" name="about" required="true">
+		    <textarea dojoType="dijit.Editor" id="discussion_about" name="about" required="true">
 		    
 		    </textarea>
 		
@@ -154,14 +156,15 @@
 		    
 		    <select dojoType="dijit.form.FilteringSelect" name="category" style="margin: 10px;">
 			
-			<% for ( 1 .. 7 ) { %>
+			<option value="Equipment (new/used)">Equipment (new/used)</option>
+			<option value="Labor">Labor</option>
+			<option value="Excess Medicine">Excess Medicine</option>
+			<option value="Strains/Genetics">Strains/Genetics</option>
+			<option value="Patients Seeking For Caregivers">Patients Seeking For Caregivers</option>
+			<option value="Caregivers Seeking Patients">Caregivers Seeking Patients</option>
 			
-			<option value="category_<%= $_ %>">Category <%= $_ %></option>
-			
-			<% } %>
-	
 		    </select>
-	
+
 		    Title:
 		    
 		    <div dojoType="dijit.form.TextBox" name="title" width="50" required="true"></div>
@@ -194,9 +197,9 @@
     
 </div>
 
-<!-- You Dialog -->
+<!-- Profile Dialog -->
 
-<div id="dialog_you" dojoType="dijit.Dialog" title="Your personal settings and notifications." style="width: 800px; height: 600px;">
+<div id="dialog_profile" dojoType="dijit.Dialog" title="Configure your personal settings." style="width: 800px; height: 600px;">
         
     <div style="width: inherit; height: 550px;">
 	

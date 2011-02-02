@@ -1,43 +1,39 @@
 <script type="text/javascript">//<![CDATA[
 
-    dojo.require("dijit.Tooltip");
-    dojo.require("dijit.Dialog");
-    dojo.require("dijit.form.Button");
-    dojo.require("dijit.Menu");
-    dojo.require("dijit.form.ToggleButton");
-
 //]]></script>        
 
-<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="bottom">
+<div dojoType="dijit.layout.ContentPane" style="width: 100%; height: 100%;" tabPosition="top">
     
-    <div dojoType="dijit.layout.ContentPane" title="People">
-
-	<% foreach my $person ( @{ $self->{'tracking'} } ) { %>
-	
-	<div dojoType="dijit.TitlePane" title="Tracking <%= $person->name %>" style="margin-bottom: 15px;">
-	
-	    <div dojoType="dijit.layout.ContentPane" region="leading">
-	
-		<img src="<%= $person->avatar %>" style="width: 75px; height: 75px; float: left;"/>
-		
-	    </div>
+    <% foreach my $person ( @{ $self->{'tracking'} } ) { %>
+    
+    <div id="result_item">
+    
+	<div id="person_<%= $person->person_id %>" style="cursor: pointer;" onclick="javascript:dijit.byId('person_dialog_<%= $person->person_id %>').show()">
 	    
-	    <div dojoType="dijit.layout.ContentPane" region="trailing">
+	    <p>
+		<img src="<%= $person->avatar %>" width="50" height="50" />
+
+		<span style="margin-left: 5px; font-size: large;"><%= $person->name %></span>
+		
+		<span style="margin-left: 5px;">
 		    
-		<div style="font-size: small;">
+		    <input dojoType="dijit.form.CheckBox" value="agreed" checked onChange="dojo.xhrPost({ url: 'tracking/person/<%= $person->person_id %>', postData: 'toggle=1' })" />
 		    
-		</div>
-	
-	    </div>
+		</span>
+		
+		<span style="margin-left: 5px; font-size: smaller; font-style: italic; color: grey;">22 minutes ago w/ 12 comments & 138 trackers</span>
+	    </p>
 	    
 	</div>
 	
-	<% } %>	
+	<div dojoType="dijit.Tooltip" connectId="person_<%= $person->person_id %>" position="below">
+    
+	    <p><%= $person->blurb %></p>
+	
+	</div>
 	
     </div>
     
-    <div dojoType="dijit.layout.ContentPane" title="Events"></div>
-    <div dojoType="dijit.layout.ContentPane" title="Topics"></div>
-    <div dojoType="dijit.layout.ContentPane" title="Classifieds"></div>
+    <% } %>	
     
 </div>

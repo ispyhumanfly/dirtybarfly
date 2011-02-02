@@ -1,0 +1,76 @@
+<script type="text/javascript">//<![CDATA[
+    
+//]]></script>
+
+
+<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="top">
+    
+    <div dojoType="dijit.layout.ContentPane" title="All">
+	
+	<% foreach my $discussion ( @{ $self->{'discussions'} } ) { %>
+	
+	<div id="result_item">
+	
+	    <div id="discussion_<%= $discussion->discussion_id %>">
+		
+                <p>
+                    <img src="<%= $discussion->person->avatar %>" style="width: 50px; height: 50px;" />
+                    
+                    <span style="margin-left: 5px; font-size: large;"><%= $discussion->title %></span>
+                    
+                    <span style="margin-left: 5px;">
+			
+			<input dojoType="dijit.form.CheckBox" onChange="dojo.xhrPost({ url: 'tracking/discussion/<%= $discussion->discussion_id %>', postData: 'toggle=1' })" />
+			
+		    </span>
+                    
+                    <span style="margin-left: 5px; font-size: smaller; font-style: italic; color: grey;">w/ 12 comments & 138 trackers</span>
+                
+                </p>
+                
+	    </div>
+	    
+	    <div dojoType="dijit.Tooltip" connectId="discussion_<%= $discussion->discussion_id %>" position="above">
+	
+		<p><%= $discussion->person->blurb %></p>
+	    
+	    </div>
+        
+            <div dojoType="dijit.TitlePane" id="discussion_detail_<%= $discussion->discussion_id %>" open="false" style="margin-left: 60px;">
+            
+                <p style="font-size: medium; margin: 15px;">
+                    
+                    <%= $discussion->about %>
+                
+                </p>
+                
+                <% for ( 1 .. 4 ) { %>
+                
+                <p><img src="/avatar.png" width="25" height="25" />Some comment written by someone.</p>
+                
+                <% } %>
+                
+                <div style="">
+                    
+                    <textarea dojoType="dijit.form.Textarea" name="comment" style="width: 300px;"></textarea>
+                    
+                    <div dojoType="dijit.form.Button" type="submit">Comment</div>
+        
+                </div>
+                   
+            </div>
+	    
+	</div>
+
+	<% } %>
+	
+    </div>
+
+    <div dojoType="dijit.layout.ContentPane" title="Growing"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Lighting"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Nutrients"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Legal"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Pests/Bugs"></div>
+    <div dojoType="dijit.layout.ContentPane" title="General"></div>
+        
+</div>
