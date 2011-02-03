@@ -14,9 +14,13 @@
     
                 <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/signin" method="POST">
                     
-                    <div dojoType="dijit.form.TextBox" style="width: 150px;" name="name" placeHolder="Name" required="true"></div>
+                    Name:
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 150px;" name="name" required="true"></div>
         
-                    <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password" placeHolder="Password" required="true"></div>
+                    Pass:
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password" required="true"></div>
                      
                     <button dojoType="dijit.form.Button" type="submit">Sign In</button>
                     
@@ -34,17 +38,29 @@
         
                 <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/signup" method="POST">
                 
-                    <div dojoType="dijit.form.TextBox" style="width: 150px;" name="name" placeHolder="What's your name?" required="true"></div>
+                    Name:
                     
-                    <div dojoType="dijit.form.TextBox" style="width: 150px;" name="location" placeHolder="Where are you?" required="true"></div>
+                    <div dojoType="dijit.form.TextBox" style="width: 150px;" name="name" required="true"></div>
                     
-                    <div dojoType="dijit.form.TextBox" style="width: 250px;" name="email_1" placeHolder="Your email address?" required="true"></div>
+                    Location:
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 150px;" name="location" required="true"></div>
+                    
+                    Email:
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 250px;" name="email_1" required="true"></div>
     
-                    <div dojoType="dijit.form.TextBox" style="width: 250px;" name="email_2" placeHolder="... again please." required="true"></div>
-        
-                    <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password_1" placeHolder="Your password?" required="true"></div>
+                    ...again:
                     
-                    <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password_2" placeHolder="... again please." required="true"></div>
+                    <div dojoType="dijit.form.TextBox" style="width: 250px;" name="email_2" required="true"></div>
+        
+                    Pass:
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" required="true"></div>
+                    
+                    ...again:
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password_2" required="true"></div>
     
                     <div dojoType="dijit.form.Button" type="submit">Sign Up</div>
                 

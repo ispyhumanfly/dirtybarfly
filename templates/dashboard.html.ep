@@ -64,7 +64,6 @@
 		    
 	    </ul>
             
-            
         </div>
 
         <div dojoType="dijit.layout.ContentPane" title="Something Else">

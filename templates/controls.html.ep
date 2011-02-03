@@ -250,11 +250,11 @@
 
 		Password:
 
-		<div dojoType="dijit.form.TextBox" type="password" name="password_1" value="<%= $self->{'person'}->password %>" width="50" required="true"></div>
+		<div dojoType="dijit.form.TextBox" type="password" name="password_1"></div>
 
 		Again:
 
-		<div dojoType="dijit.form.TextBox" type="password" name="password_2" value="<%= $self->{'person'}->password %>" width="50" required="true"></div>
+		<div dojoType="dijit.form.TextBox" type="password" name="password_2"></div>
 
 	    </blockquote>
 

@@ -466,6 +466,15 @@ post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
         return if $self->param('password_1') ne $self->param('password_2');
 
+        if ($self->param('password_1') ne '') {
+
+            $MODEL->resultset('Person')
+              ->search({person_id => $self->param('id')})
+              ->update(
+                {password => salt_password($self->param('password_1'))});
+
+        }
+        
         my @results = google_local($self->param('location'));
 
         for (@results) {
@@ -485,7 +494,6 @@ post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
                     lng        => $_->lng,
                     avatar     => $self->param('avatar'),
                     blurb      => $self->param('blurb'),
-                    password   => salt_password($self->param('password_1'))
                 }
               );
         }
@@ -529,17 +537,17 @@ sub prepare_content {
 
 sub insert_comment {
 
-    my ($result_set, $comment, $type, $comment_id, $person_id) = @_;
-    
+    my ($result_set, $type, $type_id, $comment, $person_id) = @_;
+
     $MODEL->resultset($result_set)->create(
 
         {   datetime => DateTime->now,
             comment  => $comment,
-            event    => $comment_id,
+            $type    => $type_id,
             person   => $person_id,
         }
     );
-    
+
     return;
 }
 

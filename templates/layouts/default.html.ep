@@ -102,8 +102,8 @@
 		<div style="vertical-align: middle; float: left; color: #ffffff; font-size: large;">
 		    
 		    <p>
-			<span style="cursor: pointer;" onclick="dijit.byId('dialog_submit').show();">Submit something!</span> <img src="/point.png">
-			<span style="cursor: pointer;" onclick="dijit.byId('dialog_profile').show();">Profile <img src="/point.png"></span>
+			<span style="cursor: pointer;" onclick="dijit.byId('dialog_profile').show();"><%= $self->{'person'}->name %> <img src="/point.png"></span>
+			<span style="cursor: pointer;" onclick="dijit.byId('dialog_submit').show();">Submit something! <img src="/point.png"></span>
 			<span style="cursor: pointer;" onclick="window.location='/signout';">Sign out
 			
 		    </p>
