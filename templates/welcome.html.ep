@@ -56,7 +56,7 @@
         
                     Pass:
                     
-                    <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" required="true"></div>
+                    <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password_1" required="true"></div>
                     
                     ...again:
                     

@@ -12,12 +12,6 @@
 	    
 	</div>
     
-	<!--<div dojoType="dijit.layout.ContentPane" title="People">
-	    
-	    <%= include 'people' %>
-	
-	</div>-->
-    
 	<div dojoType="dijit.layout.ContentPane" title="Events">
     
 	    <%= include 'events' %>
@@ -50,7 +44,7 @@
     
     <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
         
-        <div dojoType="dijit.layout.ContentPane" title="Upcoming updates to Moonfuzz." selected="true">
+        <div dojoType="dijit.layout.ContentPane" title="Moonfuzz development tasks." selected="true">
             
 	    <ul>
 		<li>Have results display correctly within their respective categories.</li>
@@ -58,7 +52,7 @@
 		<li>Create a result filtering bar (for searching)</li>
 		<li>Enable tracking for events, topics and classifieds.</li>
 		<li>Fix the DateTime stuff.</li>
-		<li>Enable comments for events, topics and classifieds.</li>
+		<li style="text-decoration: line-through;">Enable comments for events, topics and classifieds.</li>
 		<li style="text-decoration: line-through;">I need to add the Places functionality again.</li>
 		<li>Every item submitted should have google images, blogs, news & video results made available.</li>
 		    

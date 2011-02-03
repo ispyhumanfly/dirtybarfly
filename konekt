@@ -65,10 +65,6 @@ get '/dashboard' => sub {
 
     $self->{'person'} = $person;
 
-    $self->{'people'} =
-      prepare_content('Person', 'person_id', 'tracks', $self->session('lat'),
-        $self->session('lng'));
-
     $self->{'events'} =
       prepare_content('Event', 'event_id', 'comments', $self->session('lat'),
         $self->session('lng'));
@@ -260,52 +256,39 @@ post '/comment/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
     my $self = shift;
 
-    if ($self->param('type') eq 'event') {
+    given ($self->param('type')) {
 
-        $MODEL->resultset('EventComment')->create(
-
-            {   datetime => DateTime->now,
-                comment  => $self->param('comment'),
-                event    => $self->param('id'),
-                person   => $self->session('person_id'),
-            }
-        );
-    }
-
-    if ($self->param('type') eq 'place') {
-
-        $MODEL->resultset('PlaceComment')->create(
-
-            {   datetime => DateTime->now,
-                comment  => $self->param('comment'),
-                place    => $self->param('id'),
-                person   => $self->session('person_id'),
-            }
-        );
-    }
-
-    if ($self->param('type') eq 'discussion') {
-
-        $MODEL->resultset('DiscussionComment')->create(
-
-            {   datetime   => DateTime->now,
-                comment    => $self->param('comment'),
-                discussion => $self->param('id'),
-                person     => $self->session('person_id'),
-            }
-        );
-    }
-
-    if ($self->param('type') eq 'classified') {
-
-        $MODEL->resultset('ClassifiedComment')->create(
-
-            {   datetime   => DateTime->now,
-                comment    => $self->param('comment'),
-                classified => $self->param('id'),
-                person     => $self->session('person_id'),
-            }
-        );
+        when ('event') {
+            insert_comment(
+                'EventComment', 'event', $self->param('id'),
+                $self->param('comment'),
+                $self->session('person_id')
+            );
+        }
+        
+        when ('place') {
+            insert_comment(
+                'PlaceComment', 'place', $self->param('id'),
+                $self->param('comment'),
+                $self->session('person_id')
+            );
+        }
+        
+        when ('discussion') {
+            insert_comment(
+                'DiscussionComment', 'discussion', $self->param('id'),
+                $self->param('comment'),
+                $self->session('person_id')
+            );
+        }
+        
+        when ('classified') {
+            insert_comment(
+                'ClassifiedComment', 'classified', $self->param('id'),
+                $self->param('comment'),
+                $self->session('person_id')
+            );
+        }
     }
 
     return $self->redirect_to('dashboard');
@@ -474,7 +457,7 @@ post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
                 {password => salt_password($self->param('password_1'))});
 
         }
-        
+
         my @results = google_local($self->param('location'));
 
         for (@results) {
@@ -543,6 +526,23 @@ sub insert_comment {
 
         {   datetime => DateTime->now,
             comment  => $comment,
+            $type    => $type_id,
+            person   => $person_id,
+        }
+    );
+
+    return;
+}
+
+sub insert_track {
+
+    my ($result_set, $type, $type_id, $comment, $person_id) = @_;
+
+    $MODEL->resultset($result_set)->create(
+
+        {   datetime => DateTime->now,
+            comment  => $comment,
+            link     => '',
             $type    => $type_id,
             person   => $person_id,
         }

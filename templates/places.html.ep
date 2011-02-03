@@ -30,7 +30,7 @@
                 
 	    </div>
 	    
-	    <div dojoType="dijit.Tooltip" connectId="place_<%= $place->place_id %>" position="above">
+	    <div dojoType="dijit.Tooltip" connectId="place_<%= $place->place_id %>" position="top">
 	
 		<p><%= $place->person->blurb %></p>
 	    
@@ -43,19 +43,19 @@
                     <%= $place->about %>
                 
                 </p>
-                
-                <% for ( 1 .. 4 ) { %>
-                
-                <p><img src="/avatar.png" width="25" height="25" />Some comment written by someone.</p>
-                
-                <% } %>
-                
-                <div style="">
-                    
+		
+                <% for ($place->comments->all) { %>
+		
+		    <p><img src="<%= $_->person->avatar %>" style="width: 25px; height: 25px;"/> <%= $_->comment %></p>
+		    
+		<% } %>
+		    
+                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/comment/place/<%= $place->place_id %>" method="POST">
+        
                     <textarea dojoType="dijit.form.Textarea" name="comment" style="width: 300px;"></textarea>
                     
-                    <div dojoType="dijit.form.Button" type="submit">Comment</div>
-        
+                    <button dojoType="dijit.form.Button" type="submit">Comment</button>
+                    
                 </div>
                    
             </div>
