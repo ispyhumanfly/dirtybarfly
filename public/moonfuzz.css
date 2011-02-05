@@ -103,3 +103,27 @@ border-radius: 10px;
 
 }
 
+#follow-blogger {
+  background: url(http://www.google.com/images/icons/product/blogger-16.png) left center no-repeat;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+}
+
+#follow-twitter {
+  background: url(http://twitter-badges.s3.amazonaws.com/t_mini-a.png) left center no-repeat transparent;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+}
+
+#follow-blogger, #follow-twitter {
+ position: relative;
+ top: 3px; 
+}
+
+#follow-blogger span, #follow-twitter span {
+  position: absolute;
+  left: -1000em;
+}
+

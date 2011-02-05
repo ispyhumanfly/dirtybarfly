@@ -15,7 +15,7 @@
 
 <div dojoType="dijit.Tooltip" connectId="tooltip_location" position="below">
 
-    <p>Tell me where you want to go.</p>
+    <p>Where would you like to go?</p>
 
 </div>
 

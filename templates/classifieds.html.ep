@@ -20,7 +20,7 @@
                     <span style="margin-left: 5px;">
 			
 			<input dojoType="dijit.form.CheckBox" onChange="dojo.xhrPost({ url: 'tracking/classified/<%= $classified->classified_id %>', postData: 'toggle=1' })" />
-			
+                        
 		    </span>
                     
                     <span style="margin-left: 5px; font-size: smaller; font-style: italic; color: grey;">for $<%= $classified->price %> dollars w/ 12 comments & 138 trackers</span>
@@ -54,7 +54,7 @@
                     <textarea dojoType="dijit.form.Textarea" name="comment" style="width: 300px;"></textarea>
                     
                     <button dojoType="dijit.form.Button" type="submit">Comment</button>
-                    
+
                 </div>
                     
             </div>

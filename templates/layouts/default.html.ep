@@ -93,7 +93,13 @@
     
 		<div style="vertical-align: middle; float: right; color: #ffffff; font-size: large;">
 		    
-		    <p>Moonfuzz &copy; 2011 Insurgent Software, LLC.</p>
+		    <p>
+			Moonfuzz &copy; 2011 Insurgent Software, LLC.
+		    
+		        <a id="follow-blogger" href="http://moonfuzz420.blogspot.com/" title="Moonfuzz on Blogger"><span>Blogger</span></a> 
+			<a id="follow-twitter" href="http://twitter.com/#!/moonfuzz420" title="Moonfuzz on Twitter"><span>Twitter</span></a></p>
+
+		    </p>
 		
 		</div>
 		
