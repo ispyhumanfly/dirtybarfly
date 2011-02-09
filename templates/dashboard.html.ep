@@ -33,8 +33,9 @@
 	    
 	<div dojoType="dijit.layout.ContentPane" title="Tracking" selected="true">
 	    
+		
 	    <%= include 'tracking' %>
-	    
+	        
 	</div>
     
 	<div dojoType="dijit.layout.ContentPane" title="Events">
@@ -46,7 +47,7 @@
 	<div dojoType="dijit.layout.ContentPane" title="Places">
 	    
 	    <%= include 'places' %>
-	    
+	
 	</div>
     
 	<div dojoType="dijit.layout.ContentPane" title="Discussions">
@@ -65,21 +66,26 @@
 
 </div>
 
-<div dojoType='dojox.layout.ExpandoPane' region='trailing' style="width: 25%;">
+<div dojoType='dojox.layout.ExpandoPane' region='trailing' style="width: 30%;">
     
     <div dojoType="dijit.layout.AccordionContainer" style="height: 100%;">
         
         <div dojoType="dijit.layout.ContentPane" title="Moonfuzz development tasks." selected="true">
             
-	    <ul>
+	    <ul title='v1.0b task list' style="font-family: 'Ubuntu', arial, serif;">
+		
 		<li>Have results display correctly within their respective categories.</li>
 		<li>Remember layout during sessions.</li>
 		<li>Create a result filtering bar (for searching)</li>
 		<li>Enable tracking for events, topics and classifieds.</li>
-		<li>Fix the DateTime stuff.</li>
+		<li style="text-decoration: line-through;">Fix the DateTime stuff.</li>
 		<li style="text-decoration: line-through;">Enable comments for events, topics and classifieds.</li>
 		<li style="text-decoration: line-through;">I need to add the Places functionality again.</li>
 		<li>Every item submitted should have google images, blogs, news & video results made available.</li>
+		<li>A keep me logged in option.</li>
+		<li>Adjust location bar, and put it inline with the moonfuzz tagline on the left</li>
+		<li>Update the interface with the Google web fonts</li>
+		<li>Fix image scaling issue for header, logo and welcome.</li>
 		    
 	    </ul>
             

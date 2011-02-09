@@ -12,11 +12,11 @@ Konekt
 
 =head1 DESCRIPTION
 
-A pretty cool way to interact with people.
+Simple framework for creating geosocial networking applications.
 
 =head2 CPAN Setup
 
-	sudo cpanp install Modern::Perl Mojolicious::Lite DBIx::Class REST::Google::Search GIS::Distance
+	sudo cpanm Modern::Perl Mojolicious::Lite DBIx::Class REST::Google::Search GIS::Distance
 
 =head1 BUGS
 

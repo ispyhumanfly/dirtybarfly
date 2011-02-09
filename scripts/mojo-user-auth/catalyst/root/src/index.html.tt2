@@ -1,0 +1,12 @@
+[% WRAPPER "templates/layouts/insurgent.html.tt2" %]
+[%- USE HTML -%]
+<h1>Insurgent Software's User Management Application</h1>
+<ul>
+[% IF c.user_exists() %]
+<li><a href="[% HTML.escape(c.uri_for('account')) %]">Go to Your Account</a></li>
+[% ELSE %]
+<li><a href="[% HTML.escape(c.uri_for('login')) %]">Login to an existing account</a></li>
+<li><a href="[% HTML.escape(c.uri_for('register')) %]">Register a new account</a></li>
+[% END %]
+</ul>
+[% END %]

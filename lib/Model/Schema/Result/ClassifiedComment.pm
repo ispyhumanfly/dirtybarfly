@@ -5,7 +5,7 @@ __PACKAGE__->table('classified_comment');
 __PACKAGE__->add_columns(qw/ comment_id comment classified person /);
 
 __PACKAGE__->load_components(qw/InflateColumn::DateTime/);
-__PACKAGE__->add_columns(datetime => {datetime => 'datetime'});
+__PACKAGE__->add_columns(datetime => {data_type => 'datetime'});
 
 __PACKAGE__->set_primary_key('comment_id');
 

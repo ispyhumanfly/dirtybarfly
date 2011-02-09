@@ -23,7 +23,7 @@
                         
 		    </span>
                     
-                    <span style="margin-left: 5px; font-size: smaller; font-style: italic; color: grey;">for $<%= $classified->price %> dollars w/ 12 comments & 138 trackers</span>
+                    <span style="margin-left: 5px; font-size: smaller; font-style: italic; color: grey;">for $<%= $classified->price %> dollars w/ <%= scalar $classified->comments->all %> comments & 138 trackers</span>
                 
                 </p>
                 

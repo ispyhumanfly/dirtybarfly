@@ -1,0 +1,4 @@
+[% WRAPPER "templates/layouts/insurgent.html.tt2" %]
+<h1>Login form</h1>
+[% login_form %]
+[% END %]

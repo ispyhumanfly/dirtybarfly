@@ -63,7 +63,7 @@
 	
 	<!-- Page Loader -->
 	    
-	<div id="loader"><div id="loaderInner">Loading...</div></div>
+	<div id="loader"><div id="loaderInner" style="font-family: 'Ubuntu', arial, serif;">Loading...</div></div>
 	
 	<!-- Page Container -->
 	
@@ -90,22 +90,10 @@
 	    <!-- Page Footer -->
 	    
 	    <div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #2b2d2c; border-color: #2b2d2c;">
-    
-		<div style="vertical-align: middle; float: right; color: #ffffff; font-size: large;">
-		    
-		    <p>
-			Moonfuzz &copy; 2011 Insurgent Software, LLC.
-		    
-		        <a id="follow-blogger" href="http://moonfuzz420.blogspot.com/" title="Moonfuzz on Blogger"><span>Blogger</span></a> 
-			<a id="follow-twitter" href="http://twitter.com/#!/moonfuzz420" title="Moonfuzz on Twitter"><span>Twitter</span></a></p>
-
-		    </p>
-		
-		</div>
 		
 		<% if ( $self->session('person_id') ) { %>
 		
-		<div style="vertical-align: middle; float: left; color: #ffffff; font-size: large;">
+		<div style="vertical-align: middle; float: left; color: #ffffff; font-size: medium; font: bold;">
 		    
 		    <p>
 			<span style="cursor: pointer;" onclick="dijit.byId('dialog_profile').show();"><%= $self->{'person'}->name %> <img src="/point.png"></span>
@@ -117,6 +105,18 @@
 		</div>
 		
 		<% } %>
+		
+		<div style="vertical-align: middle; float: right; color: #ffffff; font-size: medium; font-family: 'Ubuntu', arial, serif;">
+		    
+		    <p>
+			Moonfuzz &copy; 2011 Insurgent Software, LLC.
+		    
+		        <a id="follow-blogger" href="http://moonfuzz420.blogspot.com/" title="Moonfuzz on Blogger"><span>Blogger</span></a> 
+			<a id="follow-twitter" href="http://twitter.com/#!/moonfuzz420" title="Moonfuzz on Twitter"><span>Twitter</span></a></p>
+
+		    </p>
+		
+		</div>
 		
 	    </div>
 	

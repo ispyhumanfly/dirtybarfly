@@ -5,7 +5,7 @@ __PACKAGE__->table('discussion_track');
 __PACKAGE__->add_columns(qw/ track_id comment link discussion /);
 
 __PACKAGE__->load_components(qw/InflateColumn::DateTime/);
-__PACKAGE__->add_columns(datetime => {datetime => 'datetime'});
+__PACKAGE__->add_columns(datetime => {data_type => 'datetime'});
 
 __PACKAGE__->set_primary_key('track_id');
 

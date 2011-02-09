@@ -7,7 +7,7 @@ __PACKAGE__->add_columns(
 );
 
 __PACKAGE__->load_components(qw/InflateColumn::DateTime/);
-__PACKAGE__->add_columns(datetime => {datetime => 'datetime'});
+__PACKAGE__->add_columns(datetime => {data_type => 'datetime'});
 
 __PACKAGE__->set_primary_key('person_id');
 

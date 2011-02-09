@@ -1,6 +1,27 @@
 @import url("http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/layout/resources/ExpandoPane.css");
 @import url("http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/tundra/tundra.css");
 
+/* Droid Serif - Regular, Bold, Italic */
+
+@import url("http://fonts.googleapis.com/css?family=Droid+Serif:regular,bolditalic");
+
+
+/* Ubuntu - Regular, Bold, Italic */
+
+@import url("http://fonts.googleapis.com/css?family=Ubuntu:regular,bolditalic");
+
+
+#title_font {
+    
+    font-family: 'Droid Serif', arial, serif;
+    
+}
+
+#content_font {
+    
+    font-family: 'Ubuntu', arial, serif;
+}
+
 html {    
     height:100%;
 }   
@@ -9,6 +30,8 @@ body {
     height: 98%;
     background-color: #2b2d2c;
     overflow: hidden;
+    font-family: 'Droid Serif', arial, serif;
+    
 }
 
 a {
@@ -68,6 +91,7 @@ a:visited {
 
 #header_content {
     
+    font-family: 'Ubuntu', arial, serif;
     height: 175px;
     background-color: #2b2d2c;
     border-color: #2b2d2c;
@@ -94,7 +118,8 @@ border-radius: 10px;
 }
 
 #result_item {
-    
+
+    font-family: 'Ubuntu', arial, serif;
 }
 
 #result_item div:hover {

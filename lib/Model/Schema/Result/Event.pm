@@ -8,9 +8,9 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->load_components(qw/InflateColumn::DateTime/);
 __PACKAGE__->add_columns(
-    datetime       => {datetime => 'datetime'},
-    start_datetime => {datetime => 'datetime'},
-    stop_datetime  => {datetime => 'datetime'}
+    datetime       => {data_type => 'datetime'},
+    start_datetime => {data_type => 'datetime'},
+    stop_datetime  => {data_type => 'datetime'}
 );
 
 __PACKAGE__->set_primary_key('event_id');
