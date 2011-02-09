@@ -16,7 +16,7 @@
                 <p>
                     <img src="<%= $discussion->person->avatar %>" style="width: 50px; height: 50px;" />
                     
-                    <span style="margin-left: 5px; font-size: large;"><%= $discussion->title %></span>
+                    <span style="margin-left: 5px; font-weight: bold;"><%= $discussion->title %></span>
                     
                     <span style="margin-left: 5px;">
 			

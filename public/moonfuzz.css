@@ -3,12 +3,12 @@
 
 /* Droid Serif - Regular, Bold, Italic */
 
-@import url("http://fonts.googleapis.com/css?family=Droid+Serif:regular,bolditalic");
+@import url("http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic");
 
 
 /* Ubuntu - Regular, Bold, Italic */
 
-@import url("http://fonts.googleapis.com/css?family=Ubuntu:regular,bolditalic");
+@import url("http://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold,bolditalic");
 
 
 #title_font {
@@ -120,12 +120,6 @@ border-radius: 10px;
 #result_item {
 
     font-family: 'Ubuntu', arial, serif;
-}
-
-#result_item div:hover {
-    
-    /*background-color: #afc6d0;*/
-
 }
 
 #follow-blogger {

@@ -15,7 +15,7 @@
                 <p>
                     <img src="<%= $classified->person->avatar %>" style="width: 50px; height: 50px;" />
                     
-                    <span style="margin-left: 5px; font-size: large;"><%= $classified->title %></span>
+                    <span style="margin-left: 5px; font-weight: bold;"><%= $classified->title %></span>
                     
                     <span style="margin-left: 5px;">
 			

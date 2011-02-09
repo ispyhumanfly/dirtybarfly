@@ -16,7 +16,7 @@
                 <p>
                     <img src="<%= $place->person->avatar %>" style="width: 50px; height: 50px;" />
                     
-                    <span style="margin-left: 5px; font-size: large;"><%= $place->title %></span>
+                    <span style="margin-left: 5px; font-weight: bold;"><%= $place->title %></span>
 		    
                     <span style="margin-left: 5px;">
 			

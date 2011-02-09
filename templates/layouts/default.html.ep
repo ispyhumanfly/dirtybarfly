@@ -93,7 +93,7 @@
 		
 		<% if ( $self->session('person_id') ) { %>
 		
-		<div style="vertical-align: middle; float: left; color: #ffffff; font-size: medium; font: bold;">
+		<div style="vertical-align: middle; float: left; color: #ffffff; font-size: medium; font-weight: bold;">
 		    
 		    <p>
 			<span style="cursor: pointer;" onclick="dijit.byId('dialog_profile').show();"><%= $self->{'person'}->name %> <img src="/point.png"></span>

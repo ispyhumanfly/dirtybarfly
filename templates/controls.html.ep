@@ -2,7 +2,7 @@
 
 //]]></script>
     
-<div style="float: right;" id="tooltip_location">
+<div style="float: right; margin-top: 130px;" id="tooltip_location">
 
     <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
 
