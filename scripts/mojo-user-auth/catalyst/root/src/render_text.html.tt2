@@ -1,3 +1,0 @@
-[% WRAPPER "templates/layouts/insurgent.html.tt2" %]
-[% template_text %]
-[% END %]

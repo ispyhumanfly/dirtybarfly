@@ -1,20 +1,91 @@
 package Model::Schema::Result::Classified;
-use base qw/DBIx::Class::Core/;
+use DBIx::Class::Candy -components => ['InflateColumn::DateTime'];
 
-__PACKAGE__->table('classified');
-__PACKAGE__->add_columns(
-    qw/ classified_id category title about street_address city region country lat lng price person /
-);
+table 'classified';
 
-__PACKAGE__->load_components(qw/InflateColumn::DateTime/);
-__PACKAGE__->add_columns(datetime => {data_type => 'datetime'});
+column classified_id => {
 
-__PACKAGE__->set_primary_key('classified_id');
+    data_type         => 'int',
+    is_auto_increment => 1,
+};
 
+column category => {
 
-__PACKAGE__->has_many(tracks   => 'Model::Schema::Result::ClassifiedTrack');
-__PACKAGE__->has_many(comments => 'Model::Schema::Result::ClassifiedComment');
+    data_type => 'varchar',
+    size      => 100,
+};
 
-__PACKAGE__->belongs_to(person => 'Model::Schema::Result::Person');
+column title => {
+
+    data_type => 'varchar',
+    size      => 100,
+};
+
+column about => {
+
+    data_type => 'varchar',
+    size      => 1000,
+};
+
+column price => {
+
+    data_type => 'int',
+    size      => 10,
+};
+
+column street_address => {
+
+    data_type => 'varchar',
+    size      => 50,
+};
+
+column city => {
+
+    data_type => 'varchar',
+    size      => 50,
+};
+
+column region => {
+
+    data_type => 'varchar',
+    size      => 25,
+};
+
+column country => {
+
+    data_type => 'varchar',
+    size      => 25,
+};
+
+column lat => {
+
+    data_type => 'float',
+    size      => 25,
+};
+
+column lng => {
+
+    data_type => 'float',
+    size      => 25,
+};
+
+column datetime => {
+
+    data_type => 'datetime',
+    size      => 50,
+};
+
+column person => {
+
+    data_type => 'int',
+};
+
+primary_key 'classified_id';
+
+has_many tracks   => 'Model::Schema::Result::ClassifiedTrack',   'classified';
+has_many comments => 'Model::Schema::Result::ClassifiedComment', 'classified';
+
+belongs_to person => 'Model::Schema::Result::Person';
 
 1;
+

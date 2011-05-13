@@ -35,6 +35,8 @@
 	    dojo.require("dijit.form.TimeTextBox");
 	    dojo.require("dijit.form.CheckBox");
 	    dojo.require("dijit.form.Textarea");
+	    dojo.require("dijit.form.Slider");
+	    //dojo.require("dijit.form.HorizontalRule");
 	    dojo.require("dojox.fx");
 	    
 	    dojo.addOnLoad(_initLoader);

@@ -1,23 +1,90 @@
 package Model::Schema::Result::Event;
-use base qw/DBIx::Class::Core/;
+use DBIx::Class::Candy -components => ['InflateColumn::DateTime'];
 
-__PACKAGE__->table('event');
-__PACKAGE__->add_columns(
-    qw/ event_id title about street_address city region country lat lng person /
-);
+table 'event';
 
-__PACKAGE__->load_components(qw/InflateColumn::DateTime/);
-__PACKAGE__->add_columns(
-    datetime       => {data_type => 'datetime'},
-    start_datetime => {data_type => 'datetime'},
-    stop_datetime  => {data_type => 'datetime'}
-);
+column event_id => {
 
-__PACKAGE__->set_primary_key('event_id');
+    data_type         => 'int',
+    is_auto_increment => 1,
+};
 
-__PACKAGE__->has_many(tracks   => 'Model::Schema::Result::EventTrack');
-__PACKAGE__->has_many(comments => 'Model::Schema::Result::EventComment');
+column title => {
 
-__PACKAGE__->belongs_to(person => 'Model::Schema::Result::Person');
+    data_type => 'varchar',
+    size      => 100,
+};
+
+column about => {
+
+    data_type => 'varchar',
+    size      => 1000,
+};
+
+column street_address => {
+
+    data_type => 'varchar',
+    size      => 50,
+};
+
+column city => {
+
+    data_type => 'varchar',
+    size      => 50,
+};
+
+column region => {
+
+    data_type => 'varchar',
+    size      => 25,
+};
+
+column country => {
+
+    data_type => 'varchar',
+    size      => 25,
+};
+
+column lat => {
+
+    data_type => 'float',
+    size      => 25,
+};
+
+column lng => {
+
+    data_type => 'float',
+    size      => 25,
+};
+
+column start_datetime => {
+
+    data_type => 'datetime',
+    size      => 50,
+};
+
+column stop_datetime => {
+
+    data_type => 'datetime',
+    size      => 50,
+};
+
+column datetime => {
+
+    data_type => 'datetime',
+    size      => 50,
+};
+
+column person => {
+
+    data_type => 'INTEGER',
+};
+
+primary_key 'event_id';
+
+has_many tracks   => 'Model::Schema::Result::EventTrack',   'event';
+has_many comments => 'Model::Schema::Result::EventComment', 'event';
+
+belongs_to person => 'Model::Schema::Result::Person';
 
 1;

@@ -17,14 +17,14 @@
                     <img src="<%= $discussion->person->avatar %>" style="width: 50px; height: 50px;" />
                     
                     <span style="margin-left: 5px; font-weight: bold;"><%= $discussion->title %></span>
-                    
+		    
                     <span style="margin-left: 5px;">
 			
 			<input dojoType="dijit.form.CheckBox" onChange="dojo.xhrPost({ url: 'tracking/discussion/<%= $discussion->discussion_id %>', postData: 'toggle=1' })" />
 			
 		    </span>
                     
-                    <span style="margin-left: 5px; font-size: smaller; font-style: italic; color: grey;">w/ <%= scalar $discussion->comments->all %> comments & 138 trackers</span>
+                    <span style="margin-left: 5px; font-size: smaller; font-style: italic; color: grey;"> @ <%= $discussion->street_address %>, <%= $discussion->city %> w/ <%= scalar $discussion->comments->all %> comments & 138 trackers</span>
                 
                 </p>
                 
@@ -43,7 +43,7 @@
                     <%= $discussion->about %>
                 
                 </p>
-                
+		
                 <% for ($discussion->comments->all) { %>
 		
 		    <p><img src="<%= $_->person->avatar %>" style="width: 25px; height: 25px;"/> <%= $_->comment %></p>

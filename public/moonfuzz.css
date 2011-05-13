@@ -117,9 +117,37 @@ border-radius: 10px;
 
 }
 
+
+#result_avatar {
+    
+    
+    padding: 2px;
+    background-color: #7996a4;    
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+
+}
+
 #result_item {
 
     font-family: 'Ubuntu', arial, serif;
+    margin-bottom: 15px;
+}
+
+#result_avatar img {
+    
+    width: 75px; height: 75px;
+    border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+    
+}
+
+.result_detail {
+    
+    margin-left: 100px;
+    border-left-color: inherit;
+    border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;
+
 }
 
 #follow-blogger {

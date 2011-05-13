@@ -20,6 +20,7 @@
 
 	    <div dojoType="dijit.layout.ContentPane" title="Tracking" selected="true">
 		
+		
 	    </div>
 	    
 	</div>
@@ -31,9 +32,8 @@
 
     <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="top">
 	    
-	<div dojoType="dijit.layout.ContentPane" title="Tracking" selected="true">
+	<div dojoType="dijit.layout.ContentPane" title="Top Rated" selected="true">
 		
-	    <%= include 'tracking' %>
 	        
 	</div>
     
@@ -71,7 +71,7 @@
         
         <div dojoType="dijit.layout.ContentPane" title="Moonfuzz development tasks." selected="true">
             
-	    <ul title='v1.0b task list' style="font-family: 'Ubuntu', arial, serif;">
+	    <ul title='v1.0a task list' style="font-family: 'Ubuntu', arial, serif;">
 		
 		<li>Have results display correctly within their respective categories.</li>
 		<li>Remember layout during sessions.</li>
@@ -81,7 +81,7 @@
 		<li style="text-decoration: line-through;">Enable comments for events, topics and classifieds.</li>
 		<li style="text-decoration: line-through;">I need to add the Places functionality again.</li>
 		<li>Every item submitted should have google images, blogs, news & video results made available.</li>
-		<li>A keep me logged in option.</li>
+		<li>Keep the session active for more than 6 hours (maybe 15 days).</li>
 		<li style="text-decoration: line-through;">Adjust location bar, and put it inline with the moonfuzz tagline on the left</li>
 		<li style="text-decoration: line-through;">Update the interface with the Google web fonts</li>
 		<li>Fix image scaling issue for header, logo and welcome.</li>

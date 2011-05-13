@@ -12,11 +12,11 @@ Konekt
 
 =head1 DESCRIPTION
 
-Simple framework for creating geosocial networking applications.
+Simple platform for creating social web applications.
 
 =head2 CPAN Setup
 
-	sudo cpanm Modern::Perl Mojolicious::Lite DBIx::Class REST::Google::Search GIS::Distance
+	cpanm Modern::Perl Mojolicious::Lite DBIx::Class::Candy DateTime::Format::ISO8601 REST::Google::Search GIS::Distance
 
 =head1 BUGS
 

@@ -1,20 +1,128 @@
 package Model::Schema::Result::Person;
-use base qw/DBIx::Class::Core/;
+use DBIx::Class::Candy -components => ['InflateColumn::DateTime'];
 
-__PACKAGE__->table('person');
-__PACKAGE__->add_columns(
-    qw/ person_id name password first_name last_name gender birthday email city region country lat lng avatar blurb tracking /
-);
+table 'person';
 
-__PACKAGE__->load_components(qw/InflateColumn::DateTime/);
-__PACKAGE__->add_columns(datetime => {data_type => 'datetime'});
+column person_id => {
 
-__PACKAGE__->set_primary_key('person_id');
+    data_type         => 'int',
+    is_auto_increment => 1,
+};
+
+column name => {
+
+    data_type => 'varchar',
+    size      => 100,
+};
+
+column password => {
+
+    data_type => 'varchar',
+    size      => 1000,
+};
+
+column first_name => {
+
+    data_type   => 'varchar',
+    size        => 50,
+    is_nullable => 1,
+};
+
+column last_name => {
+
+    data_type   => 'varchar',
+    size        => 50,
+    is_nullable => 1,
+};
+
+column gender => {
+
+    data_type   => 'varchar',
+    size        => 25,
+    is_nullable => 1,
+};
+
+column birthday => {
+
+    data_type   => 'varchar',
+    size        => 25,
+    is_nullable => 1,
+};
+
+column email => {
+
+    data_type => 'varchar',
+    size      => 100,
+};
+
+column city => {
+
+    data_type => 'varchar',
+    size      => 50,
+};
+
+column region => {
+
+    data_type => 'varchar',
+    size      => 25,
+};
+
+column country => {
+
+    data_type => 'varchar',
+    size      => 25,
+};
+
+column lat => {
+
+    data_type => 'float',
+    size      => 50,
+};
+
+column lng => {
+
+    data_type => 'float',
+    size      => 50,
+};
+
+column avatar => {
+
+    data_type   => 'varchar',
+    size        => 500,
+    is_nullable => 1,
+};
+
+column blurb => {
+
+    data_type   => 'varchar',
+    size        => 1000,
+    is_nullable => 1,
+};
+
+column tracking => {
+
+    data_type   => 'datetime',
+    size        => 50,
+    is_nullable => 1,
+};
+
+column datetime => {
+
+    data_type => 'datetime',
+    size      => 50,
+};
+
+primary_key 'person_id';
+
+#has_many tracks => 'Model::Schema::Result::EventTrack', 'event';
+#has_many comments => 'Model::Schema::Result::EventComment', 'event';
+
 
 __PACKAGE__->has_many(tracks      => 'Model::Schema::Result::PersonTrack');
 __PACKAGE__->has_many(events      => 'Model::Schema::Result::Event');
 __PACKAGE__->has_many(places      => 'Model::Schema::Result::Place');
 __PACKAGE__->has_many(discussions => 'Model::Schema::Result::Discussion');
 __PACKAGE__->has_many(classifieds => 'Model::Schema::Result::Classified');
+
 
 1;

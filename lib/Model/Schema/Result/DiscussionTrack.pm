@@ -1,14 +1,39 @@
 package Model::Schema::Result::DiscussionTrack;
-use base qw/DBIx::Class::Core/;
+use DBIx::Class::Candy -components => ['InflateColumn::DateTime'];
 
-__PACKAGE__->table('discussion_track');
-__PACKAGE__->add_columns(qw/ track_id comment link discussion /);
+table 'discussion_track';
 
-__PACKAGE__->load_components(qw/InflateColumn::DateTime/);
-__PACKAGE__->add_columns(datetime => {data_type => 'datetime'});
+column track_id => {
 
-__PACKAGE__->set_primary_key('track_id');
+    data_type         => 'int',
+    is_auto_increment => 1,
+};
 
-__PACKAGE__->belongs_to(discussion => 'Model::Schema::Result::Discussion');
+column comment => {
+
+    data_type => 'varchar',
+    size      => 100,
+};
+
+column link => {
+
+    data_type => 'varchar',
+    size      => 100,
+};
+
+column datetime => {
+
+    data_type => 'datetime',
+    size      => 50,
+};
+
+column discussion => {
+
+    data_type => 'int',
+};
+
+primary_key 'track_id';
+
+belongs_to discussion => 'Model::Schema::Result::Discussion';
 
 1;

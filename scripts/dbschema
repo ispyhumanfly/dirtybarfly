@@ -1,0 +1,26 @@
+#!/usr/bin/env perl
+
+use Modern::Perl;
+
+use lib '../lib';
+use lib 'lib';
+
+use Model::Schema;
+
+our $MODEL = Model::Schema->connect("dbi:SQLite:$ARGV[0]");
+
+### Postgres...
+
+#our $MODEL = Model::Schema->connect('dbi:Pg:dbname=moonfuzzdb', 'poHeyw hstgres');
+
+### Create Schemas
+
+$MODEL->create_ddl_dir(['MySQL', 'SQLite', 'PostgreSQL'], '', $ARGV[1]);
+
+### Postgres...
+
+#our $MODEL = Model::Schema->connect('dbi:Pg:dbname=moonfuzzdb', 'poHeyw hstgres');
+
+### Create Schemas
+
+#$MODEL->create_ddl_dir(['MySQL', 'SQLite', 'PostgreSQL'], '', './scripts/');

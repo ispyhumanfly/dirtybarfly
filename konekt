@@ -2,22 +2,22 @@
 
 use Modern::Perl;
 
-BEGIN {
-
-    if (-x '/usr/bin/sqlite3') {
-
-        system 'sqlite3 konekt.db < lib/Model/Schema.sql'
-          unless -e 'konekt.db';
-    }
-}
-
 use REST::Google::Search qw/ LOCAL /;
 use Crypt::SaltedHash;
 use GIS::Distance;
 use DateTime;
+use DateTime::Format::ISO8601;
 
 use lib 'lib';
 use Model::Schema;
+
+### SQLite...
+
+if (-x '/usr/bin/sqlite3') {
+
+    system 'sqlite3 konekt.db < scripts/Model-Schema-1.0a-SQLite.sql'
+      unless -e 'konekt.db';
+}
 
 our $MODEL = Model::Schema->connect('dbi:SQLite:konekt.db');
 
@@ -261,7 +261,7 @@ post '/comment/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
     given ($self->param('type')) {
 
         when ('event') {
-            
+
             insert_comment(
                 'EventComment', 'event', $self->param('id'),
                 $self->param('comment'),
@@ -310,6 +310,12 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
 
         when ('event') {
 
+            my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
+                $self->param('start_date') . $self->param('start_time'));
+
+            my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
+                $self->param('stop_date') . $self->param('stop_time'));
+
             my @results = google_local(
                 $self->session('city') . ' ' . $self->session('region'));
 
@@ -318,8 +324,8 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
                 my $event = $MODEL->resultset('Event')->create(
 
                     {   title          => $self->param('title'),
-                        start_datetime => $self->param('start_date'),
-                        stop_datetime  => $self->param('stop_date'),
+                        start_datetime => $start_datetime,
+                        stop_datetime  => $stop_datetime,
                         about          => $self->param('about'),
                         street_address => $_->streetAddress,
                         city           => $_->city,
@@ -467,6 +473,10 @@ post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
         }
 
+        #my $birthday =
+        #  DateTime::Format::ISO8601->parse_datetime($self->param('birthday'))
+        #  if $self->param('birthday');
+
         my @results = google_local($self->param('location'));
 
         for (@results) {
@@ -517,7 +527,7 @@ sub prepare_content {
 
         my $distance = $gis->distance($lat, $lng => $_->lat, $_->lng);
 
-        if ($distance->meters <= (50 * 1609.344)) {
+        if ($distance->meters <= (3500 * 1609.344)) {
 
             push @filtered_results, $_;
         }

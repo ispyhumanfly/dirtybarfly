@@ -1,16 +1,39 @@
 package Model::Schema::Result::ClassifiedComment;
-use base qw/DBIx::Class::Core/;
+use DBIx::Class::Candy -components => ['InflateColumn::DateTime'];
 
-__PACKAGE__->table('classified_comment');
-__PACKAGE__->add_columns(qw/ comment_id comment classified person /);
+table 'classified_comment';
 
-__PACKAGE__->load_components(qw/InflateColumn::DateTime/);
-__PACKAGE__->add_columns(datetime => {data_type => 'datetime'});
+column comment_id => {
 
-__PACKAGE__->set_primary_key('comment_id');
+    data_type         => 'int',
+    is_auto_increment => 1,
+};
 
-__PACKAGE__->belongs_to(classified => 'Model::Schema::Result::Classified');
+column comment => {
 
-__PACKAGE__->belongs_to(person => 'Model::Schema::Result::Person');
+    data_type => 'varchar',
+    size      => 100,
+};
+
+column datetime => {
+
+    data_type => 'datetime',
+    size      => 50,
+};
+
+column classified => {
+
+    data_type => 'int',
+};
+
+column person => {
+
+    data_type => 'int',
+};
+
+primary_key 'comment_id';
+
+belongs_to classified => 'Model::Schema::Result::Classified';
+belongs_to person     => 'Model::Schema::Result::Person';
 
 1;
