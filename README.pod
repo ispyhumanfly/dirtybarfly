@@ -8,11 +8,11 @@ Konekt
 
 =head1 SYNOPSIS
 
-	./konekt daemon
+	./moonfuzz daemon
 
 =head1 DESCRIPTION
 
-Simple platform for creating social web applications.
+The source code for the www.moonfuzz.com website.
 
 =head2 CPAN Setup
 
@@ -20,11 +20,11 @@ Simple platform for creating social web applications.
 
 =head1 BUGS
 
-	http://github.com/insurgentsoftware/konekt/issues
+	http://github.com/ispyhumanfly/moonfuzz/issues
 
 =head1 SEE ALSO
 
-	http://github.com/insurgentsoftware/konekt/wiki
+	http://github.com/ispyhumanfly/moonfuzz/wiki
 
 =head1 LICENSE
 
