@@ -16,7 +16,7 @@ The source code for the www.moonfuzz.com website.
 
 =head2 CPAN Setup
 
-	cpanm Modern::Perl Mojolicious::Lite DBIx::Class::Candy DateTime::Format::ISO8601 REST::Google::Search GIS::Distance
+	cpanm Modern::Perl Mojolicious::Lite DBIx::Class::Candy DateTime::Format::ISO8601 DateTime::Format::SQLite REST::Google::Search GIS::Distance Crypt::SaltedHash
 
 =head1 BUGS
 
