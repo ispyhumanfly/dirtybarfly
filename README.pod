@@ -4,15 +4,15 @@
 
 =head1 NAME
 
-Moonfuzz
+Konekt
 
 =head1 SYNOPSIS
 
-	./moonfuzz daemon
+	./konekt daemon
 
 =head1 DESCRIPTION
 
-The source code for the www.moonfuzz.com website.
+A simple platform for creating rich web applications.
 
 =head2 CPAN Setup
 
@@ -20,11 +20,11 @@ The source code for the www.moonfuzz.com website.
 
 =head1 BUGS
 
-	http://github.com/ispyhumanfly/moonfuzz/issues
+	http://github.com/ispyhumanfly/konekt/issues
 
 =head1 SEE ALSO
 
-	http://github.com/ispyhumanfly/moonfuzz/wiki
+	http://github.com/ispyhumanfly/konekt/wiki
 
 =head1 LICENSE
 
