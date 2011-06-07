@@ -16,7 +16,7 @@ A simple platform for creating rich web applications.
 
 =head2 CPAN Setup
 
-	cpanm Modern::Perl Mojolicious::Lite DBIx::Class::Candy DateTime::Format::ISO8601 DateTime::Format::SQLite REST::Google::Search GIS::Distance Crypt::SaltedHash
+	cpanm -l lib/ Modern::Perl Mojolicious::Lite DBIx::Class::Candy DateTime::Format::ISO8601 DateTime::Format::SQLite REST::Google::Search GIS::Distance Crypt::SaltedHash
 
 =head1 BUGS
 
