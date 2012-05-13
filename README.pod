@@ -4,15 +4,15 @@
 
 =head1 NAME
 
-Moonfuzz
+Sixteencolors BBS
 
 =head1 SYNOPSIS
 
-	./moonfuzz daemon
+	./16cbb daemon
 
 =head1 DESCRIPTION
 
-The source code for moonfuzz.com
+The source code for bbs.sixteencolors.net
 
 =head2 CPAN Setup
 
@@ -20,11 +20,11 @@ The source code for moonfuzz.com
 
 =head1 BUGS
 
-	http://github.com/insurgentsoftware/moonfuzz/issues
+	http://github.com/sixteencolors/sixteencolors-bbs/issues
 
 =head1 SEE ALSO
 
-	http://github.com/insurgentsoftware/moonfuzz/wiki
+	http://github.com/sixteencolors/sixteencolors-bbs/wiki
 
 =head1 LICENSE
 
