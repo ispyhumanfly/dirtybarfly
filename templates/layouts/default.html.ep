@@ -7,7 +7,7 @@
 	
 	<!-- Stylesheet -->
 	
-	<link rel="stylesheet" type="text/css" href="/moonfuzz.css">
+	<link rel="stylesheet" type="text/css" href="/default.css">
     
 	<!-- Dojo 1.6.1 JavaScript Framework -->
 
@@ -63,6 +63,12 @@
 	    }
         
         //]]></script>
+	
+	<!-- Share This -->
+	    
+	<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+	<script type="text/javascript" src="http://s.sharethis.com/loader.js"></script>
+
 	
     </head>
     
@@ -146,6 +152,12 @@
 		</div>-->
 		
 	    <!--</div>-->
+	    
+	    <script type="text/javascript">stLight.options({publisher: "094f9b3e-6c2e-4a55-9656-27e04d5b7cc7", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+<script>
+var options={ "service": "facebook", "timer": { "countdown": 30, "interval": 10, "enable": false}, "frictionlessShare": true, "style": "4", "publisher": "094f9b3e-6c2e-4a55-9656-27e04d5b7cc7"};
+var st_service_widget = new sharethis.widgets.serviceWidget(options);
+</script>
 	    
     </body>
 </html>
