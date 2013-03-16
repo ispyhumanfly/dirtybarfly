@@ -1,5 +1,5 @@
-@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/layout/resources/ExpandoPane.css");
-@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/tundra/tundra.css");
+@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojox/layout/resources/ExpandoPane.css");
+@import url("http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dijit/themes/claro/claro.css");
 
 /* Droid Serif - Regular, Bold, Italic */
 
@@ -30,7 +30,17 @@ body {
     height: 98%;
     background-color: #2b2d2c;
     overflow: hidden;
-    font-family: 'Droid Serif', arial, serif;
+    font-family: 'Ubuntu', arial, serif;
+    min-width: 720px;
+    max-width: 1024px;
+    margin: 0 auto 0 auto;
+    padding: 10px 10px 0 10px;
+    
+background-image: url('http://fc04.deviantart.net/fs11/i/2006/234/f/4/Beer_by_luckystriked.jpg');
+background-repeat: no-repeat;
+background-position: center;
+background-size: 100% auto;
+
     
 }
 
@@ -92,31 +102,36 @@ a:visited {
 #header_content {
     
     font-family: 'Ubuntu', arial, serif;
-    height: 175px;
-    background-color: #2b2d2c;
+    height: 65px;
+    /*background-color: #2b2d2c;*/
     border-color: #2b2d2c;
 }
 
 #dashboard_content {
     
-    background-color: #7996a4;
     
-    border: 1px solid #2b2d2c;
-border-radius: 10px;
+/*border-radius: 10px;
 -moz-border-radius: 10px;
 -webkit-border-radius: 10px;
+*/
 }
 
 #welcome_content {
 
-background-color: #7996a4;
-        border: 1px solid #2b2d2c;
-border-radius: 10px;
+
+/*border-radius: 10px;
 -moz-border-radius: 10px;
 -webkit-border-radius: 10px;
-
+*/
 }
 
+#welcome_content img {
+
+/*border-radius: 10px;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+*/    
+}
 
 #result_avatar {
     

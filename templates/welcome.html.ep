@@ -6,23 +6,25 @@
     
     <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="bottom">
         
-        <div dojoType="dijit.layout.ContentPane" title="Sign In">
+        <div dojoType="dijit.layout.ContentPane" title="existing member sign in">
             
-            <img id="welcome_background" src="/welcome.png">
+            <img id="welcome_background" src="http://fc00.deviantart.net/fs32/f/2008/235/9/9/Dark_Bar_room_by_purplehazard.jpg">
     
-            <div style="float: right; margin: 10px; position: relative; top: 66%;">
+            <div style="text-align: center; margin: 10px; position: relative; top: 25%;">
     
+    		<div id="title_font" style="color: white; font-size: larger; margin-bottom: 10px;">welcome to dirtybarfly. please enter your credentials below to sign in.</div>
+
                 <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/signin" method="POST">
                     
-                    Name:
+                    <div style="color: white;">name</div>
                     
                     <div dojoType="dijit.form.TextBox" style="width: 150px;" name="name" required="true"></div>
         
-                    Pass:
+                    <div style="color: white;">password</div>
                     
                     <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password" required="true"></div>
                      
-                    <button dojoType="dijit.form.Button" type="submit">Sign In</button>
+                    <button dojoType="dijit.form.Button" type="submit">ok</button>
                     
                 </div>
                 
@@ -30,39 +32,41 @@
             
         </div>
         
-        <div dojoType="dijit.layout.ContentPane" title="Sign Up">
+        <div dojoType="dijit.layout.ContentPane" title="new member sign up">
             
-            <img id="welcome_background" src="/welcome.png">
+            <img id="welcome_background" src="http://fc00.deviantart.net/fs32/f/2008/235/9/9/Dark_Bar_room_by_purplehazard.jpg">
     
-            <div style="float: right; margin: 10px; position: relative; top: 66%;">
+            <div style="text-align: center; margin: 10px; position: relative; top: 80%;">
         
+    		<div id="title_font" style="color: white; font-size: larger; margin-bottom: 10px;">dirtybarfly</div>
+
                 <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/signup" method="POST">
                 
-                    Name:
+                    name
                     
                     <div dojoType="dijit.form.TextBox" style="width: 150px;" name="name" required="true"></div>
                     
-                    Location:
+                    location
                     
                     <div dojoType="dijit.form.TextBox" style="width: 150px;" name="location" required="true"></div>
                     
-                    Email:
+                    email
                     
                     <div dojoType="dijit.form.TextBox" style="width: 250px;" name="email_1" required="true"></div>
     
-                    ...again:
+                    ...again
                     
                     <div dojoType="dijit.form.TextBox" style="width: 250px;" name="email_2" required="true"></div>
         
-                    Pass:
+                    password
                     
                     <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password_1" required="true"></div>
                     
-                    ...again:
+                    ...again
                     
                     <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password_2" required="true"></div>
     
-                    <div dojoType="dijit.form.Button" type="submit">Sign Up</div>
+                    <div dojoType="dijit.form.Button" type="submit">ok</div>
                 
                 </div>
                 

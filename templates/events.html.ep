@@ -3,10 +3,10 @@
 //]]></script>
 
 
-<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="top">
-    
-    <div dojoType="dijit.layout.ContentPane" title="All">
-	
+<!--<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="top">
+-->    
+<!--    <div dojoType="dijit.layout.ContentPane" title="All">
+-->	
 	<% foreach my $event ( @{ $self->{'events'} } ) { %>
 	
         <div id="result_item">
@@ -64,11 +64,12 @@
     	
 	<% } %>
 	
-    </div>
-
-    <div dojoType="dijit.layout.ContentPane" title="Today"></div>
+<!--    </div>
+-->
+<!--    <div dojoType="dijit.layout.ContentPane" title="Today"></div>
     <div dojoType="dijit.layout.ContentPane" title="7 Days"></div>
     <div dojoType="dijit.layout.ContentPane" title="30 Days"></div>
     <div dojoType="dijit.layout.ContentPane" title="90 Days"></div>
-        
-</div>
+  -->      
+<!--</div>
+-->

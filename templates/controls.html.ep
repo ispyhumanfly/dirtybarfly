@@ -1,198 +1,43 @@
 <script type="text/javascript">//<![CDATA[
 
 //]]></script>
-    
-<div style="float: right; margin-top: 130px;" id="tooltip_location">
-
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
-
-	<div dojoType="dijit.form.TextBox" style="width: 250px; position: relative;" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
-    
-	<button dojoType="dijit.form.Button" type="submit" style="position: relative;">Location</button>
-    </div>
-
-</div>
-
-<div dojoType="dijit.Tooltip" connectId="tooltip_location" position="below">
-
-    <p>Where would you like to go?</p>
-
-</div>
 
 <!-- Submit Dialog -->
 
 <div id="dialog_submit" dojoType="dijit.Dialog" title="Submit something to Moonfuzz." style="width: 800px; height: 600px;">
         
-    <div style="width: inherit; height: 550px;">
-	    
-        <div dojoType="dijit.layout.TabContainer" style="width: inherit; height: inherit;" tabPosition="top">
-            
-            <div dojoType="dijit.layout.ContentPane" title="Event">
-		
-		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/event" method="POST">
-    
-		    Title:
-		    
-		    <div dojoType="dijit.form.TextBox" name="title" width="50" required="true"></div>
-			
-		    Location:
-		    
-		    <div dojoType="dijit.form.TextBox" name="location" width="50" required="true"></div>
-    
-		    Start Date:
-		    
-		    <input dojoType="dijit.form.DateTextBox" name="start_date" required="true" />
-		    
-		    Stop Date:
-		    
-		    <input dojoType="dijit.form.DateTextBox" name="stop_date" required="true" />
-		    
-		    Start Time:
-		    
-		    <input dojoType="dijit.form.TimeTextBox" name="start_time" required="true" />
-    
-		    Stop Time:
-		    
-		    <input dojoType="dijit.form.TimeTextBox" name="stop_time" required="true" />
-		    
-		    About:
-		    
-		    <br />
-		    
-		    <textarea dojoType="dijit.Editor" id="event_about" name="about" required="true">
-			
-			
-		    </textarea>
-		
-		    <br />
-		    
-		    <button dojoType="dijit.form.Button" type="submit">Submit</button>
-		    <button dojoType="dijit.form.Button" type="reset">Reset</button>
-		
-		</div>
-		
-	    </div>
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/discussion" method="POST">
 
-            <div dojoType="dijit.layout.ContentPane" title="Place">
-		
-		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/place" method="POST">
-    
-		    Category:
-		    
-		    <select dojoType="dijit.form.FilteringSelect" name="category" style="margin: 10px;">
-			
-			<option value="Care Clubs">Care Clubs</option>
-			<option value="Dispenseries">Dispenseries</option>
-			<option value="Grow Shops">Grow Shops</option>
-			<option value="Bong Shops">Bong Shops</option>
-			<option value="420 friendly medical facilities">420 friendly medical facilities</option>
-			
-		    </select>
-
-		    Location:
-		    
-		    <div dojoType="dijit.form.TextBox" name="location" width="50" required="true"></div>
+	Category:
 	
-		    About:
-		    
-		    <br />
-		        
-		    <textarea dojoType="dijit.Editor" id="place_about" name="about" required="true">
-		    
-		    </textarea>
-		
-		    <br />
-		    
-		    <button dojoType="dijit.form.Button" type="submit">Submit</button>
-		    <button dojoType="dijit.form.Button" type="reset">Reset</button>
-		
-		</div>
-
-	    </div>
-
-            <div dojoType="dijit.layout.ContentPane" title="Discussion">
-		
-		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/discussion" method="POST">
-    
-		    Category:
-		    
-		    <select dojoType="dijit.form.FilteringSelect" name="category" style="margin: 10px;">
-			
-			<option value="Growing">Growing</option>
-			<option value="Lighting">Lighting</option>
-			<option value="Nutrients">Nutrients</option>
-			<option value="Legal">Legal</option>
-			<option value="Pests/Bugs">Pests/Bugs</option>
-			<option value="General">General</option>
-			
-		    </select>
-		    
-		    Title:
-		    
-		    <div dojoType="dijit.form.TextBox" name="title" width="50" required="true"></div>
-		    
-		    About:
-		    
-		    <br />
-		        
-		    <textarea dojoType="dijit.Editor" id="discussion_about" name="about" required="true">
-		    
-		    </textarea>
-		
-		    <br />
-		    
-		    <button dojoType="dijit.form.Button" type="submit">Submit</button>
-		    <button dojoType="dijit.form.Button" type="reset">Reset</button>
-		
-		</div>
-
-	    </div>
+	<select dojoType="dijit.form.FilteringSelect" name="category" style="margin: 10px;">
 	    
-            <div dojoType="dijit.layout.ContentPane" title="Classified">
-
-		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/classified" method="POST">
-    
-		    Category:
-		    
-		    <select dojoType="dijit.form.FilteringSelect" name="category" style="margin: 10px;">
-			
-			<option value="Equipment (new/used)">Equipment (new/used)</option>
-			<option value="Labor">Labor</option>
-			<option value="Excess Medicine">Excess Medicine</option>
-			<option value="Strains/Genetics">Strains/Genetics</option>
-			<option value="Patients Seeking For Caregivers">Patients Seeking For Caregivers</option>
-			<option value="Caregivers Seeking Patients">Caregivers Seeking Patients</option>
-			
-		    </select>
-
-		    Title:
-		    
-		    <div dojoType="dijit.form.TextBox" name="title" width="50" required="true"></div>
-		    
-		    Price:
-		    
-		    <div dojoType="dijit.form.TextBox" name="price" width="15" value="0" required="true"></div>
-		    
-		    About:
-		    
-		    <br />
-		
-		    <textarea dojoType="dijit.Editor" id="classified_about" name="about" required="true">
-			
-			
-		    </textarea>
-		    
-		    <br />
-		    
-		    <button dojoType="dijit.form.Button" type="submit">Submit</button>
-		    <button dojoType="dijit.form.Button" type="reset">Reset</button>
-		
-		</div>
-
-	    </div>
+	    <option value="Growing">Growing</option>
+	    <option value="Lighting">Lighting</option>
+	    <option value="Nutrients">Nutrients</option>
+	    <option value="Legal">Legal</option>
+	    <option value="Pests/Bugs">Pests/Bugs</option>
+	    <option value="General">General</option>
 	    
-	</div>
+	</select>
 	
+	Title:
+	
+	<div dojoType="dijit.form.TextBox" name="title" width="50" required="true"></div>
+	
+	About:
+	
+	<br />
+	    
+	<textarea dojoType="dijit.Editor" id="discussion_about" name="about" required="true">
+	
+	</textarea>
+    
+	<br />
+	
+	<button dojoType="dijit.form.Button" type="submit">Submit</button>
+	<button dojoType="dijit.form.Button" type="reset">Reset</button>
+    
     </div>
     
 </div>

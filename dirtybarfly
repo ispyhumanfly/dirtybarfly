@@ -7,7 +7,6 @@ use Modern::Perl;
 use REST::Google::Search qw/ LOCAL /;
 use Crypt::SaltedHash;
 use GIS::Distance;
-#use DateTime;
 use DateTime::Format::ISO8601;
 
 use lib 'lib';
@@ -17,11 +16,11 @@ use Model::Schema;
 
 if (-x '/usr/bin/sqlite3') {
 
-    system 'sqlite3 moonfuzz.db < scripts/Model-Schema-1.0a-SQLite.sql'
-      unless -e 'moonfuzz.db';
+    system 'sqlite3 dirtybarfly.db < scripts/Model-Schema-1.0a-SQLite.sql'
+      unless -e 'dirtybarfly.db';
 }
 
-our $MODEL = Model::Schema->connect('dbi:SQLite:moonfuzz.db');
+our $MODEL = Model::Schema->connect('dbi:SQLite:dirtybarfly.db');
 
 use Mojolicious::Lite;
 
@@ -529,7 +528,7 @@ sub prepare_content {
 
         my $distance = $gis->distance($lat, $lng => $_->lat, $_->lng);
 
-        if ($distance->meters <= (3500 * 1609.344)) {
+        if ($distance->meters <= (100 * 1609.344)) {
 
             push @filtered_results, $_;
         }
