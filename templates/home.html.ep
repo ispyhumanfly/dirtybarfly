@@ -6,14 +6,10 @@
 
     <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="bottom">
 
-	<div dojoType="dijit.layout.ContentPane" title="near by discussion" selected="true">
-		
-	        
-	</div>
-    	    
-	<div dojoType="dijit.layout.ContentPane" title="people you are following">
-		
-	        
+	<div dojoType="dijit.layout.ContentPane" title="dashboard" selected="true">
+	
+	    %= include 'tracking'
+	    
 	</div>
     
 	<div dojoType="dijit.layout.ContentPane" title="discussions">
