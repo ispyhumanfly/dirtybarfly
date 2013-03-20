@@ -244,23 +244,6 @@
 	    <h1><%= $self->{'person'}->datetime->month_name(); %></h1>
 
 	    % if ( $self->session('person_id') ) {
-	 
-	<div id="tooltip_location" style="float: left;">
-
-	    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
-
-		<div dojoType="dijit.form.TextBox" style="width: 250px;" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
-	
-		<button dojoType="dijit.form.Button" type="submit">ok</button>
-	    
-	    </div>
-	</div>
-	
-	<div dojoType="dijit.Tooltip" connectId="tooltip_location" position="below">
-    
-	    <p>where should we go next?</p>
-    
-	</div>
 
 	<div id="horizontalSlider"
 	     dojoType="dijit.form.HorizontalSlider"

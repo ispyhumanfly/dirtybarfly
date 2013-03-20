@@ -8,19 +8,19 @@
         
         <div dojoType="dijit.layout.ContentPane" title="existing member sign in">
             
-            <img id="welcome_background" src="http://fc00.deviantart.net/fs32/f/2008/235/9/9/Dark_Bar_room_by_purplehazard.jpg">
+            <img id="welcome_background" src="http://fc04.deviantart.net/fs11/i/2006/234/f/4/Beer_by_luckystriked.jpg">
     
             <div style="text-align: center; margin: 10px; position: relative; top: 10%;">
     
-    		<div style="color: white; font-size: larger; padding: 10px;">please enter your credentials below to sign in.</div>
+    		<div style="color: black; font-size: larger; padding: 10px;">please enter your credentials below to sign in.</div>
 
                 <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/signin" method="POST">
                     
-                    <div style="color: white; padding: 10px;">name</div>
+                    <div style="color: black; padding: 10px;">name</div>
                     
                     <div dojoType="dijit.form.TextBox" style="width: 150px;" name="name" required="true"></div>
         
-                    <div style="color: white; padding: 10px;">password</div>
+                    <div style="color: black; padding: 10px;">password</div>
                     
                     <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password" required="true"></div>
                      
@@ -34,7 +34,7 @@
         
         <div dojoType="dijit.layout.ContentPane" title="new member sign up">
             
-            <img id="welcome_background" src="http://fc00.deviantart.net/fs32/f/2008/235/9/9/Dark_Bar_room_by_purplehazard.jpg">
+            <img id="welcome_background" src="http://fc04.deviantart.net/fs11/i/2006/234/f/4/Beer_by_luckystriked.jpg">
     
             <div style="text-align: center; margin: 10px; position: relative; top: 10%;">
         
