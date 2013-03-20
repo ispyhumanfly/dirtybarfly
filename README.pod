@@ -8,11 +8,11 @@ Moonfuzz
 
 =head1 SYNOPSIS
 
-	./moonfuzz daemon
+	morbo dirtybarfly
 
 =head1 DESCRIPTION
 
-The code behind moonfuzz.com
+The code behind dirtybarfly.com
 
 =head2 CPAN Setup
 
@@ -20,11 +20,11 @@ The code behind moonfuzz.com
 
 =head1 BUGS
 
-	http://github.com/thoughtpivot/moonfuzz/issues
+	http://github.com/thoughtpivot/dirtybarfly/issues
 
 =head1 SEE ALSO
 
-	http://github.com/thoughtpivot/moonfuzz/wiki
+	http://github.com/thoughtpivot/dirtybarfly/wiki
 
 =head1 LICENSE
 
