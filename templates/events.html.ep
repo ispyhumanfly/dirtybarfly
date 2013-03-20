@@ -1,0 +1,75 @@
+<script type="text/javascript">//<![CDATA[
+    
+//]]></script>
+
+
+<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="top">
+    
+    <div dojoType="dijit.layout.ContentPane" title="All">
+
+	<% foreach my $event ( @{ $self->{'events'} } ) { %>
+
+        <div id="result_item">
+
+	    <div id="event_<%= $event->event_id %>">
+
+                <p>
+                    <img src="<%= $event->person->avatar %>" style="width: 50px; height: 50px;" />
+                    
+                    <span style="margin-left: 5px; font-weight: bold;"><%= $event->title %></span>
+                    
+                    <span style="margin-left: 5px;">
+
+			<input dojoType="dijit.form.CheckBox" onChange="dojo.xhrPost({ url: 'tracking/event/<%= $event->event_id %>', postData: 'toggle=1' })" />
+
+		    </span>
+                    
+                    <span style="margin-left: 5px; font-size: smaller; font-style: italic; color: grey;"> Begins <%= $event->start_datetime->datetime %> w/ <%= scalar $event->comments->all %> comments & 138 trackers</span>
+                
+                </p>
+                
+	    </div>
+
+	    <div dojoType="dijit.Tooltip" connectId="event_<%= $event->event_id %>" position="top">
+
+		<p><%= $event->person->blurb %></p>
+
+	    </div>
+        
+            <div dojoType="dijit.TitlePane" id="event_detail_<%= $event->event_id %>" open="false" style="margin-left: 60px;">
+            
+                <p style="font-size: medium; margin: 15px;">
+                    
+                    <%= $event->about %>
+                
+                </p>
+
+		<% for ($event->comments->all) { %>
+
+		    <p><img src="<%= $_->person->avatar %>" style="width: 25px; height: 25px;"/> <%= $_->comment %></p>
+
+		<% } %>
+
+                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/comment/event/<%= $event->event_id %>" method="POST">
+        
+                    <textarea dojoType="dijit.form.Textarea" name="comment" style="width: 300px;"></textarea>
+                    
+                    <button dojoType="dijit.form.Button" type="submit">Comment</button>
+                    
+                </div>
+                    
+            </div>
+
+	</div>
+    	
+	<% } %>
+
+    </div>
+
+    <div dojoType="dijit.layout.ContentPane" title="Today"></div>
+    <div dojoType="dijit.layout.ContentPane" title="7 Days"></div>
+    <div dojoType="dijit.layout.ContentPane" title="30 Days"></div>
+    <div dojoType="dijit.layout.ContentPane" title="90 Days"></div>
+        
+</div>
+

@@ -1,0 +1,40 @@
+<script type="text/javascript">//<![CDATA[
+
+//]]></script>
+
+<div dojoType="dijit.layout.ContentPane" id="home_content" region="center">
+
+    <div dojoType="dijit.layout.TabContainer" tabPosition="bottom">
+    
+	<div dojoType="dijit.layout.ContentPane" title="your stuff">
+	
+	    %= include 'tracking'
+	    
+	</div>
+
+	<div dojoType="dijit.layout.ContentPane" title="discussions near by" selected="true">
+	    
+	    %= include 'discussions'
+    
+	</div>
+
+	<div dojoType="dijit.layout.ContentPane" title="events near by">
+	
+	    %= include 'events'
+	    
+	</div>
+    
+	<div dojoType="dijit.layout.ContentPane" title="places near by">
+	
+	    %= include 'places'
+	    
+	</div>
+    
+	<div dojoType="dijit.layout.ContentPane" title="map of the area">
+	
+	    
+	</div>
+    
+    </div>
+
+</div>

@@ -1,0 +1,77 @@
+<script type="text/javascript">//<![CDATA[
+
+//]]></script>
+
+<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="top">
+    
+    <div dojoType="dijit.layout.ContentPane" title="All">
+
+	<% foreach my $classified ( @{ $self->{'classifieds'} } ) { %>
+
+        <div id="result_item">
+
+	    <div id="classified_<%= $classified->classified_id %>">
+
+                <p>
+                    <img src="<%= $classified->person->avatar %>" style="width: 50px; height: 50px;" />
+                    
+                    <span style="margin-left: 5px; font-weight: bold;"><%= $classified->title %></span>
+                    
+                    <span style="margin-left: 5px;">
+
+			<input dojoType="dijit.form.CheckBox" onChange="dojo.xhrPost({ url: 'tracking/classified/<%= $classified->classified_id %>', postData: 'toggle=1' })" />
+                        
+		    </span>
+                    
+                    <span style="margin-left: 5px; font-size: smaller; font-style: italic; color: grey;">for $<%= $classified->price %> dollars w/ <%= scalar $classified->comments->all %> comments & 138 trackers</span>
+                
+                </p>
+                
+	    </div>
+
+	    <div dojoType="dijit.Tooltip" connectId="classified_<%= $classified->classified_id %>" position="top">
+
+		<p><%= $classified->person->blurb %></p>
+
+	    </div>
+        
+            <div dojoType="dijit.TitlePane" id="classified_detail_<%= $classified->classified_id %>" open="false" style="margin-left: 60px;">
+            
+                <p style="font-size: medium; margin: 15px;">
+                    
+                    <%= $classified->about %>
+                
+                </p>
+                
+                <% for ($classified->comments->all) { %>
+
+		    <p><img src="<%= $_->person->avatar %>" style="width: 25px; height: 25px;"/> <%= $_->comment %></p>
+
+		<% } %>
+
+                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/comment/classified/<%= $classified->classified_id %>" method="POST">
+        
+                    <textarea dojoType="dijit.form.Textarea" name="comment" style="width: 300px;"></textarea>
+                    
+                    <button dojoType="dijit.form.Button" type="submit">Comment</button>
+
+                </div>
+                    
+            </div>
+
+	</div>
+    	
+	<% } %>
+
+    </div>
+
+    <div dojoType="dijit.layout.ContentPane" title="Equipment"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Labor"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Excess Medicine"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Strains/Genetics"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Bong Shop"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Patients Seeking Caregivers"></div>
+    <div dojoType="dijit.layout.ContentPane" title="Caregivers Seeking Patients"></div>
+        
+</div>
+

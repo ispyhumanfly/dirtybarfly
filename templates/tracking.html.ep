@@ -2,8 +2,7 @@
     
 //]]></script>
 
-
-<div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="left-h">
+<div dojoType="dijit.layout.TabContainer" tabPosition="left-h">
     
     <div dojoType="dijit.layout.ContentPane" title="all">
 	
@@ -17,10 +16,10 @@
                     <img src="<%= $discussion->person->avatar %>" style="width: 50px; height: 50px;" />
                     
                     <span style="margin-left: 5px; font-weight: bold;"><%= $discussion->title %></span>
-		    
+			    
                     <span style="margin-left: 5px;">
 			
-			<input dojoType="dijit.form.CheckBox" onChange="dojo.xhrPost({ url: 'tracking/discussion/<%= $discussion->discussion_id %>', postData: 'toggle=1' })" />
+			<input dojoType="dijit.form.CheckBox" onChange="dojo.xhrPost({ url: '/tracking/discussion/<%= $discussion->discussion_id %>', postData: 'toggle=1' })" />
 			
 		    </span>
                     
@@ -66,8 +65,8 @@
 	
     </div>
 
-    <div dojoType="dijit.layout.ContentPane" title="partying"></div>
-    <div dojoType="dijit.layout.ContentPane" title="cool places"></div>
+    <div dojoType="dijit.layout.ContentPane" title="profile"></div>
+    <div dojoType="dijit.layout.ContentPane" title="sound cloud"></div>
     <div dojoType="dijit.layout.ContentPane" title="stay away"></div>
     <div dojoType="dijit.layout.ContentPane" title="upcoming events"></div>
     <div dojoType="dijit.layout.ContentPane" title="general"></div>
