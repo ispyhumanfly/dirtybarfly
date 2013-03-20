@@ -12,12 +12,12 @@
 	    
 	</div>
 
-	<div dojoType="dijit.layout.ContentPane" title="discussions near by" selected="true">
+	<div dojoType="dijit.layout.ContentPane" title="messages" selected="true">
 	    
 	    %= include 'discussions'
     
 	</div>
-
+<!--
 	<div dojoType="dijit.layout.ContentPane" title="events near by">
 	
 	    %= include 'events'
@@ -27,6 +27,11 @@
 	<div dojoType="dijit.layout.ContentPane" title="places near by">
 	
 	    %= include 'places'
+	    
+	</div>-->
+    
+	<div dojoType="dijit.layout.ContentPane" title="downloads">
+	
 	    
 	</div>
     

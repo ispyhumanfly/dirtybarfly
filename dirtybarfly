@@ -222,6 +222,19 @@ post '/location' => sub {
 
 };
 
+post '/status' => sub {
+
+    my $self = shift;
+
+    if ($self->param('status')) {
+
+        $self->session(status => $self->param('status'));
+    }
+
+    return $self->redirect_to('dashboard');
+
+};
+
 post '/tracking/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
     my $self = shift;

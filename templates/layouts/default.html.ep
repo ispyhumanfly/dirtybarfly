@@ -74,6 +74,27 @@
 	
 	<!-- Page Container -->
 	
+	% if ( $self->session('person_id') ) {
+	 
+	<div id="tooltip_location" style="float: left;">
+
+	    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/status" method="POST">
+
+		<div dojoType="dijit.form.TextBox" style="width: 250px;" name="status" placeHolder="<%= $self->session('status') ? $self->session('status') : 'Enter your status message.' %>"></div>
+	
+<!--		<button dojoType="dijit.form.Button" type="submit">ok</button>
+-->	    
+	    </div>
+	</div>
+	
+	<div dojoType="dijit.Tooltip" connectId="tooltip_location" position="below">
+    
+	    <p>where should we go next?</p>
+    
+	</div>
+
+	% }
+	
 	<div id="title_font">dirty.bar.fly</div><br />
 
 	<div style="height:78%; width: 100%;">
