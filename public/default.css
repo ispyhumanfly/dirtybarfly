@@ -22,12 +22,16 @@
     font-family: 'Ubuntu', arial, serif;
 }
 
-html {    
-    height:100%;
+html {
+    
+    height: 100%;
 }   
 
 body {
-    height: 98%;
+    
+    
+    min-height: 480px;
+    max-height: 768px;
     background-color: #2b2d2c;
     overflow: hidden;
     font-family: 'Ubuntu', arial, serif;
