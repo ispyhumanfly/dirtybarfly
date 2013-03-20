@@ -582,7 +582,7 @@ sub prepare_content {
 
         my $distance = $gis->distance($lat, $lng => $_->lat, $_->lng);
 
-        if ($distance->meters <= (3500 * 1609.344)) {
+        if ($distance->meters <= (5000 * 1609.344)) {
 
             push @filtered_results, $_;
         }

@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-Moonfuzz
+dirtybarfly - a geographically aware bulletin board software.
 
 =head1 SYNOPSIS
 

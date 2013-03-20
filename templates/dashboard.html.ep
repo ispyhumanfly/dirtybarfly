@@ -2,7 +2,7 @@
 
 //]]></script>
 
-<div dojoType="dijit.layout.ContentPane" id="home_content" region="center">
+<div dojoType="dijit.layout.ContentPane" id="dashboard_content" region="center">
 
     <div dojoType="dijit.layout.TabContainer" tabPosition="bottom">
     

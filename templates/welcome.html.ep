@@ -12,7 +12,7 @@
     
             <div style="text-align: center; margin: 10px; position: relative; top: 10%;">
     
-    		<div id="title_font" style="color: white; font-size: larger; padding: 10px;">please enter your credentials below to sign in.</div>
+    		<div style="color: white; font-size: larger; padding: 10px;">please enter your credentials below to sign in.</div>
 
                 <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/signin" method="POST">
                     
@@ -38,7 +38,7 @@
     
             <div style="text-align: center; margin: 10px; position: relative; top: 10%;">
         
-    		<div id="title_font" style="color: white; font-size: larger; margin-bottom: 10px;">please create an account below.</div>
+    		<div style="color: white; font-size: larger; margin-bottom: 10px;">please create an account below.</div>
 
                 <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/signup" method="POST">
                 

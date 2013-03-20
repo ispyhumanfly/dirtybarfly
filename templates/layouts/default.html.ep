@@ -3,7 +3,7 @@
 
     <head>
 	
-	<title>dirtybarfly :: Dirty boozer talk.</title>
+	<title>dirtybarfly :: the geographical discussion platform for party goers.</title>
 	
 	<!-- Stylesheet -->
 	
@@ -74,103 +74,7 @@
 	
 	<!-- Page Container -->
 	
-	% if ( $self->session('person_id') ) {
-
-	<!--<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/submit/discussion" style="float: left;" method="POST">
-
-	    Category:
-	    
-	    <select dojoType="dijit.form.FilteringSelect" name="category" style="margin: 10px;">
-		
-		<option value="Growing">Growing</option>
-		<option value="Lighting">Lighting</option>
-		<option value="Nutrients">Nutrients</option>
-		<option value="Legal">Legal</option>
-		<option value="Pests/Bugs">Pests/Bugs</option>
-		<option value="General">General</option>
-		
-	    </select>
-	    
-	    Title:
-	    
-	    <div dojoType="dijit.form.TextBox" name="title" width="50" required="true"></div>
-	    
-	    <br />
-	    
-	    About:
-	    
-		
-	    <textarea dojoType="dijit.form.Textarea" id="discussion_about" style="width: 100px;" name="about" required="true">
-	    
-	    </textarea>
-	
-	    
-	    <button dojoType="dijit.form.Button" type="submit">Submit</button>
-	    <button dojoType="dijit.form.Button" type="reset">Reset</button>
-	
-	</div>-->
-	 
-	<div id="tooltip_location" style="float: left; margin-top: 25px;">
-
-	    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
-
-		<div dojoType="dijit.form.TextBox" style="width: 250px;" name="location" placeHolder="<%= $self->session('city') %>, <%= $self->session('region') %>"></div>
-	    
-	<!--    <div id="horizontalSlider" dojoType="dijit.form.HorizontalSlider" value="6"
-minimum="-10" maximum="10" discreteValues="11" intermediateChanges="true"
-showButtons="false" style="width:200px; float: left; ">
-    <ol dojoType="dijit.form.HorizontalRuleLabels" container="topDecoration"
-    style="height:1.5em;font-size:75%;color:gray;">
-        <li>
-        </li>
-        <li>
-            20
-        </li>
-        <li>
-            40
-        </li>
-        <li>
-            60
-        </li>
-        <li>
-            80
-        </li>
-        <li>
-        </li>
-    </ol>
-    <div dojoType="dijit.form.HorizontalRule" container="bottomDecoration"
-    count=11 style="height:5px;">
-    </div>
-    <ol dojoType="dijit.form.HorizontalRuleLabels" container="bottomDecoration"
-    style="height:1em;font-size:75%;color:gray;">
-        <li>
-            0
-        </li>
-        <li>
-            50
-        </li>
-        <li>
-            100
-        </li>
-    </ol>
-</div>-->
-	
-		<button dojoType="dijit.form.Button" type="submit">ok</button>
-	    </div>
-    
-	</div>
-	
-	<div dojoType="dijit.Tooltip" connectId="tooltip_location" position="below">
-    
-	    <p>where should we go next?</p>
-    
-	</div>
-
-	% }
-	
-	<link href='http://fonts.googleapis.com/css?family=Prosto+One' rel='stylesheet' type='text/css'>
-
-	<div id="title_font" style="font-family: 'Prosto One', cursive; font-size: 50px; padding: 10px 0 10px 0; color: black; float: right;">dirty.bar.fly</div><br />
+	<div id="title_font">dirty.bar.fly</div><br />
 
 	<div style="height:78%; width: 100%;">
 	    	    

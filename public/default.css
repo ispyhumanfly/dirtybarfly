@@ -1,6 +1,10 @@
 @import url("http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojox/layout/resources/ExpandoPane.css");
 @import url("http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dijit/themes/claro/claro.css");
 
+/* Prosto One */
+
+@import url("http://fonts.googleapis.com/css?family=Prosto+One:regular,italic,bold,bolditalic");
+
 /* Droid Serif - Regular, Bold, Italic */
 
 @import url("http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold,bolditalic");
@@ -13,8 +17,7 @@
 
 #title_font {
     
-    font-family: 'Droid Serif', arial, serif;
-    
+    font-family: 'Prosto One', cursive; font-size: 50px; padding: 0 0 10px 0; color: black; float: right;    
 }
 
 #content_font {
@@ -108,10 +111,9 @@ a:visited {
     font-family: 'Ubuntu', arial, serif;
     height: 65px;
     /*background-color: #2b2d2c;*/
-    border-color: #2b2d2c;
 }
 
-#home_content {
+#dashboard_content {
     
 margin-top: 65px; margin-left: auto; margin-right: auto; min-width: 640px; max-width: 1024; height: 550px;
 
@@ -121,14 +123,6 @@ margin-top: 65px; margin-left: auto; margin-right: auto; min-width: 640px; max-w
 
 margin-top: 65px; margin-left: auto; margin-right: auto; min-width: 640px; max-width: 1024; height: 550px;
 
-}
-
-#welcome_content img {
-
-/*border-radius: 10px;
--moz-border-radius: 10px;
--webkit-border-radius: 10px;
-*/    
 }
 
 #result_avatar {
