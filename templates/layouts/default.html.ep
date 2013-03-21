@@ -146,7 +146,7 @@
 		
 		%= include 'controls'
 
-		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; margin-left: 70px; color: #ffffff; font-size: larger; font-weight: bold;">
+		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; /*margin-left: 70px;*/ color: #ffffff; font-size: larger; font-weight: bold;">
 		    
 		    <ul style="list-style-type: square;">
 			
@@ -161,7 +161,7 @@
 
 		%= include 'controls'
 
-		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; margin-left: 70px; color: #ffffff; font-size: larger; font-weight: bold;">
+		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left;/* margin-left: 70px;*/ color: #ffffff; font-size: larger; font-weight: bold;">
 		    
 		    <ul style="list-style-type: square;">
 			
