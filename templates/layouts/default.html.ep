@@ -147,12 +147,13 @@
 		
 		%= include 'controls'
 
-		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; margin-left: 100px; color: #ffffff; font-size: larger; font-weight: bold; margin-top: 15px;">
+		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; margin-left: 85px; color: #ffffff; font-size: larger; font-weight: bold;">
 		    
-		    <ul>
-			<li style="display: inline; cursor: pointer;" onclick="dijit.byId('dialog_profile').show();">Profile</li>
-			<li style="display: inline; cursor: pointer;" onclick="dijit.byId('dialog_submit').show();">Submit</li>
-			<li style="display: inline; cursor: pointer;" onclick="window.location='/signout';">Sign Out!</li>
+		    <ul style="list-style-type: square;">
+			
+			<li style="display: inline; cursor: pointer; margin-right: 25px;" onclick="dijit.byId('dialog_submit').show();">submit</li>
+			<li style="display: inline; cursor: pointer; margin-right: 25px;" onclick="dijit.byId('dialog_profile').show();">profile</li>
+			<li style="display: inline; cursor: pointer; margin-right: 25px;" onclick="window.location='/signout';">sign out</li>
 		    </ul>
 		    
 		</div>
@@ -164,11 +165,15 @@
 		    <p>
 			a Thoughtpivot joint
 		    
-		        <a id="follow-blogger" href="http://purethoughtpivot.com/" title="Thoughtpivot on Blogger"><span>Blogger</span></a> 
-			<a id="follow-twitter" href="http://twitter.com/#!/thoughtpivot" title="Thoughtpivot on Twitter"><span>Twitter</span></a></p>
-
+		        <a id="follow-blogger" href="http://purethoughtpivot.com/" title="Thoughtpivot on Blogger">
+			    <span>Blogger</span>
+			</a> 
+			
+			<a id="follow-twitter" href="http://twitter.com/#!/thoughtpivot" title="Thoughtpivot on Twitter">
+			    <span>Twitter</span>
+			</a>
+			
 		    </p>
-		
 		</div>
 	    
 		%### Only load the soundcloud player if we're sitting on mojodojo...
