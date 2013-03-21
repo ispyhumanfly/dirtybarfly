@@ -2,6 +2,8 @@
 
 //]]></script>
 
+% if ($self->session('person_id')) {
+
 <!-- Submit Dialog -->
 
 <div id="dialog_submit" dojoType="dijit.Dialog" title="submit something to dirtybarfly." style="width: 800px; height: 600px;">
@@ -290,3 +292,81 @@
     </div>
     
 </div>
+
+% } else {
+
+<!-- Signin Dialog -->
+
+<div id="dialog_signin" dojoType="dijit.Dialog" title="Sign in to dirtybarfly" style="width: 500px; height: auto;">
+        
+    <div style="width: inherit; height: inherit;">
+	    
+            <div style="text-align: center; padding: 15px;">
+    
+    		<div style="color: black; font-size: larger; padding: 10px;">please enter your credentials below to sign in.</div>
+
+                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/signin" method="POST">
+                    
+                    <div style="color: black; padding: 10px;">name</div>
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 150px;" name="name" required="true"></div>
+        
+                    <div style="color: black; padding: 10px;">password</div>
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password" required="true"></div>
+                     
+                    <button dojoType="dijit.form.Button" type="submit">ok</button>
+                    
+                </div>
+                
+            </div>        
+
+    </div>
+</div>
+
+<!-- Signup Dialog -->
+
+<div id="dialog_signup" dojoType="dijit.Dialog" title="Sign up for access to dirtybarfly" style="width: 500px; height: auto;">
+        
+    <div style="width: inherit; height: inherit;">
+	
+            <div style="text-align: center; padding: 15px;">
+        
+    		<div style="color: black; font-size: larger; margin-bottom: 10px;">please create an account below.</div>
+
+                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/signup" method="POST">
+                
+                    <div style="color: black; padding: 10px;">name</div>
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 150px;" name="name" required="true"></div>
+                    
+                    <div style="color: black; padding: 10px;">location</div>
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 150px;" name="location" required="true"></div>
+                    
+                    <div style="color: black; padding: 10px;">email</div>
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 250px;" name="email_1" required="true"></div>
+    
+                    <div style="color: black; padding: 10px;">...again</div>
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 250px;" name="email_2" required="true"></div>
+        
+                    <div style="color: black; padding: 10px;">password</div>
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password_1" required="true"></div>
+                    
+                    <div style="color: black; padding: 10px;">...again</div>
+                    
+                    <div dojoType="dijit.form.TextBox" style="width: 125px;" type="password" name="password_2" required="true"></div>
+    
+                    <div dojoType="dijit.form.Button" type="submit">ok</div>
+                
+                </div>
+                
+            </div>
+
+    </div>
+</div>
+
+% }

@@ -4,7 +4,7 @@
 
 <div dojoType="dijit.layout.ContentPane" id="welcome_content" region="center">
     
-    <div dojoType="dijit.layout.TabContainer" tabPosition="bottom">
+    <!--<div dojoType="dijit.layout.TabContainer" tabPosition="bottom">
         
         <div dojoType="dijit.layout.ContentPane" title="existing member sign in">
             
@@ -74,6 +74,6 @@
             
         </div>
         
-    </div>
+    </div>-->
     
 </div>

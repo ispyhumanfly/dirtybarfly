@@ -69,6 +69,7 @@
 	% push @pics, "background-image: url('http://fc01.deviantart.net/fs70/f/2011/153/e/3/motel_bar_by_m_wojtala-d3hujaz.jpg');";
 	% push @pics, "background-image: url('http://fc02.deviantart.net/fs70/i/2011/120/c/7/derelict_cafe_by_kingcloud-d3f5xto.png');";
 	% push @pics, "background-image: url('http://th09.deviantart.net/fs71/PRE/i/2011/140/b/e/the_reception_by_kingcloud-d3gqylf.jpg');";
+	% push @pics, "background-image: url('http://th06.deviantart.net/fs71/PRE/f/2010/214/2/9/Bar_Scene_by_narbytrout.jpg');";
 
 	<style type="text/css">
 	
@@ -139,24 +140,37 @@
 	
 	</div>
     
-	    <!-- Page Footer -->
+	<!-- Page Footer -->
 	    
-<!--	    <div dojoType="dijit.layout.ContentPane" region="bottom" style="background-color: #2b2d2c; border-color: #2b2d2c;">
--->		
-		% if ( $self->session('person_id') ) {
+	% if ( $self->session('person_id') ) {
 		
 		%= include 'controls'
 
-		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; margin-left: 85px; color: #ffffff; font-size: larger; font-weight: bold;">
+		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; margin-left: 70px; color: #ffffff; font-size: larger; font-weight: bold;">
 		    
 		    <ul style="list-style-type: square;">
 			
-			<li style="display: inline; cursor: pointer; margin-right: 25px;" onclick="dijit.byId('dialog_submit').show();">submit</li>
-			<li style="display: inline; cursor: pointer; margin-right: 25px;" onclick="dijit.byId('dialog_profile').show();">profile</li>
-			<li style="display: inline; cursor: pointer; margin-right: 25px;" onclick="window.location='/signout';">sign out</li>
+			<li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_submit').show();">submit</li>
+			<li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_profile').show();">profile</li>
+			<li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="window.location='/signout';">sign out</li>
 		    </ul>
 		    
 		</div>
+		
+		% } else {
+
+		%= include 'controls'
+
+		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; margin-left: 70px; color: #ffffff; font-size: larger; font-weight: bold;">
+		    
+		    <ul style="list-style-type: square;">
+			
+			<li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_signin').show();">sign in</li>
+			<li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_signup').show();">sign up</li>
+		    </ul>
+		    
+		</div>
+		
 		
 		% }
 		
@@ -184,8 +198,6 @@
 		</div>
 		
 		% }
-		
-	    <!--</div>-->
-	    
+			    
     </body>
 </html>
