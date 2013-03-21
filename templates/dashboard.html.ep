@@ -30,6 +30,11 @@
 	    
 	</div>-->
     
+	<div dojoType="dijit.layout.ContentPane" title="chat">
+	
+	    
+	</div>
+    
 	<div dojoType="dijit.layout.ContentPane" title="downloads">
 	
 	    
