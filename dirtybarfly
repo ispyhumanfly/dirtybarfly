@@ -402,8 +402,6 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
                         person   => $self->session('person_id'),
                     }
                 );
-                
-                last;
             }
         }
 
@@ -437,8 +435,6 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
                         person   => $self->session('person_id'),
                     }
                 );
-                
-                last;
             }
         }
 
@@ -473,8 +469,6 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
                         person => $self->session('person_id'),
                     }
                 );
-                
-                last;
             }
         }
 
@@ -509,9 +503,7 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
                         link   => '/classified/' . $classified->classified_id,
                         person => $self->session('person_id'),
                     }
-                );
-                
-                last;
+                );                
             }
         }
     }
@@ -564,8 +556,6 @@ post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
                     blurb      => $self->param('blurb'),
                 }
               );
-              
-            last;
         }
     }
 

@@ -12,23 +12,23 @@
 	    
 	</div>
 
-	<div dojoType="dijit.layout.ContentPane" title="messages" selected="true">
+	<div dojoType="dijit.layout.ContentPane" title="discussions" selected="true">
 	    
 	    %= include 'discussions'
     
 	</div>
-<!--
-	<div dojoType="dijit.layout.ContentPane" title="events near by">
+
+	<div dojoType="dijit.layout.ContentPane" title="events">
 	
 	    %= include 'events'
 	    
 	</div>
     
-	<div dojoType="dijit.layout.ContentPane" title="places near by">
+	<div dojoType="dijit.layout.ContentPane" title="places">
 	
 	    %= include 'places'
 	    
-	</div>-->
+	</div>
     
 	<div dojoType="dijit.layout.ContentPane" title="chat">
 	
@@ -40,7 +40,7 @@
 	    
 	</div>
     
-	<div dojoType="dijit.layout.ContentPane" title="map of the area">
+	<div dojoType="dijit.layout.ContentPane" title="map">
 	
 	    
 	</div>

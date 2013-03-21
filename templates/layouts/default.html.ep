@@ -147,12 +147,14 @@
 		
 		%= include 'controls'
 
-		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; color: #ffffff; font-size: larger; font-weight: bold;">
+		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; margin-left: 100px; color: #ffffff; font-size: larger; font-weight: bold; margin-top: 15px;">
 		    
-			<span style="cursor: pointer;" onclick="dijit.byId('dialog_profile').show();">Profile</span>
-			<span style="cursor: pointer;" onclick="dijit.byId('dialog_submit').show();">Submit</span>
-			<span style="cursor: pointer;" onclick="window.location='/signout';">Sign Out!
-			
+		    <ul>
+			<li style="display: inline; cursor: pointer;" onclick="dijit.byId('dialog_profile').show();">Profile</li>
+			<li style="display: inline; cursor: pointer;" onclick="dijit.byId('dialog_submit').show();">Submit</li>
+			<li style="display: inline; cursor: pointer;" onclick="window.location='/signout';">Sign Out!</li>
+		    </ul>
+		    
 		</div>
 		
 		% }
@@ -169,9 +171,14 @@
 		
 		</div>
 	    
-		<!--<div id="player" style="display: none;">
+		%### Only load the soundcloud player if we're sitting on mojodojo...
+		% if (-e '/etc/apache2/sites-available/dirtybarfly.com') {
+		
+		<div id="player" style="display: none;">
 		    <iframe width="1024" height="60" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Fplaylists%2F2910194&amp;color=66bbee&amp;auto_play=true&amp;show_artwork=false"></iframe>
-		</div>-->
+		</div>
+		
+		% }
 		
 	    <!--</div>-->
 	    
