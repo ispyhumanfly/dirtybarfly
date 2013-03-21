@@ -91,11 +91,11 @@
 	    
 	<div id="loader"><!--<div id="loaderInner" style="font-family: 'Ubuntu', arial, serif;">Loading...</div>--></div>
 	
-	<!-- Page Container -->
+	<!-- Page Header -->
 	
 	% if ( $self->session('person_id') ) {
 	 
-	 <div  style="float: left; position: absolute; margin-top: 10px;">
+	 <div  style="float: left; position: absolute; margin-top: 0;">
 
 	    <img onclick="dijit.byId('dialog_profile').show();" style="cursor: pointer; border: 1px solid; width: 55px; height: 55px;" src="<%= $self->{'person'}->avatar %>"></img>
 
@@ -132,72 +132,70 @@
 	
 	% }
 	
-	<div id="title_font">dirty.bar.fly</div><br />
+	<div id="title_font">dirty.bar.fly</div>
 
-	<div style="height:78%; width: 100%;">
-	    	    
-	    <%= content %>
+	<!-- Page Content -->
 	
-	</div>
+	<div style="height:78%; width: 100%;"><%= content %></div>
     
 	<!-- Page Footer -->
 	    
 	% if ( $self->session('person_id') ) {
-		
-		%= include 'controls'
-
-		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; /*margin-left: 70px;*/ color: #ffffff; font-size: larger; font-weight: bold;">
-		    
-		    <ul style="list-style-type: square;">
-			
-			<li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_submit').show();">submit</li>
-			<li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_profile').show();">profile</li>
-			<li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="window.location='/signout';">sign out</li>
-		    </ul>
-		    
-		</div>
-		
-		% } else {
-
-		%= include 'controls'
-
-		<div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left;/* margin-left: 70px;*/ color: #ffffff; font-size: larger; font-weight: bold;">
-		    
-		    <ul style="list-style-type: square;">
-			
-			<li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_signin').show();">sign in</li>
-			<li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_signup').show();">sign up</li>
-		    </ul>
-		    
-		</div>
-		
-		
-		% }
-		
-		<div style="vertical-align: middle; float: right; color: #ffffff; font-size: medium; font-family: 'Ubuntu', arial, serif;">
-		    
-		    <p>
-			a Thoughtpivot joint
-		    
-		        <a id="follow-blogger" href="http://purethoughtpivot.com/" title="Thoughtpivot on Blogger">
-			    <span>Blogger</span>
-			</a> 
-			
-			<a id="follow-twitter" href="http://twitter.com/#!/thoughtpivot" title="Thoughtpivot on Twitter">
-			    <span>Twitter</span>
-			</a>
-			
-		    </p>
-		</div>
 	    
-		%### Only load the soundcloud player if we're sitting on mojodojo...
-		% if (-e '/etc/apache2/sites-available/dirtybarfly.com') {
+	    %= include 'controls'
+
+	    <div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; /*margin-left: 70px;*/ color: #ffffff; font-size: larger; font-weight: bold;">
 		
-		<div id="player" style="display: none;">
-		    <iframe width="1024" height="60" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Fplaylists%2F2910194&amp;color=66bbee&amp;auto_play=true&amp;show_artwork=false"></iframe>
-		</div>
+		<ul style="list-style-type: square;">
+		    
+		    <li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_submit').show();">submit</li>
+		    <li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_profile').show();">profile</li>
+		    <li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="window.location='/signout';">sign out</li>
+		</ul>
 		
-		% }
-			    
+	    </div>
+	    
+	% } else {
+
+	    %= include 'controls'
+
+	    <div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left;/* margin-left: 70px;*/ color: #ffffff; font-size: larger; font-weight: bold;">
+		
+		<ul style="list-style-type: square;">
+		    
+		    <li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_signin').show();">sign in</li>
+		    <li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_signup').show();">sign up</li>
+		</ul>
+		
+	    </div>
+		
+		
+	% }
+		
+	<div style="vertical-align: middle; float: right; color: #ffffff; font-size: medium; font-family: 'Ubuntu', arial, serif;">
+	    
+	    <p>
+		a Thoughtpivot joint
+	    
+		<a id="follow-blogger" href="http://purethoughtpivot.com/" title="Thoughtpivot on Blogger">
+		    <span>Blogger</span>
+		</a> 
+		
+		<a id="follow-twitter" href="http://twitter.com/#!/thoughtpivot" title="Thoughtpivot on Twitter">
+		    <span>Twitter</span>
+		</a>
+		
+	    </p>
+	</div>
+    
+	%### Only load the soundcloud player if we're sitting on mojodojo...
+	% if (-e '/etc/apache2/sites-available/dirtybarfly.com') {
+	
+	<div id="player" style="display: none;">
+	    <iframe width="1024" height="60" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Fplaylists%2F2910194&amp;color=66bbee&amp;auto_play=true&amp;show_artwork=false"></iframe>
+	</div>
+	
+	% }
+    
     </body>
 </html>
