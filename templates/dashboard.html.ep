@@ -29,9 +29,17 @@
 	    %= include 'places'
 	    
 	</div>
-    
+
+	<div dojoType="dijit.layout.ContentPane" title="classifieds">
+	
+	    %= include 'classifieds'
+	    
+	</div>
+	
 	<div dojoType="dijit.layout.ContentPane" title="chat">
 	
+	    	    %= include 'chat'
+
 	    
 	</div>
     

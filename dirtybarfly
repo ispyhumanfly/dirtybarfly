@@ -20,8 +20,9 @@ if (-x '/usr/bin/sqlite3') {
 }
 
 our $MODEL = Model::Schema->connect('dbi:SQLite:dirtybarfly.db');
-
+        
 use Mojolicious::Lite;
+use Mojo::JSON;
 
 ### Welcome
 
@@ -563,6 +564,45 @@ post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
 };
 
+### Some totally hacky websocket stuff for the new chat client. I'll clean this up later...
+ my $clients = {};
+    
+        use utf8;
+        use Mojo::JSON;
+
+    websocket '/echo' => sub {
+        my $self = shift;
+    
+        app->log->debug(sprintf 'Client connected: %s', $self->tx);
+        my $id = sprintf "%s", $self->tx;
+        $clients->{$id} = $self->tx;
+    
+        $self->on(message =>
+            sub {
+                my ($self, $msg) = @_;
+    
+                my $json = Mojo::JSON->new;
+                my $dt   = DateTime->now( time_zone => 'Asia/Tokyo');
+
+                for (keys %$clients) {
+                    $clients->{$_}->send(
+                        $json->encode({
+                            hms  => $dt->hms,
+                            text => $msg,
+                        })
+                    );
+                }
+            }
+        );
+
+        $self->on(finish =>
+            sub {
+                app->log->debug('Client disconnected');
+                delete $clients->{$id};
+            }
+        );
+    };
+    
 ### Tools
 
 sub prepare_content {

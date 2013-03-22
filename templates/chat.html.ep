@@ -1,0 +1,81 @@
+<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+-->
+<script type="text/javascript">//<![CDATA[
+
+function WebSocketTest()
+{
+  if ("WebSocket" in window)
+  {
+     alert("WebSocket is supported by your Browser!");
+     // Let us open a web socket
+     var ws = new WebSocket("ws://localhost:3000/echo");
+     ws.onopen = function()
+     {
+        // Web Socket is connected, send data using send()
+        ws.send("Message to send");
+        alert("Message is sent...");
+     };
+     ws.onmessage = function (evt) 
+     { 
+        var received_msg = evt.data;
+        alert("Message is received...");
+     };
+     ws.onclose = function()
+     { 
+        // websocket is closed.
+        alert("Connection is closed..."); 
+     };
+  }
+  else
+  {
+     // The browser doesn't support WebSocket
+     alert("WebSocket NOT supported by your Browser!");
+  }
+}
+
+//WebSocketTest();
+
+//    var socket = dojox.socket("/echo");
+//    socket = dojox.socket.Reconnect(socket);
+//    
+//    socket.on("message", function(event){
+//  var data = event.data;
+//        alert(data);
+//});
+//   socket.on("open", function(event){
+//  socket.send("hi server");
+//});
+
+    ////jquery example until I write a dojo one
+    // $(function () {
+    //  $('#msg').focus();
+    //
+    //  var log = function (text) {
+    //    $('#log').val( $('#log').val() + text + "\n");
+    //  };
+    //
+    //  var ws = new WebSocket('ws://localhost:3000/echo');
+    //  ws.onopen = function () {
+    //    log('Connection opened');
+    //  };
+    //
+    //  ws.onmessage = function (msg) {
+    //    var res = JSON.parse(msg.data);
+    //    log('[' + res.hms + '] ' + res.text); 
+    //  };
+    //
+    //$('#msg').keydown(function (e) {
+    //    if (e.keyCode == 13 && $('#msg').val()) {
+    //        ws.send($('#msg').val());
+    //        $('#msg').val('');
+    //    }
+    //  });
+    //});
+     
+//]]></script>
+
+    
+<p>message <input type="text" id="msg"></p>
+
+<textarea id="log" readonly></textarea>
+   
