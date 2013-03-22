@@ -44,12 +44,12 @@
 		dojo.fadeOut({
 		    
 		    node: loader,
-		    duration: 1500,
+		    duration: 3000,
 		    onEnd: function() {
 			
 			loader.style.display = "none";
 		    }
-		}).play(1500);
+		}).play(2000);
 	    }
         
 	    dojo.addOnLoad(_initLoader);
@@ -103,7 +103,7 @@
 	    
 	    <div dojoType="dijit.Tooltip" connectId="tooltip_status" position="below">
 	
-		<p>give everyone an update about how you're doing!</p>
+		<p>give us an update!</p>
 	
 	    </div>
     	    
@@ -118,7 +118,7 @@
 	    
 	    <div dojoType="dijit.Tooltip" connectId="tooltip_location" position="below">
 	
-		<p>where should we go next?</p>
+		<p>tell us generally where you're located!</p>
 	
 	    </div>
 	</div>
