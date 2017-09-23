@@ -21,11 +21,11 @@ use Model::Schema;
 
 if (-x '/usr/bin/sqlite3') {
 
-    system 'sqlite3 dirtybarfly.db < scripts/Model-Schema-1.0a-SQLite.sql'
-      unless -e 'dirtybarfly.db';
+    system 'sqlite3 moonfuzz.db < scripts/Model-Schema-1.0a-SQLite.sql'
+      unless -e 'moonfuzz.db';
 }
 
-our $MODEL = Model::Schema->connect('dbi:SQLite:dirtybarfly.db');
+our $MODEL = Model::Schema->connect('dbi:SQLite:moonfuzz.db');
 
 use Mojolicious::Lite;
 use Mojo::JSON;
