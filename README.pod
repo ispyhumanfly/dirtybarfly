@@ -20,11 +20,11 @@ The code behind dirtybarfly.com
 
 =head1 BUGS
 
-	http://github.com/thoughtpivot/dirtybarfly/issues
+	http://github.com/ispyhumanfly/dirtybarfly/issues
 
 =head1 SEE ALSO
 
-	http://github.com/thoughtpivot/dirtybarfly/wiki
+	http://github.com/ispyhumanfly/dirtybarfly/wiki
 
 =head1 LICENSE
 

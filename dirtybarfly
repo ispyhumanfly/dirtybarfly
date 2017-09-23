@@ -1,6 +1,12 @@
 #!/usr/bin/env perl
 
-use Modern::Perl;
+use 5.018_000;
+use strict;
+use warnings;
+use utf8;
+
+no if $] >= 5.018, warnings => "experimental::smartmatch";
+no if $] >= 5.018, warnings => "experimental::lexical_subs";
 
 use REST::Google::Search qw/ LOCAL /;
 use Crypt::SaltedHash;
@@ -20,7 +26,7 @@ if (-x '/usr/bin/sqlite3') {
 }
 
 our $MODEL = Model::Schema->connect('dbi:SQLite:dirtybarfly.db');
-        
+
 use Mojolicious::Lite;
 use Mojo::JSON;
 
@@ -180,7 +186,7 @@ post '/signup' => sub {
                 lat       => $new_person->lat,
                 lng       => $new_person->lng,
             );
-            
+
             last;
         }
     }
@@ -244,7 +250,7 @@ post '/tracking/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
     my $person = $MODEL->resultset('Person')
       ->search({person_id => $self->session('person_id')})->first;
-      
+
     my @current_tracking = split /,/, $person->tracking;
 
     given ($self->param('type')) {
@@ -504,7 +510,7 @@ post '/submit/:type' => [type => qr/\w+/] => sub {
                         link   => '/classified/' . $classified->classified_id,
                         person => $self->session('person_id'),
                     }
-                );                
+                );
             }
         }
     }
@@ -566,21 +572,21 @@ post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
 
 ### Some totally hacky websocket stuff for the new chat client. I'll clean this up later...
  my $clients = {};
-    
+
         use utf8;
         use Mojo::JSON;
 
     websocket '/echo' => sub {
         my $self = shift;
-    
+
         app->log->debug(sprintf 'Client connected: %s', $self->tx);
         my $id = sprintf "%s", $self->tx;
         $clients->{$id} = $self->tx;
-    
+
         $self->on(message =>
             sub {
                 my ($self, $msg) = @_;
-    
+
                 my $json = Mojo::JSON->new;
                 my $dt   = DateTime->now( time_zone => 'Asia/Tokyo');
 
@@ -602,7 +608,7 @@ post '/update/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
             }
         );
     };
-    
+
 ### Tools
 
 sub prepare_content {
@@ -692,6 +698,5 @@ sub google_local {
 
 }
 
-app->config(hypnotoad => {proxy => 1, listen => ['http://*:31337']});
-app->secret('Just another Thoughtpivot');
+#app->config(hypnotoad => {proxy => 1, listen => ['http://*:31337']});
 app->start;
